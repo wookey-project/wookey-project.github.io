@@ -1,0 +1,377 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>7.7. The ILI9341 driver &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="8. The JavaCard applets" href="../javacard/index.html" />
+    <link rel="prev" title="7.6.3. USART driver FAQ" href="../drvusart/faq.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ewok/index.html">5. EwoK kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libs.html">6. Libraries</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../drivers.html">7. Drivers</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../drvcryp/index.html">7.1. drivers/cryp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvflash/index.html">7.2. drivers/flash</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvhash/index.html">7.3. drivers/hash</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drviso7816/index.html">7.4. drivers/iso7816</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvspi/index.html">7.5. drivers/spi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvusart/index.html">7.6. drivers/usart</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">7.7. drivers/ili9341</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#about-the-ili8341-driver">7.7.1. About the ILI8341 driver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-ili9341-tft-driver-api">7.7.2. The ILI9341 TFT driver API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#initializing-the-ili9341-driver">7.7.2.1. Initializing the ILI9341 driver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#manipulating-colors">7.7.2.2. Manipulating colors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#filling-colored-rectangles">7.7.2.3. Filling colored rectangles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#writing-text-data">7.7.2.4. Writing text data</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../drivers.html">7. Drivers</a> &raquo;</li>
+        
+      <li>7.7. The ILI9341 driver</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="the-ili9341-driver">
+<h1>7.7. The ILI9341 driver<a class="headerlink" href="#the-ili9341-driver" title="Permalink to this headline">¶</a></h1>
+<p>This is the ILI9341 Touchscreen TFT part implementation driver.</p>
+<div class="section" id="about-the-ili8341-driver">
+<h2>7.7.1. About the ILI8341 driver<a class="headerlink" href="#about-the-ili8341-driver" title="Permalink to this headline">¶</a></h2>
+<p>This device is a TFT screen peripheral connected through a SPI bus interface.
+This driver aims to be at most SoC-independent and board independent.</p>
+</div>
+<div class="section" id="the-ili9341-tft-driver-api">
+<h2>7.7.2. The ILI9341 TFT driver API<a class="headerlink" href="#the-ili9341-tft-driver-api" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="initializing-the-ili9341-driver">
+<h3>7.7.2.1. Initializing the ILI9341 driver<a class="headerlink" href="#initializing-the-ili9341-driver" title="Permalink to this headline">¶</a></h3>
+<p>Initializing the ili9341 driver is done with the following API:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libtft.h&quot;</span><span class="cp"></span>
+
+<span class="kt">uint8_t</span> <span class="nf">tft_early_init</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="kt">uint8_t</span> <span class="nf">tft_init</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="section" id="about-early-init">
+<h4>7.7.2.1.1. About early init<a class="headerlink" href="#about-early-init" title="Permalink to this headline">¶</a></h4>
+<p>The ILI9341 driver early initialization declare the requested GPIOs directly
+connected to the ILI9341 peripheral. These GPIOs are independent of the SPI
+bus GPIOs, which are initialized by the SPI driver.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The caller is responsible for declaring the SPI bus through which the peripheral is connected, using the SPI driver</p>
+</div>
+</div>
+<div class="section" id="about-init">
+<h4>7.7.2.1.2. About init<a class="headerlink" href="#about-init" title="Permalink to this headline">¶</a></h4>
+<p>The init step configure the GPIOs declared at early init phase and configure
+the SPI bus previously configured by the caller. The SPI bus <strong>must</strong> be mapped.</p>
+</div>
+</div>
+<div class="section" id="manipulating-colors">
+<h3>7.7.2.2. Manipulating colors<a class="headerlink" href="#manipulating-colors" title="Permalink to this headline">¶</a></h3>
+<p>The screen is manipulated using background and foreground colors.
+These color are set using the following API:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libtft.h&quot;</span><span class="cp"></span>
+
+<span class="kt">void</span> <span class="nf">tft_setfg</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">r</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">g</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">b</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">tft_setbg</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">r</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">g</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">b</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Colors are encoded in RGB (Red, Green, Blue) values, from 0 (the darkest) to 255 (the lightest).</p>
+<p>Colors can be updated regulary, mostly before filling rectlangles or writing text content onscreen.</p>
+</div>
+<div class="section" id="filling-colored-rectangles">
+<h3>7.7.2.3. Filling colored rectangles<a class="headerlink" href="#filling-colored-rectangles" title="Permalink to this headline">¶</a></h3>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">Here, like in other API using corrdinates, x and y are in pixels</p>
+</div>
+<p>Filling a colored rectangle area with a given color is done with the following API:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libtft.h&quot;</span><span class="cp"></span>
+
+<span class="kt">void</span> <span class="nf">tft_fill_rectangle</span><span class="p">(</span><span class="kt">int</span> <span class="n">x1</span><span class="p">,</span> <span class="kt">int</span> <span class="n">x2</span><span class="p">,</span>
+                        <span class="kt">int</span> <span class="n">y1</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y2</span><span class="p">,</span>
+                        <span class="kt">uint8_t</span> <span class="n">r</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">g</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">b</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This API permit to fullfill a screen area starting from the coordinate x1-y1 to
+x2-y2 with the RGB color based on the r,g,b tuple.</p>
+</div>
+<div class="section" id="writing-text-data">
+<h3>7.7.2.4. Writing text data<a class="headerlink" href="#writing-text-data" title="Permalink to this headline">¶</a></h3>
+<p>The ILI9341 device driver permits to write text content onscreen.</p>
+<div class="section" id="set-current-cursor-coordinate">
+<h4>7.7.2.4.1. Set current cursor coordinate<a class="headerlink" href="#set-current-cursor-coordinate" title="Permalink to this headline">¶</a></h4>
+<p>When writing text data, the cursor position must be set. If not, it will take the
+last known cursor position, or 0,0.</p>
+<p>Setting the cursor position is done using the following API:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libtft.h&quot;</span><span class="cp"></span>
+
+<span class="kt">void</span> <span class="nf">tft_set_cursor_pos</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span><span class="kt">int</span> <span class="n">y</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="writing-text">
+<h4>7.7.2.4.2. Writing text<a class="headerlink" href="#writing-text" title="Permalink to this headline">¶</a></h4>
+<p>Writing text onscreen is done with the following API:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libtft.h&quot;</span><span class="cp"></span>
+
+<span class="kt">void</span> <span class="nf">tft_putc</span><span class="p">(</span><span class="kt">char</span> <span class="n">c</span><span class="p">);</span>
+<span class="kt">int</span>  <span class="nf">tft_puts</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">s</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This two function update the current cursor position accordingly to the
+argument length.</p>
+<div class="admonition danger">
+<p class="first admonition-title">Danger</p>
+<p class="last">The ILI9341 driver does not handle end of screen newline</p>
+</div>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">Take care to set foreground and background color if needed</p>
+</div>
+</div>
+<div class="section" id="showing-an-image">
+<h4>7.7.2.4.3. Showing an image<a class="headerlink" href="#showing-an-image" title="Permalink to this headline">¶</a></h4>
+<p>The ILI9341 driver support an abstraction for transfering image content to the
+peripheral. This abstraction is based on RLE image compression format (see <span class="xref std std-ref">lib_gui</span> documentation). Sending RLE image onscreen is done using the following API:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libtft.h&quot;</span><span class="cp"></span>
+
+<span class="kt">void</span> <span class="nf">tft_rle_image</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">,</span>
+                   <span class="kt">int</span> <span class="n">width</span><span class="p">,</span> <span class="kt">int</span> <span class="n">height</span><span class="p">,</span>
+                   <span class="k">const</span> <span class="kt">uint8_t</span> <span class="o">*</span><span class="n">colormap</span><span class="p">,</span>
+                   <span class="k">const</span> <span class="kt">uint8_t</span> <span class="o">*</span><span class="n">data</span><span class="p">,</span>
+                   <span class="kt">int</span> <span class="n">datalen</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The RLE image is printed starting at coordinate <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code>. The effective
+size of the image is defined by its <code class="docutils literal notranslate"><span class="pre">width</span></code> and <code class="docutils literal notranslate"><span class="pre">height</span></code>. The <code class="docutils literal notranslate"><span class="pre">colormap</span></code> (which hold a list of RGB colors), <code class="docutils literal notranslate"><span class="pre">data</span></code> (image content in RLE format) and <code class="docutils literal notranslate"><span class="pre">datalen</span></code> (holding the length in bytes of the <code class="docutils literal notranslate"><span class="pre">data</span></code> argument) define the overall
+image content.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">The <code class="docutils literal notranslate"><span class="pre">libgui</span></code> provides a tool which permits to convert images to RLE source images</p>
+</div>
+<p>TODO: other API description</p>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../javacard/index.html" class="btn btn-neutral float-right" title="8. The JavaCard applets" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../drvusart/faq.html" class="btn btn-neutral" title="7.6.3. USART driver FAQ" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

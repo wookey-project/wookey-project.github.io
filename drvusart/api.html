@@ -1,0 +1,414 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>7.6.2. About The U(S)ART driver API &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="7.6.3. USART driver FAQ" href="faq.html" />
+    <link rel="prev" title="7.6.1. About the Hash driver" href="about.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ewok/index.html">5. EwoK kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libs.html">6. Libraries</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../drivers.html">7. Drivers</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../drvcryp/index.html">7.1. drivers/cryp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvflash/index.html">7.2. drivers/flash</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvhash/index.html">7.3. drivers/hash</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drviso7816/index.html">7.4. drivers/iso7816</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvspi/index.html">7.5. drivers/spi</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">7.6. drivers/usart</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="about.html">7.6.1. About the USART principle</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">7.6.2. The drvUsart API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#initializing-the-usart-driver">7.6.2.1. Initializing the USART driver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mapping-and-unmapping-the-usart-device">7.6.2.2. Mapping and unmapping the USART device</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#enabling-and-disabling-a-device">7.6.2.3. Enabling and disabling a device</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#writing-and-reading-from-usart">7.6.2.4. Writing and reading from usart</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html">7.6.3. FAQ</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../drvili9341/index.html">7.7. drivers/ili9341</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../drivers.html">7. Drivers</a> &raquo;</li>
+        
+          <li><a href="index.html">7.6. The USART driver</a> &raquo;</li>
+        
+      <li>7.6.2. About The U(S)ART driver API</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="about-the-u-s-art-driver-api">
+<h1>7.6.2. About The U(S)ART driver API<a class="headerlink" href="#about-the-u-s-art-driver-api" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="initializing-the-usart-driver">
+<h2>7.6.2.1. Initializing the USART driver<a class="headerlink" href="#initializing-the-usart-driver" title="Permalink to this headline">¶</a></h2>
+<p>Initializing the usart driver is done with the following API:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="nf">void</span> <span class="p">(</span><span class="o">*</span><span class="n">cb_usart_irq_handler_t</span><span class="p">)</span> <span class="p">(</span><span class="kt">uint32_t</span> <span class="n">status</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">data</span><span class="p">);</span>
+<span class="k">typedef</span> <span class="nf">char</span> <span class="p">(</span><span class="o">*</span><span class="n">cb_usart_getc_t</span><span class="p">)</span> <span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="k">typedef</span> <span class="nf">void</span> <span class="p">(</span><span class="o">*</span><span class="n">cb_usart_putc_t</span><span class="p">)</span> <span class="p">(</span><span class="kt">char</span><span class="p">);</span>
+
+<span class="k">typedef</span> <span class="k">enum</span> <span class="p">{</span>
+  <span class="n">UART</span>       <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="n">SMARTCARD</span><span class="p">,</span>
+  <span class="n">CUSTOM</span>
+<span class="p">}</span> <span class="n">usart_mode_t</span><span class="p">;</span>
+
+<span class="k">typedef</span> <span class="k">enum</span> <span class="p">{</span>
+  <span class="n">USART_SET_BAUDRATE</span>       <span class="o">=</span> <span class="mi">0</span><span class="n">b000000001</span><span class="p">,</span>
+  <span class="n">USART_SET_WORD_LENGTH</span>    <span class="o">=</span> <span class="mi">0</span><span class="n">b000000010</span><span class="p">,</span>
+  <span class="n">USART_SET_PARITY</span>         <span class="o">=</span> <span class="mi">0</span><span class="n">b000000100</span><span class="p">,</span>
+  <span class="n">USART_SET_STOP_BITS</span>      <span class="o">=</span> <span class="mi">0</span><span class="n">b000001000</span><span class="p">,</span>
+  <span class="n">USART_SET_HW_FLOW_CTRL</span>   <span class="o">=</span> <span class="mi">0</span><span class="n">b000010000</span><span class="p">,</span>
+  <span class="n">USART_SET_OPTIONS_CR1</span>    <span class="o">=</span> <span class="mi">0</span><span class="n">b000100000</span><span class="p">,</span>
+  <span class="n">USART_SET_OPTIONS_CR2</span>    <span class="o">=</span> <span class="mi">0</span><span class="n">b001000000</span><span class="p">,</span>
+  <span class="n">USART_SET_GUARD_TIME_PS</span>  <span class="o">=</span> <span class="mi">0</span><span class="n">b010000000</span><span class="p">,</span>
+  <span class="n">USART_SET_CB_RCV_IRQ</span>     <span class="o">=</span> <span class="mi">0</span><span class="n">b100000000</span><span class="p">,</span>
+  <span class="n">USART_SET_ALL</span>            <span class="o">=</span> <span class="mi">0</span><span class="n">b111111111</span>
+<span class="p">}</span> <span class="n">usart_mask_t</span><span class="p">;</span>
+
+<span class="k">typedef</span> <span class="k">enum</span> <span class="p">{</span>
+    <span class="n">USART_MAP_AUTO</span><span class="p">,</span>
+    <span class="n">USART_MAP_VOLUNTARY</span>
+<span class="p">}</span> <span class="n">usart_map_mode_t</span><span class="p">;</span>
+
+
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">__packed</span> <span class="p">{</span>
+    <span class="kt">uint32_t</span> <span class="n">set_mask</span><span class="p">;</span>
+    <span class="kt">uint8_t</span> <span class="n">usart</span><span class="p">;</span>
+    <span class="n">usart_mode_t</span> <span class="n">mode</span><span class="p">;</span>
+    <span class="kt">uint32_t</span> <span class="n">baudrate</span><span class="p">;</span>
+    <span class="kt">uint32_t</span> <span class="n">word_length</span><span class="p">;</span>
+    <span class="kt">uint32_t</span> <span class="n">parity</span><span class="p">;</span>
+    <span class="kt">uint32_t</span> <span class="n">stop_bits</span><span class="p">;</span>
+    <span class="kt">uint32_t</span> <span class="n">hw_flow_control</span><span class="p">;</span>
+    <span class="kt">uint32_t</span> <span class="n">options_cr1</span><span class="p">;</span>
+    <span class="kt">uint32_t</span> <span class="n">options_cr2</span><span class="p">;</span>
+    <span class="kt">uint32_t</span> <span class="n">guard_time_prescaler</span><span class="p">;</span>
+    <span class="n">cb_usart_irq_handler_t</span> <span class="n">callback_irq_handler</span><span class="p">;</span>
+    <span class="n">cb_usart_getc_t</span> <span class="o">*</span><span class="n">callback_usart_getc_ptr</span><span class="p">;</span>
+    <span class="n">cb_usart_putc_t</span> <span class="o">*</span><span class="n">callback_usart_putc_ptr</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">usart_config_t</span><span class="p">;</span>
+
+
+<span class="kt">uint8_t</span> <span class="nf">usart_early_init</span><span class="p">(</span><span class="n">usart_config_t</span> <span class="o">*</span> <span class="n">config</span><span class="p">,</span> <span class="n">usart_map_mode_t</span> <span class="n">map_mode</span><span class="p">);</span>
+<span class="kt">uint8_t</span> <span class="nf">usart_init</span><span class="p">(</span><span class="n">usart_config_t</span> <span class="o">*</span> <span class="n">config</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Keep the usart config in the task context, as it is used multiple time in the driver lifecycle !</p>
+</div>
+<p>At early init time (during the task initialization phase), the driver declare the device, requesting its mapping for its nominal mode. The USART driver support both automatic and voluntary mapping (see kernel API for device registration). In voluntary mapping, beware to map the device before using it !</p>
+<p>At init time, the device is mapped. The <em>user_init()</em> must be called after the end of the task initialization phase and the device must be mapped if it was previously declared as voluntary mapped. This function configure the device using the <em>config</em> argument, setting the various USART informations such as the speed, the parity, the flow control and so on.</p>
+<p>The USART driver handle one user-defined callback:</p>
+<blockquote>
+<div><ul class="simple">
+<li>the <em>callback_irq_handler</em>, handling IRQ event when a char is received on the USART line.</li>
+</ul>
+</div></blockquote>
+<p>The USART driver handle two driver-defined callbacks:</p>
+<blockquote>
+<div><ul class="simple">
+<li><em>the usart_getc_ptr</em>, which is updated in the config structure with the corresponding USART getc function. The task <strong>must</strong> use this function to get a char on the USART line</li>
+<li><em>the usart_putc_ptr</em>, which is updated in the config structure with the corresponding USART putc function. The task <strong>must</strong> use this function to put a char on the USART line</li>
+</ul>
+</div></blockquote>
+<p>These three callbacks are set by <em>usart_init()</em>.</p>
+</div>
+<div class="section" id="mapping-and-unmapping-the-usart-device">
+<h2>7.6.2.2. Mapping and unmapping the USART device<a class="headerlink" href="#mapping-and-unmapping-the-usart-device" title="Permalink to this headline">¶</a></h2>
+<p>When declaring the USART device in USART_MAP_VOLUNTARY mode, the USART device has to be map and unmap depending on the task memory constraints.
+The USART driver provides easy-to-use API for this:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libusart.h&quot;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="nf">usart_map</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">usart_unmap</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition danger">
+<p class="first admonition-title">Danger</p>
+<p class="last">Use these API only when declaring the device in USART_MAP_VOLUNTARY mode. The kernel refuses to (un)map a device that has been declared in USART_MAP_AUTO mode, making these functions fail</p>
+</div>
+</div>
+<div class="section" id="enabling-and-disabling-a-device">
+<h2>7.6.2.3. Enabling and disabling a device<a class="headerlink" href="#enabling-and-disabling-a-device" title="Permalink to this headline">¶</a></h2>
+<p>It is possible to enable or disable a U(S)ART device. Disabling a device will block any incoming or outgoing communication. Enabling a device will re-enabling such communication.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">The U(S)ART device does not hold any effective memory of the currently being processed character. When disabling or enabling a device, the current communication is dropped and lost</p>
+</div>
+<div class="admonition danger">
+<p class="first admonition-title">Danger</p>
+<p class="last">Disabling the U(S)ART does not mean deactivating the device input clock. From a hardware point of vue, the device still has its clock input working and is still configurable</p>
+</div>
+</div>
+<div class="section" id="writing-and-reading-from-usart">
+<h2>7.6.2.4. Writing and reading from usart<a class="headerlink" href="#writing-and-reading-from-usart" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="getc-and-putc">
+<h3>7.6.2.4.1. getc and putc<a class="headerlink" href="#getc-and-putc" title="Permalink to this headline">¶</a></h3>
+<p>Using getc and putc can be done easily using the getc and putc pointer set at init time by the USART driver. These functions are blocking functions waiting for
+the character to be received or to be sent:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libusart.h&quot;</span><span class="cp"></span>
+
+<span class="n">cb_usart_getc_t</span> <span class="n">my_getc</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="n">cb_usart_putc_t</span> <span class="n">my_putc</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+
+<span class="n">usart_config_t</span> <span class="n">config</span><span class="p">;</span>
+<span class="p">[...]</span>
+<span class="n">config</span><span class="p">.</span><span class="n">callback_usart_getc_ptr</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">my_getc</span><span class="p">;</span>
+<span class="n">config</span><span class="p">.</span><span class="n">callback_usart_getc_ptr</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">my_putc</span><span class="p">;</span>
+
+<span class="p">[...]</span>
+<span class="n">usart_init</span><span class="p">(</span><span class="n">config</span><span class="p">);</span>
+
+<span class="p">[...]</span>
+<span class="kt">char</span> <span class="n">out</span> <span class="o">=</span> <span class="sc">&#39;A&#39;</span><span class="p">;</span>
+<span class="kt">char</span> <span class="n">in</span><span class="p">;</span>
+
+<span class="n">in</span> <span class="o">=</span> <span class="n">my_getc</span><span class="p">();</span>
+<span class="n">my_putc</span><span class="p">(</span><span class="n">out</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="higher-read-and-write-access">
+<h3>7.6.2.4.2. Higher read and write access<a class="headerlink" href="#higher-read-and-write-access" title="Permalink to this headline">¶</a></h3>
+<p>The USART driver provides higher level abstraction to communicate on serial devices. This permit to read and write buffers directly on the serial line, holding correctly the USART constraints.</p>
+<p>This permits, for example, to implement a serial console.</p>
+<p>This API is the following:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libusart.h&quot;</span><span class="cp"></span>
+
+<span class="kt">void</span> <span class="nf">usart_write</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">usart</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">msg</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">len</span><span class="p">);</span>
+<span class="kt">uint32_t</span> <span class="nf">usart_read</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">usart</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">len</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Be sure to use the correct usart identifier, set in your config.usart field, otherwise you will try to access an unmapped device !</p>
+</div>
+<div class="admonition-todo admonition" id="index-0">
+<p class="first admonition-title">Todo</p>
+<p class="last">Describes the way U(S)ART DMA are handled</p>
+</div>
+<div class="admonition-todo admonition" id="index-1">
+<p class="first admonition-title">Todo</p>
+<p class="last">Describes each field of the config structure correctly</p>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="faq.html" class="btn btn-neutral float-right" title="7.6.3. USART driver FAQ" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="about.html" class="btn btn-neutral" title="7.6.1. About the Hash driver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

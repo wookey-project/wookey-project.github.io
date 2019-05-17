@@ -1,0 +1,456 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>7.2.2. About The Flash driver API &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="7.2.3. flash driver FAQ" href="faq.html" />
+    <link rel="prev" title="7.2.1. About the flash driver" href="about.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ewok/index.html">5. EwoK kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libs.html">6. Libraries</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../drivers.html">7. Drivers</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../drvcryp/index.html">7.1. drivers/cryp</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">7.2. drivers/flash</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="about.html">7.2.1. About the flash principle</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">7.2.2. The drvFlash API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#initializing-the-flash-driver">7.2.2.1. Initializing the flash driver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#handling-flash-components-mapping">7.2.2.2. Handling flash components mapping</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#un-locking-flash-memory">7.2.2.3. (Un)locking flash memory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#accessing-flash-option-registers">7.2.2.4. Accessing flash option registers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#erasing-flash-data">7.2.2.5. Erasing flash data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#writting-data-to-flash">7.2.2.6. Writting data to flash</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reading-into-flash">7.2.2.7. Reading into flash</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html">7.2.3. FAQ</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../drvhash/index.html">7.3. drivers/hash</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drviso7816/index.html">7.4. drivers/iso7816</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvspi/index.html">7.5. drivers/spi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvusart/index.html">7.6. drivers/usart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvili9341/index.html">7.7. drivers/ili9341</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../drivers.html">7. Drivers</a> &raquo;</li>
+        
+          <li><a href="index.html">7.2. The Flash driver</a> &raquo;</li>
+        
+      <li>7.2.2. About The Flash driver API</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="about-the-flash-driver-api">
+<h1>7.2.2. About The Flash driver API<a class="headerlink" href="#about-the-flash-driver-api" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="initializing-the-flash-driver">
+<h2>7.2.2.1. Initializing the flash driver<a class="headerlink" href="#initializing-the-flash-driver" title="Permalink to this headline">¶</a></h2>
+<p>Initializing the flash driver is done with the following API:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libflash.h&quot;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="nf">flash_device_early_init</span><span class="p">(</span><span class="n">t_device_mapping</span> <span class="o">*</span><span class="n">devmap</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">flash_init</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The flash driver early initialization must be executed before the end of the
+task initialization phase (see EwoK kernel API). This initialization declare
+which of the various flash components are requested by the task.</p>
+<p>In order to specify which subdevice need to be mapped, a dedicated structure,
+named t_device_mapping and composed of booleans, has to be passed to the
+flash driver initialization function.</p>
+<p>Depending on this structure, the flash driver will request and map only the
+required flash components.</p>
+<p>This components are:</p>
+<blockquote>
+<div><ul class="simple">
+<li>the flash memory bank1 (in flash dual bank mode)</li>
+<li>the flash memory bank2 (in flash dual bank mode)</li>
+<li>the flash global memory (in flash mono bank mode)</li>
+<li>the flash control registers (handling flash read and write access)</li>
+<li>the flash system memory</li>
+<li>the flash OTP (One Time Programmable) memory</li>
+<li>the flash OPT configuration registers for bank1 or the overall memory in mono bank mode (including, WDP and RDP fields</li>
+<li>the flash OPT configuration registers for bank2 (in dual bank mode only)</li>
+</ul>
+</div></blockquote>
+<p>As all these memory areas are mapped in various, non-contigous area of the memory map, the flash driver handle the various flash components through a voluntary, on request, mapping.</p>
+</div>
+<div class="section" id="handling-flash-components-mapping">
+<h2>7.2.2.2. Handling flash components mapping<a class="headerlink" href="#handling-flash-components-mapping" title="Permalink to this headline">¶</a></h2>
+<p>Before manipulating any of the flash components that have been deeclared in the initialization phase, the task has to request its mapping voluntary.</p>
+<p>Using EwoK, this is done using the following API:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;api/syscall.h&quot;</span><span class="cp"></span>
+
+<span class="n">e_syscall_ret</span> <span class="nf">sys_cfg</span><span class="p">(</span><span class="n">CFG_DEV_MAP</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">dev_desc</span><span class="p">);</span>
+<span class="n">e_syscall_ret</span> <span class="nf">sys_cfg</span><span class="p">(</span><span class="n">CFG_DEV_UNMAP</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">dev_desc</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition danger">
+<p class="first admonition-title">Danger</p>
+<p class="last">The task handling the flash device <strong>must</strong> have the MAP_VOLUNTARY permission</p>
+</div>
+<p>The flash driver handling the device descriptors at initialization time.
+To get back the device descriptor from the flash driver, the following function must be called:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libflash.h&quot;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="nf">flash_get_descriptor</span><span class="p">(</span><span class="n">t_flash_dev_id</span> <span class="n">id</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>the t_flash_dev_id is an enumerate which is structured like the t_device_map is. As you can see in libflash.h, each boolean of the t_device_map structure is associated to a specific t_flash_dev_id value, for example BANK1, BANK2, CTRL, OTP and so on.</p>
+<p>Knowing that, it is possible to map the requested device using the following:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;api/syscall.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;libflash.h&quot;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="n">my_dev_desc</span><span class="p">;</span>
+<span class="n">e_syscall_ret</span> <span class="n">ret</span><span class="p">;</span>
+
+<span class="p">[...]</span>
+
+<span class="n">my_dev_desc</span> <span class="o">=</span> <span class="n">flash_get_descriptor</span><span class="p">(</span><span class="n">BANK1</span><span class="p">);</span>
+<span class="n">ret</span> <span class="o">=</span> <span class="n">sys_cfg</span><span class="p">(</span><span class="n">CFG_DEV_MAP</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">my_dev_desc</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">!=</span> <span class="n">SYS_E_DONE</span><span class="p">)</span> <span class="p">{</span>
+   <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Unable to map bank1 device&quot;</span><span class="p">);</span>
+   <span class="k">goto</span> <span class="n">err</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/* manipulating bank 1 */</span>
+<span class="p">[...]</span>
+
+<span class="n">ret</span> <span class="o">=</span> <span class="n">sys_cfg</span><span class="p">(</span><span class="n">CFG_DEV_UNMAP</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">my_dev_desc</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">!=</span> <span class="n">SYS_E_DONE</span><span class="p">)</span> <span class="p">{</span>
+   <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Unable to unmap bank1 device&quot;</span><span class="p">);</span>
+   <span class="k">goto</span> <span class="n">err</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="nl">err</span><span class="p">:</span>
+<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+</pre></div>
+</div>
+<div class="admonition danger">
+<p class="first admonition-title">Danger</p>
+<p class="last">None of the flash driver functions handle the mapping/unmapping step.
+This step is under the responsability of the task and must be handled correctly.</p>
+</div>
+</div>
+<div class="section" id="un-locking-flash-memory">
+<h2>7.2.2.3. (Un)locking flash memory<a class="headerlink" href="#un-locking-flash-memory" title="Permalink to this headline">¶</a></h2>
+<p>Flash memory is not writeable by default. In order to write in flash memory, a
+specific magic numbers must be set into the flash configuration register before any write attempt.</p>
+<p>This unlocking action is handled by the <em>flash_lock()</em> function. Locking again the flash is done through <em>flash_unlock()</em>.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The flash_lock() and flash_unlock() functions require the CTRL flash device areas to be mapped when they are called</p>
+</div>
+</div>
+<div class="section" id="accessing-flash-option-registers">
+<h2>7.2.2.4. Accessing flash option registers<a class="headerlink" href="#accessing-flash-option-registers" title="Permalink to this headline">¶</a></h2>
+<p>Option registers handle some security specific flash global properties such as
+RDP (Read access protection), WDP (Write access protection) and so on.</p>
+<p>These registers are locked while a dedicated magic is not written in the flash option bytes. These options bytes are also mapped in the OPT_BANK1 and OPT_BANK2 memory areas.</p>
+<p>In order to unlock these registers, the flash driver provides <em>flash_unlock_opt()</em> and <em>flash_lock_opt()</em> functions.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The flash_lock_opt() and flash_unlock_opt() functions require the OPT_BANK1 (and potentially OPT_BANK2) flash device areas to be mapped when they are called</p>
+</div>
+</div>
+<div class="section" id="erasing-flash-data">
+<h2>7.2.2.5. Erasing flash data<a class="headerlink" href="#erasing-flash-data" title="Permalink to this headline">¶</a></h2>
+<p>The flash memory is composed of sector of various size.</p>
+<p>The device support various erase mode:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Erasing a sector</li>
+<li>Erasing a bank</li>
+<li>Erasing the entire flash</li>
+</ul>
+</div></blockquote>
+<p>Erasing a sector is simplified by the flash driver. Based on a given physical address, the flash driver is able to return the associated sector identifier, that we can use to request a sector erase from the flash.</p>
+<p>This is done using the following:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libflash.h&quot;</span><span class="cp"></span>
+
+<span class="n">physaddr_t</span> <span class="n">myaddr</span><span class="p">;</span>
+<span class="kt">uint8_t</span>  <span class="n">sector_id</span><span class="p">;</span>
+
+<span class="cm">/* setting myaddr */</span>
+<span class="p">[...]</span>
+
+<span class="n">sector_id</span> <span class="o">=</span> <span class="n">flash_select_sector</span><span class="p">(</span><span class="n">myaddr</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">sector_id</span> <span class="o">==</span> <span class="mi">255</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;address out of flash memory</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+    <span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">flash_sector_erase</span><span class="p">(</span><span class="n">sector_id</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>When handling dual bank flash device, erasing a full bank is done by successively select the bank and requesting a full erase.</p>
+<p>This is done using the following:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libflash.h&quot;</span><span class="cp"></span>
+
+<span class="n">flash_set_bank_conf</span><span class="p">(</span><span class="n">FLASH_BANK_1</span><span class="p">);</span>
+<span class="n">flash_mass_erase</span><span class="p">();</span>
+</pre></div>
+</div>
+<div class="admonition danger">
+<p class="first admonition-title">Danger</p>
+<p class="last">Beware when execute mass erase ! You may erase your own code if the erase mechanism is not correctly set !</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Erasing the flash requires CTRL to be mapped</p>
+</div>
+</div>
+<div class="section" id="writting-data-to-flash">
+<h2>7.2.2.6. Writting data to flash<a class="headerlink" href="#writting-data-to-flash" title="Permalink to this headline">¶</a></h2>
+<p>The flash device require various flash write mode. It is possible to write:</p>
+<blockquote>
+<div><ul class="simple">
+<li>bytes</li>
+<li>words (4 bytes)</li>
+<li>double words (8 bytes) (depending on the flash device input power mode)</li>
+</ul>
+</div></blockquote>
+<p>The flash driver provides the following API to write into flash:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libflash.h&quot;</span><span class="cp"></span>
+
+<span class="kt">void</span> <span class="nf">flash_program_dword</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="o">*</span><span class="n">addr</span><span class="p">,</span> <span class="kt">uint64_t</span> <span class="n">value</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">flash_program_word</span><span class="p">(</span><span class="kt">uint32_t</span> <span class="o">*</span><span class="n">addr</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">word</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">flash_program_byte</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="o">*</span><span class="n">addr</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">value</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Writing data to flash requires the corresponding bank area and CTRL to be mapped</p>
+</div>
+</div>
+<div class="section" id="reading-into-flash">
+<h2>7.2.2.7. Reading into flash<a class="headerlink" href="#reading-into-flash" title="Permalink to this headline">¶</a></h2>
+<p>Reading into flash is a direct memory access into the flash bank area.</p>
+<p>Although, for better readability, the flash driver provides the folllowing API:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libflash.h&quot;</span><span class="cp"></span>
+
+<span class="kt">void</span> <span class="nf">flash_read</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="o">*</span><span class="n">buffer</span><span class="p">,</span> <span class="n">physaddr_t</span> <span class="n">addr</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">size</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">reading data from flash requires the corresponding bank area to be mapped</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="faq.html" class="btn btn-neutral float-right" title="7.2.3. flash driver FAQ" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="about.html" class="btn btn-neutral" title="7.2.1. About the flash driver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

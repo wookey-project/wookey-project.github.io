@@ -1,0 +1,308 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Overview &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ewok/index.html">5. EwoK kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libs.html">6. Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../drivers.html">7. Drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Overview</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="run-mode-usage">
+<h2>Run mode usage<a class="headerlink" href="#run-mode-usage" title="Permalink to this headline">¶</a></h2>
+<p>When using the libfirmware as a run state detection backend, it can be used by any application to detect in which run mode and bank it is being executed. This allows executable that are compiled for multiple banks and execution mode to react differently depending on the current bank and mode.</p>
+<p>The libfirmware supports the following, device-generic banks:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Flip bank</li>
+<li>Flop bank</li>
+</ul>
+</div></blockquote>
+<p>These banks are generic, dual-bank based resilient firmware images.</p>
+<p>The libfirmware supports the following, device-generic run mode:</p>
+<blockquote>
+<div><ul class="simple">
+<li>FW mode (aka. nominal mode)</li>
+<li>DFU mode (aka. upgrade mode)</li>
+</ul>
+</div></blockquote>
+<p>We consider these two run mode also as generic modes.</p>
+<p>The libfirmware is based on ldscript variables to detect bank and mode. As a consequence, it is up to the linker to define the following variables:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">__is_flip</span>
+<span class="n">__is_flop</span>
+<span class="n">__is_fw</span>
+<span class="n">__is_dfu</span>
+</pre></div>
+</div>
+<p>Each binary application should then have a <em>4-uplet</em> with specific addresses in its ldscript.</p>
+<p>These variables are boolean variables, but as they are ldscript variables, only their addresses can be used. As a consequence, an address of 0xf0 (i.e. 240) is considered as <em>True</em>, any other address is considered as <em>False</em>.</p>
+<p>These variables must be set at the begining of the ldscript file, out of any SECTIONS block. A typical definition would be:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">__is_flip</span> <span class="o">=</span> <span class="mi">240</span><span class="p">;</span>
+<span class="n">__is_flop</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="n">__is_fw</span>   <span class="o">=</span> <span class="mi">240</span><span class="p">;</span>
+<span class="n">__is_dfu</span>  <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>This definition define the application as being executed in flip mode, in nominal (i.e. FW) mode.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">It is possible to use the libfirmware without differenciate run mode or with a single bank. As variables are boolean, they can be always defined as false</p>
+</div>
+</div>
+<div class="section" id="firmware-image-manipulation">
+<h2>Firmware image manipulation<a class="headerlink" href="#firmware-image-manipulation" title="Permalink to this headline">¶</a></h2>
+<p>Manipulating firmware images should be the job of a dedicated task. This task
+<strong>must</strong> hold the TSK_UPGRADE permission to use this part of the libfirmware.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">Tasks that only manipulate run mode will have this part of the libfirmware removed from the generated binary at link time, as these functions are not called</p>
+</div>
+<p>Manipulating firmware is more complex than only handling raw binary file. In Wookey (and as a consequence libfirmware) firmware images host header informations which contains various data, including cryptographic signatures, version, and various meta-data.</p>
+<p>The libfirmware provides helper functions to manipulate such header, including parsing, version checking and so on.</p>
+<p>The libfirmware also handle the firmware storage backend, including the firmware image update and the firmware bootloader metainformation header update.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">All the header related API is specific to the way firmware headers and bootloader header update are handled. This part of the libfirmware can be ported from one hardware to another, but is sticked to the way Wookey is handling its upgrade</p>
+</div>
+<p>Manipulating the firmware storage backend requires to know precisely how the
+storage is structured. The libfirmware needs various informations:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Each bank base address</li>
+<li>Each bootinfo base address</li>
+<li>The size of a bank</li>
+</ul>
+</div></blockquote>
+<p>There is no specific constraints on how the banks, the bootloader(s) and the bootinfo headers are located in the storage area, although:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Each bank must have its own bootinfo</li>
+<li>Each bootinfo must be stored in a dedicated flash sector, as the sector is fully erased at haeder update time and the checksum is calculated on the overall sector size</li>
+<li>Each bank must be contigous</li>
+</ol>
+</div></blockquote>
+<p>There is no constraints on the contiguity between the bootinfo sector and the bank sector(s), as there is no constrain on the bootloader position, as the bootloader is never acceded.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Take a great care to properly separate each bank and each bank bootinfo information, to keep a correct resiliency between both banks</p>
+</div>
+<p>All the requested informations (bank base address, bootinfo base address and bank size) is configured through the Kconfig mechanism of the libfirmware.</p>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">The libfirmware configuration must be done through the overall project configuration system (e.g. using the tataouine SDK) in order to correctly generate autoconf.h header file</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

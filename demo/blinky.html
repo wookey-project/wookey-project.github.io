@@ -1,0 +1,411 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>3.1. Blinky demo &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3.2. Blinky with IPC demo" href="blinkyipc.html" />
+    <link rel="prev" title="3. Demo examples" href="../demo.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../demo.html">3. Demo applications</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">3.1. Blinky demo</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#building-and-running-the-demo">3.1.1. Building and running the demo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#understanding-the-demo-code">3.1.2. Understanding the demo code</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#leds-configuration">3.1.2.1. LEDs configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#button-configuration">3.1.2.2. Button configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#leaving-the-initialization-phase">3.1.2.3. Leaving the initialization phase</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#isr-handler">3.1.2.4. ISR handler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#main-loop">3.1.2.5. Main loop</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="blinkyipc.html">3.2. Blinky with IPC demo</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ewok/index.html">5. EwoK kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libs.html">6. Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../drivers.html">7. Drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../demo.html">3. Demo examples</a> &raquo;</li>
+        
+      <li>3.1. Blinky demo</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="blinky-demo">
+<span id="blinky"></span><h1>3.1. Blinky demo<a class="headerlink" href="#blinky-demo" title="Permalink to this headline">¶</a></h1>
+<p>The ‘blinky’ demo is in the directory <code class="docutils literal notranslate"><span class="pre">app/blinky</span></code>.</p>
+<div class="section" id="building-and-running-the-demo">
+<h2>3.1.1. Building and running the demo<a class="headerlink" href="#building-and-running-the-demo" title="Permalink to this headline">¶</a></h2>
+<p>To build a new firmware and to flash the board with it, follow the
+instructions in <a class="reference internal" href="../quickstart.html#quickstart"><span class="std std-ref">Quick start</span></a>.</p>
+<p>To choose the ‘blinky’ profile, you will have to execute <code class="docutils literal notranslate"><span class="pre">make</span></code> with</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ make boards/32f407disco/configs/disco_blinky_ada_defconfig
+</pre></div>
+</div>
+</div>
+<div class="section" id="understanding-the-demo-code">
+<h2>3.1.2. Understanding the demo code<a class="headerlink" href="#understanding-the-demo-code" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="leds-configuration">
+<h3>3.1.2.1. LEDs configuration<a class="headerlink" href="#leds-configuration" title="Permalink to this headline">¶</a></h3>
+<p>To use a device, first, it must be declared and registered in the kernel.
+A <code class="docutils literal notranslate"><span class="pre">device_t</span></code> structure is associated to the LEDs. It describes its memory
+mapping, the GPIOs and the EXTIs of the device.</p>
+<div class="highlight-C notranslate"><div class="highlight"><pre><span></span><span class="n">device_t</span>    <span class="n">leds</span><span class="p">;</span>
+<span class="p">...</span>
+<span class="n">memset</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">leds</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span> <span class="p">(</span><span class="n">leds</span><span class="p">));</span>
+
+<span class="n">strncpy</span> <span class="p">(</span><span class="n">leds</span><span class="p">.</span><span class="n">name</span><span class="p">,</span> <span class="s">&quot;LEDs&quot;</span><span class="p">,</span> <span class="k">sizeof</span> <span class="p">(</span><span class="n">leds</span><span class="p">.</span><span class="n">name</span><span class="p">));</span>
+<span class="n">leds</span><span class="p">.</span><span class="n">gpio_num</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span> <span class="cm">/* Number of configured GPIO */</span>
+
+<span class="n">leds</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">kref</span><span class="p">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">GPIO_PD</span><span class="p">;</span>
+<span class="n">leds</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">kref</span><span class="p">.</span><span class="n">pin</span> <span class="o">=</span> <span class="mi">12</span><span class="p">;</span>
+<span class="n">leds</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">mask</span>     <span class="o">=</span> <span class="n">GPIO_MASK_SET_MODE</span> <span class="o">|</span> <span class="n">GPIO_MASK_SET_PUPD</span> <span class="o">|</span>
+                         <span class="n">GPIO_MASK_SET_TYPE</span> <span class="o">|</span> <span class="n">GPIO_MASK_SET_SPEED</span><span class="p">;</span>
+<span class="n">leds</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">mode</span>     <span class="o">=</span> <span class="n">GPIO_PIN_OUTPUT_MODE</span><span class="p">;</span>
+<span class="n">leds</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">pupd</span>     <span class="o">=</span> <span class="n">GPIO_PULLDOWN</span><span class="p">;</span>
+<span class="n">leds</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">type</span>     <span class="o">=</span> <span class="n">GPIO_PIN_OTYPER_PP</span><span class="p">;</span>
+<span class="n">leds</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">speed</span>    <span class="o">=</span> <span class="n">GPIO_PIN_HIGH_SPEED</span><span class="p">;</span>
+
+<span class="n">leds</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">kref</span><span class="p">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">GPIO_PD</span><span class="p">;</span>
+<span class="n">leds</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">kref</span><span class="p">.</span><span class="n">pin</span> <span class="o">=</span> <span class="mi">13</span><span class="p">;</span>
+<span class="n">leds</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">mask</span>     <span class="o">=</span> <span class="n">GPIO_MASK_SET_MODE</span> <span class="o">|</span> <span class="n">GPIO_MASK_SET_PUPD</span> <span class="o">|</span>
+                         <span class="n">GPIO_MASK_SET_TYPE</span> <span class="o">|</span> <span class="n">GPIO_MASK_SET_SPEED</span><span class="p">;</span>
+<span class="p">...</span>
+</pre></div>
+</div>
+<p>Then, the <code class="docutils literal notranslate"><span class="pre">sys_init()</span></code> syscall is used to register the device with the kernel:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">ret</span> <span class="o">=</span> <span class="n">sys_init</span><span class="p">(</span><span class="n">INIT_DEVACCESS</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">leds</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">desc_leds</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">desc_leds</span></code> variable is a descriptor returned by the syscall. It’s
+ignored in that example (it’s used only by some few syscalls <a class="reference internal" href="../ewok/syscalls/sys_cfg.html#sys-cfg"><span class="std std-ref">sys_cfg, configuring devices</span></a>).</p>
+</div>
+<div class="section" id="button-configuration">
+<h3>3.1.2.2. Button configuration<a class="headerlink" href="#button-configuration" title="Permalink to this headline">¶</a></h3>
+<p>The button must also be declared and registered with the kernel.
+Note the registration of the ISR handler with:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">button</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">exti_trigger</span> <span class="o">=</span> <span class="n">GPIO_EXTI_TRIGGER_RISE</span><span class="p">;</span>
+<span class="n">button</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">exti_lock</span>    <span class="o">=</span> <span class="n">GPIO_EXTI_UNLOCKED</span><span class="p">;</span>
+<span class="n">button</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">exti_handler</span> <span class="o">=</span> <span class="p">(</span><span class="n">user_handler_t</span><span class="p">)</span> <span class="n">exti_button_handler</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">GPIO_EXTI_TRIGGER_RISE</span></code> configures the IRQ associated to the GPIO to be
+triggered only on a rising edge (corresponding to a button push in our case).</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">GPIO_EXTI_UNLOCKED</span></code> has a special meaning. The <code class="docutils literal notranslate"><span class="pre">GPIO_EXTI_LOCKED</span></code>
+means that the EXTI line is muted and that it must be voluntary “unlocked”
+using a specific syscall to receive further EXTIs.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">exti_handler</span></code> field is initialized with the address of the ISR handler
+that will be executed for each EXTI interrupt.</p>
+</div>
+<div class="section" id="leaving-the-initialization-phase">
+<h3>3.1.2.3. Leaving the initialization phase<a class="headerlink" href="#leaving-the-initialization-phase" title="Permalink to this headline">¶</a></h3>
+<p>When all devices are registered, they still can’t be used by the app.
+Before, the initialization phase must be leaved using the
+<code class="docutils literal notranslate"><span class="pre">sys_init(INIT_DONE)</span></code> syscall before using them:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/* Devices and resources registration is finished */</span>
+<span class="n">ret</span> <span class="o">=</span> <span class="n">sys_init</span><span class="p">(</span><span class="n">INIT_DONE</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Be aware that after that, no more further device or resource registration is
+possible.</p>
+</div>
+<div class="section" id="isr-handler">
+<h3>3.1.2.4. ISR handler<a class="headerlink" href="#isr-handler" title="Permalink to this headline">¶</a></h3>
+<p>In our example, the ISR handler <code class="docutils literal notranslate"><span class="pre">exti_button_handler()</span></code>
+set the global variable <code class="docutils literal notranslate"><span class="pre">button_pushed</span></code> to notify the interrupt event:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">exti_button_handler</span> <span class="p">()</span>
+<span class="p">{</span>
+  <span class="kt">uint64_t</span>        <span class="n">clock</span><span class="p">;</span>
+  <span class="n">e_syscall_ret</span>   <span class="n">ret</span><span class="p">;</span>
+
+  <span class="cm">/* Syscall to get the elapsed cpu time since the board booted */</span>
+  <span class="n">ret</span> <span class="o">=</span> <span class="n">sys_get_systick</span><span class="p">(</span><span class="o">&amp;</span><span class="n">clock</span><span class="p">,</span> <span class="n">PREC_MILLI</span><span class="p">);</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">==</span> <span class="n">SYS_E_DONE</span><span class="p">)</span> <span class="p">{</span>
+          <span class="cm">/* Debounce time (in ms) */</span>
+          <span class="k">if</span> <span class="p">(</span><span class="n">clock</span> <span class="o">-</span> <span class="n">last_isr</span> <span class="o">&lt;</span> <span class="mi">20</span><span class="p">)</span> <span class="p">{</span>
+              <span class="n">last_isr</span> <span class="o">=</span> <span class="n">clock</span><span class="p">;</span>
+              <span class="k">return</span><span class="p">;</span>
+          <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="n">last_isr</span> <span class="o">=</span> <span class="n">clock</span><span class="p">;</span>
+  <span class="n">button_pushed</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The only subtlety here is the <em>debouncing</em> handling inside the ISR to avoid
+burst of interrupts.
+The debouncing time is arbitrary fixed to 20 milliseconds.
+The <code class="docutils literal notranslate"><span class="pre">sys_get_systick()</span></code> syscall is used to return elapsed CPU time since the
+board booted.</p>
+</div>
+<div class="section" id="main-loop">
+<h3>3.1.2.5. Main loop<a class="headerlink" href="#main-loop" title="Permalink to this headline">¶</a></h3>
+<p>After the initialization phase, the main function executes a loop that waits
+for interrupt notifications by checking the value of <code class="docutils literal notranslate"><span class="pre">button_pushed</span></code>.
+When the Button is pushed, LEDs blinking pattern is switched.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">button_pushed</span> <span class="o">==</span> <span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span> <span class="p">(</span><span class="s">&quot;button has been pressed</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+
+        <span class="cm">/* Change leds state */</span>
+        <span class="n">green_state</span>   <span class="o">=</span> <span class="p">(</span><span class="n">green_state</span> <span class="o">==</span> <span class="n">ON</span><span class="p">)</span> <span class="o">?</span> <span class="nl">OFF</span> <span class="p">:</span> <span class="n">ON</span><span class="p">;</span>
+        <span class="n">orange_state</span>  <span class="o">=</span> <span class="p">(</span><span class="n">orange_state</span> <span class="o">==</span> <span class="n">ON</span><span class="p">)</span> <span class="o">?</span> <span class="nl">OFF</span> <span class="p">:</span> <span class="n">ON</span><span class="p">;</span>
+        <span class="n">red_state</span>     <span class="o">=</span> <span class="p">(</span><span class="n">red_state</span> <span class="o">==</span> <span class="n">ON</span><span class="p">)</span> <span class="o">?</span> <span class="nl">OFF</span> <span class="p">:</span> <span class="n">ON</span><span class="p">;</span>
+        <span class="n">blue_state</span>    <span class="o">=</span> <span class="p">(</span><span class="n">blue_state</span> <span class="o">==</span> <span class="n">ON</span><span class="p">)</span> <span class="o">?</span> <span class="nl">OFF</span> <span class="p">:</span> <span class="n">ON</span><span class="p">;</span>
+
+        <span class="cm">/* Show leds */</span>
+        <span class="n">display_leds</span>  <span class="o">=</span> <span class="n">ON</span><span class="p">;</span>
+
+        <span class="n">button_pushed</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="p">...</span>
+</pre></div>
+</div>
+<p>To make the LEDs blinking, their related GPIO must be set to ON of OFF
+using the <code class="docutils literal notranslate"><span class="pre">sys_cfg()</span></code> syscall:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="p">....</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">display_leds</span> <span class="o">==</span> <span class="n">ON</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">sys_cfg</span><span class="p">(</span><span class="n">CFG_GPIO_SET</span><span class="p">,</span> <span class="p">(</span><span class="kt">uint8_t</span><span class="p">)</span> <span class="n">leds</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">kref</span><span class="p">.</span><span class="n">val</span><span class="p">,</span> <span class="n">green_state</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">!=</span> <span class="n">SYS_E_DONE</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span> <span class="p">(</span><span class="s">&quot;sys_cfg(): failed</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">...</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">sys_cfg</span><span class="p">(</span><span class="n">CFG_GPIO_SET</span><span class="p">,</span> <span class="p">(</span><span class="kt">uint8_t</span><span class="p">)</span> <span class="n">leds</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">kref</span><span class="p">.</span><span class="n">val</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">!=</span> <span class="n">SYS_E_DONE</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span> <span class="p">(</span><span class="s">&quot;sys_cfg(): failed</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">...</span>
+</pre></div>
+</div>
+<p>Then, the task sleeps 500 milliseconds:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/* Sleeping for 500 ms */</span>
+<span class="n">sys_sleep</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="n">SLEEP_MODE_INTERRUPTIBLE</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>If the button is pushed during that sleeping time, the task is awake
+due to the <code class="docutils literal notranslate"><span class="pre">SLEEP_MODE_INTERRUPTIBLE</span></code> option.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="blinkyipc.html" class="btn btn-neutral float-right" title="3.2. Blinky with IPC demo" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../demo.html" class="btn btn-neutral" title="3. Demo examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

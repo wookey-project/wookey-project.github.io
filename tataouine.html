@@ -1,0 +1,427 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>9. Tataouine SDK &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="9.1. Dependencies" href="tataouine/dependencies.html" />
+    <link rel="prev" title="8. The JavaCard applets" href="javacard/index.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ewok/index.html">5. EwoK kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html">6. Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="drivers.html">7. Drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">9. Tataouine SDK</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/dependencies.html">9.1. Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/repo.html">9.2. Downloading the project with repo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/externals.html">9.3. External dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/config.html">9.4. Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/build.html">9.5. Building a new firmware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/flash.html">9.6. Flashing a new firmware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/production.html">9.7. Production mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/debug.html">9.8. Debugging the project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/newdriver.html">9.9. Creating a new driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/newlib.html">9.10. Creating a new library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/newapp.html">9.11. Creating a new application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/internals.html">9.12. Internals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/layout.html">9.13. Layout and portability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tataouine-directories">9.14. Tataouine directories</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>9. Tataouine SDK</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="tataouine-sdk">
+<span id="tataouine"></span><h1>9. Tataouine SDK<a class="headerlink" href="#tataouine-sdk" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tataouine/dependencies.html">9.1. Dependencies</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/dependencies.html#to-fetch-and-to-manage-the-project">9.1.1. To fetch and to manage the project</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tataouine/dependencies.html#repo">9.1.1.1. Repo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tataouine/dependencies.html#git">9.1.1.2. Git</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/dependencies.html#to-compile-the-firmware">9.1.2. To compile the firmware</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tataouine/dependencies.html#perl">9.1.2.1. Perl</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tataouine/dependencies.html#a-kconfig-parser">9.1.2.2. A Kconfig parser</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tataouine/dependencies.html#gnu-make">9.1.2.3. GNU make</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tataouine/dependencies.html#c-cross-compiler-for-armv7-m">9.1.2.4. C cross-compiler for <em>ARMv7-m</em></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tataouine/dependencies.html#adacore-ada-spark">9.1.2.5. AdaCore Ada/SPARK</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tataouine/dependencies.html#python-intelhex">9.1.2.6. Python-IntelHex</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/dependencies.html#to-flash-the-firmware-on-the-target-board">9.1.3. To flash the firmware on the target board</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/dependencies.html#to-compile-the-documentation">9.1.4. To compile the documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/dependencies.html#cryptographic-tools">9.1.5. Cryptographic tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/dependencies.html#to-compile-the-java-applets">9.1.6. To compile the Java applets</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tataouine/repo.html">9.2. Downloading the project with repo</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/repo.html#initialize-the-sdk">9.2.1. Initialize the SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tataouine/externals.html">9.3. External dependencies</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/externals.html#libecc-an-elliptic-curves-cryptography-library">9.3.1. libecc: an elliptic curves cryptography library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/externals.html#secaesstm32-a-masked-aes-implementation-resilient-against-sca">9.3.2. SecAESSTM32: a masked AES implementation resilient against SCA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/externals.html#ant-javacard-and-globalplatformpro-a-cross-platform-javacard-framework">9.3.3. ant-javacard and GlobalPlatformPro: a cross-platform Javacard framework</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tataouine/config.html">9.4. Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/config.html#general-architecture">9.4.1. General architecture</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tataouine/build.html">9.5. Building a new firmware</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/build.html#pre-requisites">9.5.1. Pre-requisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/build.html#fetch-the-project-files">9.5.2. Fetch the project files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/build.html#set-the-environment">9.5.3. Set the environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/build.html#configure-the-target">9.5.4. Configure the target</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/build.html#build-the-firmware">9.5.5. Build the firmware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/build.html#build-the-applets">9.5.6. Build the applets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tataouine/build.html#install-extra-dependencies">9.5.6.1. Install extra-dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tataouine/build.html#compile-the-applets">9.5.6.2. Compile the applets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tataouine/build.html#sign-and-encrypt-the-firmware">9.5.6.3. Sign and encrypt the firmware</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/build.html#build-the-documentation">9.5.7. Build the documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tataouine/flash.html">9.6. Flashing a new firmware</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/flash.html#connect-the-board-to-the-host">9.6.1. Connect the board to the host</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/flash.html#connect-openocd-to-the-board">9.6.2. Connect OpenOCD to the board</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/flash.html#flashing-the-device">9.6.3. Flashing the device</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tataouine/flash.html#using-the-telnet-client">9.6.3.1. Using the telnet client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tataouine/flash.html#using-openocd">9.6.3.2. Using OpenOCD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tataouine/flash.html#using-gdb">9.6.3.3. Using GDB</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/flash.html#other-ways">9.6.4. Other ways</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tataouine/production.html">9.7. Production mode</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/production.html#about-the-protections-to-activate-in-production-mode">9.7.1. About the protections to activate in production mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/production.html#lock-the-platform-jtag-swd">9.7.2. Lock the platform JTAG/SWD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/production.html#activate-bootloader-rdp2-detection">9.7.3. Activate bootloader RDP2 detection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/production.html#lock-the-javacard-globalplatform-tokens">9.7.4. Lock the JavaCard GlobalPlatform tokens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/production.html#mute-the-debug-uart">9.7.5. Mute the debug UART</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tataouine/debug.html">9.8. Debugging the project</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/debug.html#activating-the-debug">9.8.1. Activating the debug</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tataouine/debug.html#configuring-for-debugging">9.8.1.1. Configuring for debugging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tataouine/debug.html#wookey-serial-console">9.8.1.2. WooKey serial console</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/debug.html#debugging-userspace-drivers-and-applications">9.8.2. Debugging userspace drivers and applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/debug.html#using-minicom-and-gdb">9.8.3. Using Minicom and GDB</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tataouine/newdriver.html">9.9. Creating a new driver</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/newdriver.html#driver-source-directories">9.9.1. Driver source directories</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tataouine/newdriver.html#sources-integration">9.9.1.1. Sources integration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/newdriver.html#build-mechanism">9.9.2. Build mechanism</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tataouine/newdriver.html#driver-s-makefile">9.9.2.1. Driver’s Makefile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tataouine/newdriver.html#driver-s-build-directory">9.9.2.2. Driver’s build directory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tataouine/newdriver.html#configuring-the-driver">9.9.2.3. Configuring the driver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tataouine/newdriver.html#integrating-your-driver-to-the-sdk">9.9.2.4. Integrating your driver to the SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/newdriver.html#interacting-with-devices">9.9.3. Interacting with devices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tataouine/newdriver.html#getting-device-information">9.9.3.1. Getting device information</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tataouine/newdriver.html#declaring-the-device">9.9.3.2. Declaring the device</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tataouine/newlib.html">9.10. Creating a new library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/newlib.html#library-source-directory">9.10.1. Library source directory</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tataouine/newlib.html#sources-integration">9.10.1.1. Sources integration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/newlib.html#library-build-mechanism">9.10.2. Library build mechanism</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tataouine/newlib.html#library-s-makefile">9.10.2.1. Library’s Makefile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tataouine/newlib.html#library-s-build-directory">9.10.2.2. Library’s build directory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tataouine/newlib.html#configuring-the-library">9.10.2.3. Configuring the library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tataouine/newlib.html#integrating-your-library-to-the-sdk">9.10.2.4. Integrating your library to the SDK</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tataouine/newapp.html">9.11. Creating a new application</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/newapp.html#what-is-a-wookey-application">9.11.1. What is a WooKey application?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/newapp.html#the-application-source-directory-structure">9.11.2. The application source directory structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/newapp.html#writing-your-first-basic-application">9.11.3. Writing your first basic application</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tataouine/newapp.html#the-application-makefile">9.11.3.1. The application Makefile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tataouine/newapp.html#the-application-kconfig">9.11.3.2. The application Kconfig</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/newapp.html#integrating-your-application-to-the-tataouine-sdk">9.11.4. Integrating your application to the Tataouine SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tataouine/internals.html">9.12. Internals</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/internals.html#global-makefile-hierarchy">9.12.1. Global Makefile hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/internals.html#integrating-the-configuration-set-in-kconfig">9.12.2. Integrating the Configuration set in Kconfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/internals.html#the-pretty-printing-build-system">9.12.3. The pretty-printing build system</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/internals.html#makefile-objs-and-configuration">9.12.4. Makefile.objs and configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tataouine/layout.html">9.13. Layout and portability</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/layout.html#managing-the-portability">9.13.1. Managing the portability</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tataouine/layout.html#handling-heterogeneous-boards">9.13.1.1. Handling heterogeneous boards</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tataouine/layout.html#drivers-layout">9.13.2. Drivers layout</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tataouine/layout.html#generated-devinfo-structure">9.13.2.1. Generated devinfo structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tataouine/layout.html#using-the-generated-data">9.13.2.2. Using the generated data</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="tataouine-directories">
+<h2>9.14. Tataouine directories<a class="headerlink" href="#tataouine-directories" title="Permalink to this headline">¶</a></h2>
+<p>Tataouine contains the following main directories:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="78%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Directory</th>
+<th class="head">Purpose</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>kernel</td>
+<td>the EwoK microkernel</td>
+</tr>
+<tr class="row-odd"><td>drivers</td>
+<td>Userspace drivers of various hardware IP</td>
+</tr>
+<tr class="row-even"><td>libs</td>
+<td>Userspace libraries</td>
+</tr>
+<tr class="row-odd"><td>loader</td>
+<td>Platform bootloader</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="tataouine/dependencies.html" class="btn btn-neutral float-right" title="9.1. Dependencies" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="javacard/index.html" class="btn btn-neutral" title="8. The JavaCard applets" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

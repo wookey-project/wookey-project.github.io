@@ -1,0 +1,428 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>5.3.3. EwoK permissions &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="5.4.1. Ada/SPARK for a secure kernel" href="ada_spark.html" />
+    <link rel="prev" title="5.3.2. Managing devices from userland" href="devices.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">5. EwoK kernel</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#what-is-ewok">5.1. What is EwoK ?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#ewok-architecture">5.2. EwoK architecture</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#ewok-api">5.3. EwoK API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="syscalls.html">5.3.1. Syscalls</a></li>
+<li class="toctree-l3"><a class="reference internal" href="devices.html">5.3.2. Using devices from userland</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">5.3.3. Permissions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#general-principle">5.3.3.1. General principle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuring-the-permissions">5.3.3.2. Configuring the permissions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#internals">5.4. Internals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#faq">5.5. FAQ</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../libs.html">6. Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../drivers.html">7. Drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">5. EwoK microkernel</a> &raquo;</li>
+        
+      <li>5.3.3. EwoK permissions</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="ewok-permissions">
+<span id="perms"></span><h1><a class="toc-backref" href="#id1">5.3.3. EwoK permissions</a><a class="headerlink" href="#ewok-permissions" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="contents">
+<span id="ewok-perm"></span><p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#ewok-permissions" id="id1">EwoK permissions</a><ul>
+<li><a class="reference internal" href="#general-principle" id="id2">General principle</a></li>
+<li><a class="reference internal" href="#configuring-the-permissions" id="id3">Configuring the permissions</a><ul>
+<li><a class="reference internal" href="#menuconfig" id="id4">Menuconfig</a><ul>
+<li><a class="reference internal" href="#devices" id="id5">Devices</a></li>
+<li><a class="reference internal" href="#time" id="id6">Time</a></li>
+<li><a class="reference internal" href="#tasking" id="id7">Tasking</a></li>
+<li><a class="reference internal" href="#memory-management" id="id8">Memory management</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#ipcs" id="id9">IPCs</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="general-principle">
+<h2><a class="toc-backref" href="#id2">5.3.3.1. General principle</a><a class="headerlink" href="#general-principle" title="Permalink to this headline">¶</a></h2>
+<p>Permissions are statically set at configuration time,
+before building the firmware, and cannot be updated during the device life-cycle.
+Each application permission is stored in a <em>.rodata</em> part of the kernel,
+reducing the risk of any tampering with.</p>
+</div>
+<div class="section" id="configuring-the-permissions">
+<h2><a class="toc-backref" href="#id3">5.3.3.2. Configuring the permissions</a><a class="headerlink" href="#configuring-the-permissions" title="Permalink to this headline">¶</a></h2>
+<p>Permissions are configured by using two complementary means:</p>
+<blockquote>
+<div><ul class="simple">
+<li>The whole permissions, except IPCs, are set using <code class="docutils literal notranslate"><span class="pre">menuconfig</span></code></li>
+<li>IPCs are configured by editing <code class="docutils literal notranslate"><span class="pre">apps/ipc.config</span></code> and
+<code class="docutils literal notranslate"><span class="pre">apps/dmashm.config</span></code> files</li>
+</ul>
+</div></blockquote>
+<div class="section" id="menuconfig">
+<h3><a class="toc-backref" href="#id4">5.3.3.2.1. Menuconfig</a><a class="headerlink" href="#menuconfig" title="Permalink to this headline">¶</a></h3>
+<p>Each application has its own permissions set by menuconfig:</p>
+<img alt="Task configuration" class="align-center" src="../_images/mc_app.png" />
+<dl class="docutils">
+<dt>Permissions are separated into 4 families:</dt>
+<dd><ul class="first last simple">
+<li>Devices</li>
+<li>Time</li>
+<li>Tasking</li>
+<li>Memory management</li>
+</ul>
+</dd>
+</dl>
+<img alt="Task permissions configuration" class="align-center" src="../_images/mc_app_perms.png" />
+<div class="section" id="devices">
+<h4><a class="toc-backref" href="#id5">5.3.3.2.1.1. Devices</a><a class="headerlink" href="#devices" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Devices</em> permissions controls the capability to:</dt>
+<dd><ul class="first last simple">
+<li>Use DMA streams</li>
+<li>Use the hardware cryptographic module</li>
+<li>Use buses (SPI, I2C, etc.)</li>
+<li>Use EXTIs</li>
+<li>Use a hardware timer</li>
+</ul>
+</dd>
+</dl>
+<img alt="Task permissions configuration" class="align-center" src="../_images/mc_app_perms_devices.png" />
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Devices permissions impact the <code class="docutils literal notranslate"><span class="pre">sys_init(INIT_DEVACCESS)</span></code> syscall</p>
+</div>
+</div>
+<div class="section" id="time">
+<h4><a class="toc-backref" href="#id6">5.3.3.2.1.2. Time</a><a class="headerlink" href="#time" title="Permalink to this headline">¶</a></h4>
+<p><em>Time</em> controls the capability to use the kernel internal clock:</p>
+<img alt="Task permissions configuration" class="align-center" src="../_images/mc_app_perms_time.png" />
+<p>This option allows to specify the granted granularity of the timestamp
+returned by the kernel:</p>
+<blockquote>
+<div><ul class="simple">
+<li>No time measurement is possible</li>
+<li>Tick granularity</li>
+<li>Microsecond granularity</li>
+<li>CPU cycle granularity</li>
+</ul>
+</div></blockquote>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Time permissions impact the <code class="docutils literal notranslate"><span class="pre">sys_get_systick()</span></code> syscall</p>
+</div>
+</div>
+<div class="section" id="tasking">
+<h4><a class="toc-backref" href="#id7">5.3.3.2.1.3. Tasking</a><a class="headerlink" href="#tasking" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Tasking</em> controls the capability to:</dt>
+<dd><ul class="first last simple">
+<li>When an ISR exit, its main thread is scheduled, bypassing the default
+scheduling policy. This is needed by devices requiring a high
+responsiveness (e.g. smart cards over IS7816-3 buses)</li>
+<li>When the task sends an IPC, if the target task is idle or runnable, it is
+immediately scheduled, bypassing the scheduling policy</li>
+<li>Reset the board</li>
+<li>Upgrade the firmware</li>
+<li>Access to randomness generated by the kernel (and relying on the hardware
+RNG)</li>
+</ul>
+</dd>
+</dl>
+<img alt="Task permissions configuration" class="align-center" src="../_images/mc_app_perms_tasking.png" />
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Devices permissions impact the <code class="docutils literal notranslate"><span class="pre">sys_init(INIT_DEVACCESS)</span></code> and <code class="docutils literal notranslate"><span class="pre">sys_reset()</span></code> syscalls</p>
+</div>
+</div>
+<div class="section" id="memory-management">
+<h4><a class="toc-backref" href="#id8">5.3.3.2.1.4. Memory management</a><a class="headerlink" href="#memory-management" title="Permalink to this headline">¶</a></h4>
+<p><em>Memory management</em> controls the capability to voluntary map or unmap a
+device in the task’s address space.</p>
+<p>This does not permit to declare a new device, but only to temporary (un)map it
+from the task’s address space, if the driver supports this feature.</p>
+<img alt="Task permissions configuration" class="align-center" src="../_images/mc_app_perms_memory.png" />
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Devices permissions impact the <code class="docutils literal notranslate"><span class="pre">sys_init(INIT_DEVACCESS)</span></code> syscall</p>
+</div>
+</div>
+</div>
+<div class="section" id="ipcs">
+<h3><a class="toc-backref" href="#id9">5.3.3.2.2. IPCs</a><a class="headerlink" href="#ipcs" title="Permalink to this headline">¶</a></h3>
+<p>Communication permissions are based on two arrays, found in plain-text files:</p>
+<blockquote>
+<div><ul class="simple">
+<li>The array in <code class="docutils literal notranslate"><span class="pre">apps/ipc.config</span></code> is used to set the permissions for
+using the IPC mechanism</li>
+<li>The array in <code class="docutils literal notranslate"><span class="pre">apps/dmashm.config</span></code> is used to set the permissions for
+using the DMA shared memory mechanism</li>
+</ul>
+</div></blockquote>
+<p>IPC array is in <code class="docutils literal notranslate"><span class="pre">apps/ipc.config</span></code>. The sender is on the left column. Setting
+<code class="docutils literal notranslate"><span class="pre">1</span></code> in a box means that the task on the left is able to send a message
+using IPCs to the one above:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">comment</span> <span class="s2">&quot;------ SDIO  USB CRYPTO SMART PIN&quot;</span>
+<span class="n">comment</span> <span class="s2">&quot;SDIO    [#]  [1]  [ ]   [ ]  [ ]&quot;</span>
+<span class="n">comment</span> <span class="s2">&quot;USB     [ ]  [#]  [ ]   [ ]  [ ]&quot;</span>
+<span class="n">comment</span> <span class="s2">&quot;CRYPTO  [ ]  [ ]  [#]   [ ]  [ ]&quot;</span>
+<span class="n">comment</span> <span class="s2">&quot;SMART   [ ]  [ ]  [ ]   [#]  [ ]&quot;</span>
+<span class="n">comment</span> <span class="s2">&quot;PIN     [ ]  [ ]  [ ]   [ ]  [#]&quot;</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">A task is not allowed to send IPC to itself</p>
+</div>
+<p>DMA shared memory array is in <code class="docutils literal notranslate"><span class="pre">apps/dmashm.config</span></code>. The “caller” is
+on the left column. A mark in a box means that the task on the left (the
+“caller”) is able to share a buffer with another task (the “granted”). The task
+selected on the right columns are granted to use a buffer in “caller” address
+space for DMA transfers:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">comment</span> <span class="s2">&quot;------ SDIO  USB CRYPTO SMART PIN&quot;</span>
+<span class="n">comment</span> <span class="s2">&quot;SDIO    [#]  [ ]  [ ]   [ ]  [ ]&quot;</span>
+<span class="n">comment</span> <span class="s2">&quot;USB     [ ]  [#]  [ ]   [ ]  [ ]&quot;</span>
+<span class="n">comment</span> <span class="s2">&quot;CRYPTO  [ ]  [ ]  [#]   [ ]  [ ]&quot;</span>
+<span class="n">comment</span> <span class="s2">&quot;SMART   [ ]  [ ]  [ ]   [#]  [ ]&quot;</span>
+<span class="n">comment</span> <span class="s2">&quot;PIN     [ ]  [ ]  [ ]   [ ]  [#]&quot;</span>
+</pre></div>
+</div>
+<p>Note that menuconfig displays those arrays, but without the possibility to
+modify them: you will have to edit the associated files manually.</p>
+<img alt="communication permissions menu" class="align-center" src="../_images/mc_com_perm.png" />
+<img alt="communication permissions matrices" class="align-center" src="../_images/mc_com_perm_matrices.png" />
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">A task is not allowed to delcare DMA SHM to itself</p>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ada_spark.html" class="btn btn-neutral float-right" title="5.4.1. Ada/SPARK for a secure kernel" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="devices.html" class="btn btn-neutral" title="5.3.2. Managing devices from userland" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

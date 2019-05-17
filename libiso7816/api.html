@@ -1,0 +1,406 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>API &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ewok/index.html">5. EwoK kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libs.html">6. Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../drivers.html">7. Drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>API</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="api">
+<h1>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h1>
+<p>The API exposed by the library is quite simple and mainly exposes:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Initialization functions to configure a smart card connection</li>
+<li>Primitives to send APDUs (and get back a response)</li>
+<li>Primitives for pretty printing</li>
+<li>Primitives for detecting card insertion</li>
+</ul>
+</div></blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Some notions discussed here such as APDU (Application Protocol Data Unit),
+ETU (Elementary Time Unit), ISO7816 baudrate, T=0 and T=1 are defined in the ISO7816-3
+ISO standard. Please refer to it for definitions of these concepts</p>
+</div>
+<div class="section" id="initialization-functions">
+<h2>Initialization functions<a class="headerlink" href="#initialization-functions" title="Permalink to this headline">¶</a></h2>
+<p>The initialization functions are the following:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">SC_iso7816_fsm_early_init</span><span class="p">(</span><span class="n">sc_iso7816_map_mode_t</span> <span class="n">map_mode</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">SC_iso7816_fsm_init</span><span class="p">(</span><span class="n">SC_ATR</span> <span class="o">*</span><span class="n">atr</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="o">*</span><span class="n">T_protocol</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">do_negotiate_pts</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">do_change_baudrate</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">do_force_protocol</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">do_force_etu</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">SC_iso7816_fsm_early_init</span></code> simply initializes the lower levels (it is a mere call to the low level ISO7816
+driver that initializes the necessary hardware IPs such as USART and GPIOs).</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">SC_iso7816_fsm_init</span></code> function is the core function that establishes the contact with the smart card. Its purpose is to get the ATR and
+optionally negotiate the PSS. The arguments are the following:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">SC_ATR</span> <span class="pre">*atr</span></code>: the structure that will receive the ATR from the card</li>
+<li><code class="docutils literal notranslate"><span class="pre">uint8_t</span> <span class="pre">*T_protocol</span></code>: this argument takes as output the negotiated protocol</li>
+<li><code class="docutils literal notranslate"><span class="pre">uint8_t</span> <span class="pre">do_force_protocol</span></code>: does the user want to force the protocol. A value of 0 means no protocol is forced, a value of 1 means T=0 is forced, a value of 2 means T=1 is forced</li>
+<li><code class="docutils literal notranslate"><span class="pre">uint8_t</span> <span class="pre">do_negotiate_pts</span></code>: effectively performs the PTS protocol negotiation if set to non zero</li>
+<li><code class="docutils literal notranslate"><span class="pre">uint8_t</span> <span class="pre">do_change_baudrate</span></code>: effectively modifies the baudrate with the card if set to non zero</li>
+<li><code class="docutils literal notranslate"><span class="pre">uint32_t</span> <span class="pre">do_force_etu</span></code>: forces a target ETU if set to non zero. If the provided ETU is not achievable, we use a <strong>best fit</strong> algorithm to get the closest ETU lower than the one asked by the user</li>
+</ul>
+</div></blockquote>
+<p>This function returns 0 on success, and non zero on error.</p>
+<p>A default usage of <code class="docutils literal notranslate"><span class="pre">SC_iso7816_fsm_init</span></code> is:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libiso7816.h&quot;</span><span class="cp"></span>
+<span class="kt">uint8_t</span> <span class="n">T</span><span class="p">;</span>
+<span class="n">SC_ATR</span> <span class="n">atr</span><span class="p">;</span>
+<span class="k">if</span><span class="p">(</span><span class="n">SC_iso7816_fsm_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">atr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">T</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)){</span>
+  <span class="k">goto</span> <span class="n">err</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This initialization establishes a communication channel with the smart card if present, or waits its presence if not,
+and does not negotiate anything. The ETU stays at the default value of 372 ETU (default value as defined by the standard)
+and the protocol is the preferred one provided by the card ATR (or T=0 as standardized default if no preferred protocol is given).</p>
+<p>A more advanced usage can be:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libiso7816.h&quot;</span><span class="cp"></span>
+<span class="kt">uint8_t</span> <span class="n">T</span><span class="p">;</span>
+<span class="n">SC_ATR</span> <span class="n">atr</span><span class="p">;</span>
+<span class="k">if</span><span class="p">(</span><span class="n">SC_iso7816_fsm_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">atr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">T</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">64</span><span class="p">)){</span>
+  <span class="k">goto</span> <span class="n">err</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This call asks for a PSS negotiation, asks for a baud rate change, forces the T=1 protocol and asks for a 64 ETU value.</p>
+<p>The user can also perform a negotiation attempt and then fallback to default:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libiso7816.h&quot;</span><span class="cp"></span>
+<span class="kt">uint8_t</span> <span class="n">T</span><span class="p">;</span>
+<span class="n">SC_ATR</span> <span class="n">atr</span><span class="p">;</span>
+<span class="k">if</span><span class="p">(</span><span class="n">SC_iso7816_fsm_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">atr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">T</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">64</span><span class="p">)){</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">SC_iso7816_fsm_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">atr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">T</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)){</span>
+    <span class="k">goto</span> <span class="n">err</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Forcing elements such as the protocol or the ETU heavily depends on the smart card: some values and/or some smart cards
+are not compatible or supported. This is why it is recommended to fallback to a non negotitated <code class="docutils literal notranslate"><span class="pre">SC_iso7816_fsm_init</span></code>
+if the negotiated one fails</p>
+</div>
+<p>When a card communication must be reinitialized/reset, it is advised to wait for some timeouts using the following API:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">SC_iso7816_wait_card_timeout</span><span class="p">(</span><span class="n">SC_ATR</span> <span class="o">*</span><span class="n">atr</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">T_protocol</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Finally, two APIs are used to explicitly ask the lower level driver to map or unmap the smart card device from the
+task``s memory space:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">SC_iso7816_fsm_map</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">SC_iso7816_fsm_unmap</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="primitives-to-send-apdus">
+<h2>Primitives to send APDUs<a class="headerlink" href="#primitives-to-send-apdus" title="Permalink to this headline">¶</a></h2>
+<p>The library provides a unique API to send an APDU to a smart card and receive its response:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">SC_iso7816_send_APDU</span><span class="p">(</span><span class="n">SC_APDU_cmd</span> <span class="o">*</span><span class="n">apdu</span><span class="p">,</span> <span class="n">SC_APDU_resp</span> <span class="o">*</span><span class="n">resp</span><span class="p">,</span> <span class="n">SC_ATR</span> <span class="o">*</span><span class="n">atr</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">T_protocol</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">apdu</span></code> argument is a pointer to an input APDU structure, the <code class="docutils literal notranslate"><span class="pre">resp</span></code> response is a pointer to a
+response structure that will be filled by the function, the <code class="docutils literal notranslate"><span class="pre">atr</span></code> structure is a pointer to an
+ATR that has been obtained in the initialization phase with <code class="docutils literal notranslate"><span class="pre">SC_iso7816_fsm_init</span></code>.
+The library automatically handles the physical layer depending on the asked <code class="docutils literal notranslate"><span class="pre">T_protocol</span></code> argument
+(T=0 or T=1).</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The user can force any protocol when calling <code class="docutils literal notranslate"><span class="pre">SC_iso7816_send_APDU</span></code>. However, consistency should be
+observed between the protocol negotiated during the initialization phase and the one used when
+sending APDUs!</p>
+</div>
+<p>The APDU structure is the following:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/* An APDU command (handling extended APDU) */</span>
+<span class="k">typedef</span> <span class="k">struct</span>
+<span class="p">{</span>
+      <span class="kt">uint8_t</span> <span class="n">cla</span><span class="p">;</span>  <span class="cm">/* Command class */</span>
+      <span class="kt">uint8_t</span> <span class="n">ins</span><span class="p">;</span>  <span class="cm">/* Instruction */</span>
+      <span class="kt">uint8_t</span> <span class="n">p1</span><span class="p">;</span>   <span class="cm">/* Parameter 1 */</span>
+      <span class="kt">uint8_t</span> <span class="n">p2</span><span class="p">;</span>   <span class="cm">/* Parameter 2 */</span>
+      <span class="kt">uint16_t</span> <span class="n">lc</span><span class="p">;</span>  <span class="cm">/* Length of data field, Lc encoded on 16 bits since it is always &lt; 65535 */</span>
+      <span class="kt">uint8_t</span> <span class="n">data</span><span class="p">[</span><span class="n">APDU_MAX_BUFF_LEN</span><span class="p">];</span>  <span class="cm">/* Data field */</span>
+      <span class="kt">uint32_t</span> <span class="n">le</span><span class="p">;</span>   <span class="cm">/* Expected return length, encoded on 32 bits since it is &lt;= 65536 (so we must encode the last value) */</span>
+      <span class="kt">uint8_t</span> <span class="n">send_le</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">SC_APDU_cmd</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>The response has the following structure:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/* An APDU response */</span>
+<span class="k">typedef</span> <span class="k">struct</span>
+<span class="p">{</span>
+      <span class="kt">uint8_t</span> <span class="n">data</span><span class="p">[</span><span class="n">APDU_MAX_BUFF_LEN</span> <span class="o">+</span> <span class="mi">2</span><span class="p">];</span> <span class="cm">/* Data field + 2 bytes for temporaty SW1/SW2 storage */</span>
+      <span class="kt">uint32_t</span> <span class="n">le</span><span class="p">;</span> <span class="cm">/* Actual return length. It is on an uint32_t because we increment it when receiving (this avoids integer overflows). */</span>
+      <span class="kt">uint8_t</span> <span class="n">sw1</span><span class="p">;</span> <span class="cm">/* Status Word 1 */</span>
+      <span class="kt">uint8_t</span> <span class="n">sw2</span><span class="p">;</span> <span class="cm">/* Status Word 2 */</span>
+<span class="p">}</span> <span class="n">SC_APDU_resp</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Sending an APDU and getting back a response is as simple as:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libiso7816.h&quot;</span><span class="cp"></span>
+<span class="cm">/* Initialize a communication with the card */</span>
+<span class="kt">uint8_t</span> <span class="n">T</span><span class="p">;</span>
+<span class="n">SC_ATR</span> <span class="n">atr</span><span class="p">;</span>
+<span class="k">if</span><span class="p">(</span><span class="n">SC_iso7816_fsm_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">atr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">T</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">64</span><span class="p">)){</span>
+  <span class="k">goto</span> <span class="n">err</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cm">/* Prepare our APDU and response */</span>
+<span class="n">SC_APDU_cmd</span> <span class="n">apdu</span><span class="p">;</span>
+<span class="n">SC_APDU_resp</span> <span class="n">resp</span><span class="p">;</span>
+<span class="cm">/* Fill in the APDU we want to send:</span>
+<span class="cm"> * In this case, we send CLA=00 INS=01 P1=00 P2=00 DATA=&quot;000102&quot; (Lc=3) and Le=00</span>
+<span class="cm"> */</span>
+<span class="n">apdu</span><span class="p">.</span><span class="n">cla</span> <span class="o">=</span> <span class="mh">0x00</span><span class="p">;</span> <span class="n">apdu</span><span class="p">.</span><span class="n">ins</span> <span class="o">=</span> <span class="mh">0x01</span><span class="p">;</span> <span class="n">apdu</span><span class="p">.</span><span class="n">p1</span> <span class="o">=</span> <span class="n">apdu</span><span class="p">.</span><span class="n">p2</span> <span class="o">=</span> <span class="mh">0x00</span><span class="p">;</span>
+<span class="n">apdu</span><span class="p">.</span><span class="n">lc</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="n">apdu</span><span class="p">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mh">0x00</span><span class="p">;</span> <span class="n">apdu</span><span class="p">.</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mh">0x01</span><span class="p">;</span> <span class="n">apdu</span><span class="p">.</span><span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mh">0x02</span><span class="p">;</span>
+<span class="n">apdu</span><span class="p">.</span><span class="n">le</span> <span class="o">=</span> <span class="mh">0x00</span><span class="p">;</span> <span class="n">apdu</span><span class="p">.</span><span class="n">send_le</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="cm">/* Send the APDU and get the response */</span>
+<span class="k">if</span><span class="p">(</span><span class="n">SC_iso7816_send_APDU</span><span class="p">(</span><span class="o">&amp;</span><span class="n">apdu</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">resp</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">atr</span><span class="p">,</span> <span class="n">T</span><span class="p">)){</span>
+  <span class="k">goto</span> <span class="n">err</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cm">/* If there is no error, resp is filled with the card response! */</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="pretty-printing">
+<h2>Pretty printing<a class="headerlink" href="#pretty-printing" title="Permalink to this headline">¶</a></h2>
+<p>We have straightforward API for pretty printing on the debug console the ATR:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">SC_iso7816_print_ATR</span><span class="p">(</span><span class="n">SC_ATR</span> <span class="o">*</span><span class="n">atr</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="card-insertion-detection">
+<h2>Card insertion detection<a class="headerlink" href="#card-insertion-detection" title="Permalink to this headline">¶</a></h2>
+<p>The following API:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">uint8_t</span> <span class="nf">SC_iso7816_is_smartcard_inserted</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>can be used for polling the smart card presence (returns 0 is card is absent, non zero otherwise).</p>
+<p>For asynchronous detection, a callback registration mechanism is also offered through:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">SC_iso7816_register_user_handler_action</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">action</span><span class="p">)(</span><span class="kt">void</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>Finally, there is an API to call the lower layers of the libraries/drivers stack when
+a smart card is detected as lost:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="n">SC_iso7816_smartcard_lost</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>this function helps the hardware layers to reinitialize and flush elements, and
+eventually notify other drivers. It should be called when the library indeed detects
+a smart card loss.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

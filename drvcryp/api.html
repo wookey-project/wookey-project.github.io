@@ -1,0 +1,508 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>7.1.2. Cryp driver API &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="7.1.3. Cryp driver FAQ" href="faq.html" />
+    <link rel="prev" title="7.1.1. About the Cryp driver" href="about.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ewok/index.html">5. EwoK kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libs.html">6. Libraries</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../drivers.html">7. Drivers</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">7.1. drivers/cryp</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="about.html">7.1.1. About the Cryp principle</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">7.1.2. The drvCryp API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#initializing-the-cryp-driver">7.1.2.1. Initializing the cryp driver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mapping-and-unmapping-the-cryp-device">7.1.2.2. Mapping and unmapping the Cryp device</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-the-cryp-engine">7.1.2.3. Using the Cryp engine</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html">7.1.3. FAQ</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../drvflash/index.html">7.2. drivers/flash</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvhash/index.html">7.3. drivers/hash</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drviso7816/index.html">7.4. drivers/iso7816</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvspi/index.html">7.5. drivers/spi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvusart/index.html">7.6. drivers/usart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvili9341/index.html">7.7. drivers/ili9341</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../drivers.html">7. Drivers</a> &raquo;</li>
+        
+          <li><a href="index.html">7.1. The Cryp driver</a> &raquo;</li>
+        
+      <li>7.1.2. Cryp driver API</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="cryp-driver-api">
+<h1>7.1.2. Cryp driver API<a class="headerlink" href="#cryp-driver-api" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="initializing-the-cryp-driver">
+<h2>7.1.2.1. Initializing the cryp driver<a class="headerlink" href="#initializing-the-cryp-driver" title="Permalink to this headline">¶</a></h2>
+<p>Initializing the hash driver is done with the following API:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libcryp.h&quot;</span><span class="cp"></span>
+
+<span class="k">enum</span> <span class="n">crypto_usage</span> <span class="p">{</span>
+  <span class="n">CRYP_USER</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="n">CRYP_CFG</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="k">typedef</span> <span class="k">enum</span> <span class="p">{</span>
+    <span class="n">CRYP_MAP_AUTO</span><span class="p">,</span>
+    <span class="n">CRYP_MAP_VOLUNTARY</span>
+<span class="p">}</span> <span class="n">cryp_map_mode_t</span><span class="p">;</span>
+
+
+<span class="k">enum</span> <span class="n">crypto_key_len</span> <span class="p">{</span>
+    <span class="n">KEY_128</span><span class="p">,</span>
+    <span class="n">KEY_192</span><span class="p">,</span>
+    <span class="n">KEY_256</span>
+<span class="p">};</span>
+
+<span class="k">enum</span> <span class="n">crypto_algo</span> <span class="p">{</span>
+    <span class="n">TDES_ECB</span><span class="p">,</span>
+    <span class="n">TDES_CBC</span><span class="p">,</span>
+    <span class="n">DES_ECB</span><span class="p">,</span>
+    <span class="n">DES_CBC</span><span class="p">,</span>
+    <span class="n">AES_ECB</span><span class="p">,</span>
+    <span class="n">AES_CBC</span><span class="p">,</span>
+    <span class="n">AES_CTR</span><span class="p">,</span>
+    <span class="n">AES_KEY_PREPARE</span>
+<span class="p">};</span>
+
+<span class="k">enum</span> <span class="n">crypto_dir</span> <span class="p">{</span>
+    <span class="n">ENCRYPT</span><span class="p">,</span>
+    <span class="n">DECRYPT</span>
+<span class="p">};</span>
+
+
+<span class="cm">/* Cryp device declaration */</span>
+<span class="kt">int</span> <span class="nf">cryp_early_init</span><span class="p">(</span><span class="kt">bool</span>              <span class="n">with_dma</span><span class="p">,</span>
+                    <span class="n">cryp_map_mode_t</span>   <span class="n">map_mode</span><span class="p">,</span>
+                    <span class="k">enum</span> <span class="n">crypto_usage</span> <span class="n">usage</span><span class="p">,</span>
+                    <span class="kt">int</span> <span class="o">*</span>             <span class="n">dma_in_desc</span><span class="p">,</span>
+                    <span class="kt">int</span> <span class="o">*</span>             <span class="n">dma_out_desc</span><span class="p">);</span>
+
+<span class="cm">/* per role initialization */</span>
+<span class="kt">void</span> <span class="nf">cryp_init_user</span><span class="p">(</span>      <span class="k">enum</span> <span class="n">crypto_key_len</span> <span class="n">key_len</span><span class="p">,</span>
+                    <span class="k">const</span> <span class="kt">uint8_t</span> <span class="o">*</span>           <span class="n">iv</span><span class="p">,</span>
+                          <span class="kt">uint32_t</span>            <span class="n">iv_len</span><span class="p">,</span>
+                          <span class="k">enum</span> <span class="n">crypto_algo</span>    <span class="n">mode</span><span class="p">,</span>
+                          <span class="k">enum</span> <span class="n">crypto_dir</span>     <span class="n">dir</span><span class="p">);</span>
+
+<span class="kt">void</span> <span class="nf">cryp_init_injector</span><span class="p">(</span><span class="k">const</span> <span class="kt">uint8_t</span> <span class="o">*</span>           <span class="n">key</span><span class="p">,</span>
+                              <span class="k">enum</span> <span class="n">crypto_key_len</span> <span class="n">key_len</span><span class="p">);</span>
+
+<span class="kt">void</span> <span class="nf">cryp_init</span><span class="p">(</span><span class="k">const</span> <span class="kt">uint8_t</span> <span class="o">*</span>           <span class="n">key</span><span class="p">,</span>
+                     <span class="k">enum</span> <span class="n">crypto_key_len</span> <span class="n">key_len</span><span class="p">,</span>
+               <span class="k">const</span> <span class="kt">uint8_t</span> <span class="o">*</span>           <span class="n">iv</span><span class="p">,</span>
+                     <span class="kt">uint32_t</span>            <span class="n">iv_len</span><span class="p">,</span>
+                     <span class="k">enum</span> <span class="n">crypto_algo</span>    <span class="n">mode</span><span class="p">,</span>
+                     <span class="k">enum</span> <span class="n">crypto_dir</span>     <span class="n">dir</span><span class="p">);</span>
+
+<span class="cm">/* configure the DMA streams with proper informations (handlers, buffers...) */</span>
+<span class="kt">int</span> <span class="nf">cryp_init_dma</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span>     <span class="n">handler_in</span><span class="p">,</span>
+                  <span class="kt">void</span> <span class="o">*</span>     <span class="n">handler_out</span><span class="p">,</span>
+                  <span class="kt">int</span>        <span class="n">dma_in_desc</span><span class="p">,</span>
+                  <span class="kt">int</span>        <span class="n">dma_out_desc</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="section" id="about-early-init">
+<h3>7.1.2.1.1. About early init<a class="headerlink" href="#about-early-init" title="Permalink to this headline">¶</a></h3>
+<p>The cryp driver early initialization must be executed before the end of the
+task initialization phase (see EwoK kernel API). This initialization declare
+the cryp device against the kernel at boot time. It also get back some
+information on the say the task wish to use the device:</p>
+<blockquote>
+<div><ul class="simple">
+<li><strong>with_dma</strong>: specify if the Cryp device input and output memory transfers
+should be accelerated by the associated DMA controler</li>
+<li><strong>map_mode</strong>: specify if the cryp device is automatically mapped on the task’s
+memory space or is manually mapped/unmapped using the corresponding
+sys_cfg(CFG_MAP)/sys_cfg(CFG_UNMAP) syscalls. This permit to schedule device
+mapping during the task livecycle</li>
+<li><strong>usage</strong>: specify the role of the task (crypto user or configurator)</li>
+<li><strong>dma_in_desc</strong>: the input (from memory to device) DMA stream descriptor that
+will be fulfill by the function if the DMA mode is required</li>
+<li><strong>dma_out_desc</strong>: the output (from device to memory) DMA stream descriptor
+that will be fulfill by the function if the DMA mode is required</li>
+</ul>
+</div></blockquote>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">The CRYP device is using two DMA streams, one to load data from the main memory, another to write (de)crypted data into memory</p>
+</div>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">At eary initialization time, the DMA streams are declared but are not yet operational.
+Input and output buffer and buffer lengths are not set</p>
+</div>
+</div>
+<div class="section" id="about-init">
+<h3>7.1.2.1.2. About init<a class="headerlink" href="#about-init" title="Permalink to this headline">¶</a></h3>
+<p>The init step <strong>map</strong> the cryp device only if the chosen map mode is CRYP_MAP_AUTO. If CRYP_MAP_VOLUNTARY is chosen, be sure to handle the map step before using the other functions of the CRYP API.</p>
+<div class="admonition danger">
+<p class="first admonition-title">Danger</p>
+<p class="last">Any access to an unmapped device leads to a memory fault of the task. In paranoid mode of EwoK, the device reboots</p>
+</div>
+<p>At initialization time, the task uses one of the initialization functions depending on the role chossen through the <em>usage</em> argument of the early initialization function.</p>
+<p>In injector mode, the initialization function is the following</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">cryp_init_injector</span><span class="p">(</span><span class="k">const</span> <span class="kt">uint8_t</span> <span class="o">*</span>           <span class="n">key</span><span class="p">,</span>
+                              <span class="k">enum</span> <span class="n">crypto_key_len</span> <span class="n">key_len</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>In injector mode, the task inject the private key into the cryp engine.</p>
+<div class="admonition danger">
+<p class="first admonition-title">Danger</p>
+<p class="last">The injector initialization must be done <strong>before</strong> the user initialization</p>
+</div>
+<p>In user mode, the initialization function is the following</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">cryp_init_user</span><span class="p">(</span>      <span class="k">enum</span> <span class="n">crypto_key_len</span> <span class="n">key_len</span><span class="p">,</span>
+                    <span class="k">const</span> <span class="kt">uint8_t</span> <span class="o">*</span>           <span class="n">iv</span><span class="p">,</span>
+                          <span class="kt">uint32_t</span>            <span class="n">iv_len</span><span class="p">,</span>
+                          <span class="k">enum</span> <span class="n">crypto_algo</span>    <span class="n">mode</span><span class="p">,</span>
+                          <span class="k">enum</span> <span class="n">crypto_dir</span>     <span class="n">dir</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>When a task using the user role, it configures the following:</p>
+<blockquote>
+<div><ul class="simple">
+<li><strong>key_len</strong>: the cryptographic key length</li>
+<li><strong>iv</strong>: The IV value</li>
+<li><strong>iv_len</strong>: The IV length</li>
+<li><strong>mode</strong>: The cryptographic algorithm</li>
+<li><strong>dir</strong>: The cryptographic device direction (encrypting or decrypting)</li>
+</ul>
+</div></blockquote>
+<p>This function set the Cryp device with the correct values (including IV, IV length, and direction).
+From now on, if the private key has been set by the injector, the Cryp engine can be used.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">Depending on the way the Cryp device is handled, the IV field may be regulary updated. There is a dedicated API for this</p>
+</div>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">This function can be called multiple time, to change IV, mode, and/or direction</p>
+</div>
+</div>
+<div class="section" id="configuring-dma-streams">
+<h3>7.1.2.1.3. Configuring DMA streams<a class="headerlink" href="#configuring-dma-streams" title="Permalink to this headline">¶</a></h3>
+<p>Now that the Cryp engine has been configured, the DMA controler has to be set up. Here, we only set DMA handlers for
+each stream. Setting handlers is required in order to schedule correctly the Cryp engine execution in association with
+the overall data stream:</p>
+<blockquote>
+<div><ul class="simple">
+<li>The task is responsible for fulfill the input buffer (alone or in association with another task)</li>
+<li>Then, the task launch the Cryp DMA engines to (de)crypt the buffer content</li>
+<li>When the two DMA streams have finished their work, the output buffer is fulfill. The task is responsible for setting a flag when the DMA handlers are called, signifying that the DMA transfers are finished</li>
+<li>The task is then responsible for any usage of the output buffer (storage write, I/O transfer, etc.)</li>
+</ul>
+</div></blockquote>
+<p>Initializing the DMA handlers to be informed of the DMA transfer terminaison is done using the following API</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">cryp_init_dma</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span>     <span class="n">handler_in</span><span class="p">,</span>
+                 <span class="kt">void</span> <span class="o">*</span>     <span class="n">handler_out</span><span class="p">,</span>
+                 <span class="kt">int</span>        <span class="n">dma_in_desc</span><span class="p">,</span>
+                 <span class="kt">int</span>        <span class="n">dma_out_desc</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The DMA initialization uses the following parameters:</p>
+<blockquote>
+<div><ul class="simple">
+<li><strong>handler_in</strong>: the address of the handler called at the end of the input Cryp transfer</li>
+<li><strong>handler_out</strong>: the address of the handler called at the end of the output Cryp transfer</li>
+<li><strong>dma_in_desc</strong>: input DMA descriptor, set by <em>cryp_early_init()</em></li>
+<li><strong>dma_out_desc</strong>: output DMA descriptor, set by <em>cryp_early_init()</em></li>
+</ul>
+</div></blockquote>
+<p>The DMA input and output buffers are set later, at each DMA transfer time.</p>
+</div>
+</div>
+<div class="section" id="mapping-and-unmapping-the-cryp-device">
+<h2>7.1.2.2. Mapping and unmapping the Cryp device<a class="headerlink" href="#mapping-and-unmapping-the-cryp-device" title="Permalink to this headline">¶</a></h2>
+<p>Mapping and unmapping the Cryp engine, when using the CRYP_MAP_VOLUNTARY mode, is done using the following API</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libcryp.h&quot;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="nf">cryp_map</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">cryp_unmap</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition danger">
+<p class="first admonition-title">Danger</p>
+<p class="last">Don’t use any of the libcryp API other than these functions when the Cryp device is not mapped</p>
+</div>
+</div>
+<div class="section" id="using-the-cryp-engine">
+<h2>7.1.2.3. Using the Cryp engine<a class="headerlink" href="#using-the-cryp-engine" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="updating-the-cryp-data">
+<h3>7.1.2.3.1. Updating the Cryp data<a class="headerlink" href="#updating-the-cryp-data" title="Permalink to this headline">¶</a></h3>
+<p>Until the Cryp engine initialization is done, it is still possible to update:</p>
+<blockquote>
+<div><ul class="simple">
+<li>the private key (in CRYP_CFG mode)</li>
+<li>the IV (in both CRYP_CFG and CRYP_USER mode)</li>
+</ul>
+</div></blockquote>
+<p>Updating these fields can be done using the following</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libcryp.h&quot;</span><span class="cp"></span>
+
+<span class="kt">void</span> <span class="nf">cryp_set_key</span><span class="p">(</span><span class="k">const</span> <span class="kt">uint8_t</span> <span class="o">*</span> <span class="n">key</span><span class="p">,</span> <span class="k">enum</span> <span class="n">crypto_key_len</span> <span class="n">key_len</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">cryp_set_iv</span><span class="p">(</span><span class="k">const</span> <span class="kt">uint8_t</span> <span class="o">*</span> <span class="n">iv</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">iv_len</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">cryp_get_iv</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="o">*</span> <span class="n">iv</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">iv_len</span><span class="p">);</span>
+<span class="k">enum</span> <span class="n">crypto_dir</span> <span class="nf">cryp_get_dir</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="de-cyphering-content">
+<h3>7.1.2.3.2. (de)cyphering content<a class="headerlink" href="#de-cyphering-content" title="Permalink to this headline">¶</a></h3>
+<p>(De)cyphering data using the Cryp engine is done using two independent API. One using the DMA, the other using direct access. The second one is smaller as the data transfer is made by the task instead of the DMA controller. (De)cyphering data is done using the following API</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libcryp.h&quot;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="nf">cryp_do_no_dma</span><span class="p">(</span><span class="k">const</span> <span class="kt">uint8_t</span> <span class="o">*</span> <span class="n">data_in</span><span class="p">,</span>
+                         <span class="kt">uint8_t</span> <span class="o">*</span> <span class="n">data_out</span><span class="p">,</span>
+                         <span class="kt">uint32_t</span>  <span class="n">data_len</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">cryp_do_dma</span><span class="p">(</span><span class="k">const</span> <span class="kt">uint8_t</span> <span class="o">*</span> <span class="n">bufin</span><span class="p">,</span>
+                <span class="k">const</span> <span class="kt">uint8_t</span> <span class="o">*</span> <span class="n">bufout</span><span class="p">,</span>
+                      <span class="kt">uint32_t</span>  <span class="n">size</span><span class="p">,</span>
+                      <span class="kt">int</span>       <span class="n">dma_in_desc</span><span class="p">,</span>
+                      <span class="kt">int</span>       <span class="n">dma_out_desc</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">cryp_enable_dma</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><em>cryp_do_no_dma()</em> is used when using the Cryp in direct access mode (without DMA). It (de)cypher data of <em>data_len</em> bytes from <em>data_in</em> to <em>data_out</em>.</p>
+<p>When using DMAs, the transfer function to use is <em>cryp_do_dma()</em>. This function:</p>
+<blockquote>
+<div><ul class="simple">
+<li>it get back the two DMA descriptors from the task</li>
+<li>it configure the DMA streams with the given buffers and buffer length</li>
+</ul>
+</div></blockquote>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">This function does not start the DMA streams. This is done by the cryp_dma_enable()</p>
+</div>
+<div class="admonition danger">
+<p class="first admonition-title">Danger</p>
+<p class="last">When changing the Cryp engine direction in AES mode (using cryp_init_user()), the private key has to be injected again, as the device drop the key due to internal limitations</p>
+</div>
+<p>The task must wait for the dma_out_handler to be executed to manipulate the output buffer content.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="faq.html" class="btn btn-neutral float-right" title="7.1.3. Cryp driver FAQ" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="about.html" class="btn btn-neutral" title="7.1.1. About the Cryp driver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

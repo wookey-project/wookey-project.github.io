@@ -1,0 +1,519 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>8. The JavaCard applets &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="9. Tataouine SDK" href="../tataouine.html" />
+    <link rel="prev" title="7.7. The ILI9341 driver" href="../drvili9341/index.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ewok/index.html">5. EwoK kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libs.html">6. Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../drivers.html">7. Drivers</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">8. Javacard Applets</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">8.1. Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#applets-compilation">8.2. Applets compilation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#applets-flash">8.3. Applets flash</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#common-instructions-in-auth-dfu-sig">8.4. Common instructions in AUTH, DFU, SIG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#auth-applet">8.5. AUTH applet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dfu-applet">8.6. DFU applet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sig-applet">8.7. SIG applet</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>8. The JavaCard applets</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="the-javacard-applets">
+<span id="javacard"></span><h1><a class="toc-backref" href="#id1">8. The JavaCard applets</a><a class="headerlink" href="#the-javacard-applets" title="Permalink to this headline">¶</a></h1>
+<p>The WooKey project authentication, DFU and signature tokens are
+implemented using JavaCard (<a class="reference external" href="https://docs.oracle.com/en/java/javacard/">https://docs.oracle.com/en/java/javacard/</a>).</p>
+<p>JavaCard is a public ecosystem for developing and distributing code
+on <strong>secure elements</strong>. Actually, this is one of the only frameworks
+allowing to access secure elements without signing NDAs: this makes it
+a perfect match for open source projects since the source code can
+be distributed.</p>
+<p>JavaCard systems (composed of a secure IC and a JavaCard framework) are
+usually certified using the EAL Common Criteria scheme: this ensures that
+security and penetration tests as well as code review have been performed by entitled ITSEF
+(Information Technology Security Evaluation Facility) using a
+formal and approved process.</p>
+<p>This makes certified JavaCards an interesting choice for hardened components
+when designing security solutions: they are robust against a wide variety of
+advanced attack scenarios.</p>
+<p>For the WooKey project, we have validated our JavaCard applets on an EAL 4+
+NXP JCOP J3D081 (<a class="reference external" href="https://www.fi.muni.cz/~xsvenda/jcalgtest/run_time/NXPJCOPJ3D081.html">https://www.fi.muni.cz/~xsvenda/jcalgtest/run_time/NXPJCOPJ3D081.html</a>).
+This JavaCard is dual interface (contact and contacless), is JavaCard 3.0.1 and
+GlobalPlatform 2.2 compliant, and is EAL 4+ certified. The public
+certification report can be found here:</p>
+<p><a class="reference external" href="https://www.commoncriteriaportal.org/files/epfiles/0860b_pdf.pdf">https://www.commoncriteriaportal.org/files/epfiles/0860b_pdf.pdf</a></p>
+<p>The JCOP J3D081 have been chosen for price and availability reasons.
+Please note that the WooKey project applets should be compatible with
+<strong>any JavaCard 3.0.1 and above</strong> compatible card!</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The WooKey project JavaCard applets do not make use of any proprietary API, and hence
+should be compatible with any JavaCard 3.0.1 and above compatible platform.
+The end user can choose any other secure element of his choice</p>
+</div>
+<p>The JavaCard and GlobalPlatform ecosystems require tools for compiling
+as well as pushing the compiled applets (CAP files) to the target.
+Fortunately, open source components are available for all these steps.</p>
+<p>Compiling can be performed using the <code class="docutils literal notranslate"><span class="pre">ant-javacard</span></code> project, with
+Oracle SDKs:</p>
+<p><a class="reference external" href="https://github.com/martinpaljak/ant-javacard">https://github.com/martinpaljak/ant-javacard</a></p>
+<p><a class="reference external" href="https://github.com/martinpaljak/oracle_javacard_sdks">https://github.com/martinpaljak/oracle_javacard_sdks</a></p>
+<p>Pushing the compiled applets can be done through
+the GlobalPlatformPro tool:</p>
+<p><a class="reference external" href="https://github.com/martinpaljak/GlobalPlatformPro">https://github.com/martinpaljak/GlobalPlatformPro</a></p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Beware of the GlobalPlatform keys of your product.
+The GlobalPlatformPro tool is aware of public and usual
+default keys of known products, but you must ensure using
+your provider documentation what are your specific GP keys
+(and then feed them to the GlobalPlatformPro tool)</p>
+</div>
+<div class="admonition danger">
+<p class="first admonition-title">Danger</p>
+<p class="last">Do not forget to <strong>lock your token</strong> by changing the GlobalPlatform default keys when
+you have fully configured your token, i.e. when you switch to production mode.
+Changing the keys is <strong>mandatory</strong> for security reasons: if the keys are not modified,
+a malicious user is able to inject rogue applets and break the security model of
+WooKey</p>
+</div>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#the-javacard-applets" id="id1">The JavaCard applets</a><ul>
+<li><a class="reference internal" href="#overview" id="id2">Overview</a></li>
+<li><a class="reference internal" href="#applets-compilation" id="id3">Applets compilation</a></li>
+<li><a class="reference internal" href="#applets-flash" id="id4">Applets flash</a></li>
+<li><a class="reference internal" href="#common-instructions-in-auth-dfu-sig" id="id5">Common instructions in AUTH, DFU, SIG</a></li>
+<li><a class="reference internal" href="#auth-applet" id="id6">AUTH applet</a></li>
+<li><a class="reference internal" href="#dfu-applet" id="id7">DFU applet</a></li>
+<li><a class="reference internal" href="#sig-applet" id="id8">SIG applet</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="overview">
+<h2><a class="toc-backref" href="#id2">8.1. Overview</a><a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The WooKey project compiles three different applets:</p>
+<blockquote>
+<div><ul class="simple">
+<li>The AUTH applet that is used to hold the WooKey platform encryption master key (the AES-CBC-ESSIV key)</li>
+<li>The DFU applet that is used for Device Firmware Update process when updating a signed and encrypted firmware on the platform</li>
+<li>The SIG applet that is used on a PC host to encrypt and sign a production firmware</li>
+</ul>
+</div></blockquote>
+<p>The SIG applet is optional and we offer in the <code class="docutils literal notranslate"><span class="pre">menuconfig</span></code> a way to use a passphrase for firmware signature and
+encryption. We however strongly advise to use a dedicated token for these operations as such secrets are
+very sensitive.</p>
+<div class="admonition danger">
+<p class="first admonition-title">Danger</p>
+<p class="last">The SIG applet must be used on a <strong>trusted computer</strong> since it holds the master secrets for firmware signature and
+encryption! It must not be used by a malware as an oracle to sign and encrypt untrusted firmware. It is
+the user’s responsibility to ensure that the computer that manipulates sensitive secrets is indeed
+trusted and clean of any potential threat</p>
+</div>
+<p>The three applets authenticate the user using different (Pet Pin, Pet Name, User Pin) triplets, and they
+mount a secure channel with the other peer (either the WooKey platform for AUTH and DFU or a host PC for
+the SIG token). The secure channel ECDSA keys are diversified for each token.</p>
+<p>The JavaCard applets sources are in the ‘javacard/applet/src/wookey’
+folder, and are organized as follows:</p>
+<blockquote>
+<div><ul class="simple">
+<li>The ‘common’ subfolder contains the code that is shared among all the applets. It mainly contains the cryptographic libraries (for Elliptic Curves ECDSA and ECDH, AES and HMAC), the class handling the secure channel, and the WooKey class that implement the common instructions (i.e. instructions to authenticate the user, handle the Pet Name, mount the secure channel and so on)</li>
+<li>The ‘auth’ subfolder contains a ‘WooKeyAuth’ class implementing the AUTH token specific instructions</li>
+<li>The ‘dfu’ subfolder contains a ‘WooKeyDFU’ class implementing the DFU token specific instructions</li>
+<li>The ‘sig’ subfolder contains a ‘WooKeySIG’ class implementing the SIG token specific instructions</li>
+</ul>
+</div></blockquote>
+<div class="admonition danger">
+<p class="first admonition-title">Danger</p>
+<p class="last">The computer where the firmware and javacard applets are compiled must be a <strong>trusted computer</strong> since very
+sensitive data is manipulated. It is the user’s responsibility to ensure that the computer that manipulates sensitive secrets is indeed
+trusted and clean of any potential threat</p>
+</div>
+<p>In order to select an applet, you must use its AID (Applet ID). Here are the AIDs of the three applets:</p>
+<blockquote>
+<div><ul class="simple">
+<li>AUTH AID=45757477747536417070</li>
+<li>DFU AID=45757477747536417071</li>
+<li>SIG AID=45757477747536417072</li>
+</ul>
+</div></blockquote>
+<p>All the applets share the same CLA (class) which is 0x00.</p>
+</div>
+<div class="section" id="applets-compilation">
+<h2><a class="toc-backref" href="#id3">8.2. Applets compilation</a><a class="headerlink" href="#applets-compilation" title="Permalink to this headline">¶</a></h2>
+<p>Compiling the applets is as simple as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ make javacard_compile
+</pre></div>
+</div>
+<p>You will need the external dependency ant-javacard compiled or installed, as well
+as a 3.0.1 at least JavaCard SDK (3.0.1 or 3.0.3, not above, if you use
+a J3D081):</p>
+<p><a class="reference external" href="https://github.com/martinpaljak/oracle_javacard_sdks/tree/master/jc303_kit">https://github.com/martinpaljak/oracle_javacard_sdks/tree/master/jc303_kit</a></p>
+</div>
+<div class="section" id="applets-flash">
+<h2><a class="toc-backref" href="#id4">8.3. Applets flash</a><a class="headerlink" href="#applets-flash" title="Permalink to this headline">¶</a></h2>
+<p>Flashing the applets is as simple as connecting a smart card reader to your PC,
+and executing:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ make javacard_push
+</pre></div>
+</div>
+<p>This supposes that GlobalPlatformPro is compiled or installed, as well as a proper
+PC/SC software stack (through packages) to communicate with the smart card reader
+and the smart card.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Depending on your configuration, a message asking you to insert new tokens (with an
+error telling that the applet is already present) might arise. This is related to the
+fact the the menuconfig allows to use the same token or not for the three applet.
+For security reasons, we <strong>strongly advise</strong> to use <strong>three different tokens</strong> for
+these applets!</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Compiling and flashing can be performed in one operation with <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">javacard</span></code></p>
+</div>
+</div>
+<div class="section" id="common-instructions-in-auth-dfu-sig">
+<h2><a class="toc-backref" href="#id5">8.4. Common instructions in AUTH, DFU, SIG</a><a class="headerlink" href="#common-instructions-in-auth-dfu-sig" title="Permalink to this headline">¶</a></h2>
+<p>The instructions shared by the three applets are the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/*</span> <span class="n">Class</span> <span class="n">of</span> <span class="n">instructions</span> <span class="o">*/</span>
+<span class="n">public</span> <span class="n">static</span> <span class="n">final</span> <span class="n">byte</span> <span class="n">TOKEN_INS_SELECT_APPLET</span> <span class="o">=</span> <span class="p">(</span><span class="n">byte</span><span class="p">)</span> <span class="mh">0xA4</span><span class="p">;</span>
+<span class="n">public</span> <span class="n">static</span> <span class="n">final</span> <span class="n">byte</span> <span class="n">TOKEN_INS_SECURE_CHANNEL_INIT</span> <span class="o">=</span> <span class="p">(</span><span class="n">byte</span><span class="p">)</span> <span class="mh">0x00</span><span class="p">;</span>
+<span class="n">public</span> <span class="n">static</span> <span class="n">final</span> <span class="n">byte</span> <span class="n">TOKEN_INS_UNLOCK_PET_PIN</span> <span class="o">=</span> <span class="p">(</span><span class="n">byte</span><span class="p">)</span> <span class="mh">0x01</span><span class="p">;</span>
+<span class="n">public</span> <span class="n">static</span> <span class="n">final</span> <span class="n">byte</span> <span class="n">TOKEN_INS_UNLOCK_USER_PIN</span> <span class="o">=</span> <span class="p">(</span><span class="n">byte</span><span class="p">)</span> <span class="mh">0x02</span><span class="p">;</span>
+<span class="n">public</span> <span class="n">static</span> <span class="n">final</span> <span class="n">byte</span> <span class="n">TOKEN_INS_SET_USER_PIN</span> <span class="o">=</span> <span class="p">(</span><span class="n">byte</span><span class="p">)</span> <span class="mh">0x03</span><span class="p">;</span>
+<span class="n">public</span> <span class="n">static</span> <span class="n">final</span> <span class="n">byte</span> <span class="n">TOKEN_INS_SET_PET_PIN</span>  <span class="o">=</span> <span class="p">(</span><span class="n">byte</span><span class="p">)</span> <span class="mh">0x04</span><span class="p">;</span>
+<span class="n">public</span> <span class="n">static</span> <span class="n">final</span> <span class="n">byte</span> <span class="n">TOKEN_INS_SET_PET_NAME</span> <span class="o">=</span> <span class="p">(</span><span class="n">byte</span><span class="p">)</span> <span class="mh">0x05</span><span class="p">;</span>
+<span class="n">public</span> <span class="n">static</span> <span class="n">final</span> <span class="n">byte</span> <span class="n">TOKEN_INS_USER_PIN_LOCK</span> <span class="o">=</span> <span class="p">(</span><span class="n">byte</span><span class="p">)</span> <span class="mh">0x06</span><span class="p">;</span>
+<span class="n">public</span> <span class="n">static</span> <span class="n">final</span> <span class="n">byte</span> <span class="n">TOKEN_INS_FULL_LOCK</span> <span class="o">=</span> <span class="p">(</span><span class="n">byte</span><span class="p">)</span> <span class="mh">0x07</span><span class="p">;</span>
+<span class="n">public</span> <span class="n">static</span> <span class="n">final</span> <span class="n">byte</span> <span class="n">TOKEN_INS_GET_PET_NAME</span> <span class="o">=</span> <span class="p">(</span><span class="n">byte</span><span class="p">)</span> <span class="mh">0x08</span><span class="p">;</span>
+<span class="n">public</span> <span class="n">static</span> <span class="n">final</span> <span class="n">byte</span> <span class="n">TOKEN_INS_GET_RANDOM</span> <span class="o">=</span> <span class="p">(</span><span class="n">byte</span><span class="p">)</span> <span class="mh">0x09</span><span class="p">;</span>
+<span class="n">public</span> <span class="n">static</span> <span class="n">final</span> <span class="n">byte</span> <span class="n">TOKEN_INS_DERIVE_LOCAL_PET_KEY</span> <span class="o">=</span> <span class="p">(</span><span class="n">byte</span><span class="p">)</span> <span class="mh">0x0a</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">TOKEN_INS_SELECT_APPLET</span></code> instruction obviously selects an applet. The <code class="docutils literal notranslate"><span class="pre">TOKEN_INS_SECURE_CHANNEL_INIT</span></code>
+initializes a secure channel between the applet and the peer (WooKey platform or a PC host).
+The <code class="docutils literal notranslate"><span class="pre">TOKEN_INS_DERIVE_LOCAL_PET_KEY</span></code> derives a keys from a Pet Pin PBKDF2 derived value in
+order to decrypt on the peer local keys.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The token will lock and self-destroy after a configurable number of failed attempts when mounting the secure
+channel with a peer. Beware of this when interacting wit the tokens (the dafault value of number
+of failed attempts is 10)</p>
+</div>
+<div class="admonition danger">
+<p class="first admonition-title">Danger</p>
+<p class="last">Token self-destruction means a permanent loss of sensitive data on the token! (for obvious security
+reasons). It is the user’s responsibility to perform key escrow and key recovery (and then proceed to
+flashing a new token or flashing the locked token again). A locked and self-destroyed token can still
+be reflashed/reprogrammed with the proper GP keys</p>
+</div>
+<p>These three instructions are the only ones that are performed <strong>in clear</strong> and <strong>outside the secure channel</strong>.
+All the other instructions presented hereafter suppose that (and will check that) the secure channel has
+been mounted with the peer.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">TOKEN_INS_UNLOCK_PET_PIN</span></code> (resp. <code class="docutils literal notranslate"><span class="pre">TOKEN_INS_UNLOCK_USET_PIN</span></code>) tries to unlock the Pet Pin (resp. User Pin)
+provided in the APDU, and this pin will be locked after a configurable number of failed attempts. Unlocking the
+User Pin supposes a previous Pet Pin unlocking.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The token will lock and self-destroy after a configurable number of failed attempts when presenting the pin
+Beware of this when interacting wit the tokens (the dafault value of number
+of failed attempts is 3)</p>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">TOKEN_INS_GET_PET_NAME</span></code> instruction supposes that at least the Pet Pin has been presented, and responds with
+the Pet Name stored inside the token.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">TOKEN_INS_FULL_LOCK</span></code> fully locks the token (i.e. Pet Pin and User Pin considered as not presented), and
+closes the secure channel. The <code class="docutils literal notranslate"><span class="pre">TOKEN_INS_USER_PIN_LOCK</span></code> only locks the User Pin (i.e. User Pin considered
+as not presented, but Pet Pin considered as presented if it has been successfully presented), and the secure channel
+is not closed.</p>
+<p>All the following instructions suppose a <strong>full unlocking</strong> of the token (i.e. successful presentation of
+the Pet Pin and then the User Pin).</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">TOKEN_INS_SET_PET_PIN</span></code> (resp. <code class="docutils literal notranslate"><span class="pre">TOKEN_INS_SET_USER_PIN</span></code>) asks to change the Pet pin (resp. User pin).
+These instructions suppose that the user is fully authenticated with the token.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">TOKEN_INS_SET_PET_NAME</span></code> modifies the Pet Name sentence that is stored inside the token.</p>
+<p>Finally, <code class="docutils literal notranslate"><span class="pre">TOKEN_INS_GET_RANDOM</span></code> asks the token for some amount of random bytes, this amount is
+encoded on one byte (a maximum size of 224 bytes of random can be asked per instruction).</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The maximum size of the pins (Pet pin and User pin) is 15 bytes, and it is hardcoded. The maximum
+Pet Name length is also hardcoded, and fixed to 64 bytes</p>
+</div>
+</div>
+<div class="section" id="auth-applet">
+<h2><a class="toc-backref" href="#id6">8.5. AUTH applet</a><a class="headerlink" href="#auth-applet" title="Permalink to this headline">¶</a></h2>
+<p>The AUTH applet implements (on top of the common instructions) the following instruction:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/*</span> <span class="n">Instructions</span> <span class="n">specific</span> <span class="n">to</span> <span class="n">the</span> <span class="n">AUTH</span> <span class="n">applet</span> <span class="o">*/</span>
+<span class="n">public</span> <span class="n">static</span> <span class="n">final</span> <span class="n">byte</span> <span class="n">TOKEN_INS_GET_KEY</span> <span class="o">=</span> <span class="p">(</span><span class="n">byte</span><span class="p">)</span> <span class="mh">0x10</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>This instruction supposes that the token is fully unlocked (i.e. Pet pin and User pin
+successfully presented by the user) and that the secure channel is properly mounted.
+The return value is the 256-bit AES-CBC-ESSIV master key and its hash value.</p>
+</div>
+<div class="section" id="dfu-applet">
+<h2><a class="toc-backref" href="#id7">8.6. DFU applet</a><a class="headerlink" href="#dfu-applet" title="Permalink to this headline">¶</a></h2>
+<p>The DFU applet implements (on top of the common instructions) the following instruction:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/*</span> <span class="n">Instructions</span> <span class="n">specific</span> <span class="n">to</span> <span class="n">the</span> <span class="n">DFU</span> <span class="n">applet</span> <span class="o">*/</span>
+<span class="n">public</span> <span class="n">static</span> <span class="n">final</span> <span class="n">byte</span> <span class="n">TOKEN_INS_BEGIN_DECRYPT_SESSION</span> <span class="o">=</span> <span class="p">(</span><span class="n">byte</span><span class="p">)</span> <span class="mh">0x20</span><span class="p">;</span>
+<span class="n">public</span> <span class="n">static</span> <span class="n">final</span> <span class="n">byte</span> <span class="n">TOKEN_INS_DERIVE_KEY</span> <span class="o">=</span> <span class="p">(</span><span class="n">byte</span><span class="p">)</span> <span class="mh">0x21</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">TOKEN_INS_BEGIN_DECRYPT_SESSION</span></code> opens a firmware decryption session. The instruction
+expects a firmware header as input data so that consistency and HMAC of this header is
+verified using the token internal secret keys.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">TOKEN_INS_DERIVE_KEY</span></code> asks for a key derivation with a sector number on a short (two bytes)
+in big endian as input.</p>
+<p>These two instructions are performed in the secure channel and suppose that the token is fully
+unlocked (Pet pin and User pin presented correctly).</p>
+</div>
+<div class="section" id="sig-applet">
+<h2><a class="toc-backref" href="#id8">8.7. SIG applet</a><a class="headerlink" href="#sig-applet" title="Permalink to this headline">¶</a></h2>
+<p>The SIG applet implements (on top of the common instructions) the following instructions:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">public</span> <span class="n">static</span> <span class="n">final</span> <span class="n">byte</span> <span class="n">TOKEN_INS_BEGIN_SIGN_SESSION</span> <span class="o">=</span> <span class="p">(</span><span class="n">byte</span><span class="p">)</span> <span class="mh">0x30</span><span class="p">;</span>
+<span class="n">public</span> <span class="n">static</span> <span class="n">final</span> <span class="n">byte</span> <span class="n">TOKEN_INS_DERIVE_KEY</span> <span class="o">=</span> <span class="p">(</span><span class="n">byte</span><span class="p">)</span> <span class="mh">0x31</span><span class="p">;</span>
+<span class="n">public</span> <span class="n">static</span> <span class="n">final</span> <span class="n">byte</span> <span class="n">TOKEN_INS_SIGN_FIRMWARE</span> <span class="o">=</span> <span class="p">(</span><span class="n">byte</span><span class="p">)</span> <span class="mh">0x32</span><span class="p">;</span>
+<span class="n">public</span> <span class="n">static</span> <span class="n">final</span> <span class="n">byte</span> <span class="n">TOKEN_INS_VERIFY_FIRMWARE</span> <span class="o">=</span> <span class="p">(</span><span class="n">byte</span><span class="p">)</span> <span class="mh">0x33</span><span class="p">;</span>
+<span class="n">public</span> <span class="n">static</span> <span class="n">final</span> <span class="n">byte</span> <span class="n">TOKEN_INS_GET_SIG_TYPE</span> <span class="o">=</span> <span class="p">(</span><span class="n">byte</span><span class="p">)</span> <span class="mh">0x34</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">TOKEN_INS_BEGIN_SIGN_SESSION</span></code> opens a firmware signing and encryption session. The instruction
+expects a firmware header as input data, computes a HMAC on it using the token internal secret keys and
+returns this HMAC as well as an initial random value for firmware encryption session keys.</p>
+<p><code class="docutils literal notranslate"><span class="pre">TOKEN_INS_DERIVE_KEY</span></code> takes as input a chunk number on two bytes (big endian) and derives
+the corresponding encryption key.</p>
+<p><code class="docutils literal notranslate"><span class="pre">TOKEN_INS_SIGN_FIRMWARE</span></code> signs a hash value of the firmware with the internal ECDSA signature
+private key, and <code class="docutils literal notranslate"><span class="pre">TOKEN_INS_VERIFY_FIRMWARE</span></code> verifies a signature against a hash value.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Since in JavaCard the usual ECDSA API includes the hash algorithm, a hash value is actually
+signed and verified (i.e. <code class="docutils literal notranslate"><span class="pre">ECDSA_SHA256(SHA256(firmware_binary))</span></code> is computed and
+<code class="docutils literal notranslate"><span class="pre">SHA256(firmware_binary)</span></code> is sent in the APDU to the token</p>
+</div>
+<p>Finally, <code class="docutils literal notranslate"><span class="pre">TOKEN_INS_GET_SIG_TYPE</span></code> returns an encoding of the Elliptic Curve parameters
+that the token supports (either BRAINPOOLP256R1, SECP256R1, FRP256V1).</p>
+<p>All these instructions are performed in the secure channel and suppose that the token is fully
+unlocked (Pet pin and User pin presented correctly).</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../tataouine.html" class="btn btn-neutral float-right" title="9. Tataouine SDK" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../drvili9341/index.html" class="btn btn-neutral" title="7.7. The ILI9341 driver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,388 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>5. EwoK microkernel &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="5.3.1. EwoK syscalls" href="syscalls.html" />
+    <link rel="prev" title="4. WooKey architecture" href="../architecture.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">5. EwoK kernel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#what-is-ewok">5.1. What is EwoK ?</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#security-properties">5.1.1. Security properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#performances">5.1.2. Performances</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#ewok-architecture">5.2. EwoK architecture</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#kernel-architecture">5.2.1. Kernel architecture</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#drivers">5.2.2. Drivers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#ewok-api">5.3. EwoK API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="syscalls.html">5.3.1. Syscalls</a></li>
+<li class="toctree-l3"><a class="reference internal" href="devices.html">5.3.2. Using devices from userland</a></li>
+<li class="toctree-l3"><a class="reference internal" href="perms.html">5.3.3. Permissions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#internals">5.4. Internals</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ada_spark.html">5.4.1. Ada/SPARK implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="perms_internals.html">5.4.2. EwoK permission internals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isr_internals.html">5.4.3. EwoK IRQ &amp; ISR internals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="debug_sched.html">5.4.4. EwoK scheduler internals</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#faq">5.5. FAQ</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="faq_general.html">5.5.1.  General FAQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq_syscalls.html">5.5.2.  Syscalls FAQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq_perms.html">5.5.3.  Permissions FAQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq_security.html">5.5.4.  Security FAQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq_build.html">5.5.5.  Build process FAQ</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../libs.html">6. Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../drivers.html">7. Drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>5. EwoK microkernel</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="ewok-microkernel">
+<span id="ewok-kernel"></span><h1><a class="toc-backref" href="#id1">5. EwoK microkernel</a><a class="headerlink" href="#ewok-microkernel" title="Permalink to this headline">¶</a></h1>
+<a class="reference internal image-reference" href="../_images/ewok.png"><img alt="ewok icon" class="align-center" src="../_images/ewok.png" style="width: 250.0px; height: 250.0px;" /></a>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#ewok-microkernel" id="id1">EwoK microkernel</a><ul>
+<li><a class="reference internal" href="#what-is-ewok" id="id2">What is EwoK ?</a></li>
+<li><a class="reference internal" href="#ewok-architecture" id="id3">EwoK architecture</a></li>
+<li><a class="reference internal" href="#ewok-api" id="id4">EwoK API</a></li>
+<li><a class="reference internal" href="#internals" id="id5">Internals</a></li>
+<li><a class="reference internal" href="#faq" id="id6">FAQ</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="what-is-ewok">
+<h2><a class="toc-backref" href="#id2">5.1. What is EwoK ?</a><a class="headerlink" href="#what-is-ewok" title="Permalink to this headline">¶</a></h2>
+<p>EwoK is a microkernel targeting micro-controllers and embedded systems
+aiming at building secure and trusted devices.</p>
+<p>Drivers are hold in userspace. Unlike most of
+other microkernels, the goal is to support complex drivers (ISO7816,
+USB, CRYP, SDIO) while achieving high performances.</p>
+<div class="section" id="security-properties">
+<h3>5.1.1. Security properties<a class="headerlink" href="#security-properties" title="Permalink to this headline">¶</a></h3>
+<p>EwoK supports the following properties:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Strict memory partitioning</li>
+<li>Strict partitioning of physical resources (devices, etc.)</li>
+<li>Fixed permissions management, set at compile time and easily verifiable</li>
+<li>Kernel Random Number Generation support (based on True RNG HW on STM32)</li>
+<li>Stack smashing protection in both kernel and userspace tasks</li>
+<li>Userspace Heap smashing defenses</li>
+<li>Proved W^X memory mappings</li>
+<li>Strict temporal separation between declarative phase and execution phase</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="performances">
+<h3>5.1.2. Performances<a class="headerlink" href="#performances" title="Permalink to this headline">¶</a></h3>
+<p>Unlike other microkernels, EwoK allows userland drivers to use
+DMA, GPIOs and EXTIs with the help of some specific syscalls.
+Such interfaces are directly implemented in the kernel, in order to
+achieve better performance. Indeed, some hardware need a very
+responsive software and such responsiveness can not easily be
+achieved in a typically minimalistic microkernel (like the ones from the L4 family).</p>
+</div>
+</div>
+<div class="section" id="ewok-architecture">
+<h2><a class="toc-backref" href="#id3">5.2. EwoK architecture</a><a class="headerlink" href="#ewok-architecture" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="kernel-architecture">
+<h3>5.2.1. Kernel architecture<a class="headerlink" href="#kernel-architecture" title="Permalink to this headline">¶</a></h3>
+<p>The kernel is divided into two main components: the <strong>libbsp</strong> and the
+<strong>kernel</strong> parts.</p>
+<img alt="EwoK kernel architecture" class="align-center" src="../_images/ewok_precise_arch.png" />
+<p>The <em>libbsp</em> is the hardware abstraction layer, hosting all the low level and
+arch-specific drivers (MPU, GPIOs, timers, DMAs, etc.).
+The <em>libbsp</em> is itself separated in two blocks:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><em>SoC-specific drivers</em>, such as DMA or GPIO support for the STM32F407 board</li>
+<li><em>Core-specific drivers</em>, such as MPU support for the Cortex-M4 ARMv7m
+micro-architecture</li>
+</ol>
+</div></blockquote>
+<p>The <em>kernel</em> part contains all specific high level content (scheduling, task
+management, syscalls, etc.) and uses the libbsp as a hardware abstraction for
+any low-level interaction.</p>
+</div>
+<div class="section" id="drivers">
+<h3>5.2.2. Drivers<a class="headerlink" href="#drivers" title="Permalink to this headline">¶</a></h3>
+<img alt="EwoK generic software architecture" class="align-center" src="../_images/ewok_stack.png" />
+<p>The <span class="xref std std-ref">lib_std</span> (<em>libstd</em>) is a C standard library that can be used
+by the user tasks (and hence the userspace drivers).
+Like the <em>libc</em> for <em>UNIX</em>-like systems, it implements some useful functions.</p>
+<p>The <strong>drivers</strong> are written as userspace libraries. They depend on the <em>libstd</em>,
+and may sometimes depend on each others. Here is the list of the existing
+drivers.</p>
+<p><strong>Libraries</strong> bring various userspace features with arch-independent
+implementations.</p>
+</div>
+</div>
+<div class="section" id="ewok-api">
+<h2><a class="toc-backref" href="#id4">5.3. EwoK API</a><a class="headerlink" href="#ewok-api" title="Permalink to this headline">¶</a></h2>
+<p>EwoK is tuned for high performance embedded systems.
+The whole microkernel architecture and the provided API are
+specifically designed for this purpose.
+Note that for these specific performance constraints, EwoK
+is not a full-IPC driven microkernel, like the L4 family.</p>
+<p>The EwoK API is described here:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="syscalls.html">5.3.1. Syscalls</a></li>
+<li class="toctree-l1"><a class="reference internal" href="devices.html">5.3.2. Using devices from userland</a></li>
+<li class="toctree-l1"><a class="reference internal" href="perms.html">5.3.3. Permissions</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="internals">
+<h2><a class="toc-backref" href="#id5">5.4. Internals</a><a class="headerlink" href="#internals" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ada_spark.html">5.4.1. Ada/SPARK implementation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="perms_internals.html">5.4.2. EwoK permission internals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="isr_internals.html">5.4.3. EwoK IRQ &amp; ISR internals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug_sched.html">5.4.4. EwoK scheduler internals</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="faq">
+<h2><a class="toc-backref" href="#id6">5.5. FAQ</a><a class="headerlink" href="#faq" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="faq_general.html">5.5.1.  General FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq_syscalls.html">5.5.2.  Syscalls FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq_perms.html">5.5.3.  Permissions FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq_security.html">5.5.4.  Security FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq_build.html">5.5.5.  Build process FAQ</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="syscalls.html" class="btn btn-neutral float-right" title="5.3.1. EwoK syscalls" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../architecture.html" class="btn btn-neutral" title="4. WooKey architecture" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

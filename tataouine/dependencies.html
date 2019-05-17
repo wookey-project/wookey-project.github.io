@@ -1,0 +1,495 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>9.1. Dependencies &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="9.2. Tataouine and repo" href="repo.html" />
+    <link rel="prev" title="9. Tataouine SDK" href="../tataouine.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ewok/index.html">5. EwoK kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libs.html">6. Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../drivers.html">7. Drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">9.1. Dependencies</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#to-fetch-and-to-manage-the-project">9.1.1. To fetch and to manage the project</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#repo">9.1.1.1. Repo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#git">9.1.1.2. Git</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#to-compile-the-firmware">9.1.2. To compile the firmware</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#perl">9.1.2.1. Perl</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#a-kconfig-parser">9.1.2.2. A Kconfig parser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gnu-make">9.1.2.3. GNU make</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#c-cross-compiler-for-armv7-m">9.1.2.4. C cross-compiler for <em>ARMv7-m</em></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#adacore-ada-spark">9.1.2.5. AdaCore Ada/SPARK</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#python-intelhex">9.1.2.6. Python-IntelHex</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#to-flash-the-firmware-on-the-target-board">9.1.3. To flash the firmware on the target board</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#to-compile-the-documentation">9.1.4. To compile the documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cryptographic-tools">9.1.5. Cryptographic tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#to-compile-the-java-applets">9.1.6. To compile the Java applets</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="repo.html">9.2. Downloading the project with repo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="externals.html">9.3. External dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">9.4. Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build.html">9.5. Building a new firmware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flash.html">9.6. Flashing a new firmware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="production.html">9.7. Production mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug.html">9.8. Debugging the project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="newdriver.html">9.9. Creating a new driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="newlib.html">9.10. Creating a new library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="newapp.html">9.11. Creating a new application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="internals.html">9.12. Internals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="layout.html">9.13. Layout and portability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tataouine.html#tataouine-directories">9.14. Tataouine directories</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../tataouine.html">9. Tataouine SDK</a> &raquo;</li>
+        
+      <li>9.1. Dependencies</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="dependencies">
+<span id="id1"></span><h1><a class="toc-backref" href="#id2">9.1. Dependencies</a><a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h1>
+<p>Some tools need to be installed in order to build your first firmware.</p>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#dependencies" id="id2">Dependencies</a><ul>
+<li><a class="reference internal" href="#to-fetch-and-to-manage-the-project" id="id3">To fetch and to manage the project</a><ul>
+<li><a class="reference internal" href="#repo" id="id4">Repo</a></li>
+<li><a class="reference internal" href="#git" id="id5">Git</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#to-compile-the-firmware" id="id6">To compile the firmware</a><ul>
+<li><a class="reference internal" href="#perl" id="id7">Perl</a></li>
+<li><a class="reference internal" href="#a-kconfig-parser" id="id8">A Kconfig parser</a></li>
+<li><a class="reference internal" href="#gnu-make" id="id9">GNU make</a></li>
+<li><a class="reference internal" href="#c-cross-compiler-for-armv7-m" id="id10">C cross-compiler for <em>ARMv7-m</em></a></li>
+<li><a class="reference internal" href="#adacore-ada-spark" id="id11">AdaCore Ada/SPARK</a></li>
+<li><a class="reference internal" href="#python-intelhex" id="id12">Python-IntelHex</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#to-flash-the-firmware-on-the-target-board" id="id13">To flash the firmware on the target board</a></li>
+<li><a class="reference internal" href="#to-compile-the-documentation" id="id14">To compile the documentation</a></li>
+<li><a class="reference internal" href="#cryptographic-tools" id="id15">Cryptographic tools</a></li>
+<li><a class="reference internal" href="#to-compile-the-java-applets" id="id16">To compile the Java applets</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="to-fetch-and-to-manage-the-project">
+<h2><a class="toc-backref" href="#id3">9.1.1. To fetch and to manage the project</a><a class="headerlink" href="#to-fetch-and-to-manage-the-project" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="repo">
+<h3><a class="toc-backref" href="#id4">9.1.1.1. Repo</a><a class="headerlink" href="#repo" title="Permalink to this headline">¶</a></h3>
+<p>The WooKey project deployment depends on repo, a tool made by Google to manage
+the Android projects. It allows the support of various profiles and various
+end-user applications, drivers and libraries without requiring complex
+modification of the SDK.</p>
+<p>Installing repo is describe in the ‘Install Repo’ section on
+<a class="reference external" href="https://source.android.com/setup/build/downloading">this page</a>.</p>
+<p>There is also a
+<a class="reference external" href="https://source.android.com/setup/develop/repo">repo documentation</a></p>
+<p>On Debian Buster and higher, this software is packaged under the name <em>repo</em>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">apt</span> <span class="n">install</span> <span class="n">repo</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="git">
+<h3><a class="toc-backref" href="#id5">9.1.1.2. Git</a><a class="headerlink" href="#git" title="Permalink to this headline">¶</a></h3>
+<p><em>Git</em> distributed version-control system.
+On Debian Buster and higher, this software is packaged under the name <em>git</em>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">apt</span> <span class="n">install</span> <span class="n">git</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="to-compile-the-firmware">
+<h2><a class="toc-backref" href="#id6">9.1.2. To compile the firmware</a><a class="headerlink" href="#to-compile-the-firmware" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="perl">
+<h3><a class="toc-backref" href="#id7">9.1.2.1. Perl</a><a class="headerlink" href="#perl" title="Permalink to this headline">¶</a></h3>
+<p>The SDK uses some Perl scripts. It should already be installed on your station.</p>
+</div>
+<div class="section" id="a-kconfig-parser">
+<h3><a class="toc-backref" href="#id8">9.1.2.2. A Kconfig parser</a><a class="headerlink" href="#a-kconfig-parser" title="Permalink to this headline">¶</a></h3>
+<p>Various tools for parsing and managing <em>Kconfig</em> files exist.
+It is possible to use the Python library <em>kconfiglib</em>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip3</span> <span class="n">install</span> <span class="n">kconfiglib</span>
+</pre></div>
+</div>
+<p>It is also possible to use the <em>kconfig-frontends</em>, downloadable from its
+developer’s <a class="reference external" href="http://ymorin.is-a-geek.org/download/kconfig-frontends/">website</a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">ymorin</span><span class="o">.</span><span class="ow">is</span><span class="o">-</span><span class="n">a</span><span class="o">-</span><span class="n">geek</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">kconfig</span><span class="o">-</span><span class="n">frontends</span><span class="o">/</span><span class="n">kconfig</span><span class="o">-</span><span class="n">frontends</span><span class="o">-</span><span class="mf">4.11</span><span class="o">.</span><span class="mf">0.1</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+<span class="n">cd</span> <span class="n">kconfig</span><span class="o">-</span><span class="n">frontend</span><span class="o">-</span><span class="n">upstream</span><span class="o">-</span><span class="n">latest</span>
+<span class="o">./</span><span class="n">configure</span>
+<span class="n">make</span>
+<span class="n">make</span> <span class="n">install</span>
+</pre></div>
+</div>
+<p>On Debian Buster and higher, this software is packaged under the name
+<em>kconfig-frontends</em>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">apt</span> <span class="n">install</span> <span class="n">kconfig</span><span class="o">-</span><span class="n">frontends</span>
+</pre></div>
+</div>
+<p>By overloading the <code class="docutils literal notranslate"><span class="pre">KCONF</span></code> variable (see <a class="reference internal" href="build.html#build"><span class="std std-ref">Configuring and building a new firmware</span></a>), you can use an other
+Kconfig parsers.</p>
+</div>
+<div class="section" id="gnu-make">
+<h3><a class="toc-backref" href="#id9">9.1.2.3. GNU make</a><a class="headerlink" href="#gnu-make" title="Permalink to this headline">¶</a></h3>
+<p>Beware that Mac-OS uses the <em>BSD make</em>, which is not compatible:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">apt</span> <span class="n">install</span> <span class="n">make</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="c-cross-compiler-for-armv7-m">
+<h3><a class="toc-backref" href="#id10">9.1.2.4. C cross-compiler for <em>ARMv7-m</em></a><a class="headerlink" href="#c-cross-compiler-for-armv7-m" title="Permalink to this headline">¶</a></h3>
+<p>Beware to use a <em>none-eabi</em> compiler and not a <em>gnu-eabi</em> compiler.
+On Debian, it is provided by the <em>gcc-arm-none-eabi</em> package:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">apt</span> <span class="n">install</span> <span class="n">gcc</span><span class="o">-</span><span class="n">arm</span><span class="o">-</span><span class="n">none</span><span class="o">-</span><span class="n">eabi</span>
+</pre></div>
+</div>
+<p>You might also need to install <em>binutils</em> for <em>ARMv7-m</em>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">apt</span> <span class="n">install</span> <span class="n">binutils</span><span class="o">-</span><span class="n">arm</span><span class="o">-</span><span class="n">none</span><span class="o">-</span><span class="n">eabi</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="adacore-ada-spark">
+<h3><a class="toc-backref" href="#id11">9.1.2.5. AdaCore Ada/SPARK</a><a class="headerlink" href="#adacore-ada-spark" title="Permalink to this headline">¶</a></h3>
+<p>The binaries for cross-compiling ARM binaries can be downloaded here:
+<a class="reference external" href="https://www.adacore.com/download/more">https://www.adacore.com/download/more</a>.</p>
+<p>For cross-compiling ARM binaries from Linux x86, you should
+select the <code class="docutils literal notranslate"><span class="pre">ARM</span> <span class="pre">ELF</span> <span class="pre">(32</span> <span class="pre">bits)(hosted</span> <span class="pre">on</span> <span class="pre">Linux64)</span></code>.</p>
+<p>We recommend you to install the binaries in <code class="docutils literal notranslate"><span class="pre">/opt/adacore-arm-eabi</span></code>.
+If you install the binaries in another directory, you will have to set
+the <code class="docutils literal notranslate"><span class="pre">ADA_RUNTIME</span></code> variable from the <code class="docutils literal notranslate"><span class="pre">setenv.sh</span></code> file (see <a class="reference internal" href="build.html#build"><span class="std std-ref">Configuring and building a new firmware</span></a>).</p>
+<p>Also, remember to set your PATH environment variable:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">PATH</span><span class="o">=</span><span class="s2">&quot;/opt/adacore-arm-eabi/bin:$PATH&quot;</span>
+</pre></div>
+</div>
+<p>To run 32-bit binaries, you will need to install <em>glibc</em> 32-bit version. On
+Debian:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">apt</span> <span class="n">install</span> <span class="n">libc6</span><span class="o">-</span><span class="n">i386</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="python-intelhex">
+<h3><a class="toc-backref" href="#id12">9.1.2.6. Python-IntelHex</a><a class="headerlink" href="#python-intelhex" title="Permalink to this headline">¶</a></h3>
+<p>The <em>IntelHex</em> Python module is needed to generated <em>.hex</em> and <em>.bin</em> files.
+On any system having python and <code class="docutils literal notranslate"><span class="pre">pip</span></code> installed, just run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">IntelHex</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Use <code class="docutils literal notranslate"><span class="pre">pip</span></code> and not <code class="docutils literal notranslate"><span class="pre">pip3</span></code>!</p>
+</div>
+</div>
+</div>
+<div class="section" id="to-flash-the-firmware-on-the-target-board">
+<h2><a class="toc-backref" href="#id13">9.1.3. To flash the firmware on the target board</a><a class="headerlink" href="#to-flash-the-firmware-on-the-target-board" title="Permalink to this headline">¶</a></h2>
+<p>To flash the newly compiled firmwares on STM32 based microcontrollers and the
+associated development boards, you can use one of these two open source
+utilities:</p>
+<blockquote>
+<div><ul class="simple">
+<li>OpenOCD, which is packaged in various distributions and allows to interact
+with the target</li>
+<li>ST-link (the open source version can be found on Github):
+<a class="reference external" href="https://github.com/texane/stlink.git">https://github.com/texane/stlink.git</a>)</li>
+</ul>
+</div></blockquote>
+<p>On Debian, <em>openocd</em> package is available:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">apt</span> <span class="n">install</span> <span class="n">openocd</span>
+</pre></div>
+</div>
+<p>Note that <em>openocd</em> and <em>st-link</em> can also be used to debug the platform by
+connecting <em>gdb-arm-none-eabi</em> or <em>gdb-multiarch</em>.</p>
+<p>Note also that the ST-Micro proprietary software also works on Windows, or you
+can use any software able to communicate with the STLinkv2 JTAG interface.</p>
+</div>
+<div class="section" id="to-compile-the-documentation">
+<h2><a class="toc-backref" href="#id14">9.1.4. To compile the documentation</a><a class="headerlink" href="#to-compile-the-documentation" title="Permalink to this headline">¶</a></h2>
+<p>To generate the whole documentation, the following utilities need to be installed:</p>
+<ul class="simple">
+<li><em>Sphinx</em></li>
+<li><em>Imagemagick</em></li>
+<li><em>rst2man</em>, which is part of the <em>python-docutils</em> package on Debian.</li>
+</ul>
+<p>On Debian:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">apt</span> <span class="n">install</span> <span class="n">python</span><span class="o">-</span><span class="n">sphinx</span>
+<span class="n">apt</span> <span class="n">install</span> <span class="n">imagemagick</span>
+<span class="n">apt</span> <span class="n">install</span> <span class="n">python</span><span class="o">-</span><span class="n">docutils</span>
+<span class="n">apt</span> <span class="n">install</span> <span class="n">texlive</span><span class="o">-</span><span class="n">pictures</span>
+<span class="n">apt</span> <span class="n">install</span> <span class="n">texlive</span><span class="o">-</span><span class="n">latex</span><span class="o">-</span><span class="n">extra</span>
+<span class="n">apt</span> <span class="n">install</span> <span class="n">texlive</span><span class="o">-</span><span class="n">fonts</span><span class="o">-</span><span class="n">recommended</span>
+<span class="n">apt</span> <span class="n">install</span> <span class="n">latexmk</span>
+<span class="n">apt</span> <span class="n">install</span> <span class="n">ghostscript</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="cryptographic-tools">
+<h2><a class="toc-backref" href="#id15">9.1.5. Cryptographic tools</a><a class="headerlink" href="#cryptographic-tools" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Cryptographic packages are required only for the whole WooKey project, but
+not for the demo examples</p>
+</div>
+<p>In order to sign and generate keys for firmwares, python cryptographic modules
+are needed. The SDK is using the  <em>python-pyscard</em> tool for smart card
+interaction and <em>python-crypto</em> in order to handle AES cryptographic content.</p>
+<p>On Debian:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">apt</span> <span class="n">install</span> <span class="n">python</span><span class="o">-</span><span class="n">pyscard</span>
+<span class="n">apt</span> <span class="n">install</span> <span class="n">python</span><span class="o">-</span><span class="n">crypto</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="to-compile-the-java-applets">
+<h2><a class="toc-backref" href="#id16">9.1.6. To compile the Java applets</a><a class="headerlink" href="#to-compile-the-java-applets" title="Permalink to this headline">¶</a></h2>
+<p>The WooKey project is based on a secure element holding applets. The applets sources
+must be compiled using the Java and Javacard environment.</p>
+<p>On Debian:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">apt</span> <span class="n">install</span> <span class="n">openjdk</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="n">jdk</span>
+<span class="n">apt</span> <span class="n">install</span> <span class="n">maven</span>
+<span class="n">apt</span> <span class="n">install</span> <span class="n">ant</span>
+</pre></div>
+</div>
+<p>The Javacard-specific toolkit is not a part of the Debian project. Oracle also does
+not deliver any Javacard environment for GNU/Linux. Although, these JDK can be
+downloaded from the following github repository:</p>
+<p><a class="reference external" href="https://github.com/martinpaljak/oracle_javacard_sdks.git">https://github.com/martinpaljak/oracle_javacard_sdks.git</a></p>
+<p>This repository holds all the Javacard SDKs an can be hosted typically in <code class="docutils literal notranslate"><span class="pre">/opt</span></code>.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Update the setenv.sh JAVA_SC_SDK variable with the path of the SDK you
+wish to use</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">When using the JCOP J3D081 Javacard (see <a class="reference internal" href="../javacard/index.html#javacard"><span class="std std-ref">The JavaCard applets</span></a>), use the SDK 3.0.3</p>
+</div>
+<div class="admonition danger">
+<p class="first admonition-title">Danger</p>
+<p class="last">Building the external tools requires at least <em>openjdk</em>, <em>maven</em>
+and <em>ant</em>.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="repo.html" class="btn btn-neutral float-right" title="9.2. Tataouine and repo" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../tataouine.html" class="btn btn-neutral" title="9. Tataouine SDK" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

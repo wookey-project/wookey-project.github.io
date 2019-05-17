@@ -1,0 +1,400 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>5.5.3. Permissions FAQ &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="5.5.4. Ewok Security" href="faq_security.html" />
+    <link rel="prev" title="5.5.2. Syscalls FAQ" href="faq_syscalls.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">5. EwoK kernel</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#what-is-ewok">5.1. What is EwoK ?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#ewok-architecture">5.2. EwoK architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#ewok-api">5.3. EwoK API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#internals">5.4. Internals</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#faq">5.5. FAQ</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="faq_general.html">5.5.1.  General FAQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq_syscalls.html">5.5.2.  Syscalls FAQ</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">5.5.3.  Permissions FAQ</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#when-using-a-library-or-a-driver-are-specific-permissions-required">5.5.3.1. When using a library or a driver, are specific permissions required?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-to-be-sure-of-the-requested-permissions-a-driver-needs">5.5.3.2. How to be sure of the requested permissions a driver needs?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#may-drivers-require-non-resource-related-permissions">5.5.3.3. May drivers require non-resource related permissions?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#why-is-there-a-permission-for-time-measurement">5.5.3.4. Why is there a permission for time measurement?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#why-are-there-three-levels-of-crypto-access-permission">5.5.3.5. Why are there three levels of crypto access permission?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#what-is-perm-res-tsk-rng">5.5.3.6. What is PERM_RES_TSK_RNG?</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="faq_security.html">5.5.4.  Security FAQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq_build.html">5.5.5.  Build process FAQ</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../libs.html">6. Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../drivers.html">7. Drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">5. EwoK microkernel</a> &raquo;</li>
+        
+      <li>5.5.3. Permissions FAQ</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="permissions-faq">
+<span id="faq-perms"></span><h1><a class="toc-backref" href="#id1">5.5.3. Permissions FAQ</a><a class="headerlink" href="#permissions-faq" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#permissions-faq" id="id1">Permissions FAQ</a><ul>
+<li><a class="reference internal" href="#when-using-a-library-or-a-driver-are-specific-permissions-required" id="id2">When using a library or a driver, are specific permissions required?</a></li>
+<li><a class="reference internal" href="#how-to-be-sure-of-the-requested-permissions-a-driver-needs" id="id3">How to be sure of the requested permissions a driver needs?</a></li>
+<li><a class="reference internal" href="#may-drivers-require-non-resource-related-permissions" id="id4">May drivers require non-resource related permissions?</a></li>
+<li><a class="reference internal" href="#why-is-there-a-permission-for-time-measurement" id="id5">Why is there a permission for time measurement?</a></li>
+<li><a class="reference internal" href="#why-are-there-three-levels-of-crypto-access-permission" id="id6">Why are there three levels of crypto access permission?</a></li>
+<li><a class="reference internal" href="#what-is-perm-res-tsk-rng" id="id7">What is PERM_RES_TSK_RNG?</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="when-using-a-library-or-a-driver-are-specific-permissions-required">
+<h2><a class="toc-backref" href="#id2">5.5.3.1. When using a library or a driver, are specific permissions required?</a><a class="headerlink" href="#when-using-a-library-or-a-driver-are-specific-permissions-required" title="Permalink to this headline">¶</a></h2>
+<p>There is no permission needed to link to a given userspace library or driver,
+but they may require one ore more permission to work properly.</p>
+<p>For example, the libconsole (managing a userspace serial console) requires
+the Devices/Buses permission in order to use the libusart and configure the
+specified U(S)ART correctly.</p>
+</div>
+<div class="section" id="how-to-be-sure-of-the-requested-permissions-a-driver-needs">
+<h2><a class="toc-backref" href="#id3">5.5.3.2. How to be sure of the requested permissions a driver needs?</a><a class="headerlink" href="#how-to-be-sure-of-the-requested-permissions-a-driver-needs" title="Permalink to this headline">¶</a></h2>
+<p>When a driver is manipulating a hardware resource (i.e. a device), the
+associated permission is declared in the device list json file stored in
+<em>layouts/arch/socs/soc-devmap-&lt;projname&gt;.json</em>.</p>
+<p>Each device has a permission field which is a string value that can be compared
+to the effective permission name as managed by EwoK, and configurable in the
+configuration tool of the application using the driver.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">When writing a driver, it is usually a good idea to specify the requested
+permission(s) in a README file in the driver sources root path</p>
+</div>
+<p>When manipulating devices or events that are not a part of the layout file
+(e.g. external interrupts -EXTI) this should be done using dedicated permissions
+in the application permission list. Most of the permissions are device oriented
+and, as is, should not be too hard to detect. If the permission is missing at
+runtime, the kernel will explicitly indicate that the device registration is
+not permitted.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">For EXTIs, they are usually a part of a bigger device which is globally
+refused if the permission is not set</p>
+</div>
+</div>
+<div class="section" id="may-drivers-require-non-resource-related-permissions">
+<h2><a class="toc-backref" href="#id4">5.5.3.3. May drivers require non-resource related permissions?</a><a class="headerlink" href="#may-drivers-require-non-resource-related-permissions" title="Permalink to this headline">¶</a></h2>
+<p>This can happen depending on the driver implementation <strong>and</strong> usage.</p>
+<p>A typical example is the <em>usart</em> driver. This driver can be used by an
+application in two modes:</p>
+<blockquote>
+<div><ul class="simple">
+<li>automatically mapped mode</li>
+<li>manually mapped mode</li>
+</ul>
+</div></blockquote>
+<p>In automatically mapped mode, there is no specific additional permission
+needed. In manually mapped mode, the userspace task can voluntary map/unmap the
+u(s)art device at will during its nominal phase. This behavior permits to
+manage a potentially big number of devices in a same application without mapping
+all of them at the same time.</p>
+<p>This capacity (i.e. to map and unmap devices) is associated to a permission
+(PERM_RES_MEM_DYNAMIC_MAP), that is required if the application has configured
+the driver is this very mode.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">Such non-device related permissions are most of the time dependent on the
+driver API usage</p>
+</div>
+</div>
+<div class="section" id="why-is-there-a-permission-for-time-measurement">
+<h2><a class="toc-backref" href="#id5">5.5.3.4. Why is there a permission for time measurement?</a><a class="headerlink" href="#why-is-there-a-permission-for-time-measurement" title="Permalink to this headline">¶</a></h2>
+<p>Is there a real good reason for all the tasks to have the ability to precisely
+measure the time?</p>
+<p>When a task has the ability to precisely measure time periods, it has
+<em>de-facto</em> the power to detect the behavior of other tasks (yield time,
+scheduling behavior, IPC response time and so on), which paves the way to initiate
+multiple side and covert channels between tasks.</p>
+<p>In EwoK, we have decided:</p>
+<blockquote>
+<div><ul class="simple">
+<li>To associate time measurement ability with a permission</li>
+<li>To define three levels of time measurement permissions, from milliseconds
+to cycle count precision level</li>
+</ul>
+</div></blockquote>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Take care to define only the adequate level of time measurement permissions
+for your tasks. They should not have (for nearly all nominal usage) access to
+cycle accurate time access</p>
+</div>
+</div>
+<div class="section" id="why-are-there-three-levels-of-crypto-access-permission">
+<h2><a class="toc-backref" href="#id6">5.5.3.5. Why are there three levels of crypto access permission?</a><a class="headerlink" href="#why-are-there-three-levels-of-crypto-access-permission" title="Permalink to this headline">¶</a></h2>
+<p>When there is a cryptographic coprocessor, there are various ways to use it:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Handling secrets (typically injecting secret keys in the device registers)</li>
+<li>Requesting cryptographic processing in black box mode (sending clear text
+or cipher text and getting back the (un)ciphered content from the
+device, without knowing the secrets used)</li>
+<li>handling both these modes</li>
+</ul>
+</div></blockquote>
+<p>In the WooKey project, secrets handling and cryptographic dataplane are
+separated in two tasks, requesting, for the secret handling, the
+PERM_RES_CRYPTO_CFG permission, and for the crytographic requests, the
+PERM_RES_CRYPTO_USER permission. This allows to lock any access to the
+configuration registers (including the registers holding secret keys) to the task handling
+cryptographic processing.</p>
+<p>If you wish to handle both accesses at the same task, you can use the
+PERM_RES_CRYPTO_FULL permission, which allows all the requested
+actions, mapping all the needed device registers in the task memory layout.</p>
+</div>
+<div class="section" id="what-is-perm-res-tsk-rng">
+<h2><a class="toc-backref" href="#id7">5.5.3.6. What is PERM_RES_TSK_RNG?</a><a class="headerlink" href="#what-is-perm-res-tsk-rng" title="Permalink to this headline">¶</a></h2>
+<p>EwoK implements a KRNG (Kernel-based Random Number Generator) mechanism. This
+permits to initialize the SSP (Stack Smashing Protection) seed for each task
+canaries.</p>
+<p>When a task is requiring random data, it has two possibilities:</p>
+<blockquote>
+<div><ul class="simple">
+<li>implement its own software-based RNG</li>
+<li>ask the kernel for random content</li>
+</ul>
+</div></blockquote>
+<p>When the hardware device hosts a (T)RNG (the STM32F339 hosts a True
+Random Number Generator), the kernel is using it and is able to distribute
+trusted randomness to userspace tasks. Why a permission then? It is globally
+not a good idea to request too much randomness from a RNG source, as it may
+generate exhaustion, making the RNG source less effective. To avoid
+this, only tasks that <strong>really</strong> require randomness should be able to ask from the KRNG source,
+reducing the attack surface of the KRNG.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">There is no permission needed to initialize the tasks SSP mechanism</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="faq_security.html" class="btn btn-neutral float-right" title="5.5.4. Ewok Security" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="faq_syscalls.html" class="btn btn-neutral" title="5.5.2. Syscalls FAQ" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

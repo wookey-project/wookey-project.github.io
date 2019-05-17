@@ -1,0 +1,463 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>9.9. Creating a new Driver &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="9.10. Creating a new library" href="newlib.html" />
+    <link rel="prev" title="9.8. Debugging and logging" href="debug.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ewok/index.html">5. EwoK kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libs.html">6. Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../drivers.html">7. Drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="dependencies.html">9.1. Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="repo.html">9.2. Downloading the project with repo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="externals.html">9.3. External dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">9.4. Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build.html">9.5. Building a new firmware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flash.html">9.6. Flashing a new firmware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="production.html">9.7. Production mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug.html">9.8. Debugging the project</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">9.9. Creating a new driver</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#driver-source-directories">9.9.1. Driver source directories</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#sources-integration">9.9.1.1. Sources integration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#build-mechanism">9.9.2. Build mechanism</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#driver-s-makefile">9.9.2.1. Driver’s Makefile</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#driver-s-build-directory">9.9.2.2. Driver’s build directory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuring-the-driver">9.9.2.3. Configuring the driver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#integrating-your-driver-to-the-sdk">9.9.2.4. Integrating your driver to the SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#interacting-with-devices">9.9.3. Interacting with devices</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#getting-device-information">9.9.3.1. Getting device information</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#declaring-the-device">9.9.3.2. Declaring the device</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="newlib.html">9.10. Creating a new library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="newapp.html">9.11. Creating a new application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="internals.html">9.12. Internals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="layout.html">9.13. Layout and portability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tataouine.html#tataouine-directories">9.14. Tataouine directories</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../tataouine.html">9. Tataouine SDK</a> &raquo;</li>
+        
+      <li>9.9. Creating a new Driver</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="creating-a-new-driver">
+<span id="newdrv"></span><h1><a class="toc-backref" href="#id1">9.9. Creating a new Driver</a><a class="headerlink" href="#creating-a-new-driver" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#creating-a-new-driver" id="id1">Creating a new Driver</a><ul>
+<li><a class="reference internal" href="#driver-source-directories" id="id2">Driver source directories</a><ul>
+<li><a class="reference internal" href="#sources-integration" id="id3">Sources integration</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#build-mechanism" id="id4">Build mechanism</a><ul>
+<li><a class="reference internal" href="#driver-s-makefile" id="id5">Driver’s Makefile</a></li>
+<li><a class="reference internal" href="#driver-s-build-directory" id="id6">Driver’s build directory</a></li>
+<li><a class="reference internal" href="#configuring-the-driver" id="id7">Configuring the driver</a></li>
+<li><a class="reference internal" href="#integrating-your-driver-to-the-sdk" id="id8">Integrating your driver to the SDK</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#interacting-with-devices" id="id9">Interacting with devices</a><ul>
+<li><a class="reference internal" href="#getting-device-information" id="id10">Getting device information</a></li>
+<li><a class="reference internal" href="#declaring-the-device" id="id11">Declaring the device</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<p>Drivers are built as userspace libraries.
+Thoses libraries provide higher abstraction API that can be used by any task.</p>
+<p>A driver should not depend on another driver.
+The good practice is to implement standalone, autonomous drivers.
+However, there might be some exception, e.g. iso7816 driver uses an USART
+interface, requiring to use <em>libusart</em>.</p>
+<p>A driver should not depend on another userspace library, the <em>libstd</em> being
+the sole exception.</p>
+<div class="section" id="driver-source-directories">
+<h2><a class="toc-backref" href="#id2">9.9.1. Driver source directories</a><a class="headerlink" href="#driver-source-directories" title="Permalink to this headline">¶</a></h2>
+<p>Drivers can be hold in two places:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">drivers/socs/&lt;socname&gt;</span></code> for SoC-specific drivers</li>
+<li><code class="docutils literal notranslate"><span class="pre">drivers/boards/&lt;boardname&gt;</span></code> for board-specific drivers, usually
+external peripherals</li>
+</ul>
+</div></blockquote>
+<p><em>System on Chip</em> (SoC) drivers handle the implementation of internal hardware
+devices belonging to a SoC.</p>
+<p>Board drivers handle the implementation of any peripheral that is connected to the SoC through any
+of its I/O lines. Some examples are a touchscreen or a SDcard reader.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For example, we want to develop a driver for the flash peripheral on a
+<em>stm32f439</em> board. That peripheral is not board specific, thus, its sources
+will be in <code class="docutils literal notranslate"><span class="pre">drivers/socs/stm32f439/flash/</span></code>.</p>
+</div>
+<div class="section" id="sources-integration">
+<h3><a class="toc-backref" href="#id3">9.9.1.1. Sources integration</a><a class="headerlink" href="#sources-integration" title="Permalink to this headline">¶</a></h3>
+<p>A driver requires the following files:</p>
+<blockquote>
+<div><ul class="simple">
+<li>A <code class="docutils literal notranslate"><span class="pre">Makefile</span></code>, holding the basic build target</li>
+<li>A <code class="docutils literal notranslate"><span class="pre">Kconfig</span></code> file, to (en|dis)able the driver</li>
+<li>At least one source file</li>
+<li>An <code class="docutils literal notranslate"><span class="pre">api/</span></code> directory, which contains the library API</li>
+</ul>
+</div></blockquote>
+<p>By convention, the driver API file should be named using the driver name.
+For example, the flash driver API file would be <code class="docutils literal notranslate"><span class="pre">api/libflash.h</span></code>.</p>
+</div>
+</div>
+<div class="section" id="build-mechanism">
+<h2><a class="toc-backref" href="#id4">9.9.2. Build mechanism</a><a class="headerlink" href="#build-mechanism" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="driver-s-makefile">
+<h3><a class="toc-backref" href="#id5">9.9.2.1. Driver’s Makefile</a><a class="headerlink" href="#driver-s-makefile" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> are generic.
+Only the <code class="docutils literal notranslate"><span class="pre">LIB_NAME</span></code> variable of the <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> needs to be updated.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> supports the following targets:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">all</span></code>: build the driver</li>
+<li><code class="docutils literal notranslate"><span class="pre">doc</span></code>: build the doc if there is some</li>
+<li><code class="docutils literal notranslate"><span class="pre">show</span></code>: show the drivers build info (sources, objects, etc.)</li>
+<li><code class="docutils literal notranslate"><span class="pre">lib</span></code>: called by all target, build the driver</li>
+</ul>
+</div></blockquote>
+<p>You should not need to take care about <code class="docutils literal notranslate"><span class="pre">CFLAGS</span></code>, as theses are automatically
+set. Although, it is possible to add any other compilation flag if needed.
+A usual case is to add the <code class="docutils literal notranslate"><span class="pre">-MMD</span> <span class="pre">-MP</span></code> compilation flags to generate the sources dependency tree
+or to add some explicit optimisation flags.</p>
+<div class="admonition danger">
+<p class="first admonition-title">Danger</p>
+<p class="last">Beware to use <strong>CFLAGS +=</strong> to keep previous <code class="docutils literal notranslate"><span class="pre">CFLAGS</span></code> contents</p>
+</div>
+</div>
+<div class="section" id="driver-s-build-directory">
+<h3><a class="toc-backref" href="#id6">9.9.2.2. Driver’s build directory</a><a class="headerlink" href="#driver-s-build-directory" title="Permalink to this headline">¶</a></h3>
+<p>Any driver is built in the <code class="docutils literal notranslate"><span class="pre">APP_BUILD_DIR</span></code> directory.
+Objects files and libraries can be found in
+<code class="docutils literal notranslate"><span class="pre">build/&lt;arch&gt;/&lt;board&gt;/drivers/lib&lt;drivername&gt;</span></code>.</p>
+<p>Compilation command files are hold in files related to the object build with it.
+For example, <code class="docutils literal notranslate"><span class="pre">drivers/socs/stm32f439/flash/flash.c</span></code> will produce
+<code class="docutils literal notranslate"><span class="pre">build/&lt;arch&gt;/&lt;board&gt;/drivers/libflash.a</span></code>, build with
+<code class="docutils literal notranslate"><span class="pre">build/&lt;arch&gt;/&lt;board&gt;/drivers/.libflash.a.cmd</span></code>.</p>
+</div>
+<div class="section" id="configuring-the-driver">
+<h3><a class="toc-backref" href="#id7">9.9.2.3. Configuring the driver</a><a class="headerlink" href="#configuring-the-driver" title="Permalink to this headline">¶</a></h3>
+<p>The driver directory must hold a <code class="docutils literal notranslate"><span class="pre">Kconfig</span> <span class="pre">file</span></code>.
+It must contain at least a driver entry labelled by the string
+<code class="docutils literal notranslate"><span class="pre">USR_DRV_&lt;drvname&gt;</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="n">USR_DRV_FLASH</span>
+  <span class="nb">bool</span>  <span class="s2">&quot;userspace Flash driver&quot;</span>
+  <span class="n">default</span> <span class="n">y</span>
+  <span class="o">---</span><span class="n">help</span><span class="o">---</span>
+  <span class="n">Support</span> <span class="k">for</span> <span class="n">STM32F4</span> <span class="n">internal</span> <span class="n">flash</span> <span class="n">hardware</span> <span class="n">IP</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>A driver, like other EwoK userspace components, can have various other
+configuration items in this file.</p>
+</div>
+<div class="section" id="integrating-your-driver-to-the-sdk">
+<h3><a class="toc-backref" href="#id8">9.9.2.4. Integrating your driver to the SDK</a><a class="headerlink" href="#integrating-your-driver-to-the-sdk" title="Permalink to this headline">¶</a></h3>
+<p>Add your driver <em>git</em> repository in the <em>repo</em> manifest file.
+The SDK automatically detects that your driver is added and integrates it to
+the configuration subsystem.</p>
+<p>Activate it using menuconfig</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">menuconfig</span>
+</pre></div>
+</div>
+<p>Go to <em>Userspace drivers and features, Drivers</em>. You should see your driver and
+should be able to activate it.</p>
+</div>
+</div>
+<div class="section" id="interacting-with-devices">
+<h2><a class="toc-backref" href="#id9">9.9.3. Interacting with devices</a><a class="headerlink" href="#interacting-with-devices" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="getting-device-information">
+<h3><a class="toc-backref" href="#id10">9.9.3.1. Getting device information</a><a class="headerlink" href="#getting-device-information" title="Permalink to this headline">¶</a></h3>
+<p>In Tataouine, the device list is handled through a unique JSON file,
+<code class="docutils literal notranslate"><span class="pre">layout/arch/socs/&lt;socname&gt;/soc-devmap-&lt;boardname&gt;.json</span></code>.
+This file hold all the necessary information for device drivers developers, including:</p>
+<blockquote>
+<div><ul class="simple">
+<li>The <strong>type</strong>:  <em>block</em>, which means that the device is memory
+mapped in the SoC, or <em>peripheral</em>, which means that the device is
+onboard, accessed through an I/O bus</li>
+<li>Memory mapping <strong>address</strong> (when the device is memory mapped)</li>
+<li>Memory mapping <strong>size</strong> (when the device is memory mapped)</li>
+<li>Associated <strong>gpio</strong> list. Each GPIO pin/port couple is
+associated to a canonical name. Only block devices communicating with the
+outside world have GPIOs</li>
+<li>Associated <strong>irq</strong> list. Each IRQ is associated to a canonical name</li>
+<li>Associated <strong>dma</strong> channels</li>
+<li>EwoK <strong>permission</strong>. Those permissions are tested when the device is
+requested by a userspace task</li>
+</ul>
+</div></blockquote>
+<p>Other fields (<em>RCC clocks</em> and <em>registers</em>) are used by the EwoK kernel to
+enable the device input clock.</p>
+<p>The JSON file is used to generate, for each device, some Ada and some C code
+files.
+All information about how devices header are generated and named can be found
+in the <a class="reference internal" href="layout.html#layout"><span class="std std-ref">hardware layout chapter</span></a>.
+The way this structure is used by the device driver is described below.</p>
+</div>
+<div class="section" id="declaring-the-device">
+<h3><a class="toc-backref" href="#id11">9.9.3.2. Declaring the device</a><a class="headerlink" href="#declaring-the-device" title="Permalink to this headline">¶</a></h3>
+<p>In EwoK, each task goes through two phases, more detailed in the <a class="reference internal" href="../ewok/syscalls/sys_init.html#sys-init"><span class="std std-ref">sys_init, initializing devices</span></a> section:</p>
+<blockquote>
+<div><ul class="simple">
+<li>In the <em>init phase</em>, the task can declare a device (and other resources).</li>
+<li>In the <em>nominal phase</em>, the task can access this device. In general,
+the first action will be to configure it.</li>
+</ul>
+</div></blockquote>
+<p>As a consequence, initialization of a driver need to be separated in two parts:</p>
+<blockquote>
+<div># In the <em>init phase</em>, the device is declared and registered against the kernel
+# In the <em>nominal phase</em>, the device is configured</div></blockquote>
+<p>Thus, the driver’s API should provide two independent functions:</p>
+<blockquote>
+<div><ul class="simple">
+<li>The declaration function, to register the device, named
+<code class="docutils literal notranslate"><span class="pre">&lt;device&gt;_early_init()</span></code>, e.g. <code class="docutils literal notranslate"><span class="pre">flash_early_init()</span></code></li>
+<li>The device configuration function, to configure the device, named
+<code class="docutils literal notranslate"><span class="pre">&lt;device&gt;_init()</span></code>, e.g. <code class="docutils literal notranslate"><span class="pre">flash_init()</span></code></li>
+</ul>
+</div></blockquote>
+<p>Trying to access the device during the <em>init phase</em> will trigger a memory fault
+as the device is not mapped in memory.</p>
+<p>For further details, read the <a class="reference internal" href="../ewok/devices.html#devices"><span class="std std-ref">Managing devices from userland</span></a> and <a class="reference internal" href="../ewok/index.html#ewok-kernel"><span class="std std-ref">EwoK microkernel</span></a>.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">Beware to libstd <code class="docutils literal notranslate"><span class="pre">mbed_error_t</span></code> return type.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="newlib.html" class="btn btn-neutral float-right" title="9.10. Creating a new library" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="debug.html" class="btn btn-neutral" title="9.8. Debugging and logging" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

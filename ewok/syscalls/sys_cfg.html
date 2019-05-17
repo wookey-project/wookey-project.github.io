@@ -1,0 +1,547 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>5.3.1.2.2. sys_cfg, configuring devices &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="5.3.1.2.3. sys_log" href="sys_log.html" />
+    <link rel="prev" title="5.3.1.2.1. sys_init, initializing devices" href="sys_init.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">5. EwoK kernel</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#what-is-ewok">5.1. What is EwoK ?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#ewok-architecture">5.2. EwoK architecture</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#ewok-api">5.3. EwoK API</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../syscalls.html">5.3.1. Syscalls</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../syscalls.html#general-principles">5.3.1.1. General principles</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../syscalls.html#syscall-overview">5.3.1.2. Syscall overview</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../devices.html">5.3.2. Using devices from userland</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../perms.html">5.3.3. Permissions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#internals">5.4. Internals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#faq">5.5. FAQ</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../libs.html">6. Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../drivers.html">7. Drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tataouine.html">9. Tataouine SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">5. EwoK microkernel</a> &raquo;</li>
+        
+          <li><a href="../syscalls.html">5.3.1. EwoK syscalls</a> &raquo;</li>
+        
+      <li>5.3.1.2.2. <em>sys_cfg</em>, configuring devices</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="sys-cfg-configuring-devices">
+<span id="sys-cfg"></span><h1><a class="toc-backref" href="#id1">5.3.1.2.2. <em>sys_cfg</em>, configuring devices</a><a class="headerlink" href="#sys-cfg-configuring-devices" title="Permalink to this headline">¶</a></h1>
+<p>The resources (GPIOs, DMA, etc.) reconfiguration request is done by the
+sys_cfg() syscall family.</p>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#sys-cfg-configuring-devices" id="id1"><em>sys_cfg</em>, configuring devices</a><ul>
+<li><a class="reference internal" href="#sys-cfg-cfg-gpio-set" id="id2">sys_cfg(CFG_GPIO_SET)</a></li>
+<li><a class="reference internal" href="#sys-cfg-cfg-gpio-get" id="id3">sys_cfg(CFG_GPIO_GET)</a></li>
+<li><a class="reference internal" href="#sys-cfg-cfg-gpio-unlock-exti" id="id4">sys_cfg(CFG_GPIO_UNLOCK_EXTI)</a></li>
+<li><a class="reference internal" href="#sys-cfg-cfg-dma-reconf" id="id5">sys_cfg(CFG_DMA_RECONF)</a></li>
+<li><a class="reference internal" href="#sys-cfg-cfg-dma-reload" id="id6">sys_cfg(CFG_DMA_RELOAD)</a></li>
+<li><a class="reference internal" href="#sys-cfg-cfg-dma-disable" id="id7">sys_cfg(CFG_DMA_DISABLE)</a></li>
+<li><a class="reference internal" href="#sys-cfg-cfg-dev-map" id="id8">sys_cfg(CFG_DEV_MAP)</a></li>
+<li><a class="reference internal" href="#sys-cfg-cfg-dev-unmap" id="id9">sys_cfg(CFG_DEV_UNMAP)</a></li>
+<li><a class="reference internal" href="#sys-cfg-cfg-dev-release" id="id10">sys_cfg(CFG_DEV_RELEASE)</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="sys-cfg-cfg-gpio-set">
+<h2><a class="toc-backref" href="#id2">5.3.1.2.2.1. sys_cfg(CFG_GPIO_SET)</a><a class="headerlink" href="#sys-cfg-cfg-gpio-set" title="Permalink to this headline">¶</a></h2>
+<p>GPIOs are not directly mapped in the task’s memory. As a consequence, setting
+the GPIO output value is done using a syscall.
+The GPIO must be registered as output for the syscall to succeed.
+Only the GPIO kref is needed by this syscall, see the <code class="docutils literal notranslate"><span class="pre">sys_init(INIT_DEVACCESS)</span></code>
+explanations about kref for further details.</p>
+<p>Setting an output GPIO is done with the following API:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">e_syscall_ret</span> <span class="n">sys_cfg</span><span class="p">(</span><span class="n">CFG_GPIO_SET</span><span class="p">,</span> <span class="n">uint8_t</span> <span class="n">gpioref</span><span class="p">,</span> <span class="n">uint8_t</span> <span class="n">value</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The value set is the third argument.</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">The GPIO to set must have been previously declared as output in the initialization phase.</p>
+</div>
+</div>
+<div class="section" id="sys-cfg-cfg-gpio-get">
+<h2><a class="toc-backref" href="#id3">5.3.1.2.2.2. sys_cfg(CFG_GPIO_GET)</a><a class="headerlink" href="#sys-cfg-cfg-gpio-get" title="Permalink to this headline">¶</a></h2>
+<p>Getting a GPIO value for a GPIO configured in input mode is done using a syscall.
+Only the GPIO kref is needed by this syscall, see the <code class="docutils literal notranslate"><span class="pre">sys_init(INIT_DEVACCESS)</span></code>
+explanations about kref for further details.</p>
+<p>Getting an input value of a GPIO is done with the
+following API:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">e_syscall_ret</span> <span class="n">sys_cfg</span><span class="p">(</span><span class="n">CFG_GPIO_GET</span><span class="p">,</span> <span class="n">uint8_t</span> <span class="n">gpioref</span><span class="p">,</span> <span class="n">uint8_t</span> <span class="o">*</span><span class="n">val</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The value read is put in the third argument.</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">The GPIO queried must have been previously declared as input in the
+initialization phase.</p>
+</div>
+</div>
+<div class="section" id="sys-cfg-cfg-gpio-unlock-exti">
+<h2><a class="toc-backref" href="#id4">5.3.1.2.2.3. sys_cfg(CFG_GPIO_UNLOCK_EXTI)</a><a class="headerlink" href="#sys-cfg-cfg-gpio-unlock-exti" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Synchronous syscall, executable in ISR mode</p>
+</div>
+<dl class="docutils">
+<dt>There are times when external interrupts may:</dt>
+<dd><ul class="first last simple">
+<li>Arise only one time and need to be muted voluntarily for a given amount of
+time</li>
+<li>Be unstable and generate uncontrolled bursts, when the external IP is not
+clean and has hardware bugs</li>
+</ul>
+</dd>
+</dl>
+<p>For these two cases, the EwoK kernel supports a specific GPIO
+configuration which allows, when an EXTI interrupt is configured, to choose
+whether:</p>
+<blockquote>
+<div><ul class="simple">
+<li>The EXTI line is masked at handler time, by the kernel. The user ISR will be
+executed but there will be no more EXTI interrupts pending on the
+interrupt line</li>
+<li>The EXTI line is not masked, and the EXTI is only acknowledged. The EXTI
+source can continue to emit other interrupts and the userspace ISR handler
+will be executed for each of them</li>
+</ul>
+</div></blockquote>
+<p>The choice is done using the <cite>exti_lock</cite> field of the gpio structure, using
+either:</p>
+<blockquote>
+<div><ul class="simple">
+<li>GPIO_EXTI_UNLOCKED value: the EXTI line is not masked and will continue to
+arise when the external HW IP emits events</li>
+<li>GPIO_EXTI_LOCKED value: the EXTI line is masked once the interrupt
+has been scheduled for beeing serviced. The userspace task needs to
+unmask it voluntarily using the apropriate syscall. No other EXTI will
+be received without unmasking.</li>
+</ul>
+</div></blockquote>
+<p>Unmasking a given EXTI interrupt is done using the <code class="docutils literal notranslate"><span class="pre">sys_cfg(CFG_GPIO_UNLOCK_EXTI)</span></code>
+syscall. This syscall has the following API:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">e_syscall_ret</span> <span class="n">sys_cfg</span><span class="p">(</span><span class="n">CFG_GPIO_EXTI_UNLOCK</span><span class="p">,</span> <span class="n">uint8_t</span> <span class="n">gpioref</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The gpioref parameter is the kref identifier of the GPIO, like the one used in the
+other GPIO manipulation syscalls. Unlocking the EXTI line is a synchronous
+syscall.</p>
+</div>
+<div class="section" id="sys-cfg-cfg-dma-reconf">
+<h2><a class="toc-backref" href="#id5">5.3.1.2.2.4. sys_cfg(CFG_DMA_RECONF)</a><a class="headerlink" href="#sys-cfg-cfg-dma-reconf" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Synchronous syscall, executable in ISR mode</p>
+</div>
+<p>DMA operations are performed by EwoK microkernel on the behalf of userspace tasks.
+After completion of a DMA transfert the DMA channel is disable until it is either reloaded or reconfigurated.
+For allowing the user to change the input/output buffers of a DMA channel, it is permittd to reconfigure part
+of the DMA channel information.</p>
+<p>Only some fields of the <code class="docutils literal notranslate"><span class="pre">dma_t</span></code> can be reconfigured :</p>
+<blockquote>
+<div><ul class="simple">
+<li>ISR handlers address</li>
+<li>Input buffer address (for memory to peripheral mode)</li>
+<li>Output buffer address (for peripheral to memory mode)</li>
+<li>Buffer size</li>
+<li>DMA mode (direct, FIFO or circular)</li>
+<li>DMA priority</li>
+</ul>
+</div></blockquote>
+<p>Reconfiguring a part of a DMA stream is done with the following API:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">e_syscall_ret</span> <span class="n">sys_cfg</span><span class="p">(</span><span class="n">CFG_DMA_RECONF</span><span class="p">,</span> <span class="n">dma_t</span><span class="o">*</span><span class="n">dma</span><span class="p">,</span> <span class="n">dma_reconf_mask_t</span>
+<span class="n">reconfmask</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The mask parameter allows the user to specify which field(s) need(s) to be
+reconfigured.</p>
+<p>As these fields are a part of the <code class="docutils literal notranslate"><span class="pre">dma_t</span></code> structure (see Ewok kernel API
+technical reference documentation), the syscall requires this entire structure.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">The easiest way to use this syscall is to keep the dma_t&nbsp;structure used
+during the initialization phase and to update it during the nominal phase</p>
+</div>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">The DMA that needs to be reconfigured must have been previously declared in
+the initialization phase.</p>
+</div>
+</div>
+<div class="section" id="sys-cfg-cfg-dma-reload">
+<h2><a class="toc-backref" href="#id6">5.3.1.2.2.5. sys_cfg(CFG_DMA_RELOAD)</a><a class="headerlink" href="#sys-cfg-cfg-dma-reload" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Synchronous syscall, executable in ISR mode</p>
+</div>
+<p>When a DMA tranfert is finished, the corresponding DMA channel is disable until
+it is either reloaded or reconfigurated.
+A reload can be performed when the DMA controller is requested to redo exactly
+the same action, without any modification of the DMA channel properties.
+Reloading a DMA channel is faster than reconfiguring it.
+The kernel only needs to identify the DMA controller and stream, and does not
+need a whole DMA structure. The task can then use only the <code class="docutils literal notranslate"><span class="pre">id</span></code> field of the
+<code class="docutils literal notranslate"><span class="pre">dma_t</span></code> structure.</p>
+<p>Reloading a DMA stream is done with the following API:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">e_syscall_ret</span> <span class="n">sys_cfg</span><span class="p">(</span><span class="n">CFG_DMA_RELOAD</span><span class="p">,</span> <span class="n">uint32_t</span> <span class="n">dma_id</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">The DMA that needs to be reloaded must have been previously declared in the
+initialization phase.</p>
+</div>
+</div>
+<div class="section" id="sys-cfg-cfg-dma-disable">
+<h2><a class="toc-backref" href="#id7">5.3.1.2.2.6. sys_cfg(CFG_DMA_DISABLE)</a><a class="headerlink" href="#sys-cfg-cfg-dma-disable" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Synchronous syscall, executable in ISR mode</p>
+</div>
+<p>It is possible to disable a DMA stream. In this case, the DMA channel is stopped and
+can be re-enabled by calling one of sys_cfg(CFG_DMA_RELOAD) or
+sys_cfg(CFG_DMA_RECONF) syscalls.</p>
+<p>This is useful for DMA streams in circular mode, as they never stop unless the
+software asks them to.</p>
+<p>Disabling a DMA stream is done with the following API:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">e_syscall_ret</span> <span class="n">sys_cfg</span><span class="p">(</span><span class="n">CFG_DMA_DISABLE</span><span class="p">,</span> <span class="n">uint32_t</span> <span class="n">dma_id</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">The DMA that needs to be disabled must have been previously declared in the
+initialization phase.</p>
+</div>
+</div>
+<div class="section" id="sys-cfg-cfg-dev-map">
+<h2><a class="toc-backref" href="#id8">5.3.1.2.2.7. sys_cfg(CFG_DEV_MAP)</a><a class="headerlink" href="#sys-cfg-cfg-dev-map" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Synchronous syscall, executable only in main thread mode</p>
+</div>
+<p>Ewok Microkernel allows a task to map only a restricted number of devices at a time.
+Voluntary mapped devices permit to map, configure and unmap in a task more
+than the maximum number of concurrently mapped devices. It also allows us to avoid
+mapping devices whose concurrent mapping is dangerous (e.g. concatenated
+mappings).</p>
+<p>It is possible to declare a device as voluntary mapped (field <code class="docutils literal notranslate"><span class="pre">map_mode</span></code> of
+the <em>device_t</em> structure.  This field can be set to the following values:</p>
+<blockquote>
+<div><ul class="simple">
+<li>DEV_MAP_AUTO</li>
+<li>DEV_MAP_VOLUNTARY</li>
+</ul>
+</div></blockquote>
+<p>When using DEV_MAP_AUTO, the device is automatically mapped in the task address
+space when finishing the initialization phase, and is kept mapped until the
+end of the task life-cycle.</p>
+<p>When using DEV_MAP_VOLUNTARY, the device is not mapped by the kernel and the
+task has to map the device itself (later in the life-cycle). In that case,
+the device is mapped using this very syscall.</p>
+<p>Mapping a device is done using the device id, hosted in the <code class="docutils literal notranslate"><span class="pre">id</span></code> field of the
+<em>device_t</em> structure, which is set by the kernel at registration time.</p>
+<p>Mapping a device is done with the following API:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">e_syscall_ret</span> <span class="n">sys_cfg</span><span class="p">(</span><span class="n">CFG_DEV_MAP</span><span class="p">,</span> <span class="n">uint8_t</span> <span class="n">dev_id</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">Declaring a voluntary mapped device requires a specific permission:
+PERM_RES_MEM_DMAP</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Mapping a device requires a call to the scheduler, in order to reconfigure
+the MPU, this action is costly</p>
+</div>
+</div>
+<div class="section" id="sys-cfg-cfg-dev-unmap">
+<h2><a class="toc-backref" href="#id9">5.3.1.2.2.8. sys_cfg(CFG_DEV_UNMAP)</a><a class="headerlink" href="#sys-cfg-cfg-dev-unmap" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Synchronous syscall, executable only in main thread mode</p>
+</div>
+<p>When using DEV_MAP_VOLUNTARY, a previously voluntary mapped device can be unmapped
+by the task.  Unmapping a device frees the corresponding MPU slot, this is useful e.g. when the task requires more
+than the maximum number of concurrently devices.</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">While the device is configured, device’s ISR still maps the device, even if
+it is unmapped from the main thread</p>
+</div>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">Unmapping a device does not mean disabling it, the hardware device still works
+and emits IRQs that are handled by the task’s registered ISR. It is the task’s
+responsibility to properly disable the device before unammping it if necessary</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Unmapping a device requires a call to the scheduler, in order to reconfigure
+the MPU, this action is costly</p>
+</div>
+<p>Unmapping a device is done using the device id, stored in the <code class="docutils literal notranslate"><span class="pre">id</span></code> field of
+the <em>device_t</em> structure, which is set by the kernel at registration time.</p>
+<p>Unmapping a device is done with the following API:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">e_syscall_ret</span> <span class="n">sys_cfg</span><span class="p">(</span><span class="n">CFG_DEV_UNMAP</span><span class="p">,</span> <span class="n">uint8_t</span> <span class="n">dev_id</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sys-cfg-cfg-dev-release">
+<h2><a class="toc-backref" href="#id10">5.3.1.2.2.9. sys_cfg(CFG_DEV_RELEASE)</a><a class="headerlink" href="#sys-cfg-cfg-dev-release" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Synchronous syscall, executable only in main thread mode</p>
+</div>
+<p>A task may want to revoke its accesses to a given
+device. This can be done by requesting the kernel to release the device using
+its device descriptor.  The device is then fully deactivated (including
+associated RCC clock and interrupts) and fully removed from the task’s context.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last"><strong>This action cannot be undone</strong>. The device is released until reboot</p>
+</div>
+<p>A released device shall never be
+allocated by another task. This can only happen if the device is released by a
+given task before another task has finished its initialization phase.</p>
+<div class="admonition danger">
+<p class="first admonition-title">Danger</p>
+<p class="last">You should <strong>not</strong> interleave nominal and initializing phases between
+tasks to avoid potential unwanted device reallocation.
+Take care to synchronize init sequences correctly.  The kernel
+<strong>does not</strong> clear the device registers at release time</p>
+</div>
+<p>Releasing a device is done with the following API:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">e_syscall_ret</span> <span class="n">sys_cfg</span><span class="p">(</span><span class="n">CFG_DEV_RELEASE</span><span class="p">,</span> <span class="n">uint8_t</span> <span class="n">dev_id</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="sys_log.html" class="btn btn-neutral float-right" title="5.3.1.2.3. sys_log" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="sys_init.html" class="btn btn-neutral" title="5.3.1.2.1. sys_init, initializing devices" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

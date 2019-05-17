@@ -1,0 +1,354 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>9.7. Transition to production mode &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="9.8. Debugging and logging" href="debug.html" />
+    <link rel="prev" title="9.6. Flashing a new firmware" href="flash.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ewok/index.html">5. EwoK kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libs.html">6. Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../drivers.html">7. Drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="dependencies.html">9.1. Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="repo.html">9.2. Downloading the project with repo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="externals.html">9.3. External dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">9.4. Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build.html">9.5. Building a new firmware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flash.html">9.6. Flashing a new firmware</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">9.7. Production mode</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#about-the-protections-to-activate-in-production-mode">9.7.1. About the protections to activate in production mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#lock-the-platform-jtag-swd">9.7.2. Lock the platform JTAG/SWD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#activate-bootloader-rdp2-detection">9.7.3. Activate bootloader RDP2 detection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#lock-the-javacard-globalplatform-tokens">9.7.4. Lock the JavaCard GlobalPlatform tokens</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mute-the-debug-uart">9.7.5. Mute the debug UART</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="debug.html">9.8. Debugging the project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="newdriver.html">9.9. Creating a new driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="newlib.html">9.10. Creating a new library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="newapp.html">9.11. Creating a new application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="internals.html">9.12. Internals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="layout.html">9.13. Layout and portability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tataouine.html#tataouine-directories">9.14. Tataouine directories</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../tataouine.html">9. Tataouine SDK</a> &raquo;</li>
+        
+      <li>9.7. Transition to production mode</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="transition-to-production-mode">
+<span id="production"></span><h1><a class="toc-backref" href="#id1">9.7. Transition to production mode</a><a class="headerlink" href="#transition-to-production-mode" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#transition-to-production-mode" id="id1">Transition to production mode</a><ul>
+<li><a class="reference internal" href="#about-the-protections-to-activate-in-production-mode" id="id2">About the protections to activate in production mode</a></li>
+<li><a class="reference internal" href="#lock-the-platform-jtag-swd" id="id3">Lock the platform JTAG/SWD</a></li>
+<li><a class="reference internal" href="#activate-bootloader-rdp2-detection" id="id4">Activate bootloader RDP2 detection</a></li>
+<li><a class="reference internal" href="#lock-the-javacard-globalplatform-tokens" id="id5">Lock the JavaCard GlobalPlatform tokens</a></li>
+<li><a class="reference internal" href="#mute-the-debug-uart" id="id6">Mute the debug UART</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="about-the-protections-to-activate-in-production-mode">
+<h2><a class="toc-backref" href="#id2">9.7.1. About the protections to activate in production mode</a><a class="headerlink" href="#about-the-protections-to-activate-in-production-mode" title="Permalink to this headline">¶</a></h2>
+<p>When everything is OK on the debug side, you can put the firmware in
+<strong>production mode</strong>.</p>
+<p>When developing on an open WooKey platform, two elements are
+unlocked and are a <strong>potential threat</strong> that an attacker can
+use to attack the platform:</p>
+<blockquote>
+<div><ul class="simple">
+<li>JTAG/SWD interface: in open mode, the WooKey platform’s debug interface (SWD) is left opened for flashing and debug purposes. Of course, such a SWD interface opens many possible attacks on the production firmware, and it <strong>must be closed</strong> in production mode.</li>
+<li>JavaCard tokens default GlobalPlatform keys: the WooKey token(s) usually use default keys (depending on the exact model of JavaCard you use). The WooKey security model <strong>imposes to modify the default keys of the token</strong>. Leaving the default keys opens threats where it is possible to <strong>compromise your sensitive keys</strong> and <strong>produce a rogue token</strong>.</li>
+</ul>
+</div></blockquote>
+<p>Beyond this, the WooKey platform is quite verbose on its UART in development mode, and there is no
+reason to keep such a verbosity in production mode. Hence, it is strongly advised to <strong>mute</strong> the
+UART in order to avoid any leak on this output channel.</p>
+</div>
+<div class="section" id="lock-the-platform-jtag-swd">
+<h2><a class="toc-backref" href="#id3">9.7.2. Lock the platform JTAG/SWD</a><a class="headerlink" href="#lock-the-platform-jtag-swd" title="Permalink to this headline">¶</a></h2>
+<p>On STM32 MCUs, locking the JTAG/SWD debug and flashing interface makes use of ST’s RDP (Readout Protection) technology (through internal fuses).
+Three levels of RDP exist:</p>
+<blockquote>
+<div><ul class="simple">
+<li>RDP0: this is the default level where everything is opened (the WooKey development platform is in this level)</li>
+<li>RDP1: in this level, some (but not all) debug features are locked. It is not possible to read the internal flash form the SWD debug interface, but it is still possible to debug and interact with elements in the internal SRAM. This protection level must <strong>not be considered</strong> as secure since the SRAM might leak sensitive information! Moreover, this level is <strong>reversible</strong> (at the expense of erasing the internal flash).</li>
+<li>RDP2: in this level, all the debug features and internal flash reading are locked. We strongly advise to use this protection mode in WooKey’s production phase. This level is <strong>irreversible</strong> for obvious security reasons.</li>
+</ul>
+</div></blockquote>
+<p>All these elements are summarized in ST’s Application Note AN4701 that can be found <a class="reference external" href="https://www.st.com/content/ccc/resource/technical/document/application_note/89/12/c5/e2/0d/0e/45/7f/DM00186528.pdf/files/DM00186528.pdf/jcr:content/translations/en.DM00186528.pdf">here</a>.</p>
+<p>More practically, the transition to RDP2 can be performed on a board by using ST’s <a class="reference external" href="https://www.st.com/content/ccc/resource/technical/document/user_manual/e6/10/d8/80/d6/1d/4a/f2/CD00262073.pdf/files/CD00262073.pdf/jcr:content/translations/en.CD00262073.pdf">ST-LINK utility dedicated tool</a>.</p>
+<p>See the <strong>Option bytes commands</strong>, specifically using <code class="docutils literal notranslate"><span class="pre">-OB</span> <span class="pre">RDP=2</span></code>. This tool is a <strong>Windows only</strong> tool.</p>
+<p>Unfortunately, there is no easy way under Linux to activate RDP2 using open source OpenOCD or st-util. You can still use these tools to <strong>manually configure</strong> the option bytes
+of the MCU, but do it <strong>at your own risks</strong>.</p>
+<div class="admonition danger">
+<p class="first admonition-title">Danger</p>
+<p class="last">Please be sure of what you do before switching to RDP2. This is <strong>irreversible</strong>, you must ensure that you have properly configured and
+compiled you production firmware!</p>
+</div>
+<p>After RDP2 activation, the <strong>only way</strong> to update a WooKey platform is through the secure DFU (Device Firmware Update) procedure with
+<strong>signed and encrypted firmwares</strong>.</p>
+</div>
+<div class="section" id="activate-bootloader-rdp2-detection">
+<h2><a class="toc-backref" href="#id4">9.7.3. Activate bootloader RDP2 detection</a><a class="headerlink" href="#activate-bootloader-rdp2-detection" title="Permalink to this headline">¶</a></h2>
+<p>As a defense-in-depth mechanism, WooKey’s initial bootloader optionally checks for RDP2 protection activation
+before booting the rest of the firmware. Of course, this check is disabled by default in development mode
+(or the bootloader will refuse to boot since the default RDP value is RDP0 for dev boards).</p>
+<p>When configuring the production firmware (i.e. you have ensured that everything is fine with your options), you can
+activate in the <code class="docutils literal notranslate"><span class="pre">menuconfig</span></code> ‘Bootloader configuration’ menu the ‘Check that RDP protection is active at boot time’
+option. Next, compile your firmware and it should check for the protection activation: if you are still in RDP0, you should
+see reboots.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This feature is still under beta test review, please use with caution!</p>
+</div>
+</div>
+<div class="section" id="lock-the-javacard-globalplatform-tokens">
+<h2><a class="toc-backref" href="#id5">9.7.4. Lock the JavaCard GlobalPlatform tokens</a><a class="headerlink" href="#lock-the-javacard-globalplatform-tokens" title="Permalink to this headline">¶</a></h2>
+<p>Locking the JavaCard tokens must be performed after flashing them with the AUTH, DFU and SIG applets. When
+locking the token, you must keep the new key(s) <strong>somewhere safe</strong>, as you might need them to flash
+the tokens again in case of reconfiguration (for a new platform and so on).</p>
+<div class="admonition danger">
+<p class="first admonition-title">Danger</p>
+<p class="last">Please don’t loose the new key when you lock your tokens, or they will be <strong>bricked</strong> and useless!</p>
+</div>
+<p>Changing the JavaCard default GlobalPlatform keys is important in WooKey’s security model. Performing this
+is easy using the GlobalPlatformPro tool:</p>
+<p><a class="reference external" href="https://github.com/martinpaljak/GlobalPlatformPro">https://github.com/martinpaljak/GlobalPlatformPro</a></p>
+<p>with the <code class="docutils literal notranslate"><span class="pre">-lock</span></code> option.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Note your new key somewhere, and keep it <strong>safe</strong>. You will need it for any new administrative operation
+on your tokens</p>
+</div>
+</div>
+<div class="section" id="mute-the-debug-uart">
+<h2><a class="toc-backref" href="#id6">9.7.5. Mute the debug UART</a><a class="headerlink" href="#mute-the-debug-uart" title="Permalink to this headline">¶</a></h2>
+<p>We strongly advice to <strong>mute</strong> the debug console UART (i.e. the UART used by the kernel and for userland <code class="docutils literal notranslate"><span class="pre">printf</span></code>). This can
+be performed by selecting the ‘No kernel serial interface (production mode)` in the ‘Micro-Kernel configuration’ menu.</p>
+<p>Choosing this option renders the UART hardware IP completely non-configured, ensuring that no sensitive information is
+leaked through it.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="debug.html" class="btn btn-neutral float-right" title="9.8. Debugging and logging" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="flash.html" class="btn btn-neutral" title="9.6. Flashing a new firmware" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

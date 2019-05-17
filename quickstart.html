@@ -1,0 +1,404 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>2. Quick start &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="3. Demo examples" href="demo.html" />
+    <link rel="prev" title="1. WooKey project" href="target.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pre-requisites">2.1. Pre-requisites</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#install-the-dependencies">2.1.1. Install the dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fetch-the-project-files">2.1.2. Fetch the project files</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#build-the-firmware">2.2. Build the firmware</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#set-the-environment">2.2.1. Set the environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configuration">2.2.2. Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build-the-binary-files">2.2.3. Build the binary files</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#flash-the-firmware">2.3. Flash the firmware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#execute-the-new-firmware">2.4. Execute the new firmware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#debug">2.5. Debug</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#read-the-usart-with-minicom">2.5.1. Read the USART with <em>minicom</em></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#debug-with-gdb">2.5.2. Debug with <em>gdb</em></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#going-further">2.6. Going further</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#troubleshooting">2.7. Troubleshooting</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ewok/index.html">5. EwoK kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html">6. Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="drivers.html">7. Drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tataouine.html">9. Tataouine SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>2. Quick start</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="quick-start">
+<span id="quickstart"></span><h1><a class="toc-backref" href="#id1">2. Quick start</a><a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#quick-start" id="id1">Quick start</a><ul>
+<li><a class="reference internal" href="#pre-requisites" id="id2">Pre-requisites</a><ul>
+<li><a class="reference internal" href="#install-the-dependencies" id="id3">Install the dependencies</a></li>
+<li><a class="reference internal" href="#fetch-the-project-files" id="id4">Fetch the project files</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#build-the-firmware" id="id5">Build the firmware</a><ul>
+<li><a class="reference internal" href="#set-the-environment" id="id6">Set the environment</a></li>
+<li><a class="reference internal" href="#configuration" id="id7">Configuration</a></li>
+<li><a class="reference internal" href="#build-the-binary-files" id="id8">Build the binary files</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#flash-the-firmware" id="id9">Flash the firmware</a></li>
+<li><a class="reference internal" href="#execute-the-new-firmware" id="id10">Execute the new firmware</a></li>
+<li><a class="reference internal" href="#debug" id="id11">Debug</a><ul>
+<li><a class="reference internal" href="#read-the-usart-with-minicom" id="id12">Read the USART with <em>minicom</em></a></li>
+<li><a class="reference internal" href="#debug-with-gdb" id="id13">Debug with <em>gdb</em></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#going-further" id="id14">Going further</a></li>
+<li><a class="reference internal" href="#troubleshooting" id="id15">Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>This section describes how to build and execute the ‘blinky’ demo
+on a STM32F407 Discovery board. It summarises informations thoroughly detailed
+here:</p>
+<ul class="simple">
+<li><a class="reference internal" href="tataouine/dependencies.html#dependencies"><span class="std std-ref">Dependencies</span></a></li>
+<li><a class="reference internal" href="tataouine/build.html#build"><span class="std std-ref">Configuring and building a new firmware</span></a></li>
+<li><a class="reference internal" href="tataouine/flash.html#flash"><span class="std std-ref">Flashing a new firmware</span></a></li>
+</ul>
+<div class="section" id="pre-requisites">
+<h2><a class="toc-backref" href="#id2">2.1. Pre-requisites</a><a class="headerlink" href="#pre-requisites" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="install-the-dependencies">
+<h3><a class="toc-backref" href="#id3">2.1.1. Install the dependencies</a><a class="headerlink" href="#install-the-dependencies" title="Permalink to this headline">¶</a></h3>
+<p>To compile and to run the project, some dependencies need to be installed.
+Please check the <a class="reference internal" href="tataouine/dependencies.html#dependencies"><span class="std std-ref">Dependencies</span></a> section to fetch them.</p>
+</div>
+<div class="section" id="fetch-the-project-files">
+<h3><a class="toc-backref" href="#id4">2.1.2. Fetch the project files</a><a class="headerlink" href="#fetch-the-project-files" title="Permalink to this headline">¶</a></h3>
+<p>Once the dependencies are installed, create a working directory and then fetch
+the project with <code class="docutils literal notranslate"><span class="pre">repo</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="n">disco407</span>
+<span class="n">cd</span> <span class="n">disco407</span>
+<span class="n">repo</span> <span class="n">init</span> <span class="o">-</span><span class="n">u</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">wookey</span><span class="o">-</span><span class="n">project</span><span class="o">/</span><span class="n">manifest</span><span class="o">.</span><span class="n">git</span> <span class="o">-</span><span class="n">m</span> <span class="n">disco407</span><span class="o">.</span><span class="n">xml</span>
+<span class="n">repo</span> <span class="n">sync</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="build-the-firmware">
+<h2><a class="toc-backref" href="#id5">2.2. Build the firmware</a><a class="headerlink" href="#build-the-firmware" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="set-the-environment">
+<h3><a class="toc-backref" href="#id6">2.2.1. Set the environment</a><a class="headerlink" href="#set-the-environment" title="Permalink to this headline">¶</a></h3>
+<p>Set the needed environment variables by sourcing the <code class="docutils literal notranslate"><span class="pre">setenv.sh</span></code> script</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">.</span> <span class="n">setenv</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="configuration">
+<h3><a class="toc-backref" href="#id7">2.2.2. Configuration</a><a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h3>
+<p>List the predefined configuration profiles</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">defconfig_list</span>
+</pre></div>
+</div>
+<p>Two demo examples are described in section <a class="reference internal" href="demo.html#demo"><span class="std std-ref">Demo examples</span></a>.
+To build the <em>blinky</em> project, choose the <code class="docutils literal notranslate"><span class="pre">disco_blinky_ada_defconfig</span></code> profile</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">boards</span><span class="o">/</span><span class="mi">32</span><span class="n">f407disco</span><span class="o">/</span><span class="n">configs</span><span class="o">/</span><span class="n">disco_blinky_ada_defconfig</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="build-the-binary-files">
+<h3><a class="toc-backref" href="#id8">2.2.3. Build the binary files</a><a class="headerlink" href="#build-the-binary-files" title="Permalink to this headline">¶</a></h3>
+<p>Then, you can launch the compilation</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="flash-the-firmware">
+<h2><a class="toc-backref" href="#id9">2.3. Flash the firmware</a><a class="headerlink" href="#flash-the-firmware" title="Permalink to this headline">¶</a></h2>
+<p>Once the firmware is built, you can flash a target board using the procedure
+described in <a class="reference internal" href="tataouine/flash.html#flash"><span class="std std-ref">Flashing a new firmware</span></a>. Currently, only the <strong>STM32 Discovert F407</strong> is
+supported</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">openocd</span> <span class="o">-</span><span class="n">f</span> <span class="n">tools</span><span class="o">/</span><span class="n">stm32f4disco1</span><span class="o">.</span><span class="n">cfg</span> <span class="o">-</span><span class="n">f</span> <span class="n">tools</span><span class="o">/</span><span class="n">ocd_demo</span><span class="o">.</span><span class="n">cfg</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="execute-the-new-firmware">
+<h2><a class="toc-backref" href="#id10">2.4. Execute the new firmware</a><a class="headerlink" href="#execute-the-new-firmware" title="Permalink to this headline">¶</a></h2>
+<p>Press the black <em>reset button</em> to reset the board. You should see the
+leds blinking. When the blue button is pressed, the blinking pattern changes.</p>
+</div>
+<div class="section" id="debug">
+<h2><a class="toc-backref" href="#id11">2.5. Debug</a><a class="headerlink" href="#debug" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="read-the-usart-with-minicom">
+<h3><a class="toc-backref" href="#id12">2.5.1. Read the USART with <em>minicom</em></a><a class="headerlink" href="#read-the-usart-with-minicom" title="Permalink to this headline">¶</a></h3>
+<p>The demo examples are compiled with output traces sent to <strong>USART1</strong>.
+This USART uses GPIOs <strong>PB6</strong> (TX, transmit) and <strong>PB7</strong> (RX, receive).
+You can connect a USB-to-TTL converter to read those outputs from your host.
+At least, you must connect the <strong>PB6</strong> pin to the receive part of the
+USB-to-TTL converter.</p>
+<p>On Linux, the device <code class="docutils literal notranslate"><span class="pre">/dev/ttyUSB0</span></code> should be automatically created after the
+USB-to-TTL is succesfully connected.
+Then, you can use <code class="docutils literal notranslate"><span class="pre">minicom</span></code> to read the messages from the USART and to have
+some insight about what’s happening</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">minicom</span> <span class="o">-</span><span class="n">c</span> <span class="n">on</span> <span class="o">-</span><span class="n">D</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">ttyUSB0</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="debug-with-gdb">
+<h3><a class="toc-backref" href="#id13">2.5.2. Debug with <em>gdb</em></a><a class="headerlink" href="#debug-with-gdb" title="Permalink to this headline">¶</a></h3>
+<p>To debug the new firmware, launch <code class="docutils literal notranslate"><span class="pre">arm-eabi-gdb</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">arm</span><span class="o">-</span><span class="n">eabi</span><span class="o">-</span><span class="n">gdb</span>
+</pre></div>
+</div>
+<p>Then, inside GDB, execute the following commands</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">target</span> <span class="n">extended</span><span class="o">-</span><span class="n">remote</span> <span class="mf">127.0</span><span class="o">.</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">3333</span>
+<span class="n">mon</span> <span class="n">reset</span> <span class="n">halt</span>
+<span class="n">symbol</span><span class="o">-</span><span class="n">file</span> <span class="n">build</span><span class="o">/</span><span class="n">armv7</span><span class="o">-</span><span class="n">m</span><span class="o">/</span><span class="mi">32</span><span class="n">f407discovery</span><span class="o">/</span><span class="n">kernel</span><span class="o">/</span><span class="n">kernel</span><span class="o">.</span><span class="n">fw1</span><span class="o">.</span><span class="n">elf</span>
+<span class="n">b</span> <span class="n">main</span>
+<span class="n">c</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="going-further">
+<h2><a class="toc-backref" href="#id14">2.6. Going further</a><a class="headerlink" href="#going-further" title="Permalink to this headline">¶</a></h2>
+<p>Read the <a class="reference internal" href="demo.html#demo"><span class="std std-ref">Demo examples</span></a> section that roughly describes the user code
+executed by the tasks. You can adapt it to run your own examples.</p>
+</div>
+<div class="section" id="troubleshooting">
+<h2><a class="toc-backref" href="#id15">2.7. Troubleshooting</a><a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h2>
+<p>If you any problem while trying to build a new demo firmware, be sure that you
+have carefully read the following:</p>
+<ul class="simple">
+<li><a class="reference internal" href="tataouine/dependencies.html#dependencies"><span class="std std-ref">Dependencies</span></a></li>
+<li><a class="reference internal" href="tataouine/build.html#build"><span class="std std-ref">Configuring and building a new firmware</span></a></li>
+<li><a class="reference internal" href="tataouine/flash.html#flash"><span class="std std-ref">Flashing a new firmware</span></a></li>
+<li><a class="reference internal" href="tataouine/debug.html#debug"><span class="std std-ref">Debugging and logging</span></a></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="demo.html" class="btn btn-neutral float-right" title="3. Demo examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="target.html" class="btn btn-neutral" title="1. WooKey project" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,308 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>5.4.3. EwoK IRQ and ISR internals &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="5.4.4. Debugging EwoK Scheduler" href="debug_sched.html" />
+    <link rel="prev" title="5.4.2. About EwoK permissions internals" href="perms_internals.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">5. EwoK kernel</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#what-is-ewok">5.1. What is EwoK ?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#ewok-architecture">5.2. EwoK architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#ewok-api">5.3. EwoK API</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#internals">5.4. Internals</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="ada_spark.html">5.4.1. Ada/SPARK implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="perms_internals.html">5.4.2. EwoK permission internals</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">5.4.3. EwoK IRQ &amp; ISR internals</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#isr-mechanism">5.4.3.1. ISR mechanism</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#isr-postponing">5.4.3.2. ISR postponing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#posthooks">5.4.3.3. Posthooks</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="debug_sched.html">5.4.4. EwoK scheduler internals</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#faq">5.5. FAQ</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../libs.html">6. Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../drivers.html">7. Drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">5. EwoK microkernel</a> &raquo;</li>
+        
+      <li>5.4.3. EwoK IRQ and ISR internals</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="contents topic" id="contents">
+<span id="isr-internals"></span><p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#ewok-irq-and-isr-internals" id="id1">EwoK IRQ and ISR internals</a><ul>
+<li><a class="reference internal" href="#isr-mechanism" id="id2">ISR mechanism</a></li>
+<li><a class="reference internal" href="#isr-postponing" id="id3">ISR postponing</a></li>
+<li><a class="reference internal" href="#posthooks" id="id4">Posthooks</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="ewok-irq-and-isr-internals">
+<h1><a class="toc-backref" href="#id1">5.4.3. EwoK IRQ and ISR internals</a><a class="headerlink" href="#ewok-irq-and-isr-internals" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="isr-mechanism">
+<h2><a class="toc-backref" href="#id2">5.4.3.1. ISR mechanism</a><a class="headerlink" href="#isr-mechanism" title="Permalink to this headline">¶</a></h2>
+<p>Some hardware devices such as the smart card generate interrupts that must be
+acknowledged within a very tight time frame to avoid timeouts.  Other
+components like the touch screen put pressure on the kernel with interrupts
+bursts.
+To deal with these constraints, we designed a simple yet effective
+system to quickly acknowledge interrupts and to limit as much as possible the
+overhead of the user mode drivers.</p>
+<p>In EwoK, a driver is typically  composed of a main thread, which implements all
+the driver logic, and one or several <em>Interrupt Service Routine (ISR)</em> to
+handle the hardware interrupts.  ISRs execution takes place in
+user mode, with the associated task permissions and memory layout.</p>
+<p>Usually, a user ISR performs only two things: it acknowledges the hardware by
+reading or writing in some registers and it sets some variables or some shared
+structures to signal to the main thread that an event happened.</p>
+<p>It should be highlighted that a user ISR is scheduled with the highest
+priority. As a consequence, it must be fast enough to avoid hindering
+treatment of subsequent hardware interrupts.</p>
+</div>
+<div class="section" id="isr-postponing">
+<h2><a class="toc-backref" href="#id3">5.4.3.2. ISR postponing</a><a class="headerlink" href="#isr-postponing" title="Permalink to this headline">¶</a></h2>
+<p>When a hardware interrupt is triggered, the kernel traps it and checks if it
+must be handled by a user task. If this is the case, the kernel updates a queue
+structure, managed by the so-called <em>softirq</em> module, so that the related user
+ISR can be scheduled afterward. If an interrupt is triggered while a user ISR
+is already executing, this interrupt is not lost thanks to the <em>softirq</em>
+queueing mechanism that defers its treatment.</p>
+<p>In this design, user ISRs are executed asynchronously.
+A potential problem is the induced latency in the handling of hardware interrupts.</p>
+<a class="reference internal image-reference" href="../_images/ewok_irq_handling.png"><img alt="EwoK IRQ and ISR handling" class="align-center" src="../_images/ewok_irq_handling.png" style="width: 70%;" /></a>
+<p>Previous figure describes a typical scheduling scheme during an IRQ burst.
+The <em>posthook</em> mechanism has been introduced to address this issue.</p>
+</div>
+<div class="section" id="posthooks">
+<h2><a class="toc-backref" href="#id4">5.4.3.3. Posthooks</a><a class="headerlink" href="#posthooks" title="Permalink to this headline">¶</a></h2>
+<p>Posthook instructions define a restricted high level language that allows to
+read or to set some bits in specific hardware registers when an interrupt
+occurs. For each kind of interrupt, a driver can use such posthook
+instructions, that are synchronously interpreted and executed by the kernel, in
+order to quickly acknowledge hardware interrupts.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="debug_sched.html" class="btn btn-neutral float-right" title="5.4.4. Debugging EwoK Scheduler" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="perms_internals.html" class="btn btn-neutral" title="5.4.2. About EwoK permissions internals" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

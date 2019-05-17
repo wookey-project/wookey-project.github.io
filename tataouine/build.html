@@ -1,0 +1,561 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>9.5. Configuring and building a new firmware &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="9.6. Flashing a new firmware" href="flash.html" />
+    <link rel="prev" title="9.4. Configuration" href="config.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ewok/index.html">5. EwoK kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libs.html">6. Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../drivers.html">7. Drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="dependencies.html">9.1. Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="repo.html">9.2. Downloading the project with repo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="externals.html">9.3. External dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">9.4. Configuration</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">9.5. Building a new firmware</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pre-requisites">9.5.1. Pre-requisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fetch-the-project-files">9.5.2. Fetch the project files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#set-the-environment">9.5.3. Set the environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configure-the-target">9.5.4. Configure the target</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build-the-firmware">9.5.5. Build the firmware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build-the-applets">9.5.6. Build the applets</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#install-extra-dependencies">9.5.6.1. Install extra-dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#compile-the-applets">9.5.6.2. Compile the applets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sign-and-encrypt-the-firmware">9.5.6.3. Sign and encrypt the firmware</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#build-the-documentation">9.5.7. Build the documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flash.html">9.6. Flashing a new firmware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="production.html">9.7. Production mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug.html">9.8. Debugging the project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="newdriver.html">9.9. Creating a new driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="newlib.html">9.10. Creating a new library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="newapp.html">9.11. Creating a new application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="internals.html">9.12. Internals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="layout.html">9.13. Layout and portability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tataouine.html#tataouine-directories">9.14. Tataouine directories</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../tataouine.html">9. Tataouine SDK</a> &raquo;</li>
+        
+      <li>9.5. Configuring and building a new firmware</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="configuring-and-building-a-new-firmware">
+<span id="build"></span><h1><a class="toc-backref" href="#id1">9.5. Configuring and building a new firmware</a><a class="headerlink" href="#configuring-and-building-a-new-firmware" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#configuring-and-building-a-new-firmware" id="id1">Configuring and building a new firmware</a><ul>
+<li><a class="reference internal" href="#pre-requisites" id="id2">Pre-requisites</a></li>
+<li><a class="reference internal" href="#fetch-the-project-files" id="id3">Fetch the project files</a></li>
+<li><a class="reference internal" href="#set-the-environment" id="id4">Set the environment</a></li>
+<li><a class="reference internal" href="#configure-the-target" id="id5">Configure the target</a></li>
+<li><a class="reference internal" href="#build-the-firmware" id="id6">Build the firmware</a></li>
+<li><a class="reference internal" href="#build-the-applets" id="id7">Build the applets</a><ul>
+<li><a class="reference internal" href="#install-extra-dependencies" id="id8">Install extra-dependencies</a></li>
+<li><a class="reference internal" href="#compile-the-applets" id="id9">Compile the applets</a></li>
+<li><a class="reference internal" href="#sign-and-encrypt-the-firmware" id="id10">Sign and encrypt the firmware</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#build-the-documentation" id="id11">Build the documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="pre-requisites">
+<h2><a class="toc-backref" href="#id2">9.5.1. Pre-requisites</a><a class="headerlink" href="#pre-requisites" title="Permalink to this headline">¶</a></h2>
+<p>To compile and to run the project, some dependencies need to be installed.
+Please check the <a class="reference internal" href="dependencies.html#dependencies"><span class="std std-ref">Dependencies</span></a> section to fetch them.</p>
+</div>
+<div class="section" id="fetch-the-project-files">
+<h2><a class="toc-backref" href="#id3">9.5.2. Fetch the project files</a><a class="headerlink" href="#fetch-the-project-files" title="Permalink to this headline">¶</a></h2>
+<p>Once the dependencies are installed, create a working directory and then fetch
+the project with <code class="docutils literal notranslate"><span class="pre">repo</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="n">disco407</span>
+<span class="n">cd</span> <span class="n">disco407</span>
+<span class="n">repo</span> <span class="n">init</span> <span class="o">-</span><span class="n">u</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">wookey</span><span class="o">-</span><span class="n">project</span><span class="o">/</span><span class="n">manifest</span><span class="o">.</span><span class="n">git</span> <span class="o">-</span><span class="n">m</span> <span class="n">disco407</span><span class="o">.</span><span class="n">xml</span>
+<span class="n">repo</span> <span class="n">sync</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">disco407.xml</span></code> is called a <em>manifest file</em>. It is
+used to deploy a complete image of the SDK by cloning multiple git repositories
+depending on this profile.</p>
+</div>
+<div class="section" id="set-the-environment">
+<h2><a class="toc-backref" href="#id4">9.5.3. Set the environment</a><a class="headerlink" href="#set-the-environment" title="Permalink to this headline">¶</a></h2>
+<p>Then, set some needed environment variables by sourcing the
+<code class="docutils literal notranslate"><span class="pre">setenv.sh</span></code> script</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">.</span> <span class="n">setenv</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<p>The following table shows the variables set by this script.</p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Variable</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">ADA_RUNTIME</span></code></td>
+<td>Path to the Ada cross-toolchain installation.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">ST_FLASH</span></code></td>
+<td>Path to the <em>st-flash</em> binary, used to flash the device.
+Needed by the <em>make burn</em> target.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">ST_UTIL</span></code></td>
+<td>To the <em>st-link</em> binary, which can be useful to get
+informational infos about the board</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">CROSS_COMPILE</span></code></td>
+<td>Prefix used by the C cross-compiler</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">USE_LLVM</span></code></td>
+<td><strong>Experimental feature</strong>. Compile with LLVM instead of GCC.
+Not fully operational, mostly used for debugging purpose
+(scan-build for code checking).</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">CLANG_PATH</span></code></td>
+<td>Replace gcc with clang</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">JAVA_SC_SDK</span></code></td>
+<td>Path to the Java SmartCard Globalplatform Software Development Kit root
+directory.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">Take a look at the <code class="docutils literal notranslate"><span class="pre">setenv.sh</span></code> script, which is highly documented</p>
+</div>
+<p>Most of the time, the paths proposed in this script are not the ones you use in
+your specific installation.
+If you need to overload some of these variables, you should not directly edit
+the <code class="docutils literal notranslate"><span class="pre">setenv.sh</span></code> script. Instead, create a <code class="docutils literal notranslate"><span class="pre">setenv.local.sh</span></code> file in the
+same directory and set the variables in this file.</p>
+<p>Once you have set your environment variables in your <code class="docutils literal notranslate"><span class="pre">setenv.local.sh</span></code>
+script, just source the <code class="docutils literal notranslate"><span class="pre">setenv.sh</span></code> script as described above.</p>
+</div>
+<div class="section" id="configure-the-target">
+<h2><a class="toc-backref" href="#id5">9.5.4. Configure the target</a><a class="headerlink" href="#configure-the-target" title="Permalink to this headline">¶</a></h2>
+<p>To list the predefined configuration profiles, use the <em>defconfig_list</em> target:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">defconfig_list</span>
+</pre></div>
+</div>
+<p>If you get an error message like ‘<em>m_config.mk: Recursive variable
+‘CROSS_COMPILE’ references itself</em>’, check that you have sourced
+the <code class="docutils literal notranslate"><span class="pre">setenv.sh</span></code> file as explained above.
+Then, you can select a configuration profile:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="o">&lt;</span><span class="n">defconfig_file</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ make defconfig_list
+LISTDEFS   defconfig_list
+boards/32f407disco/configs/disco_blinky_ada_defconfig
+boards/32f407disco/configs/disco_blinky_defconfig
+boards/32f407disco/configs/disco_blinky_ipc_ada_defconfig
+boards/32f407disco/configs/disco_blinky_ipc_defconfig
+boards/32f407disco/configs/disco_svctests_ada_defconfig
+$ make boards/32f407disco/configs/disco_blinky_ipc_ada_defconfig
+</pre></div>
+</div>
+<p>Then, to customize the profile, run <em>menuconfig</em>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">menuconfig</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">When customizing the profile with <em>menuconfig</em>, beware
+of the possible inconsistencies leading to non-working configurations!</p>
+</div>
+</div>
+<div class="section" id="build-the-firmware">
+<h2><a class="toc-backref" href="#id6">9.5.5. Build the firmware</a><a class="headerlink" href="#build-the-firmware" title="Permalink to this headline">¶</a></h2>
+<p>Simply run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span>
+</pre></div>
+</div>
+<p>The project and the whole documentation are built in the directory set by the
+<code class="docutils literal notranslate"><span class="pre">CONFIG_BUILD_DIR</span></code> variable in the <code class="docutils literal notranslate"><span class="pre">.config</span></code> file.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">Building the documentation has a specific target <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">doc</span></code></p>
+</div>
+<p>This directory holds two files: <code class="docutils literal notranslate"><span class="pre">&lt;boardname&gt;.hex</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;boardname&gt;.bin</span></code>.
+The first file is the firmware in <em>Intel HEX</em> format, with a plain memory layout filling to
+avoid any ambiguity and signature failure.
+The second file is the same one, directly in binary format.</p>
+<p>Both formats can be used by usual JTAG clients such as <em>openocd</em> or <em>st-flash</em>.
+See <a class="reference internal" href="flash.html#flash"><span class="std std-ref">Flashing a new firmware</span></a> section for more information about flashing a device for the
+first time.</p>
+</div>
+<div class="section" id="build-the-applets">
+<h2><a class="toc-backref" href="#id7">9.5.6. Build the applets</a><a class="headerlink" href="#build-the-applets" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Required only for the whole WooKey project relying on an external
+token, but not for the demo examples described in section <a class="reference internal" href="../demo.html#demo"><span class="std std-ref">Demo examples</span></a></p>
+</div>
+<div class="section" id="install-extra-dependencies">
+<h3><a class="toc-backref" href="#id8">9.5.6.1. Install extra-dependencies</a><a class="headerlink" href="#install-extra-dependencies" title="Permalink to this headline">¶</a></h3>
+<p>The applets sources are hosted in the <code class="docutils literal notranslate"><span class="pre">javacard/</span></code> directory.
+In order to compile JavaCard applets, you will need various tools:</p>
+<blockquote>
+<div><ul class="simple">
+<li>A <em>Java SDK</em>, that provides a Java compiler. <em>OpenJDK 8u191</em> or greater should work.</li>
+<li>A <em>JavaCard SDK</em> (specific to Globalplatform Javacard environment). This JDK
+can be found on the Oracle website.</li>
+<li>Two jars:
+* <code class="docutils literal notranslate"><span class="pre">ant-javacard.jar</span></code>
+* <code class="docutils literal notranslate"><span class="pre">gb.jar</span></code></li>
+</ul>
+</div></blockquote>
+<p>To use a precompiled version of <code class="docutils literal notranslate"><span class="pre">ant-javacard.jar</span></code> and <code class="docutils literal notranslate"><span class="pre">gb.jar</span></code>,
+you can directly download them from:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">javacard</span><span class="o">/</span><span class="n">applet</span>
+<span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">martinpaljak</span><span class="o">/</span><span class="n">ant</span><span class="o">-</span><span class="n">javacard</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="mf">19.03</span><span class="o">.</span><span class="mi">04</span><span class="o">/</span><span class="n">ant</span><span class="o">-</span><span class="n">javacard</span><span class="o">.</span><span class="n">jar</span>
+<span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">martinpaljak</span><span class="o">/</span><span class="n">GlobalPlatformPro</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="mf">19.01</span><span class="o">.</span><span class="mi">22</span><span class="o">/</span><span class="n">gp</span><span class="o">.</span><span class="n">jar</span>
+</pre></div>
+</div>
+<p>If you prefer to compile them from the sources, you first need to install
+<em>maven</em> and the <em>maven surefire test</em> framework. Then:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="o">-</span><span class="n">C</span> <span class="n">externals</span> <span class="n">gp</span>
+<span class="n">make</span> <span class="o">-</span><span class="n">C</span> <span class="n">externals</span> <span class="n">antjavacard</span>
+</pre></div>
+</div>
+<p>This will generate the two jar files and will copy them in the
+<code class="docutils literal notranslate"><span class="pre">javacard/applet</span></code> directory.</p>
+</div>
+<div class="section" id="compile-the-applets">
+<h3><a class="toc-backref" href="#id9">9.5.6.2. Compile the applets</a><a class="headerlink" href="#compile-the-applets" title="Permalink to this headline">¶</a></h3>
+<p>To compile the applets:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">javacard_compile</span>
+<span class="n">make</span> <span class="n">javacard_push</span>
+</pre></div>
+</div>
+<p>You might have an error like this one:</p>
+<p><em>Error […] you have asked to use one smartcard per token.Please insert a
+virgin token</em></p>
+<p>The reason is that by default, the menuconfig is configured so that we use
+a dedicated smart card for each cryptographic usage (this is the preferred scenario
+for enhanced security). You can however use a single
+smart card by unsetting the following option in menuconfig</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Secure</span> <span class="n">tokens</span> <span class="n">configuration</span>  <span class="o">---&gt;</span> <span class="n">Use</span> <span class="n">a</span> <span class="n">dedicated</span> <span class="p">(</span><span class="n">different</span><span class="p">)</span> <span class="n">physical</span> <span class="n">smartcard</span>
+                                  <span class="k">for</span> <span class="n">each</span> <span class="n">token</span> <span class="nb">type</span> <span class="p">(</span><span class="n">AUTH</span><span class="o">/</span><span class="n">DFU</span><span class="o">/&lt;</span><span class="n">SIG</span><span class="o">&gt;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Using a single smartcard is not recommended for security reasons.
+It is always a good practice to segregate the cryptographic usage,
+hence three tokens in three different physical smart cards (one for
+user authentication, one for DFU, one for firmware signature)</p>
+</div>
+</div>
+<div class="section" id="sign-and-encrypt-the-firmware">
+<h3><a class="toc-backref" href="#id10">9.5.6.3. Sign and encrypt the firmware</a><a class="headerlink" href="#sign-and-encrypt-the-firmware" title="Permalink to this headline">¶</a></h3>
+<p>When generating DFU images (i.e. updates for an existing board, which will be
+downloaded through the firmware DFU mode), you will need to use a subset of the
+overall firmware. The overall firmware contains the two banks (FLIP and FLOP
+images) and the bootloader. The DFU images contain only one of the banks.</p>
+<p>Singing is done using the <em>sign</em> target of the Makefile with options:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">sign</span> <span class="n">tosign</span><span class="o">=</span><span class="n">flip</span><span class="p">:</span><span class="n">flop</span> <span class="n">version</span><span class="o">=</span><span class="mf">1.0</span><span class="o">.</span><span class="mf">1.0</span>
+</pre></div>
+</div>
+<p>This target will generate, aside the &lt;boardname&gt;.hex, the following files:</p>
+<blockquote>
+<div><ul class="simple">
+<li>flip_fw.hex, flip_fw.bin, flip_fw.bin.signed</li>
+<li>flop_fw.hex, flop_fw.bin, flop_fw.bin.signed</li>
+</ul>
+</div></blockquote>
+<p>The <em>.signed</em> images are encrypted and include a signed header holding all the
+necessary informations about the file (CRC32, calculated HASH, version number,
+and so on). They are generated with the 1.0 version.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">The version field is made of four uint8_t fields ‘a.b.c.d’: ‘a’ is the
+major field, ‘b’ is the minor field, ‘c’ is the patch field, ‘d’ is an
+subpatch field. You can also provide the version in the form of an
+equivalent uint32_t (concatenation of a/b/c/d)</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Beware of the strict anti-rollback policy enforced by WooKey DFU mode
+when generating signed firmwares</p>
+</div>
+<p>This file can be directly used by any DFU tool to update the target, such as
+standard dfu-util package. For instance, to upload the signed FLIP
+firmware to the target in DFU mode:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dfu</span><span class="o">-</span><span class="n">util</span> <span class="o">-</span><span class="n">D</span> <span class="n">flip_fw</span><span class="o">.</span><span class="n">bin</span><span class="o">.</span><span class="n">signed</span>
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">The ‘sign’ target of the Makefile takes advanced features options such as
+a ‘magic’ value included in the firmware header (for future use), and more
+importantly a ‘chunk size’ that represents the cryptographic block size
+requiring a new key derivation by the DFU token. The smaller this chunk is,
+the more interactions with the DFU token are made (at the expense of update
+time)</p>
+</div>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">There is an optional ‘verify’ target that allows to decrypt and check the signature
+of the generated firmwares on a PC using the DFU token (and a PC/SC stack through
+py-scard): <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">verify</span> <span class="pre">toverify=flip:flop</span></code>. This target also shows information
+(version and so on) of signed binary images</p>
+</div>
+</div>
+</div>
+<div class="section" id="build-the-documentation">
+<h2><a class="toc-backref" href="#id11">9.5.7. Build the documentation</a><a class="headerlink" href="#build-the-documentation" title="Permalink to this headline">¶</a></h2>
+<p>If you wish to build <strong>all</strong> the documentation, you can execute the <em>doc</em>
+target:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">doc</span>
+</pre></div>
+</div>
+<p>This will build the following content:</p>
+<blockquote>
+<div><ul class="simple">
+<li>The sphinx website (including all the documentation, helpers, principles
+and security explanations)</li>
+<li>The man pages of the kernel and libstd API</li>
+<li>The Doxygen-generated datasheets, less readable than sphinx but including
+all the API and structures.</li>
+</ul>
+</div></blockquote>
+<p>You can also build only the sphinx website if you prefer not to install doxygen
+and the (heavy) LaTeX backend with the following command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="o">-</span><span class="n">C</span> <span class="n">doc</span> <span class="n">sphinx</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="flash.html" class="btn btn-neutral float-right" title="9.6. Flashing a new firmware" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="config.html" class="btn btn-neutral" title="9.4. Configuration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

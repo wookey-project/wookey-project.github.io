@@ -1,0 +1,499 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>6.13.1. About the token library API &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="6.13.2. token library FAQ" href="faq.html" />
+    <link rel="prev" title="6.13. The token library" href="index.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ewok/index.html">5. EwoK kernel</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../libs.html">6. Libraries</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../libaes/index.html">6.1. libs/aes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libconsole/index.html">6.2. libs/console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libdes/index.html">6.3. libs/des</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libdfu/index.html">6.4. libs/dfu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libfirmware/index.html">6.5. libs/firmware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libgui/index.html">6.6. libs/gui</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libhmac/index.html">6.7. libs/hmac</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libiso7816/index.html">6.8. libs/iso7816</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libmassstorage/index.html">6.9. libs/massstorage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libsd/index.html">6.10. libs/sd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libsmartcard/index.html">6.11. libs/smartcard</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libstd/index.html">6.12. libs/std</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">6.13. libs/token</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">6.13.1. The token library API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#generic-token-api">6.13.1.1. Generic token API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#token-user-callbacks">6.13.1.2. Token user callbacks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#auth-token-instructions">6.13.1.3. AUTH token instructions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dfu-token-instructions">6.13.1.4. DFU token instructions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html">6.13.2. FAQ</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../drivers.html">7. Drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../libs.html">6. Libraries</a> &raquo;</li>
+        
+          <li><a href="index.html">6.13. The token library</a> &raquo;</li>
+        
+      <li>6.13.1. About the token library API</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="about-the-token-library-api">
+<h1>6.13.1. About the token library API<a class="headerlink" href="#about-the-token-library-api" title="Permalink to this headline">¶</a></h1>
+<dl class="docutils">
+<dt>The API exposed by the library can be classified in three main parts:</dt>
+<dd><ul class="first last simple">
+<li>Common token abstractions, including secure channels initialization and common instructions, as well as callbacks to handle Pet Pin, Pet Name and User Pin</li>
+<li>AUTH token specific instructions</li>
+<li>DFU token specific instructions</li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The token library heavily relies on the libecc external dependency for the public key
+cryptography (mainly ECDSA and ECDH), and on libaes and libhash for the symmetric
+cryptography</p>
+</div>
+<div class="section" id="generic-token-api">
+<h2>6.13.1.1. Generic token API<a class="headerlink" href="#generic-token-api" title="Permalink to this headline">¶</a></h2>
+<p>The generic token API is exposed in the <code class="docutils literal notranslate"><span class="pre">libtoken.h</span></code> public header. The API can be divided
+in three types of functions:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Functions handling secure token initialization, including secure channel establishment</li>
+<li>Functions handling token instructions</li>
+<li>Functions handling callbacks with user interactions (i.e. managing Pet Pin, Pet Name and User Pin through a user interface)</li>
+</ul>
+</div></blockquote>
+<p>Token initialization is performed through the following APIs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">token_early_init</span><span class="p">(</span><span class="n">token_map_mode_t</span> <span class="n">token_map</span><span class="p">);</span>
+<span class="nb">int</span> <span class="n">token_init</span><span class="p">(</span><span class="n">token_channel</span> <span class="o">*</span><span class="n">channel</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The early init function is called before the nominal phase, and during the nominal phase
+a communication wit an inserted token can be established using <code class="docutils literal notranslate"><span class="pre">token_init</span></code>, resulting in
+mounting a <code class="docutils literal notranslate"><span class="pre">channel</span></code> with it.</p>
+<div class="admonition danger">
+<p class="first admonition-title">Danger</p>
+<p class="last">Using <code class="docutils literal notranslate"><span class="pre">token_init</span></code> establishes a non secure channel with a generic token! Secure communications
+with the token are NOT ensured using only this API: the user MUST use <code class="docutils literal notranslate"><span class="pre">token_secure_channel_init</span></code>
+to establish a secure channel</p>
+</div>
+<p>When the channel with the token is established, <code class="docutils literal notranslate"><span class="pre">token_secure_channel_init</span></code> must be called to
+establish a secure channel:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">token_secure_channel_init</span><span class="p">(</span><span class="n">token_channel</span> <span class="o">*</span><span class="n">channel</span><span class="p">,</span> <span class="n">const</span> <span class="n">unsigned</span> <span class="n">char</span> <span class="o">*</span><span class="n">decrypted_platform_priv_key_data</span><span class="p">,</span> <span class="n">uint32_t</span> <span class="n">decrypted_platform_priv_key_data_len</span><span class="p">,</span> <span class="n">const</span> <span class="n">unsigned</span> <span class="n">char</span> <span class="o">*</span><span class="n">decrypted_platform_pub_key_data</span><span class="p">,</span> <span class="n">uint32_t</span> <span class="n">decrypted_platform_pub_key_data_len</span><span class="p">,</span> <span class="n">const</span> <span class="n">unsigned</span> <span class="n">char</span> <span class="o">*</span><span class="n">decrypted_token_pub_key_data</span><span class="p">,</span> <span class="n">uint32_t</span> <span class="n">decrypted_token_pub_key_data_len</span><span class="p">,</span> <span class="n">ec_curve_type</span> <span class="n">curve_type</span><span class="p">,</span> <span class="n">unsigned</span> <span class="nb">int</span> <span class="o">*</span><span class="n">remaining_tries</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This function has the following API:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">token_channel</span> <span class="pre">\*channel</span></code>: this is a pointer to an abstract structure representing an established (non secure) channel initialized with <code class="docutils literal notranslate"><span class="pre">token_init</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">unsigned</span> <span class="pre">char</span> <span class="pre">\*decrypted_platform_priv_key_data</span></code>: this is a pointer to decrypted ECDSA platform private key, and <code class="docutils literal notranslate"><span class="pre">uint32_t</span> <span class="pre">decrypted_platform_priv_key_data_len</span></code> is its size</li>
+<li><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">unsigned</span> <span class="pre">char</span> <span class="pre">\*decrypted_platform_pub_key_data</span></code>: this is a pointer to decrypted ECDSA platform public key, and  <code class="docutils literal notranslate"><span class="pre">uint32_t</span> <span class="pre">decrypted_platform_pub_key_data_len</span></code> is its size</li>
+<li><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">unsigned</span> <span class="pre">char</span> <span class="pre">\*decrypted_token_pub_key_data</span></code>: this is a pointer to decrypted ECDSA token public key, and <code class="docutils literal notranslate"><span class="pre">uint32_t</span> <span class="pre">decrypted_token_pub_key_data_len</span></code> is its size</li>
+<li><code class="docutils literal notranslate"><span class="pre">ec_curve_type</span> <span class="pre">curve_type</span></code>: this is the curve type to use when performing ECDSA and ECDH (three curves are currently supported  in the WooKey project: BRAINPOOLP256R1, SECP256R1 and FRP256V1)</li>
+<li><code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">\*remaining_tries</span></code>: this variable holds (as an output of the function) the number of remaining tries to establish the secure channel with the token</li>
+</ul>
+</div></blockquote>
+<p>It is possible to communicate with a token over a channel (secure or not) using the following API:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">token_send_receive</span><span class="p">(</span><span class="n">token_channel</span> <span class="o">*</span><span class="n">channel</span><span class="p">,</span> <span class="n">SC_APDU_cmd</span> <span class="o">*</span><span class="n">apdu</span><span class="p">,</span> <span class="n">SC_APDU_resp</span> <span class="o">*</span><span class="n">resp</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This functions allows to send APDUs and get responses (in the ISO7816 sense) over the initialized channel <code class="docutils literal notranslate"><span class="pre">channel</span></code>.
+The low layers handle the fact that the channel is secure or not, encrypting the commands or not depending on the
+state of the channel.</p>
+<div class="admonition danger">
+<p class="first admonition-title">Danger</p>
+<p class="last">Beware when using <code class="docutils literal notranslate"><span class="pre">token_send_receive</span></code> with sensitive commands: you always want to check if a channel is secure
+when sending confidential data to the token. This can be done by checking the <code class="docutils literal notranslate"><span class="pre">channel-&gt;secure_channel</span></code> that must
+be equal to 1</p>
+</div>
+<p>Generic token instructions are compiled in the following enumeration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/*</span> <span class="n">Our</span> <span class="n">common</span> <span class="n">token</span> <span class="n">instructions</span> <span class="o">*/</span>
+<span class="n">enum</span> <span class="n">token_instructions</span> <span class="p">{</span>
+      <span class="n">TOKEN_INS_SELECT_APPLET</span> <span class="o">=</span> <span class="mh">0xA4</span><span class="p">,</span>
+      <span class="n">TOKEN_INS_SECURE_CHANNEL_INIT</span> <span class="o">=</span> <span class="mh">0x00</span><span class="p">,</span>
+      <span class="n">TOKEN_INS_UNLOCK_PET_PIN</span> <span class="o">=</span> <span class="mh">0x01</span><span class="p">,</span>
+      <span class="n">TOKEN_INS_UNLOCK_USER_PIN</span> <span class="o">=</span> <span class="mh">0x02</span><span class="p">,</span>
+      <span class="n">TOKEN_INS_SET_USER_PIN</span> <span class="o">=</span> <span class="mh">0x03</span><span class="p">,</span>
+      <span class="n">TOKEN_INS_SET_PET_PIN</span> <span class="o">=</span> <span class="mh">0x04</span><span class="p">,</span>
+      <span class="n">TOKEN_INS_SET_PET_NAME</span> <span class="o">=</span> <span class="mh">0x05</span><span class="p">,</span>
+      <span class="n">TOKEN_INS_USER_PIN_LOCK</span> <span class="o">=</span> <span class="mh">0x06</span><span class="p">,</span>
+      <span class="n">TOKEN_INS_FULL_LOCK</span> <span class="o">=</span> <span class="mh">0x07</span><span class="p">,</span>
+      <span class="n">TOKEN_INS_GET_PET_NAME</span> <span class="o">=</span> <span class="mh">0x08</span><span class="p">,</span>
+      <span class="n">TOKEN_INS_GET_RANDOM</span> <span class="o">=</span> <span class="mh">0x09</span><span class="p">,</span>
+      <span class="n">TOKEN_INS_DERIVE_LOCAL_PET_KEY</span> <span class="o">=</span> <span class="mh">0x0a</span><span class="p">,</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>Each of these instructions is associated with an API function. <code class="docutils literal notranslate"><span class="pre">TOKEN_INS_SELECT_APPLET</span></code>, <code class="docutils literal notranslate"><span class="pre">TOKEN_INS_DERIVE_LOCAL_PET_KEY</span></code> and
+<code class="docutils literal notranslate"><span class="pre">TOKEN_INS_SECURE_CHANNEL_INIT</span></code> are sent over a non secure channel (obviously since they help at establishing such a secure channel).
+All the other instructions must be sent over an established secure channel, or they will return an error.</p>
+<p>All the function return 0 on success, and non zero on error.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">TOKEN_INS_SELECT_APPLET</span></code> selects a Javacard applet according to its AID (Applet ID):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">token_select_applet</span><span class="p">(</span><span class="n">token_channel</span> <span class="o">*</span><span class="n">channel</span><span class="p">,</span> <span class="n">const</span> <span class="n">unsigned</span> <span class="n">char</span> <span class="o">*</span><span class="n">aid</span><span class="p">,</span> <span class="n">unsigned</span> <span class="nb">int</span> <span class="n">aid_len</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">TOKEN_INS_DERIVE_LOCAL_PET_KEY</span></code> is executed by the function:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">decrypt_platform_keys</span><span class="p">(</span><span class="n">token_channel</span> <span class="o">*</span><span class="n">channel</span><span class="p">,</span> <span class="n">const</span> <span class="n">char</span> <span class="o">*</span><span class="n">pet_pin</span><span class="p">,</span> <span class="n">uint32_t</span> <span class="n">pet_pin_len</span><span class="p">,</span> <span class="n">const</span> <span class="n">databag</span> <span class="o">*</span><span class="n">keybag</span><span class="p">,</span> <span class="n">uint32_t</span> <span class="n">keybag_num</span><span class="p">,</span> <span class="n">databag</span> <span class="o">*</span><span class="n">decrypted_keybag</span><span class="p">,</span> <span class="n">uint32_t</span> <span class="n">decrypted_keybag_num</span><span class="p">,</span> <span class="n">uint32_t</span> <span class="n">pbkdf2_iterations</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This routine uses the Pet Pin to derive, using the token, a key to decrypt the local keys stored in the platform flash. This complex cryptographic scheme
+has been designed to thwart offline and online brute force attacks on the Pet Pin.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">TOKEN_INS_SECURE_CHANNEL_INIT</span></code> establishes a secure channel, and is related to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">token_secure_channel_init</span><span class="p">(</span><span class="n">token_channel</span> <span class="o">*</span><span class="n">channel</span><span class="p">,</span> <span class="n">const</span> <span class="n">unsigned</span> <span class="n">char</span> <span class="o">*</span><span class="n">decrypted_platform_priv_key_data</span><span class="p">,</span> <span class="n">uint32_t</span> <span class="n">decrypted_platform_priv_key_data_len</span><span class="p">,</span> <span class="n">const</span> <span class="n">unsigned</span> <span class="n">char</span> <span class="o">*</span><span class="n">decrypted_platform_pub_key_data</span><span class="p">,</span> <span class="n">uint32_t</span> <span class="n">decrypted_platform_pub_key_data_len</span><span class="p">,</span> <span class="n">const</span> <span class="n">unsigned</span> <span class="n">char</span> <span class="o">*</span><span class="n">decrypted_token_pub_key_data</span><span class="p">,</span> <span class="n">uint32_t</span> <span class="n">decrypted_token_pub_key_data_len</span><span class="p">,</span> <span class="n">ec_curve_type</span> <span class="n">curve_type</span><span class="p">,</span> <span class="n">unsigned</span> <span class="nb">int</span> <span class="o">*</span><span class="n">remaining_tries</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">TOKEN_INS_UNLOCK_PET_PIN</span></code> and <code class="docutils literal notranslate"><span class="pre">TOKEN_INS_UNLOCK_USER_PIN</span></code> are sent using a unique function:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">token_send_pin</span><span class="p">(</span><span class="n">token_channel</span> <span class="o">*</span><span class="n">channel</span><span class="p">,</span> <span class="n">const</span> <span class="n">char</span> <span class="o">*</span><span class="n">pin</span><span class="p">,</span> <span class="n">unsigned</span> <span class="nb">int</span> <span class="n">pin_len</span><span class="p">,</span> <span class="n">unsigned</span> <span class="n">char</span> <span class="o">*</span><span class="n">pin_ok</span><span class="p">,</span> <span class="n">unsigned</span> <span class="nb">int</span> <span class="o">*</span><span class="n">remaining_tries</span><span class="p">,</span> <span class="n">token_pin_types</span> <span class="n">pin_type</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>where the <code class="docutils literal notranslate"><span class="pre">pin_type</span></code> is either <code class="docutils literal notranslate"><span class="pre">TOKEN_PET_PIN</span></code> or <code class="docutils literal notranslate"><span class="pre">TOKEN_USER_PIN</span></code>. The <code class="docutils literal notranslate"><span class="pre">remaining_tries</span></code> are returned by the instructions, as well as <code class="docutils literal notranslate"><span class="pre">pin_ok</span></code> that is 0 on failure and non zero on success.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">TOKEN_INS_SET_USER_PIN</span></code> and <code class="docutils literal notranslate"><span class="pre">TOKEN_INS_SET_PET_PIN</span></code> are handled by the following function:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">token_change_pin</span><span class="p">(</span><span class="n">token_channel</span> <span class="o">*</span><span class="n">channel</span><span class="p">,</span> <span class="n">const</span> <span class="n">char</span> <span class="o">*</span><span class="n">pin</span><span class="p">,</span> <span class="n">unsigned</span> <span class="nb">int</span> <span class="n">pin_len</span><span class="p">,</span> <span class="n">token_pin_types</span> <span class="n">pin_type</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>They allow to modify the Pin values in the token and suppose that the user is already authenticated with his two pins.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">TOKEN_INS_GET_PET_NAME</span></code> is executed by:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">token_get_pet_name</span><span class="p">(</span><span class="n">token_channel</span> <span class="o">*</span><span class="n">channel</span><span class="p">,</span> <span class="n">char</span> <span class="o">*</span><span class="n">pet_name</span><span class="p">,</span> <span class="n">unsigned</span> <span class="nb">int</span> <span class="o">*</span><span class="n">pet_name_length</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>and allows to get the Pet Name whenever the Pet Pin has been presented to the token.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">TOKEN_INS_SET_PET_NAME</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">token_set_pet_name</span><span class="p">(</span><span class="n">token_channel</span> <span class="o">*</span><span class="n">channel</span><span class="p">,</span> <span class="n">const</span> <span class="n">char</span> <span class="o">*</span><span class="n">pet_name</span><span class="p">,</span> <span class="n">unsigned</span> <span class="nb">int</span> <span class="n">pet_name_length</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>sets a new Pet Name, and supposes that the user is fully authenticated (through Pet Pin and User Pin).</p>
+<p><code class="docutils literal notranslate"><span class="pre">TOKEN_INS_USER_PIN_LOCK</span></code> is related to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">token_user_pin_lock</span><span class="p">(</span><span class="n">token_channel</span> <span class="o">*</span><span class="n">channel</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>It locks the token with regards to the User Pin but not to the Pet Pin, and the secure channel is kept opened.</p>
+<p><code class="docutils literal notranslate"><span class="pre">TOKEN_INS_FULL_LOCK</span></code> is related to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">token_full_lock</span><span class="p">(</span><span class="n">token_channel</span> <span class="o">*</span><span class="n">channel</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>and fully locks the token, i.e. Pet Pin and User Pin are considered as non authenticated, and the secure channel
+is closed.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">TOKEN_INS_GET_RANDOM</span></code> is implemented by:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">token_get_random</span><span class="p">(</span><span class="n">token_channel</span> <span class="o">*</span><span class="n">channel</span><span class="p">,</span> <span class="n">char</span> <span class="o">*</span><span class="n">random</span><span class="p">,</span> <span class="n">uint8_t</span> <span class="n">random_len</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This instruction asks of <code class="docutils literal notranslate"><span class="pre">random_len</span></code> bytes of random data to put in <code class="docutils literal notranslate"><span class="pre">char</span> <span class="pre">*random</span></code>. This can be useful since the tokens are
+secure elements with clean entropy sources.</p>
+<p>A generic function allows to abstract all the interactions with the token while using callbacks (see below) to interact with the
+user:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">token_unlock_ops_exec</span><span class="p">(</span><span class="n">token_channel</span> <span class="o">*</span><span class="n">channel</span><span class="p">,</span> <span class="n">const</span> <span class="n">unsigned</span> <span class="n">char</span> <span class="o">*</span><span class="n">applet_AID</span><span class="p">,</span> <span class="n">unsigned</span> <span class="nb">int</span> <span class="n">applet_AID_len</span><span class="p">,</span> <span class="n">const</span> <span class="n">databag</span> <span class="o">*</span><span class="n">keybag</span><span class="p">,</span> <span class="n">uint32_t</span> <span class="n">keybag_num</span><span class="p">,</span> <span class="n">uint32_t</span> <span class="n">pbkdf2_iterations</span><span class="p">,</span> <span class="n">ec_curve_type</span> <span class="n">curve_type</span><span class="p">,</span> <span class="n">token_unlock_operations</span> <span class="o">*</span><span class="n">op</span><span class="p">,</span> <span class="n">uint32_t</span> <span class="n">num_ops</span><span class="p">,</span> <span class="n">cb_token_callbacks</span> <span class="o">*</span><span class="n">callbacks</span><span class="p">,</span> <span class="n">unsigned</span> <span class="n">char</span> <span class="o">*</span><span class="n">sig_pub_key</span><span class="p">,</span> <span class="n">unsigned</span> <span class="nb">int</span> <span class="o">*</span><span class="n">sig_pub_key_len</span><span class="p">,</span> <span class="n">databag</span> <span class="o">*</span><span class="n">saved_decrypted_keybag</span><span class="p">,</span> <span class="n">uint32_t</span> <span class="n">saved_decrypted_keybag_num</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The possible operations allowed by <code class="docutils literal notranslate"><span class="pre">token_unlock_ops_exec</span></code> are:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">typedef</span> <span class="n">enum</span> <span class="p">{</span>
+      <span class="n">TOKEN_UNLOCK_INIT_TOKEN</span>               <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="n">TOKEN_UNLOCK_ESTABLISH_SECURE_CHANNEL</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="n">TOKEN_UNLOCK_ASK_PET_PIN</span>              <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+      <span class="n">TOKEN_UNLOCK_PRESENT_PET_PIN</span>          <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+      <span class="n">TOKEN_UNLOCK_ASK_USER_PIN</span>             <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+      <span class="n">TOKEN_UNLOCK_PRESENT_USER_PIN</span>         <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+      <span class="n">TOKEN_UNLOCK_CONFIRM_PET_NAME</span>         <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
+      <span class="n">TOKEN_UNLOCK_CHANGE_PET_PIN</span>           <span class="o">=</span> <span class="mi">7</span><span class="p">,</span>
+      <span class="n">TOKEN_UNLOCK_CHANGE_USER_PIN</span>          <span class="o">=</span> <span class="mi">8</span><span class="p">,</span>
+      <span class="n">TOKEN_UNLOCK_CHANGE_PET_NAME</span>          <span class="o">=</span> <span class="mi">9</span><span class="p">,</span>
+<span class="p">}</span> <span class="n">token_unlock_operations</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="token-user-callbacks">
+<h2>6.13.1.2. Token user callbacks<a class="headerlink" href="#token-user-callbacks" title="Permalink to this headline">¶</a></h2>
+<p>In order to make interactions with the user easier while keeping an abstraction with the way these interactions are performed
+(this can be a GUI, an UART communication, etc.), the token library makes use of callbacks.</p>
+<p>Callbacks are function pointers defined as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">typedef</span> <span class="nb">int</span> <span class="p">(</span><span class="o">*</span><span class="n">cb_token_request_pin_t</span><span class="p">)(</span><span class="n">char</span> <span class="o">*</span><span class="n">pin</span><span class="p">,</span> <span class="n">unsigned</span> <span class="nb">int</span> <span class="o">*</span><span class="n">pin_len</span><span class="p">,</span> <span class="n">token_pin_types</span> <span class="n">pin_type</span><span class="p">,</span> <span class="n">token_pin_actions</span> <span class="n">action</span><span class="p">);</span>
+<span class="n">typedef</span> <span class="nb">int</span> <span class="p">(</span><span class="o">*</span><span class="n">cb_token_acknowledge_pin_t</span><span class="p">)(</span><span class="n">token_ack_state</span> <span class="n">ack</span><span class="p">,</span> <span class="n">token_pin_types</span> <span class="n">pin_type</span><span class="p">,</span> <span class="n">token_pin_actions</span> <span class="n">action</span><span class="p">,</span> <span class="n">uint32_t</span> <span class="n">remaining_tries</span><span class="p">);</span>
+<span class="n">typedef</span> <span class="nb">int</span> <span class="p">(</span><span class="o">*</span><span class="n">cb_token_request_pet_name_t</span><span class="p">)(</span><span class="n">char</span> <span class="o">*</span><span class="n">pet_name</span><span class="p">,</span> <span class="n">unsigned</span> <span class="nb">int</span> <span class="o">*</span><span class="n">pet_name_len</span><span class="p">);</span>
+<span class="n">typedef</span> <span class="nb">int</span> <span class="p">(</span><span class="o">*</span><span class="n">cb_token_request_pet_name_confirmation_t</span><span class="p">)(</span><span class="n">const</span> <span class="n">char</span> <span class="o">*</span><span class="n">pet_name</span><span class="p">,</span> <span class="n">unsigned</span> <span class="nb">int</span> <span class="n">pet_name_len</span><span class="p">);</span>
+
+<span class="n">typedef</span> <span class="n">struct</span> <span class="p">{</span>
+      <span class="n">cb_token_request_pin_t</span>                   <span class="n">request_pin</span><span class="p">;</span>
+      <span class="n">cb_token_acknowledge_pin_t</span>               <span class="n">acknowledge_pin</span><span class="p">;</span>
+      <span class="n">cb_token_request_pet_name_t</span>              <span class="n">request_pet_name</span><span class="p">;</span>
+      <span class="n">cb_token_request_pet_name_confirmation_t</span> <span class="n">request_pet_name_confirmation</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">cb_token_callbacks</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>They are split in four interaction types:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">cb_token_request_pin_t</span></code>: this is the callback to request a pin (either Pet Pin or User Pin) from the user, either for an authentication or for a Pin modification</li>
+<li><code class="docutils literal notranslate"><span class="pre">cb_token_acknowledge_pin_t</span></code>: this is the callback used to send the user a confirmation (or no confirmation) that his Pin is correct and has been validated by the token</li>
+<li><code class="docutils literal notranslate"><span class="pre">cb_token_request_pet_name_t</span></code>: this allows to request the Pet Name when modifying the Pet Name in the token</li>
+<li><code class="docutils literal notranslate"><span class="pre">cb_token_request_pet_name_confirmation_t</span></code>: this asks the user for a confirmation that the Pet Name returned by the token is indeed OK or not</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="auth-token-instructions">
+<h2>6.13.1.3. AUTH token instructions<a class="headerlink" href="#auth-token-instructions" title="Permalink to this headline">¶</a></h2>
+<p>The AUTH token implements a specific instruction exposed by the <code class="docutils literal notranslate"><span class="pre">libtoken_auth.h</span></code> header:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/*</span> <span class="n">Our</span> <span class="n">authentication</span> <span class="n">token</span> <span class="n">specific</span> <span class="n">instructions</span> <span class="o">*/</span>
+<span class="n">enum</span> <span class="n">auth_token_instructions</span> <span class="p">{</span>
+      <span class="o">/*</span> <span class="n">This</span> <span class="n">handles</span> <span class="n">the</span> <span class="n">encryption</span> <span class="n">master</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">AUTH</span> <span class="n">mode</span> <span class="o">*/</span>
+      <span class="n">TOKEN_INS_GET_KEY</span> <span class="o">=</span> <span class="mh">0x10</span><span class="p">,</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>This instruction is implemented through:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">auth_token_get_key</span><span class="p">(</span><span class="n">token_channel</span> <span class="o">*</span><span class="n">channel</span><span class="p">,</span> <span class="n">const</span> <span class="n">char</span> <span class="o">*</span><span class="n">pin</span><span class="p">,</span> <span class="n">unsigned</span> <span class="nb">int</span> <span class="n">pin_len</span><span class="p">,</span> <span class="n">unsigned</span> <span class="n">char</span> <span class="o">*</span><span class="n">key</span><span class="p">,</span> <span class="n">unsigned</span> <span class="nb">int</span> <span class="n">key_len</span><span class="p">,</span> <span class="n">unsigned</span> <span class="n">char</span> <span class="o">*</span><span class="n">h_key</span><span class="p">,</span> <span class="n">unsigned</span> <span class="nb">int</span> <span class="n">h_key_len</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This function asks for the master encryption key and puts it in the <code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">char</span> <span class="pre">*key</span></code> if successful. The <code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">char</span> <span class="pre">*h_key</span></code> (the hash of the key) is
+also filled as it is needed for the AES-CBC-ESSIV algorithm (for sectors IV derivation). Finally, <code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span> <span class="pre">*pin</span></code> is an
+input and is needed since the token encrypts sensitive values with a key derived from the User Pin (this encryption
+is an additional confidential layer over the secure channel).</p>
+</div>
+<div class="section" id="dfu-token-instructions">
+<h2>6.13.1.4. DFU token instructions<a class="headerlink" href="#dfu-token-instructions" title="Permalink to this headline">¶</a></h2>
+<p>The DFU token supports the following specific instructions:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/*</span> <span class="n">Our</span> <span class="n">DFU</span> <span class="n">token</span> <span class="n">specific</span> <span class="n">instructions</span> <span class="o">*/</span>
+<span class="n">enum</span> <span class="n">dfu_token_instructions</span> <span class="p">{</span>
+      <span class="o">/*</span> <span class="n">This</span> <span class="n">handles</span> <span class="n">firmware</span> <span class="n">encryption</span> <span class="n">key</span> <span class="n">derivation</span> <span class="ow">in</span> <span class="n">DFU</span> <span class="n">mode</span> <span class="o">*/</span>
+      <span class="n">TOKEN_INS_BEGIN_DECRYPT_SESSION</span> <span class="o">=</span> <span class="mh">0x20</span><span class="p">,</span>
+      <span class="n">TOKEN_INS_DERIVE_KEY</span> <span class="o">=</span> <span class="mh">0x21</span><span class="p">,</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">TOKEN_INS_BEGIN_DECRYPT_SESSION</span></code> is implemented in:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">dfu_token_begin_decrypt_session</span><span class="p">(</span><span class="n">token_channel</span> <span class="o">*</span><span class="n">channel</span><span class="p">,</span> <span class="n">const</span> <span class="n">unsigned</span> <span class="n">char</span> <span class="o">*</span><span class="n">header</span><span class="p">,</span> <span class="n">uint32_t</span> <span class="n">header_len</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This function opens a firmware decrypt session by sending the firmware header. This header is checked
+by the token, and an error is returned if the header authenticity is not correct.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">TOKEN_INS_DERIVE_KEY</span></code> is executed by:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">dfu_token_derive_key</span><span class="p">(</span><span class="n">token_channel</span> <span class="o">*</span><span class="n">channel</span><span class="p">,</span> <span class="n">unsigned</span> <span class="n">char</span> <span class="o">*</span><span class="n">derived_key</span><span class="p">,</span> <span class="n">uint32_t</span> <span class="n">derived_key_len</span><span class="p">,</span> <span class="n">uint16_t</span> <span class="n">num_chunk</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This function asks the DFU token for chunk keys derivation. The chunk number is <code class="docutils literal notranslate"><span class="pre">uint16_t</span> <span class="pre">num_chunk</span></code>, and the derived key is
+received in the <code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">char</span> <span class="pre">*derived_key</span></code> buffer. This derivation can only take place if a decrypt
+session has been properly opened with <code class="docutils literal notranslate"><span class="pre">dfu_token_begin_decrypt_session</span></code>.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="faq.html" class="btn btn-neutral float-right" title="6.13.2. token library FAQ" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="6.13. The token library" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

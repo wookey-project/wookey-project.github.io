@@ -1,0 +1,610 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>5.4.2. About EwoK permissions internals &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="5.4.3. EwoK IRQ and ISR internals" href="isr_internals.html" />
+    <link rel="prev" title="5.4.1. Ada/SPARK for a secure kernel" href="ada_spark.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">5. EwoK kernel</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#what-is-ewok">5.1. What is EwoK ?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#ewok-architecture">5.2. EwoK architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#ewok-api">5.3. EwoK API</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#internals">5.4. Internals</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="ada_spark.html">5.4.1. Ada/SPARK implementation</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">5.4.2. EwoK permission internals</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ewok-permissions-kernel-api">5.4.2.1. EwoK permissions kernel API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#memory-representation-of-permissions-in-ewok">5.4.2.2. Memory representation of permissions in EwoK</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="isr_internals.html">5.4.3. EwoK IRQ &amp; ISR internals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="debug_sched.html">5.4.4. EwoK scheduler internals</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#faq">5.5. FAQ</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../libs.html">6. Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../drivers.html">7. Drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">5. EwoK microkernel</a> &raquo;</li>
+        
+      <li>5.4.2. About EwoK permissions internals</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="about-ewok-permissions-internals">
+<span id="perms-internals"></span><h1>5.4.2. About EwoK permissions internals<a class="headerlink" href="#about-ewok-permissions-internals" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="ewok-permissions-kernel-api">
+<h2>5.4.2.1. EwoK permissions kernel API<a class="headerlink" href="#ewok-permissions-kernel-api" title="Permalink to this headline">¶</a></h2>
+<p>Inside the kernel, the permission module exposes a very simple API, in order
+to support permission management modularity. This permits, in a future work,
+to add various permission models using the same API to other parts of the kernel.</p>
+<p>The permission API defines a list of resource names:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="26%" />
+<col width="74%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Permission name</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>PERM_RES_DEV_DMA</td>
+<td>access to DMA devices</td>
+</tr>
+<tr class="row-odd"><td>PERM_RES_DEV_CRYPTO_USR</td>
+<td>user access to hardware cryptographic devices</td>
+</tr>
+<tr class="row-even"><td>PERM_RES_DEV_CRYPTO_CFG</td>
+<td>full access to hardware cryptographic devices (key injection granted)</td>
+</tr>
+<tr class="row-odd"><td>PERM_RES_DEV_BUSES</td>
+<td>access to buses (USART, I2C, SPI…)</td>
+</tr>
+<tr class="row-even"><td>PERM_RES_DEV_EXTI</td>
+<td>access to external interrupts</td>
+</tr>
+<tr class="row-odd"><td>PERM_RES_DEV_TIM</td>
+<td>access to timers</td>
+</tr>
+<tr class="row-even"><td>PERM_RES_TIM_GETMILLI</td>
+<td>access to timestamp with tick precision</td>
+</tr>
+<tr class="row-odd"><td>PERM_RES_TIM_GETMICRO</td>
+<td>access to timestamp with microsecond precision</td>
+</tr>
+<tr class="row-even"><td>PERM_RES_TIM_GETCYCLE</td>
+<td>access to timestamp with CPU cycle precision</td>
+</tr>
+<tr class="row-odd"><td>PERM_RES_TSK_FISR</td>
+<td>task’s ISRs are able to require main thread immediate execution</td>
+</tr>
+<tr class="row-even"><td>PERM_RES_TSK_FIPC</td>
+<td>task’s IPC send is able to require target thread immediate execution</td>
+</tr>
+<tr class="row-odd"><td>PERM_RES_TSK_RESET</td>
+<td>task is able to request immediate SoC reset</td>
+</tr>
+<tr class="row-even"><td>PERM_RES_TSK_UPGRADE</td>
+<td>task is able to upgrade the firmware (i.e. map the internal flash)</td>
+</tr>
+<tr class="row-odd"><td>PERM_RES_TSK_RNG</td>
+<td>task is able to request random data from the kernel RNG source</td>
+</tr>
+<tr class="row-even"><td>PERM_RES_MEM_DYNAMIC_MAP</td>
+<td>task is able to (un)map its own devices declared as voluntary mapped</td>
+</tr>
+</tbody>
+</table>
+<p>Resource names are define using the preprocessor in C, mapped as an uint32_t.
+In Ada, the permission name has its own type.</p>
+<p>The permission API also exports the following prototypes:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">bool</span> <span class="nf">perm_ipc_is_granted</span><span class="p">(</span><span class="n">e_task_id</span> <span class="n">from</span><span class="p">,</span>
+                         <span class="n">e_task_id</span> <span class="n">to</span><span class="p">);</span>
+
+<span class="kt">bool</span> <span class="nf">perm_ressource_is_granted</span><span class="p">(</span><span class="kt">uint32_t</span>  <span class="n">ressource_name</span><span class="p">,</span>
+                               <span class="n">task_t</span><span class="o">*</span>   <span class="n">task</span><span class="p">);</span>
+
+<span class="kt">bool</span> <span class="nf">perm_same_ipc_domain</span><span class="p">(</span><span class="n">e_task_id</span>      <span class="n">src</span><span class="p">,</span>
+                          <span class="n">e_task_id</span>      <span class="n">dst</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Through this API, it is possible to control all accesses to resources and
+tasks. This API abstracts the permission memory model described below.</p>
+</div>
+<div class="section" id="memory-representation-of-permissions-in-ewok">
+<h2>5.4.2.2. Memory representation of permissions in EwoK<a class="headerlink" href="#memory-representation-of-permissions-in-ewok" title="Permalink to this headline">¶</a></h2>
+<p>As shown in <a class="reference internal" href="perms.html#ewok-perm"><span class="std std-ref">Ewok permissions API</span></a>, permissions are based on a
+tree hierarchy.</p>
+<p>Permissions are split into two main categories:</p>
+<blockquote>
+<div><ul class="simple">
+<li>resources access permissions</li>
+<li>communication access permissions</li>
+</ul>
+</div></blockquote>
+<div class="section" id="resource-access-permissions-memory-model">
+<h3>5.4.2.2.1. Resource access permissions memory model<a class="headerlink" href="#resource-access-permissions-memory-model" title="Permalink to this headline">¶</a></h3>
+<p>Resource access permissions correspond to all permissions associated to an
+access to a hardware resource (core timeslot, device, current cycle count,
+etc.).</p>
+<p>In order to optimize resources access permissions check at runtime, they are
+mapped as a <em>resource permission register</em>, for each application.  This
+resource permission register works the same way as any hardware register,
+with bit fields and masks.</p>
+<p>The C implementation of such permissions check is not easy as C does not easily manage
+bitfields, but Ada is clearly more efficient for such checks.</p>
+<p>The resource permission register is 32-bit long and has the following mapping:</p>
+<a class="reference internal image-reference" href="../_images/perm_reg-0.png"><img alt="permissions register" class="align-center" src="../_images/perm_reg-0.png" style="width: 500px;" /></a>
+<a class="reference internal image-reference" href="../_images/perm_reg-1.png"><img alt="permissions register" class="align-center" src="../_images/perm_reg-1.png" style="width: 500px;" /></a>
+<p>Checking permissions at run time is done using masks, which allows to optimize
+permission check time and use boolean constructions.</p>
+<p>Booleans are directly mapped as a register bit. Enumerate respects the following
+structure:</p>
+<p>Time permission mapping (2 bits):</p>
+<blockquote>
+<div><ul class="simple">
+<li>0b00 : none</li>
+<li>0b01 : tick permission</li>
+<li>0b10 : microsecond permission</li>
+<li>0b11 : cycle permission</li>
+</ul>
+</div></blockquote>
+<p>Cryptographic IP access mapping (2 bits)</p>
+<blockquote>
+<div><ul class="simple">
+<li>0b00 : no access</li>
+<li>0b01 : data plane access (no key injection)</li>
+<li>0b10 : configuration access (key injection, RNG access)</li>
+<li>0b11 : both accesses</li>
+</ul>
+</div></blockquote>
+<p>The permission register is based on each application permission declaration in
+the configuration of the Tataouine SDK. The register is created by Tataouine in
+include/generated/app_layout.h (for C code) and in
+include/generated/Ada/app_layout.ads (for Ada code).</p>
+<p>The permission register is generated as a static const array of bits denoted
+0b110010011100…0001110000 in a dedicated resource permission table in
+include/generated/gen_perms.h by tools/apps/permissions.pl script.</p>
+<p>The kernel perm.c/perm.h (for C) and perm.adb/perm.ads file manage the
+permission register read and return the task permissions based on it.</p>
+</div>
+<div class="section" id="communication-access-permissions-memory-model">
+<h3>5.4.2.2.2. Communication access permissions memory model<a class="headerlink" href="#communication-access-permissions-memory-model" title="Permalink to this headline">¶</a></h3>
+<p>Communications permissions are based on two matrices:</p>
+<blockquote>
+<div><ul class="simple">
+<li>An IPC matrix, defining which task is able to communicate with which
+through IPC calls</li>
+<li>A DMA SHM matrix, defining which task is able to share a DMA buffer with
+which peer</li>
+</ul>
+</div></blockquote>
+<p>These matrices are generated in include/generated/gen_perms.h by
+tools/apps/permissions.pl script.</p>
+<p>Here is a typical gen_perms.h content:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/* ressource register */</span>
+<span class="k">typedef</span> <span class="kt">uint32_t</span> <span class="n">ressource_reg_t</span><span class="p">;</span>
+
+<span class="k">static</span> <span class="k">const</span> <span class="n">ressource_reg_t</span> <span class="n">ressource_perm_tab</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mh">0x10000000</span><span class="p">,</span> <span class="cm">/* benchlog */</span>
+    <span class="mh">0xc000a000</span><span class="p">,</span> <span class="cm">/* crypto */</span>
+    <span class="mh">0x90000000</span><span class="p">,</span> <span class="cm">/* pin */</span>
+    <span class="mh">0x94000000</span><span class="p">,</span> <span class="cm">/* sdio */</span>
+    <span class="mh">0x50008000</span><span class="p">,</span> <span class="cm">/* smart */</span>
+    <span class="mh">0x90000000</span><span class="p">,</span> <span class="cm">/* usb */</span>
+<span class="p">};</span>
+
+<span class="cm">/* ipc communication permissions */</span>
+<span class="k">static</span> <span class="k">const</span> <span class="kt">bool</span> <span class="n">com_ipc_perm</span><span class="p">[][</span><span class="mi">6</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">},</span>
+    <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">},</span>
+    <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">},</span>
+    <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">},</span>
+    <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">},</span>
+    <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">}</span>
+<span class="p">};</span>
+
+<span class="cm">/* dmashm communication permissions */</span>
+<span class="k">static</span> <span class="k">const</span> <span class="kt">bool</span> <span class="n">com_dmashm_perm</span><span class="p">[][</span><span class="mi">6</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">},</span>
+    <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">},</span>
+    <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">},</span>
+    <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">},</span>
+    <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">},</span>
+    <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>The Ada implementation of the permissions is using a strictly typed register
+instead of a uint32_t bitfield for the resources permissions register.
+The Ada implementation of EwoK is also using SPARK in order to validate its data
+flow.</p>
+<p>Here is the generated Ada specification</p>
+<div class="highlight-ada notranslate"><div class="highlight"><pre><span></span><span class="kd">package</span> <span class="nc">ewok.perm_auto</span>
+   <span class="nc">with</span> <span class="nc">spark_mode</span> <span class="p">=&gt;</span> <span class="nc">on</span>
+<span class="kr">is</span>
+
+   <span class="c1">-- ressource register definition</span>
+   <span class="kd">type</span> <span class="kt">t_ressource_reg</span> <span class="kr">is</span> <span class="kr">record</span>
+      <span class="n">DEV_DMA</span>         <span class="p">:</span> <span class="n">bit</span><span class="p">;</span>
+      <span class="n">DEV_CRYPTO</span>      <span class="p">:</span> <span class="n">bits_2</span><span class="p">;</span>
+      <span class="n">DEV_BUS</span>         <span class="p">:</span> <span class="n">bit</span><span class="p">;</span>
+      <span class="n">DEV_EXTI</span>        <span class="p">:</span> <span class="n">bit</span><span class="p">;</span>
+      <span class="n">DEV_TIM</span>         <span class="p">:</span> <span class="n">bit</span><span class="p">;</span>
+      <span class="n">DEV_reserved</span>    <span class="p">:</span> <span class="n">bits_2</span><span class="p">;</span>
+      <span class="n">TIM_TIME</span>        <span class="p">:</span> <span class="n">bits_2</span><span class="p">;</span>
+      <span class="n">TIM_reserved</span>    <span class="p">:</span> <span class="n">bits_6</span><span class="p">;</span>
+      <span class="n">TSK_FISR</span>        <span class="p">:</span> <span class="n">bit</span><span class="p">;</span>
+      <span class="n">TSK_FIPC</span>        <span class="p">:</span> <span class="n">bit</span><span class="p">;</span>
+      <span class="n">TSK_RESET</span>       <span class="p">:</span> <span class="n">bit</span><span class="p">;</span>
+      <span class="n">TSK_UPGRADE</span>     <span class="p">:</span> <span class="n">bit</span><span class="p">;</span>
+      <span class="n">TSK_RANDOM</span>      <span class="p">:</span> <span class="n">bit</span><span class="p">;</span>
+      <span class="n">TSK_reserved</span>    <span class="p">:</span> <span class="n">bits_3</span><span class="p">;</span>
+      <span class="n">MEM_DYNAMIC_MAP</span> <span class="p">:</span> <span class="n">bit</span><span class="p">;</span>
+      <span class="n">MEM_reserved</span>    <span class="p">:</span> <span class="n">bits_7</span><span class="p">;</span>
+   <span class="kr">end record</span>
+      <span class="kr">with</span> <span class="n">Size</span> <span class="p">=&gt;</span> <span class="mi">32</span><span class="p">;</span>
+
+   <span class="kr">for</span> <span class="n">t_ressource_reg</span> <span class="kn">use</span> <span class="nn">record</span>
+      <span class="n">DEV_DMA</span>         <span class="kr">at</span> <span class="mi">0</span> <span class="kr">range</span> <span class="mi">31</span> <span class="p">..</span> <span class="mi">31</span><span class="p">;</span>
+      <span class="n">DEV_CRYPTO</span>      <span class="kr">at</span> <span class="mi">0</span> <span class="kr">range</span> <span class="mi">29</span> <span class="p">..</span> <span class="mi">30</span><span class="p">;</span>
+      <span class="n">DEV_BUS</span>         <span class="kr">at</span> <span class="mi">0</span> <span class="kr">range</span> <span class="mi">28</span> <span class="p">..</span> <span class="mi">28</span><span class="p">;</span>
+      <span class="n">DEV_EXTI</span>        <span class="kr">at</span> <span class="mi">0</span> <span class="kr">range</span> <span class="mi">27</span> <span class="p">..</span> <span class="mi">27</span><span class="p">;</span>
+      <span class="n">DEV_TIM</span>         <span class="kr">at</span> <span class="mi">0</span> <span class="kr">range</span> <span class="mi">26</span> <span class="p">..</span> <span class="mi">26</span><span class="p">;</span>
+      <span class="n">DEV_reserved</span>    <span class="kr">at</span> <span class="mi">0</span> <span class="kr">range</span> <span class="mi">24</span> <span class="p">..</span> <span class="mi">25</span><span class="p">;</span>
+      <span class="n">TIM_TIME</span>        <span class="kr">at</span> <span class="mi">0</span> <span class="kr">range</span> <span class="mi">22</span> <span class="p">..</span> <span class="mi">23</span><span class="p">;</span>
+      <span class="n">TIM_reserved</span>    <span class="kr">at</span> <span class="mi">0</span> <span class="kr">range</span> <span class="mi">16</span> <span class="p">..</span> <span class="mi">21</span><span class="p">;</span>
+      <span class="n">TSK_FISR</span>        <span class="kr">at</span> <span class="mi">0</span> <span class="kr">range</span> <span class="mi">15</span> <span class="p">..</span> <span class="mi">15</span><span class="p">;</span>
+      <span class="n">TSK_FIPC</span>        <span class="kr">at</span> <span class="mi">0</span> <span class="kr">range</span> <span class="mi">14</span> <span class="p">..</span> <span class="mi">14</span><span class="p">;</span>
+      <span class="n">TSK_RESET</span>       <span class="kr">at</span> <span class="mi">0</span> <span class="kr">range</span> <span class="mi">13</span> <span class="p">..</span> <span class="mi">13</span><span class="p">;</span>
+      <span class="n">TSK_UPGRADE</span>     <span class="kr">at</span> <span class="mi">0</span> <span class="kr">range</span> <span class="mi">12</span> <span class="p">..</span> <span class="mi">12</span><span class="p">;</span>
+      <span class="n">TSK_RANDOM</span>      <span class="kr">at</span> <span class="mi">0</span> <span class="kr">range</span> <span class="mi">11</span> <span class="p">..</span> <span class="mi">11</span><span class="p">;</span>
+      <span class="n">TSK_reserved</span>    <span class="kr">at</span> <span class="mi">0</span> <span class="kr">range</span>  <span class="mi">8</span> <span class="p">..</span> <span class="mi">10</span><span class="p">;</span>
+      <span class="n">MEM_DYNAMIC_MAP</span> <span class="kr">at</span> <span class="mi">0</span> <span class="kr">range</span>  <span class="mi">7</span> <span class="p">..</span> <span class="mi">7</span><span class="p">;</span>
+      <span class="n">MEM_reserved</span>    <span class="kr">at</span> <span class="mi">0</span> <span class="kr">range</span>  <span class="mi">0</span> <span class="p">..</span> <span class="mi">6</span><span class="p">;</span>
+   <span class="kr">end</span> <span class="kr">record</span><span class="p">;</span>
+
+   <span class="kd">type</span> <span class="kt">t_com_matrix</span> <span class="kr">is</span>
+     <span class="kr">array</span> <span class="p">(</span><span class="n">t_real_task_id</span><span class="p">&#39;</span><span class="na">range</span><span class="p">,</span> <span class="n">t_real_task_id</span><span class="p">&#39;</span><span class="na">range</span><span class="p">)</span> <span class="kr">of</span> <span class="kt">Boolean</span><span class="p">;</span>
+
+   <span class="n">ressource_perm_register_tab</span> <span class="p">:</span> <span class="kr">array</span> <span class="p">(</span><span class="n">t_real_task_id</span><span class="p">&#39;</span><span class="na">range</span><span class="p">)</span> <span class="kr">of</span> <span class="n">t_ressource_reg</span> <span class="p">:=</span>
+      <span class="p">(</span>
+       <span class="c1">-- ressource_perm_register for CRYPTO</span>
+       <span class="n">ID_APP1</span> <span class="p">=&gt;</span> <span class="p">(</span>
+        <span class="n">DEV_DMA</span>        <span class="p">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">DEV_CRYPTO</span>     <span class="p">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">DEV_BUS</span>        <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">DEV_EXTI</span>       <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">DEV_TIM</span>        <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">DEV_reserved</span>   <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">TIM_TIME</span>       <span class="p">=&gt;</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">TIM_reserved</span>   <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">TSK_FISR</span>       <span class="p">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">TSK_FIPC</span>       <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">TSK_RESET</span>      <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">TSK_UPGRADE</span>    <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">TSK_RANDOM</span>     <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">TSK_reserved</span>   <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">MEM_DYNAMIC_MAP</span> <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">MEM_reserved</span>   <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">),</span>
+       <span class="c1">-- ressource_perm_register for PIN</span>
+       <span class="n">ID_APP2</span> <span class="p">=&gt;</span> <span class="p">(</span>
+        <span class="n">DEV_DMA</span>        <span class="p">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">DEV_CRYPTO</span>     <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">DEV_BUS</span>        <span class="p">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">DEV_EXTI</span>       <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">DEV_TIM</span>        <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">DEV_reserved</span>   <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">TIM_TIME</span>       <span class="p">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">TIM_reserved</span>   <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">TSK_FISR</span>       <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">TSK_FIPC</span>       <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">TSK_RESET</span>       <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">TSK_UPGRADE</span>       <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">TSK_RANDOM</span>     <span class="p">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">TSK_reserved</span>   <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">MEM_DYNAMIC_MAP</span> <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">MEM_reserved</span>   <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">),</span>
+       <span class="c1">-- ressource_perm_register for SDIO</span>
+       <span class="n">ID_APP3</span> <span class="p">=&gt;</span> <span class="p">(</span>
+        <span class="n">DEV_DMA</span>        <span class="p">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">DEV_CRYPTO</span>     <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">DEV_BUS</span>        <span class="p">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">DEV_EXTI</span>       <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">DEV_TIM</span>        <span class="p">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">DEV_reserved</span>   <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">TIM_TIME</span>       <span class="p">=&gt;</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="n">TIM_reserved</span>   <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">TSK_FISR</span>       <span class="p">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">TSK_FIPC</span>       <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">TSK_RESET</span>       <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">TSK_UPGRADE</span>       <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">TSK_RANDOM</span>     <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">TSK_reserved</span>   <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">MEM_DYNAMIC_MAP</span> <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">MEM_reserved</span>   <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">),</span>
+       <span class="c1">-- ressource_perm_register for SMART</span>
+       <span class="n">ID_APP4</span> <span class="p">=&gt;</span> <span class="p">(</span>
+        <span class="n">DEV_DMA</span>        <span class="p">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">DEV_CRYPTO</span>     <span class="p">=&gt;</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">DEV_BUS</span>        <span class="p">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">DEV_EXTI</span>       <span class="p">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">DEV_TIM</span>        <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">DEV_reserved</span>   <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">TIM_TIME</span>       <span class="p">=&gt;</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="n">TIM_reserved</span>   <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">TSK_FISR</span>       <span class="p">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">TSK_FIPC</span>       <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">TSK_RESET</span>       <span class="p">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">TSK_UPGRADE</span>       <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">TSK_RANDOM</span>     <span class="p">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">TSK_reserved</span>   <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">MEM_DYNAMIC_MAP</span> <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">MEM_reserved</span>   <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">),</span>
+       <span class="c1">-- ressource_perm_register for USB</span>
+       <span class="n">ID_APP5</span> <span class="p">=&gt;</span> <span class="p">(</span>
+        <span class="n">DEV_DMA</span>        <span class="p">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">DEV_CRYPTO</span>     <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">DEV_BUS</span>        <span class="p">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">DEV_EXTI</span>       <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">DEV_TIM</span>        <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">DEV_reserved</span>   <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">TIM_TIME</span>       <span class="p">=&gt;</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="n">TIM_reserved</span>   <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">TSK_FISR</span>       <span class="p">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">TSK_FIPC</span>       <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">TSK_RESET</span>       <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">TSK_UPGRADE</span>       <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">TSK_RANDOM</span>     <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">TSK_reserved</span>   <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">MEM_DYNAMIC_MAP</span> <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">MEM_reserved</span>   <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">));</span>
+
+   <span class="no">CRYPTO</span> <span class="p">:</span> <span class="kr">constant</span> <span class="n">t_real_task_id</span> <span class="p">:=</span> <span class="n">ID_APP1</span><span class="p">;</span>
+   <span class="no">PIN</span> <span class="p">:</span> <span class="kr">constant</span> <span class="n">t_real_task_id</span> <span class="p">:=</span> <span class="n">ID_APP2</span><span class="p">;</span>
+   <span class="no">SDIO</span> <span class="p">:</span> <span class="kr">constant</span> <span class="n">t_real_task_id</span> <span class="p">:=</span> <span class="n">ID_APP3</span><span class="p">;</span>
+   <span class="no">SMART</span> <span class="p">:</span> <span class="kr">constant</span> <span class="n">t_real_task_id</span> <span class="p">:=</span> <span class="n">ID_APP4</span><span class="p">;</span>
+   <span class="no">USB</span> <span class="p">:</span> <span class="kr">constant</span> <span class="n">t_real_task_id</span> <span class="p">:=</span> <span class="n">ID_APP5</span><span class="p">;</span>
+
+   <span class="c1">-- ipc communication permissions</span>
+   <span class="no">com_ipc_perm</span> <span class="p">:</span> <span class="kr">constant</span> <span class="n">t_com_matrix</span> <span class="p">:=</span>
+      <span class="p">(</span><span class="n">CRYPTO</span>        <span class="p">=&gt;</span> <span class="p">(</span><span class="n">ID_APP1</span> <span class="p">=&gt;</span> <span class="kc">false</span><span class="p">,</span> <span class="n">ID_APP2</span> <span class="p">=&gt;</span> <span class="kc">false</span><span class="p">,</span> <span class="n">ID_APP3</span> <span class="p">=&gt;</span> <span class="kc">true</span><span class="p">,</span>  <span class="n">ID_APP4</span> <span class="p">=&gt;</span> <span class="kc">true</span><span class="p">,</span>  <span class="n">ID_APP5</span> <span class="p">=&gt;</span> <span class="kc">true</span><span class="p">),</span>
+       <span class="n">PIN</span>   <span class="p">=&gt;</span> <span class="p">(</span><span class="n">ID_APP1</span> <span class="p">=&gt;</span> <span class="kc">false</span><span class="p">,</span> <span class="n">ID_APP2</span> <span class="p">=&gt;</span> <span class="kc">false</span><span class="p">,</span> <span class="n">ID_APP3</span> <span class="p">=&gt;</span> <span class="kc">false</span><span class="p">,</span> <span class="n">ID_APP4</span> <span class="p">=&gt;</span> <span class="kc">true</span><span class="p">,</span>  <span class="n">ID_APP5</span> <span class="p">=&gt;</span> <span class="kc">false</span><span class="p">),</span>
+       <span class="n">SDIO</span>  <span class="p">=&gt;</span> <span class="p">(</span><span class="n">ID_APP1</span> <span class="p">=&gt;</span> <span class="kc">true</span><span class="p">,</span>  <span class="n">ID_APP2</span> <span class="p">=&gt;</span> <span class="kc">false</span><span class="p">,</span> <span class="n">ID_APP3</span> <span class="p">=&gt;</span> <span class="kc">false</span><span class="p">,</span> <span class="n">ID_APP4</span> <span class="p">=&gt;</span> <span class="kc">false</span><span class="p">,</span> <span class="n">ID_APP5</span> <span class="p">=&gt;</span> <span class="kc">false</span><span class="p">),</span>
+       <span class="n">SMART</span> <span class="p">=&gt;</span> <span class="p">(</span><span class="n">ID_APP1</span> <span class="p">=&gt;</span> <span class="kc">true</span><span class="p">,</span>  <span class="n">ID_APP2</span> <span class="p">=&gt;</span> <span class="kc">true</span><span class="p">,</span>  <span class="n">ID_APP3</span> <span class="p">=&gt;</span> <span class="kc">false</span><span class="p">,</span> <span class="n">ID_APP4</span> <span class="p">=&gt;</span> <span class="kc">false</span><span class="p">,</span> <span class="n">ID_APP5</span> <span class="p">=&gt;</span> <span class="kc">false</span><span class="p">),</span>
+       <span class="n">USB</span>   <span class="p">=&gt;</span> <span class="p">(</span><span class="n">ID_APP1</span> <span class="p">=&gt;</span> <span class="kc">true</span><span class="p">,</span>  <span class="n">ID_APP2</span> <span class="p">=&gt;</span> <span class="kc">false</span><span class="p">,</span> <span class="n">ID_APP3</span> <span class="p">=&gt;</span> <span class="kc">false</span><span class="p">,</span> <span class="n">ID_APP4</span> <span class="p">=&gt;</span> <span class="kc">false</span><span class="p">,</span> <span class="n">ID_APP5</span> <span class="p">=&gt;</span> <span class="kc">false</span><span class="p">));</span>
+
+   <span class="c1">-- dmashm communication permissions</span>
+   <span class="no">com_dmashm_perm</span> <span class="p">:</span> <span class="kr">constant</span> <span class="n">t_com_matrix</span> <span class="p">:=</span>
+      <span class="p">(</span><span class="n">CRYPTO</span>        <span class="p">=&gt;</span> <span class="p">(</span><span class="n">ID_APP1</span> <span class="p">=&gt;</span> <span class="kc">false</span><span class="p">,</span> <span class="n">ID_APP2</span> <span class="p">=&gt;</span> <span class="kc">false</span><span class="p">,</span> <span class="n">ID_APP3</span> <span class="p">=&gt;</span> <span class="kc">true</span><span class="p">,</span>  <span class="n">ID_APP4</span> <span class="p">=&gt;</span> <span class="kc">false</span><span class="p">,</span> <span class="n">ID_APP5</span> <span class="p">=&gt;</span> <span class="kc">true</span><span class="p">),</span>
+       <span class="n">PIN</span>   <span class="p">=&gt;</span> <span class="p">(</span><span class="n">ID_APP1</span> <span class="p">=&gt;</span> <span class="kc">false</span><span class="p">,</span> <span class="n">ID_APP2</span> <span class="p">=&gt;</span> <span class="kc">false</span><span class="p">,</span> <span class="n">ID_APP3</span> <span class="p">=&gt;</span> <span class="kc">false</span><span class="p">,</span> <span class="n">ID_APP4</span> <span class="p">=&gt;</span> <span class="kc">false</span><span class="p">,</span> <span class="n">ID_APP5</span> <span class="p">=&gt;</span> <span class="kc">false</span><span class="p">),</span>
+       <span class="n">SDIO</span>  <span class="p">=&gt;</span> <span class="p">(</span><span class="n">ID_APP1</span> <span class="p">=&gt;</span> <span class="kc">true</span><span class="p">,</span>  <span class="n">ID_APP2</span> <span class="p">=&gt;</span> <span class="kc">false</span><span class="p">,</span> <span class="n">ID_APP3</span> <span class="p">=&gt;</span> <span class="kc">false</span><span class="p">,</span> <span class="n">ID_APP4</span> <span class="p">=&gt;</span> <span class="kc">false</span><span class="p">,</span> <span class="n">ID_APP5</span> <span class="p">=&gt;</span> <span class="kc">false</span><span class="p">),</span>
+       <span class="n">SMART</span> <span class="p">=&gt;</span> <span class="p">(</span><span class="n">ID_APP1</span> <span class="p">=&gt;</span> <span class="kc">false</span><span class="p">,</span> <span class="n">ID_APP2</span> <span class="p">=&gt;</span> <span class="kc">false</span><span class="p">,</span> <span class="n">ID_APP3</span> <span class="p">=&gt;</span> <span class="kc">false</span><span class="p">,</span> <span class="n">ID_APP4</span> <span class="p">=&gt;</span> <span class="kc">false</span><span class="p">,</span> <span class="n">ID_APP5</span> <span class="p">=&gt;</span> <span class="kc">false</span><span class="p">),</span>
+       <span class="n">USB</span>   <span class="p">=&gt;</span> <span class="p">(</span><span class="n">ID_APP1</span> <span class="p">=&gt;</span> <span class="kc">true</span><span class="p">,</span>  <span class="n">ID_APP2</span> <span class="p">=&gt;</span> <span class="kc">false</span><span class="p">,</span> <span class="n">ID_APP3</span> <span class="p">=&gt;</span> <span class="kc">false</span><span class="p">,</span> <span class="n">ID_APP4</span> <span class="p">=&gt;</span> <span class="kc">false</span><span class="p">,</span> <span class="n">ID_APP5</span> <span class="p">=&gt;</span> <span class="kc">false</span><span class="p">));</span>
+
+<span class="kr">end</span> <span class="nf">ewok.perm_auto</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="isr_internals.html" class="btn btn-neutral float-right" title="5.4.3. EwoK IRQ and ISR internals" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ada_spark.html" class="btn btn-neutral" title="5.4.1. Ada/SPARK for a secure kernel" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

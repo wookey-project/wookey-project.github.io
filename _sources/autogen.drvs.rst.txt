@@ -1,0 +1,10 @@
+.. toctree::
+   :maxdepth: 2
+
+   drivers/cryp <drvcryp/index>
+   drivers/flash <drvflash/index>
+   drivers/hash <drvhash/index>
+   drivers/iso7816 <drviso7816/index>
+   drivers/spi <drvspi/index>
+   drivers/usart <drvusart/index>
+   drivers/ili9341 <drvili9341/index>

@@ -1,0 +1,465 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>5.4.1. Ada/SPARK for a secure kernel &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="5.4.2. About EwoK permissions internals" href="perms_internals.html" />
+    <link rel="prev" title="5.3.3. EwoK permissions" href="perms.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">5. EwoK kernel</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#what-is-ewok">5.1. What is EwoK ?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#ewok-architecture">5.2. EwoK architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#ewok-api">5.3. EwoK API</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#internals">5.4. Internals</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">5.4.1. Ada/SPARK implementation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#why-implementing-ewok-in-ada">5.4.1.1. Why implementing Ewok in Ada?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#from-c-to-ada">5.4.1.2. From C to Ada</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ada-sources">5.4.1.3. Ada sources</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#preprocessing-in-ada">5.4.1.4. Preprocessing in Ada</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#generated-files">5.4.1.5. Generated files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#static-verification-with-spark">5.4.1.6. Static verification with SPARK</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="perms_internals.html">5.4.2. EwoK permission internals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isr_internals.html">5.4.3. EwoK IRQ &amp; ISR internals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="debug_sched.html">5.4.4. EwoK scheduler internals</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#faq">5.5. FAQ</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../libs.html">6. Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../drivers.html">7. Drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">5. EwoK microkernel</a> &raquo;</li>
+        
+      <li>5.4.1. Ada/SPARK for a secure kernel</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="ada-spark-for-a-secure-kernel">
+<span id="ada-spark"></span><h1>5.4.1. Ada/SPARK for a secure kernel<a class="headerlink" href="#ada-spark-for-a-secure-kernel" title="Permalink to this headline">¶</a></h1>
+<p>The EwoK microkernel is an Ada/SPARK kernel with very few lines of C.</p>
+<div class="section" id="why-implementing-ewok-in-ada">
+<h2>5.4.1.1. Why implementing Ewok in Ada?<a class="headerlink" href="#why-implementing-ewok-in-ada" title="Permalink to this headline">¶</a></h2>
+<p>Most kernels and microkernels are written in C.
+The major drawback of the C language is its proneness to
+coding errors. Out-of-bound array accesses, integer overflows and dangling
+pointers are difficult to avoid due to the weakly enforced typing. Such
+bugs can become nonetheless devastating when exploited in a privileged
+context.
+A way to prevent such vulnerabilities is to use a safe language or to
+use formal methods to prove the lack of runtime error.</p>
+<p>Using a safe language for implementing low-level kernel code is an
+approach that goes back to the early 1970’s.
+However, there are very few alternatives and we made the choice of
+<a class="reference external" href="https://www.adacore.com/">Ada</a>, designed for building high-confidence and
+safety-critical applications in embedded systems.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The Ada/SPARK kernel is based on about 10 Klines of Ada and
+about 500 lines of C and assembly.</p>
+</div>
+</div>
+<div class="section" id="from-c-to-ada">
+<h2>5.4.1.2. From C to Ada<a class="headerlink" href="#from-c-to-ada" title="Permalink to this headline">¶</a></h2>
+<p>Interoperability between C and Ada is facilitated
+by GNAT providing a
+<a class="reference external" href="https://docs.adacore.com/gnat_rm-docs/html/gnat_rm/gnat_rm/interfacing_to_other_languages.html#">full interface to C</a>.</p>
+<div class="section" id="importing-c-symbols-in-ada">
+<h3>5.4.1.2.1. Importing C symbols in Ada<a class="headerlink" href="#importing-c-symbols-in-ada" title="Permalink to this headline">¶</a></h3>
+<p>Importing a C symbol in an Ada program is done using the following directive:</p>
+<div class="highlight-vhdl notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">my_ada_function</span> <span class="p">(</span> <span class="n">myarg</span> <span class="o">:</span> <span class="n">unsigned_8</span><span class="p">)</span> <span class="k">return</span> <span class="n">unsigned_32</span>
+<span class="k">with</span>
+   <span class="n">convention</span>     <span class="o">=&gt;</span> <span class="n">c</span><span class="p">,</span>
+   <span class="n">import</span>         <span class="o">=&gt;</span> <span class="n">true</span><span class="p">,</span>
+   <span class="n">external_name</span>  <span class="o">=&gt;</span> <span class="s">&quot;my_c_function&quot;</span><span class="p">,</span>
+   <span class="n">global</span>         <span class="o">=&gt;</span> <span class="k">null</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Using this directive, the symbol resolved by <code class="docutils literal notranslate"><span class="pre">my_c_function</span></code> in the C object
+file can be used using <code class="docutils literal notranslate"><span class="pre">my_ada_function</span></code> in the Ada implementation.</p>
+<p>When importing a C function, it is required to comply with less restrictive
+types such as unsigned_32, unsigned_8 or bit-length boolean (Ada booleans
+are bigger types).</p>
+<p>To do so, writing a C types specification for Ada is highly recommended.
+EwoK keeps its C types for Ada in the Ada types.c unit of the libbsp.</p>
+<p>As using C symbols makes Ada strict typing and SPARK inefficient, their usage
+must be reduced to a <strong>small and controlled subset of the Ada code</strong>.</p>
+<p>In the EwoK case, using C symbols is reduced to the Ada/C interface unit only.
+This interface has no algorithmic intelligence but must take care of the
+overtyped C arguments when using C symbols.</p>
+<p>A typical usage would be, for the following C code:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">uint8_t</span> <span class="nf">nvic_get_pending_irq</span><span class="p">()</span>
+<span class="p">{</span>
+   <span class="p">...</span> <span class="c1">// return the IRQ number as an uint8_t</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>An Ada interface that could look like the following:</p>
+<div class="highlight-ada notranslate"><div class="highlight"><pre><span></span><span class="kn">with</span> <span class="nn">ada.unchecked_conversion</span><span class="p">;</span>
+<span class="kr">pragma</span> <span class="cp">warnings</span> <span class="p">(</span><span class="n">off</span><span class="p">);</span>
+<span class="kd">function</span> <span class="nf">to_t_interrupt</span> <span class="kr">is</span> <span class="kr">new</span> <span class="n">ada</span><span class="p">.</span><span class="n">unchecked_conversion</span>
+   <span class="p">(</span><span class="n">unsigned_8</span><span class="p">,</span> <span class="n">t_interrupt</span><span class="p">);</span>
+<span class="kr">pragma</span> <span class="cp">warnings</span> <span class="p">(</span><span class="n">on</span><span class="p">);</span>
+
+<span class="c1">-- t_interrupt is an Ada type listing only the effective existing</span>
+<span class="c1">-- IRQs (IRQ 1 to IRQ 96 for e.g.)</span>
+<span class="kd">function</span> <span class="nf">get_interrupt</span><span class="p">(</span><span class="nv">irq</span> <span class="p">: </span><span class="nv">out</span> <span class="nv">t_interrupt</span><span class="p">)</span>
+<span class="kr">is</span>
+  <span class="n">local_irq</span> <span class="p">:</span> <span class="n">unsigned_8</span><span class="p">;</span>
+<span class="kr">begin</span>
+    <span class="n">local_irq</span> <span class="p">:=</span> <span class="n">nvic_get_pending_irq</span><span class="p">();</span>
+    <span class="kr">if</span> <span class="n">local_irq</span> <span class="ow">in</span> <span class="n">t_interrupt</span><span class="p">&#39;</span><span class="na">range</span> <span class="kr">then</span>
+       <span class="n">irq</span> <span class="o">=</span> <span class="n">to_t_interrupt</span><span class="p">(</span><span class="n">local_irq</span><span class="p">);</span>
+    <span class="kr">else</span>
+       <span class="c1">-- raise exception or react in any way</span>
+    <span class="kr">end</span> <span class="kr">if</span><span class="p">;</span>
+<span class="kr">end</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="exporting-ada-symbols-to-c">
+<h3>5.4.1.2.2. Exporting Ada symbols to C<a class="headerlink" href="#exporting-ada-symbols-to-c" title="Permalink to this headline">¶</a></h3>
+<p>Exporting Ada symbols to C is done using the same philosophy:</p>
+<div class="highlight-ada notranslate"><div class="highlight"><pre><span></span><span class="c1">-- initialize the DWT module</span>
+<span class="c1">-- This procedure is called by the kernel main() function, and as</span>
+<span class="c1">-- a consequence exported to C</span>
+<span class="kd">procedure</span> <span class="nf">init</span>
+ <span class="nf">with</span>
+   <span class="nf">convention</span> <span class="p">=&gt;</span> <span class="nf">c</span><span class="p">,</span>
+   <span class="nf">export</span> <span class="p">=&gt;</span> <span class="nf">true</span><span class="p">,</span>
+   <span class="nf">external_name</span> <span class="p">=&gt;</span> <span class="nf">&quot;soc_dwt_init&quot;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Nevertheless, there are some cases that require extra care and attention:
+<strong>when specific types are handled differently in Ada and C</strong>.
+This is the case of strings, which are more complex and <strong>not</strong>
+null-terminated in Ada, or boolean, which are encoded on 8-bits fields.</p>
+<p>To solve such an issue, we define for the Ada code some C-compatible
+types. Here is an example of a C compatible boolean implementation:</p>
+<div class="highlight-ada notranslate"><div class="highlight"><pre><span></span><span class="kd">type</span> <span class="kt">bool</span> <span class="kr">is</span> <span class="kr">new</span> <span class="kt">boolean</span> <span class="kr">with</span> <span class="n">size</span> <span class="p">=&gt;</span> <span class="mi">1</span><span class="p">;</span>
+<span class="kr">for</span> <span class="n">bool</span> <span class="kn">use</span> <span class="p">(</span><span class="kc">true</span> <span class="p">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">false</span> <span class="p">=&gt;</span> <span class="mi">0</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="ada-sources">
+<h2>5.4.1.3. Ada sources<a class="headerlink" href="#ada-sources" title="Permalink to this headline">¶</a></h2>
+<p>EwoK Ada sources are hosted in the following directories:</p>
+<blockquote>
+<div><ul class="simple">
+<li>kernel/Ada for the kernel, arch-independent Ada code</li>
+<li>kernel/Ada/generated hosts the generated Ada files, like kernel/generated
+hosts the generated C files</li>
+<li>arch-specific Ada content (BSP) is hosted in the Ada subdirectory of each SoC and
+core source directory</li>
+</ul>
+</div></blockquote>
+<p>Ada has a hierarchical scoping principle, based on packages. In the case of
+EwoK, various packages and subpackages are used.</p>
+<blockquote>
+<div><ul class="simple">
+<li>kernel packages belong to the <cite>ewok</cite> package</li>
+<li>SoC-related packages belong to the <cite>soc</cite> package</li>
+<li>Core-related packages belong to the core-relative package (e.g. <cite>m4</cite> for
+Cortex-M4)</li>
+</ul>
+</div></blockquote>
+<p>EwoK kernel is implemented with a little bit of C. Thus, some Ada/SPARK
+packages require
+an external interface with the C code. For a given package <em>foo</em> interacting
+with external C code, a <em>foo_interface</em> package must be defined.</p>
+<p>In the same way, as some various C types (structures, union, enumerates, etc.)
+have to be used in the interfaces packages, the following C-specific packages
+exist, containing only specifications:</p>
+<blockquote>
+<div><ul class="simple">
+<li>c package containing all C types and API that are arch-independent</li>
+<li>c_soc package, containing all C types and API that are SoC-specific</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="preprocessing-in-ada">
+<h2>5.4.1.4. Preprocessing in Ada<a class="headerlink" href="#preprocessing-in-ada" title="Permalink to this headline">¶</a></h2>
+<p>Ada does support preprocessing and the configuration options sometime
+use the preprocessing principle to enable or not some specific functions.
+The preprocessing usage is quite similar to C:</p>
+<div class="highlight-ada notranslate"><div class="highlight"><pre><span></span>#if CONFIG_KERNEL_DOMAIN
+   function is_same_domain
+     (from    : in t_real_task_id;
+      to      : in t_real_task_id)
+   return boolean
+   with
+      Global    =&gt; null,
+      Post      =&gt; (if (from = to) then is_same_domain&#39;Result = false);
+#end if;
+</pre></div>
+</div>
+</div>
+<div class="section" id="generated-files">
+<h2>5.4.1.5. Generated files<a class="headerlink" href="#generated-files" title="Permalink to this headline">¶</a></h2>
+<p>Generated files are not created by the microkernel internal tools, but by the
+SDK. The reason is that the generated files contain information about the
+applications list, associated permissions and layout. All these information
+are stored by the SDK configuration mechanism, not by the kernel itself.</p>
+<p>The scripts generating these files (and the C equivalent) are hosted in the
+tools/ directory of the SDK:</p>
+<blockquote>
+<div><ul class="simple">
+<li>tools/gen_ld: generates the global layout and the application layout header</li>
+<li>tools/gen_symhdr.pl: generates the applications section mapping. Used to
+map .data and zeroify .bss of each application at boot time</li>
+<li>tools/apps/permissions.pl: generates the application permissions header</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="static-verification-with-spark">
+<h2>5.4.1.6. Static verification with SPARK<a class="headerlink" href="#static-verification-with-spark" title="Permalink to this headline">¶</a></h2>
+<p>SPARK allows to prove the lack of <em>Run Time Errors</em> in some code.</p>
+<p>EwoK uses <a class="reference external" href="https://www.adacore.com/about-spark">SPARK</a> in the modules
+requiring formal validation and proofs. Example:</p>
+<div class="highlight-ada notranslate"><div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nf">ipc_is_granted</span>
+   <span class="p">(</span><span class="nv">from</span>    <span class="p">: </span><span class="nv">in</span> <span class="nv">t_real_task_id</span><span class="p">;</span>
+    <span class="nv">to</span>      <span class="p">: </span><span class="nv">in</span> <span class="nv">t_real_task_id</span><span class="p">)</span>
+    <span class="kr">return</span> <span class="kt">boolean</span>
+       <span class="kn">with</span>
+          <span class="nn">Global</span>         <span class="p">=&gt;</span> <span class="p">(</span><span class="n">Input</span> <span class="p">=&gt;</span> <span class="n">ewok</span><span class="p">.</span><span class="n">perm_auto</span><span class="p">.</span><span class="n">com_ipc_perm</span><span class="p">),</span>
+          <span class="n">Post</span>           <span class="p">=&gt;</span> <span class="p">(</span><span class="kr">if</span> <span class="p">(</span><span class="n">from</span> <span class="o">=</span> <span class="n">to</span><span class="p">)</span> <span class="kr">then</span> <span class="n">ipc_is_granted</span><span class="p">&#39;</span><span class="na">Result</span> <span class="o">=</span> <span class="kc">false</span><span class="p">),</span>
+          <span class="n">Contract_Cases</span> <span class="p">=&gt;</span> <span class="p">(</span><span class="n">ewok</span><span class="p">.</span><span class="n">perm_auto</span><span class="p">.</span><span class="n">com_ipc_perm</span><span class="p">(</span><span class="n">from</span><span class="p">,</span><span class="n">to</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="n">ipc_is_granted</span><span class="p">&#39;</span><span class="na">Result</span><span class="p">,</span>
+                             <span class="kr">others</span>                               <span class="p">=&gt;</span> <span class="ow">not</span> <span class="n">ipc_is_granted</span><span class="p">&#39;</span><span class="na">Result</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This specification uses various SPARK <em>contracts</em>:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">Contract_Case</span></code> describes the contract that must be satisfied by
+the subprogram</li>
+<li><code class="docutils literal notranslate"><span class="pre">Global</span></code> describes the global variables used by a subprogram</li>
+<li><code class="docutils literal notranslate"><span class="pre">Postcondition</span></code> indicates conditions that must be satisfied
+when the program has completed.</li>
+</ul>
+</div></blockquote>
+<div class="section" id="spark-in-ewok">
+<h3>5.4.1.6.1. SPARK in Ewok<a class="headerlink" href="#spark-in-ewok" title="Permalink to this headline">¶</a></h3>
+<p>With SPARK, we proved that the kernel never maps a memory region which
+can be both writable and executable (<em>W^X</em> security principle).</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="perms_internals.html" class="btn btn-neutral float-right" title="5.4.2. About EwoK permissions internals" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="perms.html" class="btn btn-neutral" title="5.3.3. EwoK permissions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

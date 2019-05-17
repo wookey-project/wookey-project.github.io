@@ -1,0 +1,377 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>6.3. the (T)DES library &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="6.4. The DFU stack" href="../libdfu/index.html" />
+    <link rel="prev" title="6.2. Console library" href="../libconsole/index.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ewok/index.html">5. EwoK kernel</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../libs.html">6. Libraries</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../libaes/index.html">6.1. libs/aes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libconsole/index.html">6.2. libs/console</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">6.3. libs/des</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#overview">6.3.1. Overview</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#principles">6.3.1.1. Principles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#limitations">6.3.1.2. Limitations</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#the-libdes-api">6.3.2. The libdes API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#des-data-de-en-cryption">6.3.2.1. DES data (de/en)cryption</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tdes-data-de-en-cryption">6.3.2.2. TDES data (de/en)cryption</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../libdfu/index.html">6.4. libs/dfu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libfirmware/index.html">6.5. libs/firmware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libgui/index.html">6.6. libs/gui</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libhmac/index.html">6.7. libs/hmac</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libiso7816/index.html">6.8. libs/iso7816</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libmassstorage/index.html">6.9. libs/massstorage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libsd/index.html">6.10. libs/sd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libsmartcard/index.html">6.11. libs/smartcard</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libstd/index.html">6.12. libs/std</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libtoken/index.html">6.13. libs/token</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../drivers.html">7. Drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../libs.html">6. Libraries</a> &raquo;</li>
+        
+      <li>6.3. the (T)DES library</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="the-t-des-library">
+<h1><a class="toc-backref" href="#id1">6.3. the (T)DES library</a><a class="headerlink" href="#the-t-des-library" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#the-t-des-library" id="id1">the (T)DES library</a><ul>
+<li><a class="reference internal" href="#overview" id="id2">Overview</a><ul>
+<li><a class="reference internal" href="#principles" id="id3">Principles</a></li>
+<li><a class="reference internal" href="#limitations" id="id4">Limitations</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#the-libdes-api" id="id5">The libdes API</a><ul>
+<li><a class="reference internal" href="#des-data-de-en-cryption" id="id6">DES data (de/en)cryption</a></li>
+<li><a class="reference internal" href="#tdes-data-de-en-cryption" id="id7">TDES data (de/en)cryption</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<p>The libdes project aims at implementing the DES (Data Encryption Standard) and TDES
+(Triple Data Encryption Standard) algorithms.</p>
+<p>By now, these algorithms are only fully software based (i.e. they don’t depend on
+any hardware cryptographic accelerator), but future work include adding an
+hardware acceleration when available.</p>
+<div class="section" id="overview">
+<h2><a class="toc-backref" href="#id2">6.3.1. Overview</a><a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="principles">
+<h3><a class="toc-backref" href="#id3">6.3.1.1. Principles</a><a class="headerlink" href="#principles" title="Permalink to this headline">¶</a></h3>
+<p>The implementation of the library follows the design principles described
+here:</p>
+<p><a class="reference external" href="https://csrc.nist.gov/csrc/media/publications/fips/46/3/archive/1999-10-25/documents/fips46-3.pdf">https://csrc.nist.gov/csrc/media/publications/fips/46/3/archive/1999-10-25/documents/fips46-3.pdf</a></p>
+<p>The TDES implementation follows an EDE (Encrypt-Decrypt-Encrypt) design with
+two or three different keys.</p>
+</div>
+<div class="section" id="limitations">
+<h3><a class="toc-backref" href="#id4">6.3.1.2. Limitations</a><a class="headerlink" href="#limitations" title="Permalink to this headline">¶</a></h3>
+<p>The libdes only implements the ECB mode. Future work includes adding other modes such
+as CBC and CTR. Also, the library does not handle padding: all the input and output data
+are supposed to be aligned on a DES block size, i.e. 8 bytes (64 bits).</p>
+</div>
+</div>
+<div class="section" id="the-libdes-api">
+<h2><a class="toc-backref" href="#id5">6.3.2. The libdes API</a><a class="headerlink" href="#the-libdes-api" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="des-data-de-en-cryption">
+<h3><a class="toc-backref" href="#id6">6.3.2.1. DES data (de/en)cryption</a><a class="headerlink" href="#des-data-de-en-cryption" title="Permalink to this headline">¶</a></h3>
+<p>Data encryption and decryption using DES algorithm is done using the following API:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libdes.h&quot;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="nf">des_set_key</span><span class="p">(</span>      <span class="n">des_context</span>   <span class="o">*</span><span class="n">ctx</span><span class="p">,</span>
+                <span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">char</span>  <span class="n">k</span><span class="p">[</span><span class="mi">8</span><span class="p">],</span>
+                      <span class="n">des_direction</span>  <span class="n">dir</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">des_exec</span><span class="p">(</span><span class="k">const</span> <span class="n">des_context</span>    <span class="o">*</span><span class="n">ctx</span><span class="p">,</span>
+             <span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">char</span>   <span class="n">input</span><span class="p">[</span><span class="mi">8</span><span class="p">],</span>
+                   <span class="kt">unsigned</span> <span class="kt">char</span>   <span class="n">output</span><span class="p">[</span><span class="mi">8</span><span class="p">]);</span>
+</pre></div>
+</div>
+<p>Encrypting or decrypting data is done in two times:</p>
+<blockquote>
+<div><ul class="simple">
+<li>setting the DES key and the algorithm direction, using <code class="docutils literal notranslate"><span class="pre">des_set_key()</span></code></li>
+<li>Encrypting or decrypting successive data chunks of 8 bytes, using <code class="docutils literal notranslate"><span class="pre">des_exec()</span></code></li>
+</ul>
+</div></blockquote>
+<p>The <code class="docutils literal notranslate"><span class="pre">des_context</span></code> structure contains the following fields:</p>
+<blockquote>
+<div><ul class="simple">
+<li><strong>dir</strong>: the algorithm direction, DES_ENCRYPTION or DES_DECRYPTION</li>
+<li><strong>sk</strong>: the DES subkeys after key schedule</li>
+</ul>
+</div></blockquote>
+<p>These two fields are set by the <code class="docutils literal notranslate"><span class="pre">des_set_key()</span></code> function, based on the two other arguments:</p>
+<blockquote>
+<div><ul class="simple">
+<li><strong>k</strong>: the DES key to use</li>
+<li><strong>dir</strong>: the DES algorithm direction to use</li>
+</ul>
+</div></blockquote>
+<p>The DES context can be keept by the caller task in order to use it during each successive
+DES execution through <code class="docutils literal notranslate"><span class="pre">des_exec()</span></code>.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">It is possible to use multiple DES contexts for multiple cryptographic actions in the same time</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">When executing des_exec(), the input content must be padded to 8 bytes by the user</p>
+</div>
+</div>
+<div class="section" id="tdes-data-de-en-cryption">
+<h3><a class="toc-backref" href="#id7">6.3.2.2. TDES data (de/en)cryption</a><a class="headerlink" href="#tdes-data-de-en-cryption" title="Permalink to this headline">¶</a></h3>
+<p>Data encryption and decryption using Triple-DES algorithm is done using the following API</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libdes.h&quot;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="nf">des3_set_key</span><span class="p">(</span>      <span class="n">des_context</span>   <span class="o">*</span><span class="n">ctx</span><span class="p">,</span>
+                 <span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">char</span>  <span class="n">k1</span><span class="p">[</span><span class="mi">8</span><span class="p">],</span>
+                 <span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">char</span>  <span class="n">k2</span><span class="p">[</span><span class="mi">8</span><span class="p">],</span>
+                 <span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">char</span>  <span class="n">k3</span><span class="p">[</span><span class="mi">8</span><span class="p">],</span>
+                       <span class="n">des_direction</span>  <span class="n">dir</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">des3_exec</span><span class="p">(</span><span class="k">const</span> <span class="n">des_context</span>    <span class="o">*</span><span class="n">ctx</span><span class="p">,</span>
+              <span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">char</span>   <span class="n">input</span><span class="p">[</span><span class="mi">8</span><span class="p">],</span>
+                   <span class="kt">unsigned</span> <span class="kt">char</span>   <span class="n">output</span><span class="p">[</span><span class="mi">8</span><span class="p">]);</span>
+</pre></div>
+</div>
+<p>Encrypting or decrypting data is done in two times:</p>
+<blockquote>
+<div><ul class="simple">
+<li>setting the three DES keys and the algorithm direction, using <code class="docutils literal notranslate"><span class="pre">des3_set_key()</span></code></li>
+<li>Encrypting or decrypting successive data chunk of 8 bytes, using <code class="docutils literal notranslate"><span class="pre">des3_exec()</span></code></li>
+</ul>
+</div></blockquote>
+<p>The TDES context is made of three DES contexts (see the DES documentation).
+The two TDES functions can be used in the same way the DES API is.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../libdfu/index.html" class="btn btn-neutral float-right" title="6.4. The DFU stack" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../libconsole/index.html" class="btn btn-neutral" title="6.2. Console library" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

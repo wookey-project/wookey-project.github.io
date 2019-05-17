@@ -1,0 +1,521 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>6.11. The smartcard library &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="6.12. EwoK Standard library" href="../libstd/index.html" />
+    <link rel="prev" title="6.10. The SD stack" href="../libsd/index.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ewok/index.html">5. EwoK kernel</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../libs.html">6. Libraries</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../libaes/index.html">6.1. libs/aes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libconsole/index.html">6.2. libs/console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libdes/index.html">6.3. libs/des</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libdfu/index.html">6.4. libs/dfu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libfirmware/index.html">6.5. libs/firmware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libgui/index.html">6.6. libs/gui</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libhmac/index.html">6.7. libs/hmac</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libiso7816/index.html">6.8. libs/iso7816</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libmassstorage/index.html">6.9. libs/massstorage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libsd/index.html">6.10. libs/sd</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">6.11. libs/smartcard</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#api">6.11.1. API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#card-abstraction">6.11.1.1. Card abstraction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#initialization-functions">6.11.1.2. Initialization functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#primitives-to-send-apdus">6.11.1.3. Primitives to send APDUs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pretty-printing">6.11.1.4. Pretty printing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#card-insertion-detection">6.11.1.5. Card insertion detection</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#faq">6.11.2. FAQ</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#is-the-smartcard-library-complete">6.11.2.1. Is the smartcard library complete?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../libstd/index.html">6.12. libs/std</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libtoken/index.html">6.13. libs/token</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../drivers.html">7. Drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../libs.html">6. Libraries</a> &raquo;</li>
+        
+      <li>6.11. The smartcard library</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="the-smartcard-library">
+<h1><a class="toc-backref" href="#id1">6.11. The smartcard library</a><a class="headerlink" href="#the-smartcard-library" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#the-smartcard-library" id="id1">The smartcard library</a><ul>
+<li><a class="reference internal" href="#api" id="id2">API</a><ul>
+<li><a class="reference internal" href="#card-abstraction" id="id3">Card abstraction</a></li>
+<li><a class="reference internal" href="#initialization-functions" id="id4">Initialization functions</a></li>
+<li><a class="reference internal" href="#primitives-to-send-apdus" id="id5">Primitives to send APDUs</a></li>
+<li><a class="reference internal" href="#pretty-printing" id="id6">Pretty printing</a></li>
+<li><a class="reference internal" href="#card-insertion-detection" id="id7">Card insertion detection</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#faq" id="id8">FAQ</a><ul>
+<li><a class="reference internal" href="#is-the-smartcard-library-complete" id="id9">Is the smartcard library complete?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<p>This library is a wrapper for smart cards
+(either contact or contactless) communication.</p>
+<p>It handles APDU sending to the cards, and responses
+received from the card, whatever the lower layer is
+(ISO7816 for contact card, ISO14443 for contactless
+cards, …).</p>
+<p>For now, only contact cards are supported, the ISO14443
+is lacking a driver support that is a future work.</p>
+<div class="section" id="api">
+<h2><a class="toc-backref" href="#id2">6.11.1. API</a><a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
+<p>The API exposed by the library is quite simple and mainly exposes:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Initialization functions to configure a smart card connection</li>
+<li>Primitives to send APDUs (and get back a response)</li>
+<li>Primitives for pretty printing</li>
+<li>Primitives for detecting card insertion</li>
+</ul>
+</div></blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If these APIs are very similar to the ones exposed by the ISO7816 library this
+is not a coincidence since they are mainly wrappers to them</p>
+</div>
+<div class="section" id="card-abstraction">
+<h3><a class="toc-backref" href="#id3">6.11.1.1. Card abstraction</a><a class="headerlink" href="#card-abstraction" title="Permalink to this headline">¶</a></h3>
+<p>A card is abstracted with the following structure:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">union</span> <span class="p">{</span>
+      <span class="n">SC_ATR</span> <span class="n">atr</span><span class="p">;</span>
+      <span class="n">SC_NFC</span> <span class="n">nfc</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">SC_Info</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+      <span class="cm">/* Card type (contact or contactless) */</span>
+      <span class="n">smartcard_types</span> <span class="n">type</span><span class="p">;</span>
+      <span class="cm">/* Card information (ATR for contact cards, ATQ/ATS for contactless, ... */</span>
+      <span class="n">SC_Info</span> <span class="n">info</span><span class="p">;</span>
+      <span class="cm">/* the protocol we use */</span>
+      <span class="kt">uint8_t</span> <span class="n">T_protocol</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">SC_Card</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>As we can see, this captures the abstraction layer above contact and contactless cards.</p>
+</div>
+<div class="section" id="initialization-functions">
+<h3><a class="toc-backref" href="#id4">6.11.1.2. Initialization functions</a><a class="headerlink" href="#initialization-functions" title="Permalink to this headline">¶</a></h3>
+<p>The initialization functions are the following:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">SC_fsm_early_init</span><span class="p">(</span><span class="n">sc_map_mode_t</span> <span class="n">map_mode</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">SC_fsm_init</span><span class="p">(</span><span class="n">SC_Card</span> <span class="o">*</span><span class="n">card</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">do_negotiate_pts</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">do_change_baudrate</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">do_force_protocol</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">do_force_etu</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">SC_fsm_early_init</span></code> simply initializes the lower levels (it is a mere call to the low level ISO7816
+library and driver that initializes the necessary hardware IPs such as USART and GPIOs).</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">SC_fsm_init</span></code> function is the core function that establishes the contact with the smart card. Its purpose is to get the ATR for
+contact cards, the ATQ for contactless cards, and optionally negotiate the PSS (when possible). The arguments are the following:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">SC_Card</span> <span class="pre">*card</span></code>: the structure that will receive the card abstract representation</li>
+</ul>
+</div></blockquote>
+<p>The following arguments have a signification only for contact cards for now (contactless cards support is a work
+in progress):</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">uint8_t</span> <span class="pre">do_force_protocol</span></code>: does the user want to force the protocol. A value of 0 means no protocol is forced, a value of 1 means T=0 is forced, a value of 2 means T=1 is forced</li>
+<li><code class="docutils literal notranslate"><span class="pre">uint8_t</span> <span class="pre">do_negotiate_pts</span></code>: effectively performs the PTS protocol negotiation if set to non zero</li>
+<li><code class="docutils literal notranslate"><span class="pre">uint8_t</span> <span class="pre">do_change_baudrate</span></code>: effectively modifies the baudrate with the card if set to non zero</li>
+<li><code class="docutils literal notranslate"><span class="pre">uint32_t</span> <span class="pre">do_force_etu</span></code>: forces a target ETU if set to non zero. If the provided ETU is not achievable, we use a <strong>best fit</strong> algorithm to get the closest ETU lower than the one asked by the user</li>
+</ul>
+</div></blockquote>
+<p>This function returns 0 on success, and non zero on error.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The following elements mainly concern contact cards. Contacless cards are work in progress</p>
+</div>
+<p>A default usage of <code class="docutils literal notranslate"><span class="pre">SC_fsm_init</span></code> is:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">SC_Card</span> <span class="n">card</span><span class="p">;</span>
+<span class="k">if</span><span class="p">(</span><span class="n">SC_fsm_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">card</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)){</span>
+  <span class="k">goto</span> <span class="n">err</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This initialization establishes a communication channel with the smart card if present, or waits its presence if not,
+and does not negotiate anything. The ETU stays at the default value of 372 ETU (default value as defined by the standard)
+and the protocol is the preferred one provided by the card ATR (or T=0 as standardized default if no preferred protocol is given).</p>
+<p>A more advanced usage can be:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libsmartcard.h&quot;</span><span class="cp"></span>
+<span class="n">SC_Card</span> <span class="n">card</span><span class="p">;</span>
+<span class="k">if</span><span class="p">(</span><span class="n">SC_fsm_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">card</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">64</span><span class="p">)){</span>
+  <span class="k">goto</span> <span class="n">err</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This call asks for a PSS negotiation, asks for a baud rate change, forces the T=1 protocol and asks for a 64 ETU value.</p>
+<p>The user can also perform a negotiation attempt and then fallback to default:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libsmartcard.h&quot;</span><span class="cp"></span>
+<span class="n">SC_Card</span> <span class="n">card</span><span class="p">;</span>
+<span class="k">if</span><span class="p">(</span><span class="n">SC_fsm_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">card</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">64</span><span class="p">)){</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">SC_fsm_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">card</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)){</span>
+    <span class="k">goto</span> <span class="n">err</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Forcing elements such as the protocol or the ETU heavily depends on the smart card: some values and/or some smart cards
+are not compatible or supported. This is why it is recommended to fallback to a non negotitated <code class="docutils literal notranslate"><span class="pre">SC_fsm_init</span></code>
+if the negotiated one fails</p>
+</div>
+<p>When a card communication must be reinitialized/reset, it is advised to wait for some timeouts using the following API:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">SC_wait_card_timeout</span><span class="p">(</span><span class="n">SC_Card</span> <span class="o">*</span><span class="n">card</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Finally, two APIs are used to explicitly ask the lower level driver to map or unmap the smart card device from the
+task``s memory space:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">SC_fsm_map</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">SC_fsm_unmap</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="primitives-to-send-apdus">
+<h3><a class="toc-backref" href="#id5">6.11.1.3. Primitives to send APDUs</a><a class="headerlink" href="#primitives-to-send-apdus" title="Permalink to this headline">¶</a></h3>
+<p>The library provides a unique API to send an APDU to a smart card and receive its response:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">SC_send_APDU</span><span class="p">(</span><span class="n">SC_APDU_cmd</span> <span class="o">*</span><span class="n">apdu</span><span class="p">,</span> <span class="n">SC_APDU_resp</span> <span class="o">*</span><span class="n">resp</span><span class="p">,</span> <span class="n">SC_Card</span> <span class="o">*</span><span class="n">card</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">apdu</span></code> argument is a pointer to an input APDU structure, the <code class="docutils literal notranslate"><span class="pre">resp</span></code> response is a pointer to a
+response structure that will be filled by the function, the <code class="docutils literal notranslate"><span class="pre">card</span></code> structure is a pointer to an
+abstract card that has been obtained in the initialization phase with <code class="docutils literal notranslate"><span class="pre">SC_fsm_init</span></code>.
+The library automatically handles the physical layer (T=0 or T=1, ISO14443) depending on the initialization
+phase.</p>
+<p>The APDU structure is the following:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/* An APDU command (handling extended APDU) */</span>
+<span class="k">typedef</span> <span class="k">struct</span>
+<span class="p">{</span>
+      <span class="kt">uint8_t</span> <span class="n">cla</span><span class="p">;</span>  <span class="cm">/* Command class */</span>
+      <span class="kt">uint8_t</span> <span class="n">ins</span><span class="p">;</span>  <span class="cm">/* Instruction */</span>
+      <span class="kt">uint8_t</span> <span class="n">p1</span><span class="p">;</span>   <span class="cm">/* Parameter 1 */</span>
+      <span class="kt">uint8_t</span> <span class="n">p2</span><span class="p">;</span>   <span class="cm">/* Parameter 2 */</span>
+      <span class="kt">uint16_t</span> <span class="n">lc</span><span class="p">;</span>  <span class="cm">/* Length of data field, Lc encoded on 16 bits since it is always &lt; 65535 */</span>
+      <span class="kt">uint8_t</span> <span class="n">data</span><span class="p">[</span><span class="n">APDU_MAX_BUFF_LEN</span><span class="p">];</span>  <span class="cm">/* Data field */</span>
+      <span class="kt">uint32_t</span> <span class="n">le</span><span class="p">;</span>   <span class="cm">/* Expected return length, encoded on 32 bits since it is &lt;= 65536 (so we must encode the last value) */</span>
+      <span class="kt">uint8_t</span> <span class="n">send_le</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">SC_APDU_cmd</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>The response has the following structure:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/* An APDU response */</span>
+<span class="k">typedef</span> <span class="k">struct</span>
+<span class="p">{</span>
+      <span class="kt">uint8_t</span> <span class="n">data</span><span class="p">[</span><span class="n">APDU_MAX_BUFF_LEN</span> <span class="o">+</span> <span class="mi">2</span><span class="p">];</span> <span class="cm">/* Data field + 2 bytes for temporaty SW1/SW2 storage */</span>
+      <span class="kt">uint32_t</span> <span class="n">le</span><span class="p">;</span> <span class="cm">/* Actual return length. It is on an uint32_t because we increment it when receiving (this avoids integer overflows). */</span>
+      <span class="kt">uint8_t</span> <span class="n">sw1</span><span class="p">;</span> <span class="cm">/* Status Word 1 */</span>
+      <span class="kt">uint8_t</span> <span class="n">sw2</span><span class="p">;</span> <span class="cm">/* Status Word 2 */</span>
+<span class="p">}</span> <span class="n">SC_APDU_resp</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Sending an APDU and getting back a response is as simple as:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libsmartcard.h&quot;</span><span class="cp"></span>
+<span class="cm">/* Initialize a communication with the card */</span>
+<span class="n">SC_Card</span> <span class="n">card</span><span class="p">;</span>
+<span class="k">if</span><span class="p">(</span><span class="n">SC_fsm_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">card</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">64</span><span class="p">)){</span>
+  <span class="k">goto</span> <span class="n">err</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cm">/* Prepare our APDU and response */</span>
+<span class="n">SC_APDU_cmd</span> <span class="n">apdu</span><span class="p">;</span>
+<span class="n">SC_APDU_resp</span> <span class="n">resp</span><span class="p">;</span>
+<span class="cm">/* Fill in the APDU we want to send:</span>
+<span class="cm"> * In this case, we send CLA=00 INS=01 P1=00 P2=00 DATA=&quot;000102&quot; (Lc=3) and Le=00</span>
+<span class="cm"> */</span>
+<span class="n">apdu</span><span class="p">.</span><span class="n">cla</span> <span class="o">=</span> <span class="mh">0x00</span><span class="p">;</span> <span class="n">apdu</span><span class="p">.</span><span class="n">ins</span> <span class="o">=</span> <span class="mh">0x01</span><span class="p">;</span> <span class="n">apdu</span><span class="p">.</span><span class="n">p1</span> <span class="o">=</span> <span class="n">apdu</span><span class="p">.</span><span class="n">p2</span> <span class="o">=</span> <span class="mh">0x00</span><span class="p">;</span>
+<span class="n">apdu</span><span class="p">.</span><span class="n">lc</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="n">apdu</span><span class="p">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mh">0x00</span><span class="p">;</span> <span class="n">apdu</span><span class="p">.</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mh">0x01</span><span class="p">;</span> <span class="n">apdu</span><span class="p">.</span><span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mh">0x02</span><span class="p">;</span>
+<span class="n">apdu</span><span class="p">.</span><span class="n">le</span> <span class="o">=</span> <span class="mh">0x00</span><span class="p">;</span> <span class="n">apdu</span><span class="p">.</span><span class="n">send_le</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="cm">/* Send the APDU and get the response */</span>
+<span class="k">if</span><span class="p">(</span><span class="n">SC_send_APDU</span><span class="p">(</span><span class="o">&amp;</span><span class="n">apdu</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">resp</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">card</span><span class="p">)){</span>
+  <span class="k">goto</span> <span class="n">err</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cm">/* If there is no error, resp is filled with the card response! */</span>
+</pre></div>
+</div>
+<p>The smartcard library also provides two helper functions to help APDU fragmentation on the physical line,
+which proves helpful when dealing with lower layers protocols (T=0 and T=1 for contact cards, ISO14443, etc.).
+These helpers are exposed but are mainly for an internal usage of the library:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">SC_APDU_get_encapsulated_apdu_size</span><span class="p">(</span><span class="n">SC_APDU_cmd</span> <span class="o">*</span><span class="n">apdu</span><span class="p">);</span>
+<span class="kt">uint8_t</span> <span class="nf">SC_APDU_prepare_buffer</span><span class="p">(</span><span class="n">SC_APDU_cmd</span> <span class="o">*</span><span class="n">apdu</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="o">*</span><span class="n">buffer</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">block_size</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">ret</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="pretty-printing">
+<h3><a class="toc-backref" href="#id6">6.11.1.4. Pretty printing</a><a class="headerlink" href="#pretty-printing" title="Permalink to this headline">¶</a></h3>
+<p>We have straightforward APIs for pretty printing on the debug console the abstract card, APDUs and responses:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">SC_print_Card</span><span class="p">(</span><span class="n">SC_Card</span> <span class="o">*</span><span class="n">card</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">SC_print_APDU</span><span class="p">(</span><span class="n">SC_APDU_cmd</span> <span class="o">*</span><span class="n">apdu</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">SC_print_RESP</span><span class="p">(</span><span class="n">SC_APDU_resp</span> <span class="o">*</span><span class="n">resp</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="card-insertion-detection">
+<h3><a class="toc-backref" href="#id7">6.11.1.5. Card insertion detection</a><a class="headerlink" href="#card-insertion-detection" title="Permalink to this headline">¶</a></h3>
+<p>The following API:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">uint8_t</span> <span class="nf">SC_is_smartcard_inserted</span><span class="p">(</span><span class="n">SC_Card</span> <span class="o">*</span><span class="n">card</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>can be used for polling the smart card presence (returns 0 is card is absent, non zero otherwise).</p>
+<p>For asynchronous detection, a callback registration mechanism is also offered through:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">SC_register_user_handler_action</span><span class="p">(</span><span class="n">SC_Card</span> <span class="o">*</span><span class="n">card</span><span class="p">,</span> <span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">action</span><span class="p">)(</span><span class="kt">void</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>Finally, there is an API to call the lower layers of the libraries/drivers stack when
+a smart card is detected as lost:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="n">SC_smartcard_lost</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>this function helps the hardware layers to reinitialize and flush elements, and
+eventually notify other drivers. It should be called when the library indeed detects
+a smart card loss.</p>
+</div>
+</div>
+<div class="section" id="faq">
+<h2><a class="toc-backref" href="#id8">6.11.2. FAQ</a><a class="headerlink" href="#faq" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="is-the-smartcard-library-complete">
+<h3><a class="toc-backref" href="#id9">6.11.2.1. Is the smartcard library complete?</a><a class="headerlink" href="#is-the-smartcard-library-complete" title="Permalink to this headline">¶</a></h3>
+<p>No, this library is still a work in progress.
+More particularly, even though all the abstraction for
+contact and contactless cards are present, only the
+contact cards are fully supported because only these have
+a proper underlying ISO7816-3 driver.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">For now the project does not have an ISO14443 driver: only contact
+cards (ISO7816-3) are fully operational, contacless cards are
+future work</p>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../libstd/index.html" class="btn btn-neutral float-right" title="6.12. EwoK Standard library" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../libsd/index.html" class="btn btn-neutral" title="6.10. The SD stack" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

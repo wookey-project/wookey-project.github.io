@@ -1,0 +1,15 @@
+.. _wookey_hard:
+
+Wookey hardware
+===============
+
+This chapter describes the various hardware designs published
+in the Wookey project.
+
+.. toctree::
+   :maxdepth: 1
+
+   Motherboard design <motherboard>
+   Screen board design <screen>
+   JTAG board <jtag>
+

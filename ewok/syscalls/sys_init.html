@@ -1,0 +1,524 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>5.3.1.2.1. sys_init, initializing devices &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="5.3.1.2.2. sys_cfg, configuring devices" href="sys_cfg.html" />
+    <link rel="prev" title="5.3.1. EwoK syscalls" href="../syscalls.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">5. EwoK kernel</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#what-is-ewok">5.1. What is EwoK ?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#ewok-architecture">5.2. EwoK architecture</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#ewok-api">5.3. EwoK API</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../syscalls.html">5.3.1. Syscalls</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../syscalls.html#general-principles">5.3.1.1. General principles</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../syscalls.html#syscall-overview">5.3.1.2. Syscall overview</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../devices.html">5.3.2. Using devices from userland</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../perms.html">5.3.3. Permissions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#internals">5.4. Internals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#faq">5.5. FAQ</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../libs.html">6. Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../drivers.html">7. Drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tataouine.html">9. Tataouine SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">5. EwoK microkernel</a> &raquo;</li>
+        
+          <li><a href="../syscalls.html">5.3.1. EwoK syscalls</a> &raquo;</li>
+        
+      <li>5.3.1.2.1. <em>sys_init</em>, initializing devices</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="sys-init-initializing-devices">
+<span id="sys-init"></span><h1><a class="toc-backref" href="#id1">5.3.1.2.1. <em>sys_init</em>, initializing devices</a><a class="headerlink" href="#sys-init-initializing-devices" title="Permalink to this headline">¶</a></h1>
+<p>Devices declaration, initialization and configuration is done with the help of
+the <code class="docutils literal notranslate"><span class="pre">sys_init()</span></code> syscall family.</p>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#sys-init-initializing-devices" id="id1"><em>sys_init</em>, initializing devices</a><ul>
+<li><a class="reference internal" href="#sys-init-init-gettaskid" id="id2">sys_init(INIT_GETTASKID)</a></li>
+<li><a class="reference internal" href="#sys-init-init-devaccess" id="id3">sys_init(INIT_DEVACCESS)</a><ul>
+<li><a class="reference internal" href="#mapping-devices-in-memory" id="id4">Mapping devices in memory</a></li>
+<li><a class="reference internal" href="#using-gpios" id="id5">Using GPIOs</a></li>
+<li><a class="reference internal" href="#irq-handler" id="id6">IRQ handler</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#sys-init-init-dma" id="id7">sys_init(INIT_DMA)</a></li>
+<li><a class="reference internal" href="#sys-init-init-dma-shm" id="id8">sys_init(INIT_DMA_SHM)</a></li>
+<li><a class="reference internal" href="#sys-init-init-done" id="id9">sys_init(INIT_DONE)</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="sys-init-init-gettaskid">
+<h2><a class="toc-backref" href="#id2">5.3.1.2.1.1. sys_init(INIT_GETTASKID)</a><a class="headerlink" href="#sys-init-init-gettaskid" title="Permalink to this headline">¶</a></h2>
+<p>If a task <em>A</em> wants to communicate with another task <em>B</em>, task <em>A</em> needs
+to retrieve task’s <em>B</em> identifier.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>Each running task is identified by a unique identifier: its <em>task id</em>.
+A task have also a name, given by the implementor, to ease its
+identification.</li>
+<li>If IPC <em>domains</em> are supported by the kernel, only tasks
+in the same <em>domain</em> can identify each other.</li>
+</ul>
+</div>
+<p>Getting a <em>task id</em> is done with <code class="docutils literal notranslate"><span class="pre">sys_init(INIT_GETTASKID)</span></code> syscall:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">uint8_t</span>        <span class="n">peer_id</span><span class="p">;</span>
+<span class="n">e_syscall_ret</span>  <span class="n">ret</span><span class="p">;</span>
+
+<span class="n">ret</span> <span class="o">=</span> <span class="n">sys_init</span><span class="p">(</span><span class="n">INIT_GETTASKID</span><span class="p">,</span> <span class="s2">&quot;task_b&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">peer_id</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">!=</span> <span class="n">SYS_E_DONE</span><span class="p">)</span> <span class="p">{</span>
+    <span class="o">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>In the example above, if the call is succesful, the <code class="docutils literal notranslate"><span class="pre">peer_id</span></code> parameter is
+updated with the <em>task id</em>.</p>
+</div>
+<div class="section" id="sys-init-init-devaccess">
+<h2><a class="toc-backref" href="#id3">5.3.1.2.1.2. sys_init(INIT_DEVACCESS)</a><a class="headerlink" href="#sys-init-init-devaccess" title="Permalink to this headline">¶</a></h2>
+<p>If a task wants to use a device, it must request it to the kernel
+using the <code class="docutils literal notranslate"><span class="pre">sys_init(INIT_DEVACCESS)</span></code> syscall.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">DMA streams are not initialized with <code class="docutils literal notranslate"><span class="pre">sys_init(INIT_DEVACCESS)</span></code>
+but with <code class="docutils literal notranslate"><span class="pre">sys_init(INIT_DMA)</span></code></p>
+</div>
+<p>To make that request, a <code class="docutils literal notranslate"><span class="pre">device_t</span></code> structure,
+whose prototype is defined in <code class="docutils literal notranslate"><span class="pre">kernel/src/C/exported/devices.h</span></code>, must be
+filled. That structure describes the requested device.
+Its content is:</p>
+<div class="highlight-C notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+    <span class="kt">char</span>              <span class="n">name</span><span class="p">[</span><span class="mi">16</span><span class="p">];</span>
+    <span class="n">physaddr_t</span>        <span class="n">address</span><span class="p">;</span>
+    <span class="kt">uint32_t</span>          <span class="n">size</span><span class="p">;</span>
+    <span class="kt">uint8_t</span>           <span class="n">irq_num</span><span class="p">;</span>
+    <span class="kt">uint8_t</span>           <span class="n">gpio_num</span><span class="p">;</span>
+    <span class="n">dev_map_mode_t</span>    <span class="n">map_mode</span><span class="p">;</span>
+    <span class="n">dev_irq_info_t</span>    <span class="n">irqs</span><span class="p">[</span><span class="n">MAX_IRQS</span><span class="p">];</span>
+    <span class="n">dev_gpio_info_t</span>   <span class="n">gpios</span><span class="p">[</span><span class="n">MAX_GPIOS</span><span class="p">];</span>
+<span class="p">}</span> <span class="n">device_t</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>The fields of the <code class="docutils literal notranslate"><span class="pre">device_t</span></code> structure are explained here:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">name</span></code> contains a name, useful for debugging purposes</li>
+<li><code class="docutils literal notranslate"><span class="pre">address</span></code> is the base address of the device in memory (0 if the device
+is not mapped in memory)</li>
+<li><code class="docutils literal notranslate"><span class="pre">size</span></code> is the size of the mapping in memory (0 if the device is not
+mapped in memory)</li>
+<li><code class="docutils literal notranslate"><span class="pre">irq_num</span></code> is the number of configured IRQs in the <code class="docutils literal notranslate"><span class="pre">irqs[]</span></code> array</li>
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code> is the number of configured GPIOs in the <code class="docutils literal notranslate"><span class="pre">gpios[]</span></code> array</li>
+<li><code class="docutils literal notranslate"><span class="pre">map_mode</span></code> tell if the device must be automatically mapped in task’s
+address space.</li>
+<li>0 up to 4 <em>IRQ lines</em> are defined in <code class="docutils literal notranslate"><span class="pre">irqs[]</span></code> array</li>
+<li>0 up to 16 <em>GPIOs</em> are defined in <code class="docutils literal notranslate"><span class="pre">gpios[]</span></code> array</li>
+</ul>
+</div></blockquote>
+<p>Below is an example, excerpt from the <a class="reference internal" href="../../demo/blinky.html#blinky"><span class="std std-ref">Blinky demo</span></a> demo:</p>
+<div class="highlight-C notranslate"><div class="highlight"><pre><span></span><span class="n">device_t</span>    <span class="n">leds</span><span class="p">;</span>
+<span class="kt">int</span>         <span class="n">desc_leds</span><span class="p">;</span>
+
+<span class="n">memset</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">leds</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span> <span class="p">(</span><span class="n">leds</span><span class="p">));</span>
+
+<span class="n">strncpy</span> <span class="p">(</span><span class="n">leds</span><span class="p">.</span><span class="n">name</span><span class="p">,</span> <span class="s">&quot;LEDs&quot;</span><span class="p">,</span> <span class="k">sizeof</span> <span class="p">(</span><span class="n">leds</span><span class="p">.</span><span class="n">name</span><span class="p">));</span>
+<span class="n">leds</span><span class="p">.</span><span class="n">gpio_num</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span> <span class="cm">/* Number of configured GPIO */</span>
+
+<span class="n">leds</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">kref</span><span class="p">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">GPIO_PD</span><span class="p">;</span>
+<span class="n">leds</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">kref</span><span class="p">.</span><span class="n">pin</span> <span class="o">=</span> <span class="mi">12</span><span class="p">;</span>
+<span class="n">leds</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">mask</span>     <span class="o">=</span> <span class="n">GPIO_MASK_SET_MODE</span> <span class="o">|</span> <span class="n">GPIO_MASK_SET_PUPD</span> <span class="o">|</span>
+                         <span class="n">GPIO_MASK_SET_TYPE</span> <span class="o">|</span> <span class="n">GPIO_MASK_SET_SPEED</span><span class="p">;</span>
+<span class="n">leds</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">mode</span>     <span class="o">=</span> <span class="n">GPIO_PIN_OUTPUT_MODE</span><span class="p">;</span>
+<span class="n">leds</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">pupd</span>     <span class="o">=</span> <span class="n">GPIO_PULLDOWN</span><span class="p">;</span>
+<span class="n">leds</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">type</span>     <span class="o">=</span> <span class="n">GPIO_PIN_OTYPER_PP</span><span class="p">;</span>
+<span class="n">leds</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">speed</span>    <span class="o">=</span> <span class="n">GPIO_PIN_HIGH_SPEED</span><span class="p">;</span>
+
+<span class="n">leds</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">kref</span><span class="p">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">GPIO_PD</span><span class="p">;</span>
+<span class="n">leds</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">kref</span><span class="p">.</span><span class="n">pin</span> <span class="o">=</span> <span class="mi">13</span><span class="p">;</span>
+<span class="n">leds</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">mask</span>     <span class="o">=</span> <span class="n">GPIO_MASK_SET_MODE</span> <span class="o">|</span> <span class="n">GPIO_MASK_SET_PUPD</span> <span class="o">|</span>
+                         <span class="n">GPIO_MASK_SET_TYPE</span> <span class="o">|</span> <span class="n">GPIO_MASK_SET_SPEED</span><span class="p">;</span>
+<span class="p">...</span>
+
+<span class="n">ret</span> <span class="o">=</span> <span class="n">sys_init</span><span class="p">(</span><span class="n">INIT_DEVACCESS</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">leds</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">desc_leds</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>In this example:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">leds</span></code> parameter is a <code class="docutils literal notranslate"><span class="pre">device_t</span></code> structure that describes the
+requested device. Here, the leds on the <em>stm32f407</em> board.</li>
+<li><code class="docutils literal notranslate"><span class="pre">desc_leds</span></code> is a <em>device id</em> returned by the syscall. It’s not
+very useful here as the <em>device id</em> is used only in
+some few syscalls (<code class="docutils literal notranslate"><span class="pre">sys_cfg(CFG_DEV_MAP)</span></code> and <code class="docutils literal notranslate"><span class="pre">sys_cfg(CFG_DEV_UNMAP)</span></code>)</li>
+</ul>
+</div></blockquote>
+<div class="section" id="mapping-devices-in-memory">
+<h3><a class="toc-backref" href="#id4">5.3.1.2.1.2.1. Mapping devices in memory</a><a class="headerlink" href="#mapping-devices-in-memory" title="Permalink to this headline">¶</a></h3>
+<p>Due to MPU constraints on Cortex-M, a task can not map simultaneously more than
+4 devices in memory.</p>
+<p>If a task needs to manage more than 4 devices, it should use the
+syscalls <code class="docutils literal notranslate"><span class="pre">sys_cfg(CFG_DEV_MAP)</span></code> and <code class="docutils literal notranslate"><span class="pre">sys_cfg(CFG_DEV_UNMAP)</span></code> to voluntary
+map and unmap the desire devices. Those syscalls can be used only if:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">map_mode</span></code> field of the <code class="docutils literal notranslate"><span class="pre">device_t</span></code> structure is set to <code class="docutils literal notranslate"><span class="pre">DEV_MAP_VOLUNTARY</span></code></li>
+<li>the task is granted with a specific permission to do this (set in the
+<em>menuconfig</em> kernel menu).</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="using-gpios">
+<h3><a class="toc-backref" href="#id5">5.3.1.2.1.2.2. Using GPIOs</a><a class="headerlink" href="#using-gpios" title="Permalink to this headline">¶</a></h3>
+<p>Each GPIO port/pin pair is identified by a <code class="docutils literal notranslate"><span class="pre">kref</span></code> value. That value
+must be filled in when using the <code class="docutils literal notranslate"><span class="pre">sys_cfg(CFG_GPIO_GET)</span></code> and
+<code class="docutils literal notranslate"><span class="pre">sys_cfg(CFG_GPIO_GET)</span></code> syscalls (see <a class="reference internal" href="sys_cfg.html#sys-cfg"><span class="std std-ref">sys_cfg, configuring devices</span></a>).</p>
+</div>
+<div class="section" id="irq-handler">
+<h3><a class="toc-backref" href="#id6">5.3.1.2.1.2.3. IRQ handler</a><a class="headerlink" href="#irq-handler" title="Permalink to this headline">¶</a></h3>
+<p>For each IRQ, an <em>Interrupt Service Routine</em> (ISR) should be declared.
+Here is an example excerpt from the <a class="reference internal" href="../../demo.html#demo"><span class="std std-ref">Demo examples</span></a> :</p>
+<div class="highlight-C notranslate"><div class="highlight"><pre><span></span><span class="n">memset</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">button</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span> <span class="p">(</span><span class="n">button</span><span class="p">));</span>
+<span class="n">strncpy</span> <span class="p">(</span><span class="n">button</span><span class="p">.</span><span class="n">name</span><span class="p">,</span> <span class="s">&quot;BUTTON&quot;</span><span class="p">,</span> <span class="k">sizeof</span> <span class="p">(</span><span class="n">button</span><span class="p">.</span><span class="n">name</span><span class="p">));</span>
+
+<span class="n">button</span><span class="p">.</span><span class="n">gpio_num</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">button</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">kref</span><span class="p">.</span><span class="n">port</span>   <span class="o">=</span> <span class="n">button_dev_infos</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="n">BUTTON</span><span class="p">].</span><span class="n">port</span><span class="p">;</span>
+<span class="n">button</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">kref</span><span class="p">.</span><span class="n">pin</span>    <span class="o">=</span> <span class="n">button_dev_infos</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="n">BUTTON</span><span class="p">].</span><span class="n">pin</span><span class="p">;</span>
+<span class="n">button</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">mask</span>        <span class="o">=</span> <span class="n">GPIO_MASK_SET_MODE</span> <span class="o">|</span> <span class="n">GPIO_MASK_SET_PUPD</span> <span class="o">|</span>
+                              <span class="n">GPIO_MASK_SET_TYPE</span> <span class="o">|</span> <span class="n">GPIO_MASK_SET_SPEED</span> <span class="o">|</span>
+                              <span class="n">GPIO_MASK_SET_EXTI</span><span class="p">;</span>
+<span class="n">button</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">mode</span>        <span class="o">=</span> <span class="n">GPIO_PIN_INPUT_MODE</span><span class="p">;</span>
+<span class="n">button</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">pupd</span>        <span class="o">=</span> <span class="n">GPIO_PULLDOWN</span><span class="p">;</span>
+<span class="n">button</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">type</span>        <span class="o">=</span> <span class="n">GPIO_PIN_OTYPER_PP</span><span class="p">;</span>
+<span class="n">button</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">speed</span>       <span class="o">=</span> <span class="n">GPIO_PIN_LOW_SPEED</span><span class="p">;</span>
+<span class="n">button</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">exti_trigger</span> <span class="o">=</span> <span class="n">GPIO_EXTI_TRIGGER_RISE</span><span class="p">;</span>
+<span class="n">button</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">exti_lock</span>    <span class="o">=</span> <span class="n">GPIO_EXTI_UNLOCKED</span><span class="p">;</span>
+<span class="n">button</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">exti_handler</span> <span class="o">=</span> <span class="p">(</span><span class="n">user_handler_t</span><span class="p">)</span> <span class="n">exti_button_handler</span><span class="p">;</span>
+
+<span class="cm">/* Now that the button device structure is filled, use sys_init to</span>
+<span class="cm"> * initialize it */</span>
+<span class="n">ret</span> <span class="o">=</span> <span class="n">sys_init</span><span class="p">(</span><span class="n">INIT_DEVACCESS</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">button</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">desc_button</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="sys-init-init-dma">
+<h2><a class="toc-backref" href="#id7">5.3.1.2.1.3. sys_init(INIT_DMA)</a><a class="headerlink" href="#sys-init-init-dma" title="Permalink to this headline">¶</a></h2>
+<p>If a task wants to use a DMA stream, it must request it to the kernel
+using the <code class="docutils literal notranslate"><span class="pre">sys_init(INIT_DMA)</span></code> syscall.
+To make that request, a <code class="docutils literal notranslate"><span class="pre">dma_t</span></code> structure,
+whose prototype is defined in <code class="docutils literal notranslate"><span class="pre">kernel/src/C/exported/dma.h</span></code>, must be
+filled. That structure describes the requested DMA stream.
+Its content is:</p>
+<div class="highlight-C notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+    <span class="kt">uint8_t</span> <span class="n">dma</span><span class="p">;</span>            <span class="cm">/* DMA controler identifier (1 for DMA1, 2 for DMA2, etc.) */</span>
+    <span class="kt">uint8_t</span> <span class="n">stream</span><span class="p">;</span>
+    <span class="kt">uint8_t</span> <span class="n">channel</span><span class="p">;</span>
+    <span class="kt">uint16_t</span> <span class="n">size</span><span class="p">;</span>          <span class="cm">/* Transfering size in bytes */</span>
+    <span class="n">physaddr_t</span> <span class="n">in_addr</span><span class="p">;</span>     <span class="cm">/* Input base address */</span>
+    <span class="n">dma_prio_t</span> <span class="n">in_prio</span><span class="p">;</span>     <span class="cm">/* Priority */</span>
+    <span class="n">user_dma_handler_t</span> <span class="n">in_handler</span><span class="p">;</span>  <span class="cm">/* ISR with one argument (irqnum), see types.h */</span>
+    <span class="n">physaddr_t</span> <span class="n">out_addr</span><span class="p">;</span>    <span class="cm">/* Output base address */</span>
+    <span class="n">dma_prio_t</span> <span class="n">out_prio</span><span class="p">;</span>    <span class="cm">/* Priority */</span>
+    <span class="n">user_dma_handler_t</span> <span class="n">out_handler</span><span class="p">;</span> <span class="cm">/* ISR with one argument (irqnum), see types.h */</span>
+    <span class="n">dma_flowctrl_t</span> <span class="n">flow_control</span><span class="p">;</span>    <span class="cm">/* Flow controller */</span>
+    <span class="n">dma_dir_t</span> <span class="n">dir</span><span class="p">;</span>          <span class="cm">/* Transfert direction */</span>
+    <span class="n">dma_mode_t</span> <span class="n">mode</span><span class="p">;</span>        <span class="cm">/* DMA mode */</span>
+    <span class="n">dma_datasize_t</span> <span class="n">datasize</span><span class="p">;</span>    <span class="cm">/* Data unit size (byte, half-word or word) */</span>
+    <span class="kt">bool</span> <span class="n">mem_inc</span><span class="p">;</span>           <span class="cm">/* Increment for memory */</span>
+    <span class="kt">bool</span> <span class="n">dev_inc</span><span class="p">;</span>           <span class="cm">/* Increment for device */</span>
+    <span class="n">dma_burst_t</span> <span class="n">mem_burst</span><span class="p">;</span>  <span class="cm">/* Memory burst size */</span>
+    <span class="n">dma_burst_t</span> <span class="n">dev_burst</span><span class="p">;</span>  <span class="cm">/* Device burst size */</span>
+<span class="p">}</span> <span class="n">dma_t</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Example:</p>
+<div class="highlight-C notranslate"><div class="highlight"><pre><span></span><span class="n">dma</span><span class="p">.</span><span class="n">dma</span> <span class="o">=</span> <span class="n">DMA2</span><span class="p">;</span>
+<span class="n">dma</span><span class="p">.</span><span class="n">stream</span> <span class="o">=</span> <span class="n">DMA2_STREAM_SDIO_FD</span><span class="p">;</span>
+<span class="n">dma</span><span class="p">.</span><span class="n">channel</span> <span class="o">=</span> <span class="n">DMA2_CHANNEL_SDIO</span><span class="p">;</span>
+<span class="n">dma</span><span class="p">.</span><span class="n">size</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>                   <span class="cm">/* Set later with DMA_RECONF */</span>
+<span class="n">dma</span><span class="p">.</span><span class="n">in_addr</span> <span class="o">=</span> <span class="p">(</span><span class="n">physaddr_t</span><span class="p">)</span> <span class="mi">0</span><span class="p">;</span>   <span class="cm">/* Set later with DMA_RECONF */</span>
+<span class="n">dma</span><span class="p">.</span><span class="n">in_prio</span> <span class="o">=</span> <span class="n">DMA_PRI_HIGH</span><span class="p">;</span>
+<span class="n">dma</span><span class="p">.</span><span class="n">in_handler</span> <span class="o">=</span> <span class="p">(</span><span class="n">user_dma_handler_t</span><span class="p">)</span> <span class="n">sdio_dmacallback</span><span class="p">;</span>
+<span class="n">dma</span><span class="p">.</span><span class="n">out_addr</span> <span class="o">=</span> <span class="p">(</span><span class="k">volatile</span> <span class="n">physaddr_t</span><span class="p">)</span><span class="n">sdio_get_data_addr</span><span class="p">();</span>
+<span class="n">dma</span><span class="p">.</span><span class="n">out_handler</span> <span class="o">=</span> <span class="p">(</span><span class="n">user_dma_handler_t</span><span class="p">)</span> <span class="n">sdio_dmacallback</span><span class="p">;</span>
+<span class="n">dma</span><span class="p">.</span><span class="n">flow_control</span> <span class="o">=</span> <span class="n">DMA_FLOWCTRL_DEV</span><span class="p">;</span>
+<span class="n">dma</span><span class="p">.</span><span class="n">dir</span> <span class="o">=</span> <span class="n">MEMORY_TO_PERIPHERAL</span><span class="p">;</span>
+<span class="n">dma</span><span class="p">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">DMA_FIFO_MODE</span><span class="p">;</span>
+<span class="n">dma</span><span class="p">.</span><span class="n">datasize</span> <span class="o">=</span> <span class="n">DMA_DS_WORD</span><span class="p">;</span>
+<span class="n">dma</span><span class="p">.</span><span class="n">mem_inc</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">dma</span><span class="p">.</span><span class="n">dev_inc</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="n">dma</span><span class="p">.</span><span class="n">mem_burst</span> <span class="o">=</span> <span class="n">DMA_BURST_INC4</span><span class="p">;</span>
+<span class="n">dma</span><span class="p">.</span><span class="n">dev_burst</span> <span class="o">=</span> <span class="n">DMA_BURST_INC4</span><span class="p">;</span>
+
+<span class="n">ret</span> <span class="o">=</span> <span class="n">sys_init</span><span class="p">(</span><span class="n">INIT_DMA</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">dma</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">dma_descriptor</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>In this example, the <code class="docutils literal notranslate"><span class="pre">dma_descriptor</span></code> is an identifier returned by the
+syscall and used by the <code class="docutils literal notranslate"><span class="pre">sys_cfg(CFG_DMA_RECONF)</span></code> and
+<code class="docutils literal notranslate"><span class="pre">sys_cfg(CFG_DMA_RELOAD)</span></code> syscalls.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For the sake of security, the EwoK DMA implementation denies
+<em>memory-to-memory</em> transfers.</p>
+</div>
+</div>
+<div class="section" id="sys-init-init-dma-shm">
+<h2><a class="toc-backref" href="#id8">5.3.1.2.1.4. sys_init(INIT_DMA_SHM)</a><a class="headerlink" href="#sys-init-init-dma-shm" title="Permalink to this headline">¶</a></h2>
+<p>When multiple tasks take part in a complex data flow with multiple DMA copies
+from one device to another (e.g. from a USB High Speed device to the SDIO
+interface), it may be efficient to support pipelined DMA transfers with low
+latency between tasks.</p>
+<p>As tasks have no rights to request a DMA transfer from another task’s buffer
+toward a device they own, this syscall allows to explicitly declare this
+right, based on the Ewok permission model.</p>
+<p>Using such a mechanism, the task can initiate a DMA transfer from a foreign
+memory buffer without any direct access to it, but only toward a given peripheral (e.g. a
+CRYP device or an SDIO device).</p>
+<p>Sharing a DMA buffer with another task is done with the following API:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">e_syscall_ret</span> <span class="n">sys_init</span><span class="p">(</span><span class="n">INIT_DMA_SHM</span><span class="p">,</span> <span class="n">dma_shm_t</span> <span class="o">*</span><span class="n">dma_shm</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Declaring a DMA SHM does not create a mapping of the other task’s buffer in the
+current task memory map. Only the DMA controller is able to access the other
+task’s buffer, as a source or destination of the transaction. The current task is
+not able to read or write directly into the buffer. As the MEMORY_TO_MEMORY DMA
+transaction is also forbidden, the task is not able to use the DMA to get back
+its content from the DMA controller by requesting a copy into its own memory
+map.</p>
+</div>
+<div class="section" id="sys-init-init-done">
+<h2><a class="toc-backref" href="#id9">5.3.1.2.1.5. sys_init(INIT_DONE)</a><a class="headerlink" href="#sys-init-init-done" title="Permalink to this headline">¶</a></h2>
+<p>As previously described, this syscall locks the initialization phase and starts
+the nominal phase of the task. From now on, the task can execute all syscalls
+but the <code class="docutils literal notranslate"><span class="pre">sys_init()</span></code> one under its own permission condition.</p>
+<p>Finalizing the initialization phase is done with the following API:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">e_syscall_ret</span> <span class="n">sys_init</span><span class="p">(</span><span class="n">INIT_DONE</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="sys_cfg.html" class="btn btn-neutral float-right" title="5.3.1.2.2. sys_cfg, configuring devices" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../syscalls.html" class="btn btn-neutral" title="5.3.1. EwoK syscalls" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

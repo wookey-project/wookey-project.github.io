@@ -1,0 +1,848 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>5.3.2. Managing devices from userland &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="5.3.3. EwoK permissions" href="perms.html" />
+    <link rel="prev" title="5.3.1.2.10. sys_get_random" href="syscalls/sys_get_random.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">5. EwoK kernel</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#what-is-ewok">5.1. What is EwoK ?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#ewok-architecture">5.2. EwoK architecture</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#ewok-api">5.3. EwoK API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="syscalls.html">5.3.1. Syscalls</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">5.3.2. Using devices from userland</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#task-life-cycle">5.3.2.1. Task life-cycle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#declaring-and-initializing-resources">5.3.2.2. Declaring and initializing resources</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="perms.html">5.3.3. Permissions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#internals">5.4. Internals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#faq">5.5. FAQ</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../libs.html">6. Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../drivers.html">7. Drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">5. EwoK microkernel</a> &raquo;</li>
+        
+      <li>5.3.2. Managing devices from userland</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="managing-devices-from-userland">
+<span id="devices"></span><h1><a class="toc-backref" href="#id1">5.3.2. Managing devices from userland</a><a class="headerlink" href="#managing-devices-from-userland" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#managing-devices-from-userland" id="id1">Managing devices from userland</a><ul>
+<li><a class="reference internal" href="#task-life-cycle" id="id2">Task life-cycle</a><ul>
+<li><a class="reference internal" href="#initialization-state" id="id3">Initialization state</a></li>
+<li><a class="reference internal" href="#nominal-state" id="id4">Nominal state</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#declaring-and-initializing-resources" id="id5">Declaring and initializing resources</a><ul>
+<li><a class="reference internal" href="#declaring-and-initializing-a-device" id="id6">Declaring and initializing a device</a><ul>
+<li><a class="reference internal" href="#declaring-a-gpio-pin" id="id7">Declaring a GPIO pin</a></li>
+<li><a class="reference internal" href="#gpios-and-external-interrupts-exti" id="id8">GPIOs and external interrupts (EXTI)</a></li>
+<li><a class="reference internal" href="#declaring-an-irq" id="id9">Declaring an IRQ</a></li>
+<li><a class="reference internal" href="#acknowledging-interrupts-with-posthooks" id="id10">Acknowledging interrupts with <em>posthooks</em></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#declaring-and-initializing-a-dma-stream" id="id11">Declaring and initializing a DMA stream</a></li>
+<li><a class="reference internal" href="#manipulating-a-dma" id="id12">Manipulating a DMA</a><ul>
+<li><a class="reference internal" href="#reconfiguring-a-dma-stream" id="id13">Reconfiguring a DMA stream</a></li>
+<li><a class="reference internal" href="#reloading-a-dma-stream" id="id14">Reloading a DMA stream</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#declaring-and-initializing-a-dma-shm" id="id15">Declaring and initializing a DMA SHM</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="task-life-cycle">
+<h2><a class="toc-backref" href="#id2">5.3.2.1. Task life-cycle</a><a class="headerlink" href="#task-life-cycle" title="Permalink to this headline">¶</a></h2>
+<p>EwoK userspace tasks should follow a specific life-cycle, based on two
+sequential states:</p>
+<blockquote>
+<div><ul class="simple">
+<li>The <em>initialization state</em>, during which devices are declared and
+initialized</li>
+<li>The <em>Nominal state</em></li>
+</ul>
+</div></blockquote>
+<div class="section" id="initialization-state">
+<h3><a class="toc-backref" href="#id3">5.3.2.1.1. Initialization state</a><a class="headerlink" href="#initialization-state" title="Permalink to this headline">¶</a></h3>
+<p>All resources declarations are performed during the initialization state. During
+this state, the task can:</p>
+<blockquote>
+<div><ul class="simple">
+<li>declare and initialize a device</li>
+<li>request DMA channels</li>
+<li>ask for other tasks’ identifiers</li>
+<li>request some DMA shared memory (that will be shared with another task)</li>
+<li>log messages into the kernel log console</li>
+</ul>
+</div></blockquote>
+<p>These actions depend on permissions, as defined in
+<a class="reference internal" href="perms.html#ewok-perm"><span class="std std-ref">EwoK pemission model</span></a>.</p>
+<p>During this state, the task cannot use any device, nor
+interact with any other task. Trying to use a device at this state or to
+interact with other tasks will elicit a memory fault or a <code class="docutils literal notranslate"><span class="pre">SYS_E_DENIED</span></code>.
+The only possible syscalls are <code class="docutils literal notranslate"><span class="pre">sys_log()</span></code>, used by <code class="docutils literal notranslate"><span class="pre">printf()</span></code>,
+and the <code class="docutils literal notranslate"><span class="pre">sys_init()</span></code> syscalls family.</p>
+<div class="admonition danger">
+<p class="first admonition-title">Danger</p>
+<p class="last">Do not try to access any registered device memory during the initialization
+phase, this will result into a memory fault</p>
+</div>
+<p>Ending the initialization phase is done with the following:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">sys_init</span><span class="p">(</span><span class="n">INIT_DONE</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>After that step, the task is in <em>nominal state</em>. It has no way to request some
+new hardware or software resources.</p>
+</div>
+<div class="section" id="nominal-state">
+<h3><a class="toc-backref" href="#id4">5.3.2.1.2. Nominal state</a><a class="headerlink" href="#nominal-state" title="Permalink to this headline">¶</a></h3>
+<p>In this state, the task can use the previously declared resources.
+All memory mapped devices are mapped in the task memory space, which
+can therefore access that memory area.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">If a device is configured as a <em>voluntary mapped</em> device,
+its registers are not automatically mapped in the task’s memory space.
+The task needs to voluntarily map it to be able to access it.</p>
+</div>
+<p>The task is no more authorized to execute any <code class="docutils literal notranslate"><span class="pre">sys_init()</span></code> call to the
+kernel.</p>
+<p>Other syscalls can be used:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">sys_log()</span></code> to transmit a message on the kernel logging facility</li>
+<li><code class="docutils literal notranslate"><span class="pre">sys_ipc()</span></code> syscalls family, to communicate through kernel IPC with
+other tasks</li>
+<li><code class="docutils literal notranslate"><span class="pre">sys_cfg()</span></code> syscalls family, to (re)configure previously declared
+devices and DMA</li>
+<li><code class="docutils literal notranslate"><span class="pre">sys_get_systick()</span></code> to get time stamping information</li>
+<li><code class="docutils literal notranslate"><span class="pre">sys_yield()</span></code> to voluntarily release the CPU core and sleep until an
+external event arises (IRQ or IPC targeting the task)</li>
+<li><code class="docutils literal notranslate"><span class="pre">sys_sleep()</span></code> to voluntarily release the CPU core and sleep for a given
+number of milliseconds</li>
+<li><code class="docutils literal notranslate"><span class="pre">sys_reset()</span></code> to voluntarily reset the SoC</li>
+<li><code class="docutils literal notranslate"><span class="pre">sys_lock()</span></code> to voluntarily lock a critical section and postpone the
+task’s ISR for some time</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="declaring-and-initializing-resources">
+<h2><a class="toc-backref" href="#id5">5.3.2.2. Declaring and initializing resources</a><a class="headerlink" href="#declaring-and-initializing-resources" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="declaring-and-initializing-a-device">
+<h3><a class="toc-backref" href="#id6">5.3.2.2.1. Declaring and initializing a device</a><a class="headerlink" href="#declaring-and-initializing-a-device" title="Permalink to this headline">¶</a></h3>
+<p>Before using a device, a task must declare and initialize it.
+Declaring and initializing a DMA stream is a particular case (see below).</p>
+<p>The device structure is the following:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+   <span class="kt">char</span>            <span class="n">name</span><span class="p">[</span><span class="mi">16</span><span class="p">];</span>      <span class="cm">/**&lt; device name */</span>
+   <span class="n">physaddr_t</span>      <span class="n">address</span><span class="p">;</span>       <span class="cm">/**&lt; device base address */</span>
+   <span class="kt">uint16_t</span>        <span class="n">size</span><span class="p">;</span>          <span class="cm">/**&lt; device size (in bytes) */</span>
+   <span class="kt">uint8_t</span>         <span class="n">irq_num</span><span class="p">;</span>       <span class="cm">/**&lt; number of device IRQs */</span>
+   <span class="kt">uint8_t</span>         <span class="n">gpio_num</span><span class="p">;</span>      <span class="cm">/**&lt; number of device associated GPIOs */</span>
+   <span class="n">dev_irq_info_t</span>  <span class="n">irqs</span><span class="p">[</span><span class="n">MAX_IRQS</span><span class="p">];</span>   <span class="cm">/**&lt; table of IRQ management infos */</span>
+   <span class="n">dev_gpio_info_t</span> <span class="n">gpios</span><span class="p">[</span><span class="n">MAX_GPIOS</span><span class="p">];</span> <span class="cm">/**&lt; table of GPIO configurations */</span>
+<span class="p">}</span> <span class="n">device_t</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">device_t</span></code> structure is composed by:</p>
+<blockquote>
+<div><ul class="simple">
+<li>The <code class="docutils literal notranslate"><span class="pre">name</span></code> field contains a name, used to ease debugging</li>
+<li>The <code class="docutils literal notranslate"><span class="pre">address</span></code> and the <code class="docutils literal notranslate"><span class="pre">size</span></code> contains the MMIO address space, as
+defined in the datasheet</li>
+<li>The <code class="docutils literal notranslate"><span class="pre">irqs</span></code> and <code class="docutils literal notranslate"><span class="pre">gpios</span></code> define a list of IRQs and GPIO pins (see below)</li>
+</ul>
+</div></blockquote>
+<p>The device is then declared and initialized by using the <code class="docutils literal notranslate"><span class="pre">sys_init(INIT_DEVACCESS)</span></code>
+syscall (see <a class="reference internal" href="syscalls/sys_init.html#sys-init"><span class="std std-ref">sys_init, initializing devices</span></a>). It is submitted to a set of permissions (see
+<a class="reference internal" href="perms.html#perms"><span class="std std-ref">EwoK permissions</span></a>).</p>
+<p>The device is activated, including the RCC line(s), when the task ends its
+initialization phase by calling <code class="docutils literal notranslate"><span class="pre">sys_init(INIT_DONE</span></code>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">A device can be declared and initialized by only one task.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Ada kernel is very strict with the syscall arguments types conformance. When
+passing structures, it is highly recommended to memset them to 0 before
+setting their content, otherwise the kernel will probably return SYS_E_INVAL</p>
+</div>
+<div class="section" id="declaring-a-gpio-pin">
+<h4><a class="toc-backref" href="#id7">5.3.2.2.1.1. Declaring a GPIO pin</a><a class="headerlink" href="#declaring-a-gpio-pin" title="Permalink to this headline">¶</a></h4>
+<p>GPIOs connect the SoC to the outside world (peripherals, buttons, leds, etc.)
+Even if GPIO ports are devices per se (they are memory mapped, with their
+own registers), EwoK never allows to directly map them in the user space.
+A GPIO port controls several <em>pins</em> in a single register. A device usually needs
+to control, at most, only some few pins. Thus, GPIO ports are shared
+resources and the access to the pins are managed and mediated by the kernel.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">dev_gpio_info_t</span></code> structure is the following:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+     <span class="n">gpio_mask_t</span>         <span class="n">mask</span><span class="p">;</span>
+     <span class="n">gpioref_t</span>           <span class="n">kref</span><span class="p">;</span>
+     <span class="n">gpio_mode_t</span>         <span class="n">mode</span><span class="p">;</span>
+     <span class="n">gpio_pupd_t</span>         <span class="n">pupd</span><span class="p">;</span>
+     <span class="n">gpio_type_t</span>         <span class="n">type</span><span class="p">;</span>
+     <span class="n">gpio_speed_t</span>        <span class="n">speed</span><span class="p">;</span>
+     <span class="kt">uint32_t</span>            <span class="n">afr</span><span class="p">;</span>
+     <span class="kt">uint32_t</span>            <span class="n">lck</span><span class="p">;</span>
+     <span class="n">gpio_exti_trigger_t</span> <span class="n">exti_trigger</span><span class="p">;</span>
+     <span class="n">gpio_exti_lock_t</span>    <span class="n">exti_lock</span><span class="p">;</span>
+     <span class="n">user_handler_t</span>      <span class="n">exti_handler</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">dev_gpio_info_t</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">mode</span></code>, <code class="docutils literal notranslate"><span class="pre">pupd</span></code>, <code class="docutils literal notranslate"><span class="pre">type</span></code>, <code class="docutils literal notranslate"><span class="pre">speed</span></code> and <code class="docutils literal notranslate"><span class="pre">afr</span></code> are
+usual information about a GPIO pin.
+The configuration <code class="docutils literal notranslate"><span class="pre">mask</span></code> allows to configure only some of these fields
+(e.g. if there is no alternate function to configure).</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">kref</span></code> field the GPIO port/pin couple.</p>
+<p>Here is an example of some GPIO pins declaration:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">usart_dev</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">mask</span> <span class="o">=</span>
+    <span class="n">GPIO_MASK_SET_MODE</span> <span class="o">|</span> <span class="n">GPIO_MASK_SET_TYPE</span> <span class="o">|</span> <span class="n">GPIO_MASK_SET_SPEED</span> <span class="o">|</span>
+    <span class="n">GPIO_MASK_SET_PUPD</span> <span class="o">|</span> <span class="n">GPIO_MASK_SET_AFR</span><span class="p">;</span>
+
+<span class="n">usart_dev</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">kref</span><span class="p">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">GPIO_PA</span><span class="p">;</span>
+<span class="n">usart_dev</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">kref</span><span class="p">.</span><span class="n">pin</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
+
+<span class="n">usart_dev</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">type</span> <span class="o">=</span> <span class="n">GPIO_PIN_OTYPER_PP</span><span class="p">;</span>
+<span class="n">usart_dev</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">pupd</span> <span class="o">=</span> <span class="n">GPIO_NOPULL</span><span class="p">;</span>
+<span class="n">usart_dev</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">mode</span> <span class="o">=</span> <span class="n">GPIO_PIN_ALTERNATE_MODE</span><span class="p">;</span>
+<span class="n">usart_dev</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">speed</span> <span class="o">=</span> <span class="n">GPIO_PIN_VERY_HIGH_SPEED</span><span class="p">;</span>
+<span class="n">usart_dev</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">afr</span> <span class="o">=</span> <span class="n">GPIO_AF_USART1</span><span class="p">;</span>
+
+<span class="n">usart_dev</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">mask</span> <span class="o">=</span>
+    <span class="n">GPIO_MASK_SET_MODE</span> <span class="o">|</span> <span class="n">GPIO_MASK_SET_TYPE</span> <span class="o">|</span> <span class="n">GPIO_MASK_SET_SPEED</span> <span class="o">|</span>
+    <span class="n">GPIO_MASK_SET_PUPD</span> <span class="o">|</span> <span class="n">GPIO_MASK_SET_AFR</span><span class="p">;</span>
+
+<span class="n">usart_dev</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">kref</span><span class="p">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">GPIO_PA</span><span class="p">;</span>
+<span class="n">usart_dev</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">kref</span><span class="p">.</span><span class="n">pin</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span>
+
+<span class="n">usart_dev</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">afr</span> <span class="o">=</span> <span class="n">GPIO_AF_USART1</span><span class="p">;</span>
+<span class="n">usart_dev</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">type</span> <span class="o">=</span> <span class="n">GPIO_PIN_OTYPER_PP</span><span class="p">;</span>
+<span class="n">usart_dev</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">pupd</span> <span class="o">=</span> <span class="n">GPIO_NOPULL</span><span class="p">;</span>
+<span class="n">usart_dev</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">mode</span> <span class="o">=</span> <span class="n">GPIO_PIN_ALTERNATE_MODE</span><span class="p">;</span>
+<span class="n">usart_dev</span><span class="p">.</span><span class="n">gpios</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">speed</span> <span class="o">=</span> <span class="n">GPIO_PIN_VERY_HIGH_SPEED</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="gpios-and-external-interrupts-exti">
+<h4><a class="toc-backref" href="#id8">5.3.2.2.1.2. GPIOs and external interrupts (EXTI)</a><a class="headerlink" href="#gpios-and-external-interrupts-exti" title="Permalink to this headline">¶</a></h4>
+<p>GPIOs can be associated to external interrupts (EXTI). This is required to
+asynchronously detect some external events based on GPIOs such as
+a button pressed, an event on the touchscreen, etc.</p>
+<p>These fields of the <code class="docutils literal notranslate"><span class="pre">dev_gpio_info_t</span></code> structure permit to configure such EXTIs:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">exti_trigger</span></code> specifies the kind of EXTI trigger</li>
+<li><code class="docutils literal notranslate"><span class="pre">exti_lock</span></code> specifies whether the EXTI line has to be masked each time an EXTI
+interrupt arises (see <code class="docutils literal notranslate"><span class="pre">sys_cfg(SYS_CFG_UNLOCK_EXTI)</span></code> in <a class="reference internal" href="syscalls/sys_cfg.html#sys-cfg"><span class="std std-ref">sys_cfg, configuring devices</span></a>)</li>
+<li><code class="docutils literal notranslate"><span class="pre">exti_handler</span></code> has the address of the ISR handler to execute</li>
+</ul>
+</div></blockquote>
+<p>The IRQ line associated to the EXTI must not be declared: it is already fully
+managed by the microkernel.</p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><code class="docutils literal notranslate"><span class="pre">exti_trigger</span></code></th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">GPIO_EXTI_TRIGGER_NONE</span></code></td>
+<td>No trigger (the default)</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">GPIO_EXTI_TRIGGER_RISE</span></code></td>
+<td>Trigger only on rising edge (value rising from 0 to 1)</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">GPIO_EXTI_TRIGGER_FALL</span></code></td>
+<td>Trigger only on falling edge (value rising from 1 to 0)</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">GPIO_EXTI_TRIGGER_BOTH</span></code></td>
+<td>Trigger on both edges</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><code class="docutils literal notranslate"><span class="pre">exti_lock</span></code></th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">GPIO_EXTI_UNLOCKED</span></code></td>
+<td>The EXTI interrupt arises normaly</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">GPIO_EXTI_LOCKED</span></code></td>
+<td>The EXTI line is muted at the first interrupt. No more interrupt on this
+line arises until the task voluntary unlock the line</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="declaring-an-irq">
+<h4><a class="toc-backref" href="#id9">5.3.2.2.1.3. Declaring an IRQ</a><a class="headerlink" href="#declaring-an-irq" title="Permalink to this headline">¶</a></h4>
+<p>Declaring some IRQ is made through the use of the <code class="docutils literal notranslate"><span class="pre">dev_irq_info_t</span></code>
+structure:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+    <span class="n">user_handler_t</span>            <span class="n">handler</span><span class="p">;</span>
+    <span class="kt">uint8_t</span>                   <span class="n">irq</span><span class="p">;</span>
+    <span class="n">dev_irq_isr_scheduling_t</span>  <span class="n">mode</span><span class="p">;</span>
+    <span class="n">dev_irq_ph_t</span>              <span class="n">posthook</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">dev_irq_info_t</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>The parameters:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">handler</span></code> stores the address of the user defined ISR handler</li>
+<li><code class="docutils literal notranslate"><span class="pre">irq</span></code> is the IRQ number, given by the kernel</li>
+<li><code class="docutils literal notranslate"><span class="pre">mode</span></code> is a special field (described below)</li>
+<li><code class="docutils literal notranslate"><span class="pre">posthook_status</span></code> and <code class="docutils literal notranslate"><span class="pre">posthook_data</span></code> are described below</li>
+</ul>
+</div></blockquote>
+<p>For each IRQ, the task must declare an IRQ handler.
+An IRQ handler takes three parameters:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">my_irq_handler</span> <span class="p">(</span><span class="kt">uint8_t</span> <span class="n">irq</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">posthook_status</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">posthook_data</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The IRQ handler is executed in <em>ISR mode</em>. It has access to the task content
+except for the stack.
+It has its own stack, which is erased each time the handler terminates.
+By default the termination of an ISR handler awakes its related
+task’s main thread if it’s sleeping or idle.
+This behavior can be modified by modifying the <code class="docutils literal notranslate"><span class="pre">mode</span></code> field of the
+<code class="docutils literal notranslate"><span class="pre">dev_irq_info_t</span></code> structure:</p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><code class="docutils literal notranslate"><span class="pre">mode</span></code></th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">IRQ_ISR_STANDARD</span></code></td>
+<td>Make main thread runnable</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">IRQ_ISR_FORCE_MAINTHREAD</span></code></td>
+<td>Make main thread runnable and force its execution</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">IRQ_ISR_WITHOUT_MAINTHREAD</span></code></td>
+<td>Do not modify main thread’s state</td>
+</tr>
+</tbody>
+</table>
+<p>The <code class="docutils literal notranslate"><span class="pre">IRQ_ISR_FORCE_MAINTHREAD</span></code> may be required by devices needing some
+highly responsive software. Because of the not so negligible impact
+on the scheduling policy, using this value requires specific permissions.</p>
+<p>Note that user ISRs are not executed synchronously:</p>
+<blockquote>
+<div><ul class="simple">
+<li>ISR treatment is postponed</li>
+<li>Acknowledgement of the hardware device’s interrupt is not executed by the
+user ISR. It is done by the <em>posthooks</em>, described hereafter</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="acknowledging-interrupts-with-posthooks">
+<h4><a class="toc-backref" href="#id10">5.3.2.2.1.4. Acknowledging interrupts with <em>posthooks</em></a><a class="headerlink" href="#acknowledging-interrupts-with-posthooks" title="Permalink to this headline">¶</a></h4>
+<p><em>Posthook</em> mechanism allows to synchronously acknowledge external interrupts,
+when they are handled by the kernel, before their management is postponed
+to be managed by a user ISR handler.</p>
+<p>Device interrupt acknowledgements may vary from one device to
+another. They are usually a sequence of reads, writes or masks of some
+device registers.
+EwoK provides a small API to make the kernel managing all these in generic and a safe way.
+Posthook API is mostly used to acknowledge hardware device interrupts.</p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Posthook action</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">IRQ_PH_NIL</span></code></td>
+<td>No action</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">IRQ_PH_READ</span></code></td>
+<td>Reading a value from a device’s register</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">IRQ_PH_WRITE</span></code></td>
+<td>Writing a value into a device’s register</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">IRQ_PH_AND</span></code></td>
+<td><ol class="first last arabic simple">
+<li>Reads a value from a register (usually a status register)</li>
+<li>Mask that value to in order to write only active bits</li>
+<li>Might invert the bits</li>
+<li>Write the calculated value in a destination register (usually dedicated to acknowledge the interrupt)</li>
+</ol>
+</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">IRQ_PH_MASK</span></code></td>
+<td><ol class="first last arabic simple">
+<li>Reads a value from a register</li>
+<li>Reads a mask from a register</li>
+<li>Mask that value to in order to write only active bits</li>
+<li>Might invert the bits</li>
+<li>Write the obtained value in a destination register</li>
+</ol>
+</td>
+</tr>
+</tbody>
+</table>
+<p>A device’s register is specified as an offset, calculated from the
+base of the device’s memory space.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">The posthook implementation keeps memory of the <em>read</em> in order to avoid
+multiple reads of the same register, which could lead to unexpected
+behaviors (e.g. ToCToU vulnerability)</p>
+</div>
+<p>As we already see above, an IRQ handler takes three parameters:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">my_irq_handler</span> <span class="p">(</span><span class="kt">uint8_t</span> <span class="n">irq</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">posthook_status</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">posthook_data</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">posthook_status</span></code> and <code class="docutils literal notranslate"><span class="pre">posthook_data</span></code> parameters may contain values
+read during the <em>posthook</em> action, and ought to be transmitted to the user handler.
+Most of the time, <code class="docutils literal notranslate"><span class="pre">posthook_status</span></code> stores the value read from a status
+register while the <code class="docutils literal notranslate"><span class="pre">posthook_data</span></code> stores a value read from another device’s
+register.
+If the device declares a posthook
+with (at least) two register read, it can also ask for getting back these
+registers values as they were at the posthook execution time, by specifying the
+very same register offset in the posthook <code class="docutils literal notranslate"><span class="pre">status</span></code> and <code class="docutils literal notranslate"><span class="pre">data</span></code> fields.</p>
+<p>Below is an example for the USART driver:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">usart_dev</span><span class="p">.</span><span class="n">irqs</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">posthook</span><span class="p">.</span><span class="n">status</span> <span class="o">=</span> <span class="mh">0x0000</span><span class="p">;</span> <span class="cm">/* status register */</span>
+<span class="n">usart_dev</span><span class="p">.</span><span class="n">irqs</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">posthook</span><span class="p">.</span><span class="n">data</span>   <span class="o">=</span> <span class="mh">0x0004</span><span class="p">;</span> <span class="cm">/* data register */</span>
+
+<span class="n">usart_dev</span><span class="p">.</span><span class="n">irqs</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">posthook</span><span class="p">.</span><span class="n">action</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">instr</span> <span class="o">=</span> <span class="n">IRQ_PH_READ</span><span class="p">;</span>
+<span class="n">usart_dev</span><span class="p">.</span><span class="n">irqs</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">posthook</span><span class="p">.</span><span class="n">action</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">read</span><span class="p">.</span><span class="n">offset</span> <span class="o">=</span> <span class="mh">0x0000</span><span class="p">;</span> <span class="cm">/* reading status register */</span>
+
+<span class="n">usart_dev</span><span class="p">.</span><span class="n">irqs</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">posthook</span><span class="p">.</span><span class="n">action</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">instr</span> <span class="o">=</span> <span class="n">IRQ_PH_READ</span><span class="p">;</span>
+<span class="n">usart_dev</span><span class="p">.</span><span class="n">irqs</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">posthook</span><span class="p">.</span><span class="n">action</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">read</span><span class="p">.</span><span class="n">offset</span> <span class="o">=</span> <span class="mh">0x0004</span><span class="p">;</span> <span class="cm">/* reading data register */</span>
+
+<span class="n">usart_dev</span><span class="p">.</span><span class="n">irqs</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">posthook</span><span class="p">.</span><span class="n">action</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="n">instr</span> <span class="o">=</span> <span class="n">IRQ_PH_WRITE</span><span class="p">;</span>
+<span class="n">usart_dev</span><span class="p">.</span><span class="n">irqs</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">posthook</span><span class="p">.</span><span class="n">action</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="n">write</span><span class="p">.</span><span class="n">offset</span> <span class="o">=</span> <span class="mh">0x0000</span><span class="p">;</span> <span class="cm">/* write to status register... */</span>
+<span class="n">usart_dev</span><span class="p">.</span><span class="n">irqs</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">posthook</span><span class="p">.</span><span class="n">action</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="n">write</span><span class="p">.</span><span class="n">value</span>  <span class="o">=</span> <span class="mh">0x00</span><span class="p">;</span>   <span class="cm">/* ...the value 0x0 */</span>
+<span class="n">usart_dev</span><span class="p">.</span><span class="n">irqs</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">posthook</span><span class="p">.</span><span class="n">action</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="n">write</span><span class="p">.</span><span class="n">mask</span>   <span class="o">=</span> <span class="mh">0x3</span> <span class="o">&lt;&lt;</span> <span class="mi">6</span><span class="p">;</span> <span class="cm">/* using the given write mask</span>
+<span class="cm">                                                                 (clear TC &amp; Tx status in SR register) */</span>
+</pre></div>
+</div>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<ul class="last simple">
+<li>When declaring posthooks, you can only use offsets based on current device base address</li>
+<li>The offsets must be a part of the device address map</li>
+<li>The posthook sanitation is done at device declaration time, posthooks cannot be modified</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="declaring-and-initializing-a-dma-stream">
+<h3><a class="toc-backref" href="#id11">5.3.2.2.2. Declaring and initializing a DMA stream</a><a class="headerlink" href="#declaring-and-initializing-a-dma-stream" title="Permalink to this headline">¶</a></h3>
+<p>A DMA controller is shared among several devices. Thus, its access
+by the tasks is mediated by the kernel.</p>
+<p>EwoK allows only <em>memory-to-peripheral</em> and <em>peripheral-to-memory</em> DMA usage.
+<em>Memory-to-memory</em> is not safe enough and is forbidden in EwoK (since the DMA
+controller bypasses the MPU controller, which is obviously very dangerous).</p>
+<p>A task can request multiple DMA streams.
+Note that it is possible to reconfigure the previously configured stream after
+the initialization phase.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">dma_t</span></code> structure is the following:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+    <span class="n">physaddr_t</span> <span class="n">in_addr</span><span class="p">;</span>       <span class="cm">/* DMA input base address */</span>
+    <span class="n">physaddr_t</span> <span class="n">out_addr</span><span class="p">;</span>      <span class="cm">/* DMA output base address */</span>
+    <span class="n">dma_prio_t</span> <span class="n">in_prio</span><span class="p">;</span>       <span class="cm">/* DMA priority for memory to peripheral */</span>
+    <span class="n">dma_prio_t</span> <span class="n">out_prio</span><span class="p">;</span>      <span class="cm">/* DMA priority for peripheral to peripheral */</span>
+    <span class="kt">uint16_t</span> <span class="n">size</span><span class="p">;</span>            <span class="cm">/* DMA buffer size to copy (in bytes) */</span>
+    <span class="kt">uint8_t</span> <span class="n">dma</span><span class="p">;</span>              <span class="cm">/* DMA controler identifier */</span>
+    <span class="kt">uint8_t</span> <span class="n">channel</span><span class="p">;</span>          <span class="cm">/* DMA channel to configure */</span>
+    <span class="kt">uint8_t</span> <span class="n">stream</span><span class="p">;</span>           <span class="cm">/* DMA stream to configure */</span>
+    <span class="n">dma_flowctrl_t</span> <span class="n">flow_control</span><span class="p">;</span> <span class="cm">/* DMA Flow controller */</span>
+    <span class="n">dma_dir_t</span> <span class="n">dir</span><span class="p">;</span>            <span class="cm">/* Current DMA direction */</span>
+    <span class="n">dma_mode_t</span> <span class="n">mode</span><span class="p">;</span>          <span class="cm">/* Current DMA mode */</span>
+    <span class="kt">bool</span> <span class="n">mem_inc</span><span class="p">;</span>             <span class="cm">/* DMA incremental mode for memory */</span>
+    <span class="kt">bool</span> <span class="n">dev_inc</span><span class="p">;</span>             <span class="cm">/* DMA incremental mode for device */</span>
+    <span class="n">dma_datasize_t</span> <span class="n">datasize</span><span class="p">;</span>  <span class="cm">/* data unit size */</span>
+    <span class="n">dma_burst_t</span> <span class="n">mem_burst</span><span class="p">;</span>    <span class="cm">/* type of DMA burst mode */</span>
+    <span class="n">dma_burst_t</span> <span class="n">dev_burst</span><span class="p">;</span>    <span class="cm">/* type of DMA burst mode */</span>
+    <span class="n">user_dma_handler_t</span> <span class="n">in_handler</span><span class="p">;</span>  <span class="cm">/* DMA ISR for memory to pheripheral */</span>
+    <span class="n">user_dma_handler_t</span> <span class="n">out_handler</span><span class="p">;</span> <span class="cm">/* DMA ISR for peripheral to memoryt */</span>
+<span class="p">}</span> <span class="n">dma_t</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>A task declaring a <code class="docutils literal notranslate"><span class="pre">dma_t</span></code> structure does not have to fill all the fields.
+The <code class="docutils literal notranslate"><span class="pre">in_handler`,</span> <span class="pre">``out_handler</span></code>, <code class="docutils literal notranslate"><span class="pre">in_addr</span></code>, <code class="docutils literal notranslate"><span class="pre">out_addr</span></code> and <code class="docutils literal notranslate"><span class="pre">size</span></code> can be
+set later, in <em>nominal mode</em>. The reason is that a single stream
+can be used for sending or receiving data.</p>
+<p>Here is a typical declaration used in the SDIO stack:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">dma</span><span class="p">.</span><span class="n">channel</span> <span class="o">=</span> <span class="n">DMA2_CHANNEL_SDIO</span><span class="p">;</span>
+<span class="n">dma</span><span class="p">.</span><span class="n">dir</span> <span class="o">=</span> <span class="n">MEMORY_TO_PERIPHERAL</span><span class="p">;</span> <span class="cm">/* write by default */</span>
+<span class="n">dma</span><span class="p">.</span><span class="n">in_addr</span> <span class="o">=</span> <span class="p">(</span><span class="n">physaddr_t</span><span class="p">)</span> <span class="mi">0</span><span class="p">;</span>   <span class="cm">/* to set later via DMA_RECONF */</span>
+<span class="n">dma</span><span class="p">.</span><span class="n">out_addr</span> <span class="o">=</span> <span class="p">(</span><span class="k">volatile</span> <span class="n">physaddr_t</span><span class="p">)</span><span class="n">sdio_get_data_addr</span><span class="p">();</span>
+<span class="n">dma</span><span class="p">.</span><span class="n">in_prio</span> <span class="o">=</span> <span class="n">DMA_PRI_HIGH</span><span class="p">;</span>
+<span class="n">dma</span><span class="p">.</span><span class="n">dma</span> <span class="o">=</span> <span class="n">DMA2</span><span class="p">;</span>
+<span class="n">dma</span><span class="p">.</span><span class="n">size</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="cm">/* to set later via DMA_RECONF */</span>
+
+<span class="n">dma</span><span class="p">.</span><span class="n">stream</span> <span class="o">=</span> <span class="n">DMA2_STREAM_SDIO_FD</span><span class="p">;</span>
+
+<span class="n">dma</span><span class="p">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">DMA_FIFO_MODE</span><span class="p">;</span>
+<span class="n">dma</span><span class="p">.</span><span class="n">mem_inc</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">dma</span><span class="p">.</span><span class="n">dev_inc</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="n">dma</span><span class="p">.</span><span class="n">datasize</span> <span class="o">=</span> <span class="n">DMA_DS_WORD</span><span class="p">;</span>
+<span class="n">dma</span><span class="p">.</span><span class="n">mem_burst</span> <span class="o">=</span> <span class="n">DMA_BURST_INC4</span><span class="p">;</span>
+<span class="n">dma</span><span class="p">.</span><span class="n">dev_burst</span> <span class="o">=</span> <span class="n">DMA_BURST_INC4</span><span class="p">;</span>
+<span class="n">dma</span><span class="p">.</span><span class="n">flow_control</span> <span class="o">=</span> <span class="n">DMA_FLOWCTRL_DEV</span><span class="p">;</span>
+<span class="n">dma</span><span class="p">.</span><span class="n">in_handler</span> <span class="o">=</span> <span class="p">(</span><span class="n">user_dma_handler_t</span><span class="p">)</span> <span class="n">sdio_dmacallback</span><span class="p">;</span>
+<span class="n">dma</span><span class="p">.</span><span class="n">out_handler</span> <span class="o">=</span> <span class="p">(</span><span class="n">user_dma_handler_t</span><span class="p">)</span> <span class="n">sdio_dmacallback</span><span class="p">;</span>
+
+<span class="n">ret</span> <span class="o">=</span> <span class="n">sys_init</span><span class="p">(</span><span class="n">INIT_DMA</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">dma</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">dmadesc</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>When calling <code class="docutils literal notranslate"><span class="pre">sys_init(INIT_DMA,</span> <span class="pre">&amp;dma,</span> <span class="pre">&amp;dmadesc)</span></code>, the <code class="docutils literal notranslate"><span class="pre">dmadesc</span></code> identifier
+is updated with a unique identifier that can be used later by some syscalls.</p>
+</div>
+<div class="section" id="manipulating-a-dma">
+<h3><a class="toc-backref" href="#id12">5.3.2.2.3. Manipulating a DMA</a><a class="headerlink" href="#manipulating-a-dma" title="Permalink to this headline">¶</a></h3>
+<p>When calling <code class="docutils literal notranslate"><span class="pre">sys_init(INIT_DONE)</span></code>, the DMA controller has its clock enabled
+if it is not already, but the DMA stream is <strong>not</strong> activated.
+To activate the DMA transfer, the task needs to call
+<code class="docutils literal notranslate"><span class="pre">sys_cfg(CFG_DMA_RECONF)</span></code>.
+This syscall will configure all the fields involved in the transfer
+and launch it if every required field is properly set.
+This behavior allows the task to activate the DMA at will, e.g.
+when the input buffer is ready, or after receiving a dedicated IPC.</p>
+<div class="section" id="reconfiguring-a-dma-stream">
+<h4><a class="toc-backref" href="#id13">5.3.2.2.3.1. Reconfiguring a DMA stream</a><a class="headerlink" href="#reconfiguring-a-dma-stream" title="Permalink to this headline">¶</a></h4>
+<p>Most of the time, reconfiguring a DMA stream requires to reconfigure
+<code class="docutils literal notranslate"><span class="pre">in_addr</span></code>, <code class="docutils literal notranslate"><span class="pre">out_addr</span></code> and <code class="docutils literal notranslate"><span class="pre">size</span></code> fields, to set the input/output
+addresses involved in the DMA transfer and the size of the transfer.</p>
+<p>Here is an example of a DMA reconfiguration:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">dma</span><span class="p">.</span><span class="n">out_addr</span> <span class="o">=</span> <span class="p">(</span><span class="n">physaddr_t</span><span class="p">)</span><span class="n">buffer</span><span class="p">;</span>
+<span class="n">dma</span><span class="p">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">buf_len</span><span class="p">;</span>
+<span class="n">ret</span> <span class="o">=</span> <span class="n">sys_cfg</span><span class="p">(</span><span class="n">CFG_DMA_RECONF</span><span class="p">,</span> <span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">dma</span><span class="p">,</span> <span class="n">DMA_RECONF_BUFOUT</span> <span class="o">|</span> <span class="n">DMA_RECONF_BUFSIZE</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The fields that can be reconfigured are the following:</p>
+<blockquote>
+<div><ul class="simple">
+<li>ISR handlers <code class="docutils literal notranslate"><span class="pre">in_handler</span></code> and <code class="docutils literal notranslate"><span class="pre">out_handler</span></code></li>
+<li>Input and output addresses <code class="docutils literal notranslate"><span class="pre">in_addr</span></code> and <code class="docutils literal notranslate"><span class="pre">out_addr</span></code></li>
+<li>Transfer size <code class="docutils literal notranslate"><span class="pre">size</span></code></li>
+<li>DMA mode (Circular, FIFO, Direct), <code class="docutils literal notranslate"><span class="pre">mode</span></code></li>
+<li>DMA priority (between other DMA controller tasks), <code class="docutils literal notranslate"><span class="pre">in_prio</span></code> and
+<code class="docutils literal notranslate"><span class="pre">out_prio</span></code></li>
+<li>DMA direction, <code class="docutils literal notranslate"><span class="pre">dir</span></code></li>
+</ul>
+</div></blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The DMA circular mode does not require any action from
+the task as the DMA is then fully autonomous (until the user task requires a
+DMA reset to stop the DMA action).</p>
+</div>
+<p>DMA direction is allowed to be reconfigured in the case of DMA streams that
+are used for both device read and write access (e.g. SDIO device on
+the STM32F4xx boards).</p>
+<p>When passing in parameter the <code class="docutils literal notranslate"><span class="pre">dma_t</span></code> structure to the <code class="docutils literal notranslate"><span class="pre">sys_cfg(CFG_DMA_RECONF)</span></code>
+syscall, a mask is used to specify which fields are updated.</p>
+</div>
+<div class="section" id="reloading-a-dma-stream">
+<h4><a class="toc-backref" href="#id14">5.3.2.2.3.2. Reloading a DMA stream</a><a class="headerlink" href="#reloading-a-dma-stream" title="Permalink to this headline">¶</a></h4>
+<p>In DMA circular mode, the controller never stops transferring data.
+It is possible to stop this active stream by using
+the <code class="docutils literal notranslate"><span class="pre">sys_cfg(CFG_DMA_DISABLE)</span></code> syscall.</p>
+<p>Then, the task may reactivate this very same stream by using the
+<code class="docutils literal notranslate"><span class="pre">sys_cfg(CFG_DMA_RELOAD)</span></code> syscall.</p>
+</div>
+</div>
+<div class="section" id="declaring-and-initializing-a-dma-shm">
+<h3><a class="toc-backref" href="#id15">5.3.2.2.4. Declaring and initializing a DMA SHM</a><a class="headerlink" href="#declaring-and-initializing-a-dma-shm" title="Permalink to this headline">¶</a></h3>
+<p>Sometimes, a dataplane may be implemented using multiple tasks communicating
+with each others.
+When the internal device dataplane is manipulating DMA
+streams, the tasks may wish to optimize the data buffer transfer by using only
+DMA transfers between them instead of using manual buffer copy through IPC.</p>
+<p>For this case, EwoK allows tasks to voluntarily share a memory
+buffer. One of the task, the caller, owns that memory buffer, mapped in its
+address space.</p>
+<p>The other task, the receiver, will then be able to request DMA transaction
+<em>from</em> or <em>toward</em> this memory buffer, from a given hardware device (e.g. CRYP,
+HASH, or any device that reads data stream through DMA requests as input). Note
+that this memory buffer is not mapped in the receiver’s memory space and
+the receiver can therefore never read from or write to it.</p>
+<p>Sharing a memory buffer by this mean is subject to specific permissions.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">DMA SHM declaration is often associated with IPCs to let the <em>caller</em>
+inform the <em>receiver</em> of the buffer address and size</p>
+</div>
+<p>Here is a typical usage of DMA SHM buffer:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span>const uint32_t bufsize = 4096;
+buf[bufsize] = { 0 };
+
+dma_shm_t dmashm_rd;
+
+dmashm_rd.target = id_receiver;
+dmashm_rd.source = task_id;
+dmashm_rd.address = (physaddr_t)flash_buf;
+dmashm_rd.size = bufsize;
+/* Receiver can only create DMA request *from* this buffer (read only) */
+dmashm_rd.mode = DMA_SHM_ACCESS_RD;
+
+printf(&quot;Declaring DMA_SHM for read flow\n&quot;);
+ret = sys_init(INIT_DMA_SHM, &amp;dmashm_rd);
+printf(&quot;sys_init returns %s !\n&quot;, strerror(ret));
+
+sys_init(INIT_DONE);
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="perms.html" class="btn btn-neutral float-right" title="5.3.3. EwoK permissions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="syscalls/sys_get_random.html" class="btn btn-neutral" title="5.3.1.2.10. sys_get_random" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

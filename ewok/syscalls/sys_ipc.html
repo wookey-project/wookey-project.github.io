@@ -1,0 +1,430 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>5.3.1.2.4. sys_ipc, Inter-Proccess Communication &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="5.3.1.2.5. sys_get_systick" href="sys_get_systick.html" />
+    <link rel="prev" title="5.3.1.2.3. sys_log" href="sys_log.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">5. EwoK kernel</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#what-is-ewok">5.1. What is EwoK ?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#ewok-architecture">5.2. EwoK architecture</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#ewok-api">5.3. EwoK API</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../syscalls.html">5.3.1. Syscalls</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../syscalls.html#general-principles">5.3.1.1. General principles</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../syscalls.html#syscall-overview">5.3.1.2. Syscall overview</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../devices.html">5.3.2. Using devices from userland</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../perms.html">5.3.3. Permissions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#internals">5.4. Internals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#faq">5.5. FAQ</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../libs.html">6. Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../drivers.html">7. Drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tataouine.html">9. Tataouine SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">5. EwoK microkernel</a> &raquo;</li>
+        
+          <li><a href="../syscalls.html">5.3.1. EwoK syscalls</a> &raquo;</li>
+        
+      <li>5.3.1.2.4. <em>sys_ipc</em>, Inter-Proccess Communication</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="sys-ipc-inter-proccess-communication">
+<span id="sys-ipc"></span><h1><a class="toc-backref" href="#id1">5.3.1.2.4. <em>sys_ipc</em>, Inter-Proccess Communication</a><a class="headerlink" href="#sys-ipc-inter-proccess-communication" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#sys-ipc-inter-proccess-communication" id="id1"><em>sys_ipc</em>, Inter-Proccess Communication</a><ul>
+<li><a class="reference internal" href="#synopsis" id="id2">Synopsis</a></li>
+<li><a class="reference internal" href="#prerequisites" id="id3">Prerequisites</a></li>
+<li><a class="reference internal" href="#sys-ipc-send-sync" id="id4">sys_ipc(SEND_SYNC)</a></li>
+<li><a class="reference internal" href="#sys-ipc-send-async" id="id5">sys_ipc(SEND_ASYNC)</a></li>
+<li><a class="reference internal" href="#sys-ipc-recv-sync" id="id6">sys_ipc(RECV_SYNC)</a></li>
+<li><a class="reference internal" href="#sys-ipc-recv-async" id="id7">sys_ipc(RECV_ASYNC)</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="synopsis">
+<h2><a class="toc-backref" href="#id2">5.3.1.2.4.1. Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this headline">¶</a></h2>
+<p><em>Inter-Process Communication</em> is done using the <code class="docutils literal notranslate"><span class="pre">sys_ipc()</span></code> syscall familly.
+IPC can be either <em>synchronous</em> or <em>asynchronous</em>:</p>
+<blockquote>
+<div><ul class="simple">
+<li><em>synchronous</em> IPC requests are blocking until the message has been sent and
+received</li>
+<li><em>asynchronous</em> IPC are non blocking. They may return an error if the other
+side of the channel is not ready.</li>
+</ul>
+</div></blockquote>
+<p>EwoK detects IPC mutual lock (two task sending IPC to each other), returning
+<code class="docutils literal notranslate"><span class="pre">SYS_E_BUSY</span></code> error but it does not detect cyclic deadlocks between multiple tasks
+(more than 2). Be careful when designing your IPC automaton!</p>
+<p>Note that IPC are half-duplex. For example, if task <em>A</em> can send messages to
+task <em>B</em>, the reciprocity is not always true and task <em>B</em> may have no permission to
+send any message to <em>A</em>.</p>
+</div>
+<div class="section" id="prerequisites">
+<h2><a class="toc-backref" href="#id3">5.3.1.2.4.2. Prerequisites</a><a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
+<p>If a task <em>A</em> want to communicate with another task <em>B</em>, task <em>A</em> need
+to retrieve <em>B</em>’s <em>task id</em>.
+Getting a task identifier is done with <code class="docutils literal notranslate"><span class="pre">sys_init(INIT_GETTASKID)</span></code> syscall:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">uint8_t</span>        <span class="nb">id</span><span class="p">;</span>
+<span class="n">e_syscall_ret</span>  <span class="n">ret</span><span class="p">;</span>
+
+<span class="n">ret</span> <span class="o">=</span> <span class="n">sys_init</span><span class="p">(</span><span class="n">INIT_GETTASKID</span><span class="p">,</span> <span class="s2">&quot;task_b&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="nb">id</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">!=</span> <span class="n">SYS_E_DONE</span><span class="p">)</span> <span class="p">{</span>
+    <span class="o">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>For more details, see <a class="reference internal" href="sys_init.html#sys-init"><span class="std std-ref">sys_init, initializing devices</span></a>.</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">Notice that any attempt to receive or to send a message with an IPC during
+the task <em>init mode</em> fails with <code class="docutils literal notranslate"><span class="pre">SYS_E_DENIED</span></code>.</p>
+</div>
+</div>
+<div class="section" id="sys-ipc-send-sync">
+<h2><a class="toc-backref" href="#id4">5.3.1.2.4.3. sys_ipc(SEND_SYNC)</a><a class="headerlink" href="#sys-ipc-send-sync" title="Permalink to this headline">¶</a></h2>
+<p>A task can synchronously send data to another task.
+The task is blocked until the other task emit either a
+<code class="docutils literal notranslate"><span class="pre">sys_ipc(RECV_SYNC)</span></code> or a <code class="docutils literal notranslate"><span class="pre">sys_ipc(RECV_ASYNC)</span></code> syscall:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">uint8_t</span>        <span class="nb">id</span><span class="p">;</span>
+<span class="n">logsize_t</span>      <span class="n">size</span><span class="p">;</span>
+<span class="n">char</span>          <span class="o">*</span><span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;hello&quot;</span><span class="p">;</span>
+<span class="n">e_syscall_ret</span>  <span class="n">ret</span><span class="p">;</span>
+<span class="o">...</span>
+<span class="n">ret</span> <span class="o">=</span> <span class="n">sys_ipc</span><span class="p">(</span><span class="n">IPC_SEND_SYNC</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">sizeof</span><span class="p">(</span><span class="n">msg</span><span class="p">),</span> <span class="n">msg</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">!=</span> <span class="n">SYS_E_DONE</span><span class="p">)</span> <span class="p">{</span>
+   <span class="o">...</span> <span class="o">/*</span> <span class="n">Error</span> <span class="n">handling</span> <span class="o">*/</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">sys_ipc(IPC_SEND_SYNC,....)</span></code> can return:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">SYS_E_DONE</span></code>: The message has been succesfully emitted</li>
+<li><code class="docutils literal notranslate"><span class="pre">SYS_E_DENIED</span></code>: The current task is not allowed to communicate with the
+other task</li>
+<li><code class="docutils literal notranslate"><span class="pre">SYS_E_INVAL</span></code>: One of the syscall argument is invalid (invalid task id,
+pointer value, etc.)</li>
+<li><code class="docutils literal notranslate"><span class="pre">SYS_E_BUSY</span></code>: This happens only in the very rare condition of a
+synchronous send is emited after an asynchronous send and while the receiver
+has not emited any receive syscall.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="sys-ipc-send-async">
+<h2><a class="toc-backref" href="#id5">5.3.1.2.4.4. sys_ipc(SEND_ASYNC)</a><a class="headerlink" href="#sys-ipc-send-async" title="Permalink to this headline">¶</a></h2>
+<p>Asynchronous send is used to send a message without waiting for it to be
+received. The message is kept in a kernel’s buffer until the receiver read
+it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">uint8_t</span>        <span class="nb">id</span><span class="p">;</span>
+<span class="n">logsize_t</span>      <span class="n">size</span><span class="p">;</span>
+<span class="n">char</span>          <span class="o">*</span><span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;hello&quot;</span><span class="p">;</span>
+<span class="n">e_syscall_ret</span>  <span class="n">ret</span><span class="p">;</span>
+ <span class="o">...</span>
+<span class="n">ret</span> <span class="o">=</span> <span class="n">sys_ipc</span><span class="p">(</span><span class="n">IPC_SEND_ASYNC</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">sizeof</span><span class="p">(</span><span class="n">msg</span><span class="p">),</span> <span class="n">msg</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">!=</span> <span class="n">SYS_E_DONE</span><span class="p">)</span> <span class="p">{</span>
+    <span class="o">...</span> <span class="o">/*</span> <span class="n">Error</span> <span class="n">handling</span> <span class="o">*/</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">sys_ipc(IPC_SEND_ASYNC,....)</span></code> can return:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">SYS_E_DONE</span></code>: The message has been succesfully emitted</li>
+<li><code class="docutils literal notranslate"><span class="pre">SYS_E_DENIED</span></code>: the current task is not allowed to communicate with the
+other task</li>
+<li><code class="docutils literal notranslate"><span class="pre">SYS_E_INVAL</span></code>: one of the syscall argument is invalid (invalid task id,
+pointer value, etc.)</li>
+<li><code class="docutils literal notranslate"><span class="pre">SYS_E_BUSY</span></code>: (only in rare occasion) only when the target has already a
+message from the current task that has not been read yet. This also
+happens if the target task has sent an IPC to the current task which is
+not yet received (communication channel already used)</li>
+</ul>
+</div></blockquote>
+<p>Mixing synchronous and asynchronous IPC is possible but, of course, need
+some very careful thinking.</p>
+</div>
+<div class="section" id="sys-ipc-recv-sync">
+<h2><a class="toc-backref" href="#id6">5.3.1.2.4.5. sys_ipc(RECV_SYNC)</a><a class="headerlink" href="#sys-ipc-recv-sync" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>A task can synchronously wait for a message:</dt>
+<dd><ul class="first last simple">
+<li>from another specific task, by setting accordingly the task <em>id</em></li>
+<li>from any task, by setting the task <em>id</em> to <code class="docutils literal notranslate"><span class="pre">ANY_APP</span></code></li>
+</ul>
+</dd>
+</dl>
+<p>The task is blocked until a readable message is feed:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">uint8_t</span>        <span class="nb">id</span><span class="p">;</span>
+<span class="n">logsize_t</span>      <span class="n">size</span><span class="p">;</span>
+<span class="n">char</span>           <span class="n">buf</span><span class="p">[</span><span class="mi">128</span><span class="p">];</span>
+<span class="n">e_syscall_ret</span>  <span class="n">ret</span><span class="p">;</span>
+
+<span class="nb">id</span>   <span class="o">=</span> <span class="n">ANY_APP</span><span class="p">;</span>      <span class="o">/*</span> <span class="n">Waiting</span> <span class="n">a</span> <span class="n">msg</span> <span class="kn">from</span> <span class="o">*</span><span class="nb">any</span><span class="o">*</span> <span class="n">task</span> <span class="o">*/</span>
+<span class="n">size</span> <span class="o">=</span> <span class="n">sizeof</span><span class="p">(</span><span class="n">buf</span><span class="p">);</span>  <span class="o">/*</span> <span class="n">Receiving</span> <span class="n">buffer</span> <span class="nb">max</span> <span class="n">size</span> <span class="o">*/</span>
+
+<span class="n">ret</span> <span class="o">=</span> <span class="n">sys_ipc</span><span class="p">(</span><span class="n">IPC_RECV_SYNC</span><span class="p">,</span> <span class="o">&amp;</span><span class="nb">id</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">size</span><span class="p">,</span> <span class="n">buf</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">!=</span> <span class="n">SYS_E_DONE</span><span class="p">)</span> <span class="p">{</span>
+    <span class="o">...</span> <span class="o">/*</span> <span class="n">Error</span> <span class="n">handling</span> <span class="o">*/</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>When a message is received, the kernel modify the following parameters (based
+on the example above):</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">id</span></code>: to know which task has sent the message</li>
+<li><code class="docutils literal notranslate"><span class="pre">size</span></code>: to set message’s size</li>
+<li><code class="docutils literal notranslate"><span class="pre">buf</span></code>: the message is copied into the receiving buffer</li>
+</ul>
+</div></blockquote>
+<p>The <code class="docutils literal notranslate"><span class="pre">sys_ipc(IPC_RECV_SYNC,....)</span></code> can return:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">SYS_E_DONE</span></code>: The message has been succesfully received</li>
+<li><code class="docutils literal notranslate"><span class="pre">SYS_E_DENIED</span></code>: the current task is not allowed to communicate with the
+other task set as target</li>
+<li><code class="docutils literal notranslate"><span class="pre">SYS_E_INVAL</span></code>: one of the syscall argument is invalid (invalid task id,
+pointer value, etc.) or the buffer size is too small to get back the
+message.</li>
+<li><code class="docutils literal notranslate"><span class="pre">SYS_E_BUSY</span></code>: (only in rare occasion) only when the target is already in
+receiving mode, waiting for the current task to send a message.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="sys-ipc-recv-async">
+<h2><a class="toc-backref" href="#id7">5.3.1.2.4.6. sys_ipc(RECV_ASYNC)</a><a class="headerlink" href="#sys-ipc-recv-async" title="Permalink to this headline">¶</a></h2>
+<p>Asynchronous receive is used to read any pending message. The task
+is not blocked and directly returns:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ret</span> <span class="o">=</span> <span class="n">sys_ipc</span><span class="p">(</span><span class="n">IPC_RECV_ASYNC</span><span class="p">,</span> <span class="o">&amp;</span><span class="nb">id</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">size</span><span class="p">,</span> <span class="n">buf</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This syscall returns the same values that is synchonous counterpart plus
+<code class="docutils literal notranslate"><span class="pre">SYS_E_BUSY</span></code> if there is no message to read.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="sys_get_systick.html" class="btn btn-neutral float-right" title="5.3.1.2.5. sys_get_systick" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="sys_log.html" class="btn btn-neutral" title="5.3.1.2.3. sys_log" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

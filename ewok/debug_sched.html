@@ -1,0 +1,437 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>5.4.4. Debugging EwoK Scheduler &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="5.5.1. General FAQ" href="faq_general.html" />
+    <link rel="prev" title="5.4.3. EwoK IRQ and ISR internals" href="isr_internals.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">5. EwoK kernel</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#what-is-ewok">5.1. What is EwoK ?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#ewok-architecture">5.2. EwoK architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#ewok-api">5.3. EwoK API</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#internals">5.4. Internals</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="ada_spark.html">5.4.1. Ada/SPARK implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="perms_internals.html">5.4.2. EwoK permission internals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isr_internals.html">5.4.3. EwoK IRQ &amp; ISR internals</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">5.4.4. EwoK scheduler internals</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#about-ewok-schedulers">5.4.4.1. About Ewok schedulers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#activating-the-scheduler-debug-mode">5.4.4.2. Activating the scheduler debug mode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#exploiting-the-scheduler-debug-mode">5.4.4.3. Exploiting the scheduler debug mode</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#faq">5.5. FAQ</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../libs.html">6. Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../drivers.html">7. Drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">5. EwoK microkernel</a> &raquo;</li>
+        
+      <li>5.4.4. Debugging EwoK Scheduler</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="debugging-ewok-scheduler">
+<span id="debug-sched"></span><h1><a class="toc-backref" href="#id1">5.4.4. Debugging EwoK Scheduler</a><a class="headerlink" href="#debugging-ewok-scheduler" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#debugging-ewok-scheduler" id="id1">Debugging EwoK Scheduler</a><ul>
+<li><a class="reference internal" href="#about-ewok-schedulers" id="id2">About Ewok schedulers</a><ul>
+<li><a class="reference internal" href="#round-robin-scheduler" id="id3">Round-Robin scheduler</a></li>
+<li><a class="reference internal" href="#random-scheduler" id="id4">Random scheduler</a></li>
+<li><a class="reference internal" href="#mlq-rr-scheduler" id="id5">MLQ-RR scheduler</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#activating-the-scheduler-debug-mode" id="id6">Activating the scheduler debug mode</a></li>
+<li><a class="reference internal" href="#exploiting-the-scheduler-debug-mode" id="id7">Exploiting the scheduler debug mode</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="about-ewok-schedulers">
+<h2><a class="toc-backref" href="#id2">5.4.4.1. About Ewok schedulers</a><a class="headerlink" href="#about-ewok-schedulers" title="Permalink to this headline">¶</a></h2>
+<p>There are several scheduling schemes supported in EwoK:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Basic Round-Robin</li>
+<li>Random scheduler</li>
+<li>MLQ-RR (Multi-Queue Round-Robin)</li>
+</ul>
+</div></blockquote>
+<p>All scheduling schemes are constrained by the following:</p>
+<blockquote>
+<div><ul class="simple">
+<li>ISR have a greater priority and are executed before regular main threads.</li>
+<li>Softirqd, which executes asynchronous syscalls and prepares tasks to handle
+ISR, is executed with a greater priority than other tasks, but lower
+priority than ISRs.</li>
+<li>If neither an ISR nor a syscall is to be executed, the global thread
+scheduling scheme is executed (i.e. Round-Robin, Random or MLQ-RR
+scheme) on all regular threads.</li>
+</ul>
+</div></blockquote>
+<div class="section" id="round-robin-scheduler">
+<h3><a class="toc-backref" href="#id3">5.4.4.1.1. Round-Robin scheduler</a><a class="headerlink" href="#round-robin-scheduler" title="Permalink to this headline">¶</a></h3>
+<p>The Round-Robin scheduler schedules each runnable task successively. Each task
+can use the core up to the configured task slot time slice. The task is
+scheduled if:</p>
+<blockquote>
+<div><ul class="simple">
+<li>the task reaches the task slot length</li>
+<li>an interrupt arises, requiring an ISR execution</li>
+<li>the task voluntarily yields</li>
+<li>the task executes an asynchronous syscall (IPC or CFG)</li>
+</ul>
+</div></blockquote>
+<p>When the scheduler is executed, it selects the next task (starting with the
+next id, based on the current task id), and elects the first task which is
+runnable.</p>
+<p>If no task at all is runnable, the idle task is executed.</p>
+</div>
+<div class="section" id="random-scheduler">
+<h3><a class="toc-backref" href="#id4">5.4.4.1.2. Random scheduler</a><a class="headerlink" href="#random-scheduler" title="Permalink to this headline">¶</a></h3>
+<p>The random scheduler is using the hardware RNG to select a task in the task
+list. If the task is not runnable, the scheduler gets back another random
+number and tries again.</p>
+<p>The scheduler tries 32 times before executing the idle task.</p>
+<p>This scheduler is mostly an example of basic scheduling scheme.</p>
+</div>
+<div class="section" id="mlq-rr-scheduler">
+<h3><a class="toc-backref" href="#id5">5.4.4.1.3. MLQ-RR scheduler</a><a class="headerlink" href="#mlq-rr-scheduler" title="Permalink to this headline">¶</a></h3>
+<p>The MLQ-RR scheduler is the only scheduling scheme of EwoK supporting
+tasks priorities.
+This scheduler is able to schedule tasks based on their priority using the
+following rules:</p>
+<blockquote>
+<div><ul class="simple">
+<li>The scheduler selects the list of runnable tasks having the highest
+priority</li>
+<li>If more than one task have the same priority, the scheduler uses a
+round-robin policy on tasks of the same priority</li>
+</ul>
+</div></blockquote>
+<p>This scheduling is efficient to prioritize tasks with high idle periods and
+short (but requiring high reactivity) runnable periods. The drawback of such
+efficiency is that tasks have to voluntarily yield or ask for being idle (for
+example by locking on IPC receive) to avoid starvation of lower priority tasks.</p>
+</div>
+</div>
+<div class="section" id="activating-the-scheduler-debug-mode">
+<h2><a class="toc-backref" href="#id6">5.4.4.2. Activating the scheduler debug mode</a><a class="headerlink" href="#activating-the-scheduler-debug-mode" title="Permalink to this headline">¶</a></h2>
+<p>The scheduler debug mode can be activated from the kernel menuconfig, in the
+‘<em>kernel hacking</em> menu:</p>
+<img alt="Scheduler debug mode" class="align-center" src="../_images/ewok_mc_kernel_hacking.png" />
+<p>There are two dedicated options in this menu:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Activate scheduler debugging</li>
+<li>Scheduling buffer size</li>
+</ul>
+</div></blockquote>
+<img alt="Scheduler debug mode" class="align-center" src="../_images/ewok_mc_sched_debug.png" />
+<p>The option <em>Activate scheduler debugging</em> activates the following behaviors:</p>
+<blockquote>
+<div><ul class="simple">
+<li><dl class="first docutils">
+<dt>Each task holds three counters:</dt>
+<dd><ul class="first last">
+<li>the number of normal scheduling</li>
+<li>the number of ISR scheduling</li>
+<li>the number of forced scheduling after ISR (see device_t API)</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li>the kernel registers the last scheduling information in a ring-buffer</li>
+</ul>
+</div></blockquote>
+<p>The <em>Scheduler buffer size</em> sets the scheduler ring-buffer length. The bigger
+the buffer is, the bigger the registered temporal window is. Although, the
+buffer is held in the kernel memory, and hence needs to fit in it. Its default
+length is 1000 entries.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">Tataouine SDK will help when increasing the buffer size, returning a specific
+error in the kernel data section if it is too big.</p>
+</div>
+</div>
+<div class="section" id="exploiting-the-scheduler-debug-mode">
+<h2><a class="toc-backref" href="#id7">5.4.4.3. Exploiting the scheduler debug mode</a><a class="headerlink" href="#exploiting-the-scheduler-debug-mode" title="Permalink to this headline">¶</a></h2>
+<p>At any time, it is possible to get back each task’s counters. You can dump the
+counters of any task you want. Gdb will help you with variable name completion:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(gdb) print tasks_list[2].count
+$2 = 0x1bf
+(gdb) print tasks_list[2].isr_count
+$3 = 0x41
+(gdb) print tasks_list[2].force_count
+$4 = 0x0
+</pre></div>
+</div>
+<p>It is also possible to get back the scheduling buffer from gdb, to understand
+how tasks are executed.
+The scheduling buffer keeps three information:</p>
+<blockquote>
+<div><ul class="simple">
+<li>the timestamp (in microseconds, since the processor boot time)</li>
+<li>the task id (as referenced in include/generated/app_layout.h)</li>
+<li>the task mode (0x0 is the main thread, 0x1 is an ISR)</li>
+</ul>
+</div></blockquote>
+<p>Printing the scheduler ring buffer is easy using gdb:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">arm</span><span class="o">-</span><span class="n">none</span><span class="o">-</span><span class="n">eabi</span><span class="o">-</span><span class="n">gdb</span>
+<span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">target</span> <span class="n">extended</span><span class="o">-</span><span class="n">remote</span> <span class="n">localhost</span><span class="p">:</span><span class="mi">3333</span>
+<span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">monitor</span> <span class="n">reset</span> <span class="n">halt</span>
+<span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">c</span>
+<span class="o">...</span> <span class="n">wait</span> <span class="k">for</span> <span class="n">some</span> <span class="n">time</span>
+<span class="o">^</span><span class="n">C</span>
+<span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="n">symbol</span><span class="o">-</span><span class="n">file</span> <span class="n">build</span><span class="o">/</span><span class="n">armv7</span><span class="o">-</span><span class="n">m</span><span class="o">/</span><span class="n">wookey</span><span class="o">/</span><span class="n">kernel</span><span class="o">/</span><span class="n">kernel</span><span class="o">.</span><span class="n">elf</span>
+<span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="nb">set</span> <span class="nb">print</span> <span class="n">elements</span> <span class="mi">1000</span>
+<span class="p">(</span><span class="n">gdb</span><span class="p">)</span> <span class="nb">print</span> <span class="n">sched_ring_buffer</span><span class="o">.</span><span class="n">buf</span>
+</pre></div>
+</div>
+<p>You can copy the ring buffer content into a text file and clean it to make it
+easily readable:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sed</span> <span class="o">-</span><span class="n">i</span> <span class="o">-</span><span class="n">re</span> <span class="s1">&#39;s/}, \{/</span><span class="se">\n</span><span class="s1">/g&#39;</span> <span class="n">schedbuf</span><span class="o">.</span><span class="n">dat</span>
+</pre></div>
+</div>
+<p>This will delete blocks and generate one scheduling event by line.
+Such a scheduling trace will then look like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span> <span class="o">=</span> <span class="mh">0x3ce5c0</span><span class="p">,</span> <span class="nb">id</span> <span class="o">=</span> <span class="mh">0x8</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="mh">0x0</span>
+<span class="n">ts</span> <span class="o">=</span> <span class="mh">0x3ce648</span><span class="p">,</span> <span class="nb">id</span> <span class="o">=</span> <span class="mh">0x4</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="mh">0x1</span>
+<span class="n">ts</span> <span class="o">=</span> <span class="mh">0x3ce653</span><span class="p">,</span> <span class="nb">id</span> <span class="o">=</span> <span class="mh">0x4</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="mh">0x0</span>
+<span class="n">ts</span> <span class="o">=</span> <span class="mh">0x3ce65e</span><span class="p">,</span> <span class="nb">id</span> <span class="o">=</span> <span class="mh">0x8</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="mh">0x0</span>
+<span class="n">ts</span> <span class="o">=</span> <span class="mh">0x3ce663</span><span class="p">,</span> <span class="nb">id</span> <span class="o">=</span> <span class="mh">0x8</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="mh">0x0</span>
+<span class="n">ts</span> <span class="o">=</span> <span class="mh">0x3ce6e4</span><span class="p">,</span> <span class="nb">id</span> <span class="o">=</span> <span class="mh">0x4</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="mh">0x1</span>
+<span class="n">ts</span> <span class="o">=</span> <span class="mh">0x3ce6ef</span><span class="p">,</span> <span class="nb">id</span> <span class="o">=</span> <span class="mh">0x8</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="mh">0x0</span>
+<span class="n">ts</span> <span class="o">=</span> <span class="mh">0x3ce6f7</span><span class="p">,</span> <span class="nb">id</span> <span class="o">=</span> <span class="mh">0x4</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="mh">0x0</span>
+<span class="n">ts</span> <span class="o">=</span> <span class="mh">0x3ce703</span><span class="p">,</span> <span class="nb">id</span> <span class="o">=</span> <span class="mh">0x8</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="mh">0x0</span>
+<span class="n">ts</span> <span class="o">=</span> <span class="mh">0x3ce70c</span><span class="p">,</span> <span class="nb">id</span> <span class="o">=</span> <span class="mh">0x2</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="mh">0x0</span>
+<span class="n">ts</span> <span class="o">=</span> <span class="mh">0x3da967</span><span class="p">,</span> <span class="nb">id</span> <span class="o">=</span> <span class="mh">0x4</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="mh">0x0</span>
+<span class="n">ts</span> <span class="o">=</span> <span class="mh">0x3da973</span><span class="p">,</span> <span class="nb">id</span> <span class="o">=</span> <span class="mh">0x8</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="mh">0x0</span>
+<span class="n">ts</span> <span class="o">=</span> <span class="mh">0x3da97b</span><span class="p">,</span> <span class="nb">id</span> <span class="o">=</span> <span class="mh">0x2</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="mh">0x0</span>
+</pre></div>
+</div>
+<p>It is possible to post-process it in various ways, using graphviz, gnuplot or
+any other tools depending on your need.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="faq_general.html" class="btn btn-neutral float-right" title="5.5.1. General FAQ" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="isr_internals.html" class="btn btn-neutral" title="5.4.3. EwoK IRQ and ISR internals" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

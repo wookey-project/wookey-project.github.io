@@ -1,0 +1,393 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>9.13. Hardware layout &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="10. Wookey hardware" href="../hardware/index.html" />
+    <link rel="prev" title="9.12. The build system internals" href="internals.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ewok/index.html">5. EwoK kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libs.html">6. Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../drivers.html">7. Drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="dependencies.html">9.1. Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="repo.html">9.2. Downloading the project with repo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="externals.html">9.3. External dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">9.4. Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build.html">9.5. Building a new firmware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flash.html">9.6. Flashing a new firmware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="production.html">9.7. Production mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug.html">9.8. Debugging the project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="newdriver.html">9.9. Creating a new driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="newlib.html">9.10. Creating a new library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="newapp.html">9.11. Creating a new application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="internals.html">9.12. Internals</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">9.13. Layout and portability</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#managing-the-portability">9.13.1. Managing the portability</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#handling-heterogeneous-boards">9.13.1.1. Handling heterogeneous boards</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#drivers-layout">9.13.2. Drivers layout</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#generated-devinfo-structure">9.13.2.1. Generated devinfo structure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-the-generated-data">9.13.2.2. Using the generated data</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tataouine.html#tataouine-directories">9.14. Tataouine directories</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../tataouine.html">9. Tataouine SDK</a> &raquo;</li>
+        
+      <li>9.13. Hardware layout</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="hardware-layout">
+<h1>9.13. Hardware layout<a class="headerlink" href="#hardware-layout" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="managing-the-portability">
+<span id="layout"></span><h2>9.13.1. Managing the portability<a class="headerlink" href="#managing-the-portability" title="Permalink to this headline">¶</a></h2>
+<p>Architecture-specific content of the kernel should be hosted in the
+<em>arch/&lt;arch_type&gt;</em> directory.
+The other parts of the kernel should be portable enough to support various
+architectures without requesting complex modifications or implementation
+design.</p>
+<div class="section" id="handling-heterogeneous-boards">
+<h3>9.13.1.1. Handling heterogeneous boards<a class="headerlink" href="#handling-heterogeneous-boards" title="Permalink to this headline">¶</a></h3>
+<p>For each supported board, there is a specific file in JSON format,
+describing its SoC and peripherals.</p>
+<p>The example below defines a SoC USART1 device:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+   <span class="s2">&quot;usart1&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;block&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;address&quot;</span><span class="p">:</span><span class="s2">&quot;0x40011000&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;size&quot;</span><span class="p">:</span><span class="s2">&quot;0x400&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;memory_subregion_mask&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;irqs&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;USART1_IRQ&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span><span class="s2">&quot;53&quot;</span> <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="s2">&quot;gpios&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;USART1_TX&quot;</span><span class="p">,</span> <span class="s2">&quot;port&quot;</span><span class="p">:</span><span class="s2">&quot;GPIO_PB&quot;</span><span class="p">,</span> <span class="s2">&quot;pin&quot;</span><span class="p">:</span><span class="s2">&quot;6&quot;</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;USART1_RX&quot;</span><span class="p">,</span> <span class="s2">&quot;port&quot;</span><span class="p">:</span><span class="s2">&quot;GPIO_PB&quot;</span><span class="p">,</span> <span class="s2">&quot;pin&quot;</span><span class="p">:</span><span class="s2">&quot;7&quot;</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;USART1_SC_TX&quot;</span><span class="p">,</span> <span class="s2">&quot;port&quot;</span><span class="p">:</span><span class="s2">&quot;GPIO_PA&quot;</span><span class="p">,</span> <span class="s2">&quot;pin&quot;</span><span class="p">:</span><span class="s2">&quot;9&quot;</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;USART1_SC_CK&quot;</span><span class="p">,</span> <span class="s2">&quot;port&quot;</span><span class="p">:</span><span class="s2">&quot;GPIO_PA&quot;</span><span class="p">,</span> <span class="s2">&quot;pin&quot;</span><span class="p">:</span><span class="s2">&quot;8&quot;</span> <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="s2">&quot;read_only&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;permission&quot;</span><span class="p">:</span> <span class="s2">&quot;PERM_RES_DEV_BUSES&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;enable_register&quot;</span><span class="p">:</span><span class="s2">&quot;r_CORTEX_M_RCC_APB2ENR&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;enable_register_bits&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;RCC_APB2ENR_USART1EN&quot;</span><span class="p">]</span>
+   <span class="p">},</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This entry defines all the required information to generate:</p>
+<blockquote>
+<div><ul class="simple">
+<li>a kernel header named <code class="docutils literal notranslate"><span class="pre">devmap.h</span></code></li>
+<li>userspace headers, hosting information that generic drivers need (IRQ
+number, GPIO references, device mapping address and size)</li>
+</ul>
+</div></blockquote>
+<p>Device maps are generated at build time, as shown below:</p>
+<a class="reference internal image-reference" href="../_images/layout.png"><img alt="ewok icon" class="align-center" src="../_images/layout.png" style="width: 346.0px; height: 183.0px;" /></a>
+</div>
+</div>
+<div class="section" id="drivers-layout">
+<h2>9.13.2. Drivers layout<a class="headerlink" href="#drivers-layout" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="generated-devinfo-structure">
+<h3>9.13.2.1. Generated devinfo structure<a class="headerlink" href="#generated-devinfo-structure" title="Permalink to this headline">¶</a></h3>
+<p>All generated header files are based on a generic device description which is
+defined in the <code class="docutils literal notranslate"><span class="pre">generated/devinfo.h</span></code> file.</p>
+<p>The devinfo file generate a dedicated device information structure, which includes:</p>
+<blockquote>
+<div><ul class="simple">
+<li>the device address</li>
+<li>the device size (in bytes)</li>
+<li>the device GPIO table</li>
+</ul>
+</div></blockquote>
+<p>The device information structure is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">struct</span> <span class="n">user_driver_device_gpio_infos</span> <span class="p">{</span>
+    <span class="n">uint8_t</span>    <span class="n">port</span><span class="p">;</span>
+    <span class="n">uint8_t</span>    <span class="n">pin</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="n">struct</span> <span class="n">user_driver_device_infos</span> <span class="p">{</span>
+    <span class="n">physaddr_t</span> <span class="n">address</span><span class="p">;</span>
+    <span class="n">uint32_t</span>   <span class="n">size</span><span class="p">;</span>
+    <span class="n">struct</span> <span class="n">user_driver_device_gpio_infos</span> <span class="n">gpios</span><span class="p">[</span><span class="mi">14</span><span class="p">];</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-the-generated-data">
+<h3>9.13.2.2. Using the generated data<a class="headerlink" href="#using-the-generated-data" title="Permalink to this headline">¶</a></h3>
+<p>Each device GPIO table entry is named after the GPIO name in the JSON file.
+This allows the device driver to use names instead of indices in the device definition
+structure, avoiding any problem if GPIO order is modified in the JSON file.</p>
+<p>To this structure, the device IRQ(s) are also defined using preprocessing, and can
+be directly used in the device driver.</p>
+<p>For the USART1 device declared as a JSON structure described previously, the header file generated
+has the following structure:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#ifndef USART1_H_</span>
+<span class="c1"># define USART1_H_</span>
+
+<span class="c1">#include &quot;generated/devinfo.h&quot;</span>
+
+<span class="c1">#define USART1_IRQ 53</span>
+<span class="o">/*</span> <span class="n">naming</span> <span class="n">indexes</span> <span class="ow">in</span> <span class="n">structure</span> <span class="n">gpios</span><span class="p">[]</span> <span class="n">table</span> <span class="o">*/</span>
+<span class="c1">#define USART1_TX 0</span>
+<span class="c1">#define USART1_RX 1</span>
+<span class="c1">#define USART1_SC_TX 2</span>
+<span class="c1">#define USART1_SC_CK 3</span>
+
+<span class="n">static</span> <span class="n">const</span> <span class="n">struct</span> <span class="n">user_driver_device_infos</span> <span class="n">usart1_dev_infos</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="o">.</span><span class="n">address</span> <span class="o">=</span> <span class="mh">0x40011000</span><span class="p">,</span>
+    <span class="o">.</span><span class="n">size</span>    <span class="o">=</span> <span class="mh">0x400</span><span class="p">,</span>
+    <span class="o">.</span><span class="n">gpios</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="p">{</span> <span class="n">GPIO_PB</span><span class="p">,</span> <span class="mi">6</span> <span class="p">},</span>
+      <span class="p">{</span> <span class="n">GPIO_PB</span><span class="p">,</span> <span class="mi">7</span> <span class="p">},</span>
+      <span class="p">{</span> <span class="n">GPIO_PA</span><span class="p">,</span> <span class="mi">9</span> <span class="p">},</span>
+      <span class="p">{</span> <span class="n">GPIO_PA</span><span class="p">,</span> <span class="mi">8</span> <span class="p">},</span>
+      <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span> <span class="p">},</span>
+      <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span> <span class="p">},</span>
+      <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span> <span class="p">},</span>
+      <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span> <span class="p">},</span>
+      <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span> <span class="p">},</span>
+      <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span> <span class="p">},</span>
+      <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span> <span class="p">},</span>
+      <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span> <span class="p">},</span>
+      <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span> <span class="p">},</span>
+      <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span> <span class="p">},</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+<span class="c1">#endif</span>
+</pre></div>
+</div>
+<p>Each GPIO can be accessed, for example, using:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">uint8_t</span> <span class="n">usart1_xmit_port</span> <span class="o">=</span> <span class="n">usart1_dev_infos</span><span class="o">.</span><span class="n">gpios</span><span class="p">[</span><span class="n">USART1_TX</span><span class="p">]</span><span class="o">.</span><span class="n">port</span><span class="p">;</span>
+<span class="n">uint8_t</span> <span class="n">usart1_xmit_pin</span> <span class="o">=</span> <span class="n">usart1_dev_infos</span><span class="o">.</span><span class="n">gpios</span><span class="p">[</span><span class="n">USART1_TX</span><span class="p">]</span><span class="o">.</span><span class="n">pin</span><span class="p">;</span>
+
+<span class="n">uint8_t</span> <span class="n">usart1_rcv_port</span> <span class="o">=</span> <span class="n">usart1_dev_infos</span><span class="o">.</span><span class="n">gpios</span><span class="p">[</span><span class="n">USART1_RX</span><span class="p">]</span><span class="o">.</span><span class="n">port</span><span class="p">;</span>
+<span class="n">uint8_t</span> <span class="n">usart1_rcv_pin</span> <span class="o">=</span> <span class="n">usart1_dev_infos</span><span class="o">.</span><span class="n">gpios</span><span class="p">[</span><span class="n">USART1_RX</span><span class="p">]</span><span class="o">.</span><span class="n">pin</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../hardware/index.html" class="btn btn-neutral float-right" title="10. Wookey hardware" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="internals.html" class="btn btn-neutral" title="9.12. The build system internals" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

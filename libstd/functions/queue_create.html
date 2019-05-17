@@ -1,0 +1,347 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>6.12.2.17. queue &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="6.12.2.18. queue" href="queue_dequeue.html" />
+    <link rel="prev" title="6.12.2.16. queue" href="queue_available_space.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ewok/index.html">5. EwoK kernel</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../libs.html">6. Libraries</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../libaes/index.html">6.1. libs/aes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../libconsole/index.html">6.2. libs/console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../libdes/index.html">6.3. libs/des</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../libdfu/index.html">6.4. libs/dfu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../libfirmware/index.html">6.5. libs/firmware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../libgui/index.html">6.6. libs/gui</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../libhmac/index.html">6.7. libs/hmac</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../libiso7816/index.html">6.8. libs/iso7816</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../libmassstorage/index.html">6.9. libs/massstorage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../libsd/index.html">6.10. libs/sd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../libsmartcard/index.html">6.11. libs/smartcard</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">6.12. libs/std</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../index.html#overview">6.12.1. Overview</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#api">6.12.2. API</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="aprintf_flush.html">6.12.2.1.  aprintf_flush</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aprintf.html">6.12.2.2.  aprintf</a></li>
+<li class="toctree-l4"><a class="reference internal" href="get_random.html">6.12.2.3.  get_random</a></li>
+<li class="toctree-l4"><a class="reference internal" href="get_reg_value.html">6.12.2.4.  get_reg_value</a></li>
+<li class="toctree-l4"><a class="reference internal" href="hexdump.html">6.12.2.5.  hexdump</a></li>
+<li class="toctree-l4"><a class="reference internal" href="htonl.html">6.12.2.6.  htonl</a></li>
+<li class="toctree-l4"><a class="reference internal" href="htons.html">6.12.2.7.  htons</a></li>
+<li class="toctree-l4"><a class="reference internal" href="memcmp.html">6.12.2.8.  memcmp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mutex_init.html">6.12.2.9.  mutex_init</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mutex_lock.html">6.12.2.10.  mutex_lock</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mutex_trylock.html">6.12.2.11.  mutex_trylock</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mutex_unlock.html">6.12.2.12.  mutex_unlock</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ntohl.html">6.12.2.13.  ntohl</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ntohs.html">6.12.2.14.  ntohs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="printf.html">6.12.2.15.  printf</a></li>
+<li class="toctree-l4"><a class="reference internal" href="queue_available_space.html">6.12.2.16.  queue_available_space</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">6.12.2.17.  queue_create</a></li>
+<li class="toctree-l4"><a class="reference internal" href="queue_dequeue.html">6.12.2.18.  queue_dequeue</a></li>
+<li class="toctree-l4"><a class="reference internal" href="queue_enqueue.html">6.12.2.19.  queue_enqueue</a></li>
+<li class="toctree-l4"><a class="reference internal" href="queue_is_empty.html">6.12.2.20.  queue_is_empty</a></li>
+<li class="toctree-l4"><a class="reference internal" href="read_reg16_value.html">6.12.2.21.  read_reg16_value</a></li>
+<li class="toctree-l4"><a class="reference internal" href="read_reg_value.html">6.12.2.22.  read_reg_value</a></li>
+<li class="toctree-l4"><a class="reference internal" href="semaphore_init.html">6.12.2.23.  semaphore_init</a></li>
+<li class="toctree-l4"><a class="reference internal" href="semaphore_lock.html">6.12.2.24.  semaphore_lock</a></li>
+<li class="toctree-l4"><a class="reference internal" href="semaphore_release.html">6.12.2.25.  semaphore_release</a></li>
+<li class="toctree-l4"><a class="reference internal" href="semaphore_trylock.html">6.12.2.26.  semaphore_trylock</a></li>
+<li class="toctree-l4"><a class="reference internal" href="set_reg_value.html">6.12.2.27.  set_reg_value</a></li>
+<li class="toctree-l4"><a class="reference internal" href="snprintf.html">6.12.2.28.  snprintf</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sprintf.html">6.12.2.29.  sprintf</a></li>
+<li class="toctree-l4"><a class="reference internal" href="strcmp.html">6.12.2.30.  strcmp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="strcpy.html">6.12.2.31.  strcpy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="strlen.html">6.12.2.32.  strlen</a></li>
+<li class="toctree-l4"><a class="reference internal" href="strncmp.html">6.12.2.33.  strncmp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="strncpy.html">6.12.2.34.  strncpy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="vprintf.html">6.12.2.35.  vprintf</a></li>
+<li class="toctree-l4"><a class="reference internal" href="vsnprintf.html">6.12.2.36.  vsnprintf</a></li>
+<li class="toctree-l4"><a class="reference internal" href="vsprintf.html">6.12.2.37.  vsprintf</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wfree.html">6.12.2.38.  wfree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wmalloc_init.html">6.12.2.39.  wmalloc_init</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wmalloc.html">6.12.2.40.  wmalloc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="write_reg16_value.html">6.12.2.41.  write_reg16_value</a></li>
+<li class="toctree-l4"><a class="reference internal" href="write_reg_value.html">6.12.2.42.  write_reg_value</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#faq">6.12.3. FAQ</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../libtoken/index.html">6.13. libs/token</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../drivers.html">7. Drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tataouine.html">9. Tataouine SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../libs.html">6. Libraries</a> &raquo;</li>
+        
+          <li><a href="../index.html">6.12. EwoK Standard library</a> &raquo;</li>
+        
+      <li>6.12.2.17. queue</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="queue">
+<h1>6.12.2.17. queue<a class="headerlink" href="#queue" title="Permalink to this headline">¶</a></h1>
+<p>Data queuing and enqueuing API</p>
+<div class="section" id="synopsys">
+<h2>6.12.2.17.1. Synopsys<a class="headerlink" href="#synopsys" title="Permalink to this headline">¶</a></h2>
+<p>This implementation is a libstd specific complex storage data queue management.
+It behave as a FIFO implementation for various objects. It can be used, for
+exemple, as a media for complex messages passing between threads or to hold
+information in memory.</p>
+<p>The libembed queue API is the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#include &quot;api/queue.h&quot;</span>
+
+<span class="n">mbed_error_t</span> <span class="n">queue_create</span><span class="p">(</span><span class="n">uint32_t</span> <span class="n">capacity</span><span class="p">,</span> <span class="n">queue_t</span> <span class="o">**</span><span class="n">queue</span><span class="p">);</span>
+<span class="n">mbed_error_t</span> <span class="n">queue_enqueue</span><span class="p">(</span><span class="n">queue_t</span> <span class="o">*</span><span class="n">q</span><span class="p">,</span> <span class="n">void</span> <span class="o">*</span><span class="n">data</span><span class="p">);</span>
+<span class="n">mbed_error_t</span> <span class="n">queue_dequeue</span><span class="p">(</span><span class="n">queue_t</span> <span class="o">*</span><span class="n">q</span><span class="p">,</span> <span class="n">void</span> <span class="o">**</span><span class="n">data</span><span class="p">);</span>
+<span class="nb">bool</span> <span class="n">queue_is_empty</span><span class="p">(</span><span class="n">queue_t</span> <span class="o">*</span><span class="n">q</span><span class="p">);</span>
+<span class="n">mbed_error_t</span> <span class="n">queue_available_space</span><span class="p">(</span><span class="n">queue_t</span> <span class="o">*</span><span class="n">q</span><span class="p">,</span> <span class="n">uint32_t</span> <span class="o">*</span><span class="n">space</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="description">
+<h2>6.12.2.17.2. Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><em>queue_create()</em> create an empty queue of the given size</li>
+<li><em>queue_enqueue()</em> add an element in the queue</li>
+<li><em>queue_dequeue()</em> dequeue the next element, if it exists</li>
+<li><em>queue_next_element()</em> get the next element of the queue given in
+argument, if it exists, without dequeuing it</li>
+<li><em>queue_is_empty()</em> return the empty state of the queue</li>
+<li><em>queue_available_space()</em> get the remaining free slots count of the given queue</li>
+</ul>
+</div></blockquote>
+<p>The Queue API is thread-safe and reentrant.</p>
+<p>The Queue API is using the libstd allocator to manipulate the storage backend.
+All data are stored in the task’s heap.</p>
+<p>for function returning mbed_error_t return type, queue API may returns:</p>
+<blockquote>
+<div><ul class="simple">
+<li>MBED_ERROR_NONE: function completed successfully</li>
+<li>MBED_ERROR_NOMEM: the allocator failed to allocate the requested memory on the head</li>
+<li>MBED_ERROR_NOSTORAGE: the requested element is not in the queue</li>
+<li>MBED_ERROR_BUSY: the queue is locked by another thread</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="queue_dequeue.html" class="btn btn-neutral float-right" title="6.12.2.18. queue" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="queue_available_space.html" class="btn btn-neutral" title="6.12.2.16. queue" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

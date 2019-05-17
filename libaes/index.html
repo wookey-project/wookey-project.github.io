@@ -1,0 +1,441 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>6.1. The AES library &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="6.2. Console library" href="../libconsole/index.html" />
+    <link rel="prev" title="6. Libraries" href="../libs.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ewok/index.html">5. EwoK kernel</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../libs.html">6. Libraries</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">6.1. libs/aes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#overview">6.1.1. Overview</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#principles">6.1.1.1. Principles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#limitations">6.1.1.2. Limitations</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#the-libaes-api">6.1.2. The libaes API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#initializing-libaes">6.1.2.1. Initializing libaes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#aes-data-de-en-cryption">6.1.2.2. AES data (de/en)cryption</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../libconsole/index.html">6.2. libs/console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libdes/index.html">6.3. libs/des</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libdfu/index.html">6.4. libs/dfu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libfirmware/index.html">6.5. libs/firmware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libgui/index.html">6.6. libs/gui</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libhmac/index.html">6.7. libs/hmac</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libiso7816/index.html">6.8. libs/iso7816</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libmassstorage/index.html">6.9. libs/massstorage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libsd/index.html">6.10. libs/sd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libsmartcard/index.html">6.11. libs/smartcard</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libstd/index.html">6.12. libs/std</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libtoken/index.html">6.13. libs/token</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../drivers.html">7. Drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../libs.html">6. Libraries</a> &raquo;</li>
+        
+      <li>6.1. The AES library</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="the-aes-library">
+<h1><a class="toc-backref" href="#id1">6.1. The AES library</a><a class="headerlink" href="#the-aes-library" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#the-aes-library" id="id1">The AES library</a><ul>
+<li><a class="reference internal" href="#overview" id="id2">Overview</a><ul>
+<li><a class="reference internal" href="#principles" id="id3">Principles</a></li>
+<li><a class="reference internal" href="#limitations" id="id4">Limitations</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#the-libaes-api" id="id5">The libaes API</a><ul>
+<li><a class="reference internal" href="#initializing-libaes" id="id6">Initializing libaes</a></li>
+<li><a class="reference internal" href="#aes-data-de-en-cryption" id="id7">AES data (de/en)cryption</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<p>The libaes project aims at implementing variants of the AES (Advanced Encryption Standard)
+algorithm.</p>
+<p>This library supports:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Fully software based masked implementation (in assembly and designed to be protected against side
+channel attacks) - only AES-128 is supported here</li>
+<li>Fully software based unprotected implementation in pure C</li>
+<li>Hardware based implementation, based on an underlying hardware cryptographic
+coprocessor through an existing dedicated driver. The implementation supports
+both DMA based and polling based accelerations.</li>
+</ul>
+</div></blockquote>
+<p>By now, the libaes supports the following key lengths:</p>
+<blockquote>
+<div><ul class="simple">
+<li>AES-128</li>
+<li>AES-192</li>
+<li>AES-256</li>
+</ul>
+</div></blockquote>
+<p>The libaes also supports the following AES modes:</p>
+<blockquote>
+<div><ul class="simple">
+<li>AES ECB</li>
+<li>AES CBC</li>
+<li>AES CTR</li>
+</ul>
+</div></blockquote>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">The library does not handle padding and supposes that all input data is 16 bytes aligned for ECB and
+CBC modes. This is not the case for CTR mode due to its inherent unaligned data tolerance</p>
+</div>
+<div class="section" id="overview">
+<h2><a class="toc-backref" href="#id2">6.1.1. Overview</a><a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="principles">
+<h3><a class="toc-backref" href="#id3">6.1.1.1. Principles</a><a class="headerlink" href="#principles" title="Permalink to this headline">¶</a></h3>
+<p>AES implementations follow the NIST design principles that
+can be found here:</p>
+<p><a class="reference external" href="https://nvlpubs.nist.gov/nistpubs/fips/nist.fips.197.pdf">https://nvlpubs.nist.gov/nistpubs/fips/nist.fips.197.pdf</a></p>
+<p>The protected AES is an external project that can be found
+here:</p>
+<p><a class="reference external" href="https://github.com/ANSSI-FR/SecAESSTM32">https://github.com/ANSSI-FR/SecAESSTM32</a></p>
+</div>
+<div class="section" id="limitations">
+<h3><a class="toc-backref" href="#id4">6.1.1.2. Limitations</a><a class="headerlink" href="#limitations" title="Permalink to this headline">¶</a></h3>
+<p>For now, the masked AES (protected against side channel attacks) only supports 128 bits.
+Only ECB, CBC and CTR mode are supported. Future evolution might include other
+modes.</p>
+<p>No data padding is supported, and for ECB and CBC modes the input data is supposed to
+be AES block size of 128 bits (16 bytes) aligned.</p>
+</div>
+</div>
+<div class="section" id="the-libaes-api">
+<h2><a class="toc-backref" href="#id5">6.1.2. The libaes API</a><a class="headerlink" href="#the-libaes-api" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="initializing-libaes">
+<h3><a class="toc-backref" href="#id6">6.1.2.1. Initializing libaes</a><a class="headerlink" href="#initializing-libaes" title="Permalink to this headline">¶</a></h3>
+<p>Initializing libaes is done with the following API:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;aes.h&quot;</span><span class="cp"></span>
+
+<span class="k">enum</span> <span class="n">aes_type</span> <span class="p">{</span>
+    <span class="n">AES_SOFT_ANSSI_MASKED</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">AES_HARD_NODMA</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="n">AES_HARD_DMA</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="p">};</span>
+
+<span class="k">enum</span> <span class="n">aes_key_len</span> <span class="p">{</span>
+    <span class="n">AES128</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">AES192</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">AES256</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="p">};</span>
+
+<span class="k">enum</span> <span class="n">aes_mode</span> <span class="p">{</span>
+    <span class="n">ECB</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">CBC</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">CTR</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="p">};</span>
+
+<span class="k">enum</span> <span class="n">aes_dir</span> <span class="p">{</span>
+    <span class="n">AES_ENCRYPT</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">AES_DECRYPT</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="p">};</span>
+
+
+<span class="kt">int</span> <span class="nf">aes_init</span><span class="p">(</span>      <span class="n">aes_context</span>        <span class="o">*</span><span class="n">aes_ctx</span><span class="p">,</span>
+             <span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">char</span>      <span class="o">*</span><span class="n">key</span><span class="p">,</span>
+                   <span class="k">enum</span> <span class="n">aes_key_len</span>    <span class="n">key_len</span><span class="p">,</span>
+             <span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">char</span>      <span class="o">*</span><span class="n">iv</span><span class="p">,</span>
+                   <span class="k">enum</span> <span class="n">aes_mode</span>       <span class="n">mode</span><span class="p">,</span>
+                   <span class="k">enum</span> <span class="n">aes_dir</span>        <span class="n">dir</span><span class="p">,</span>
+                   <span class="k">enum</span> <span class="n">aes_type</span>       <span class="n">type</span><span class="p">,</span>
+                   <span class="n">user_dma_handler_t</span>  <span class="n">dma_in_complete</span><span class="p">,</span>
+                   <span class="n">user_dma_handler_t</span>  <span class="n">dma_out_complete</span><span class="p">,</span>
+                   <span class="kt">int</span>                 <span class="n">dma_in_desc</span><span class="p">,</span>
+                   <span class="kt">int</span>                 <span class="n">dma_out_desc</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The AES initialization function does the following:</p>
+<blockquote>
+<div><ul>
+<li><dl class="first docutils">
+<dt>initialize the AES context, by:</dt>
+<dd><ul class="first simple">
+<li>setting the AES key and key length</li>
+<li>setting the IV (in AES modes requiring IV)</li>
+<li>setting the AES direction (encryption or direction)</li>
+<li>setting the AES type (full software, full software masked, hardware with polling, hardware with DMA)</li>
+<li>setting the DMA handlers and DMA kernel descriptors when using the AES_HARD_DMA hardware with DMA mode</li>
+</ul>
+<p class="last">(descriptors that has been initialized with appropriate sys_init(INIT_DMA) syscalls)</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">Multiple AES contexts can be initialized and used in parallel</p>
+</div>
+<div class="admonition danger">
+<p class="first admonition-title">Danger</p>
+<p class="last">When the hardware AES is used and multiple contexts are used in parallel, the user
+MUST reinitialize the AES using an aes_init at each context switch. This is due
+to the fact that the underlying hardware loses its embedded keys when it is configured
+with new ones. It is the user responsibility to handle AES reinitializations at the
+upper layer</p>
+</div>
+</div>
+<div class="section" id="aes-data-de-en-cryption">
+<h3><a class="toc-backref" href="#id7">6.1.2.2. AES data (de/en)cryption</a><a class="headerlink" href="#aes-data-de-en-cryption" title="Permalink to this headline">¶</a></h3>
+<p>Encryption and decryption are performed using the aes_exec core function:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">aes_exec</span><span class="p">(</span><span class="n">aes_context</span> <span class="o">*</span> <span class="n">aes_ctx</span><span class="p">,</span> <span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">data_in</span><span class="p">,</span>
+    <span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">data_out</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">data_len</span><span class="p">,</span>
+    <span class="kt">int</span> <span class="n">dma_in_desc</span><span class="p">,</span> <span class="kt">int</span> <span class="n">dma_out_desc</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This function takes as input:</p>
+<blockquote>
+<div><ul class="simple">
+<li>the AES context that has been initialized using aes_init</li>
+<li>a pointer to the input data, and its size</li>
+<li>a pointer to the output data</li>
+<li>DMA kernel descriptors to be used when AES_HARD_DMA mode is used (these descriptors must</li>
+</ul>
+<p>have been initialized with proper sys_init(INIT_DMA) syscalls)</p>
+</div></blockquote>
+<p>For all the modes except the AES_HARD_DMA, aes_exec is blocking and only returns when
+all the input data is processed and output data is filled with the result. When using
+AES_HARD_DMA, aes_exec is non blocking and the DMA handlers must be used to check the
+operation finalization and get the result in the output.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">When using polling and DMA, it is the user’s responsibility to check any hardware related issue
+by accessing the underlying coprocessor status. For instance, any incomplete DMA transfer (due
+to a hardware error) must be handled by the user</p>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../libconsole/index.html" class="btn btn-neutral float-right" title="6.2. Console library" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../libs.html" class="btn btn-neutral" title="6. Libraries" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

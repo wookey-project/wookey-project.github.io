@@ -1,0 +1,390 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>7.3.2. About The Hash driver API &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="7.3.3. Hash driver FAQ" href="faq.html" />
+    <link rel="prev" title="7.3.1. About the Hash driver" href="about.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ewok/index.html">5. EwoK kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libs.html">6. Libraries</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../drivers.html">7. Drivers</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../drvcryp/index.html">7.1. drivers/cryp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvflash/index.html">7.2. drivers/flash</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">7.3. drivers/hash</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="about.html">7.3.1. About the Hash principle</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">7.3.2. The drvHash API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#initializing-the-hash-driver">7.3.2.1. Initializing the hash driver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mapping-and-unmapping-the-hash-device">7.3.2.2. Mapping and unmapping the HASH device</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#calculating-a-digest">7.3.2.3. Calculating a digest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#getting-back-the-digest">7.3.2.4. Getting back the digest</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html">7.3.3. FAQ</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../drviso7816/index.html">7.4. drivers/iso7816</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvspi/index.html">7.5. drivers/spi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvusart/index.html">7.6. drivers/usart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvili9341/index.html">7.7. drivers/ili9341</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../drivers.html">7. Drivers</a> &raquo;</li>
+        
+          <li><a href="index.html">7.3. The Hash driver</a> &raquo;</li>
+        
+      <li>7.3.2. About The Hash driver API</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="about-the-hash-driver-api">
+<h1>7.3.2. About The Hash driver API<a class="headerlink" href="#about-the-hash-driver-api" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="initializing-the-hash-driver">
+<h2>7.3.2.1. Initializing the hash driver<a class="headerlink" href="#initializing-the-hash-driver" title="Permalink to this headline">¶</a></h2>
+<p>Initializing the hash driver is done with the following API:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libhash.h&quot;</span><span class="cp"></span>
+
+<span class="k">typedef</span> <span class="k">enum</span> <span class="p">{</span>
+    <span class="n">HASH_TRANS_NODMA</span><span class="p">,</span>
+    <span class="n">HASh_TRANS_DMA</span><span class="p">,</span>
+<span class="p">}</span> <span class="n">hash_transfert_mode_t</span><span class="p">;</span>
+
+<span class="k">typedef</span> <span class="k">enum</span> <span class="p">{</span>
+    <span class="n">HASH_MAP_AUTO</span><span class="p">,</span>
+    <span class="n">HASH_MAP_VOLUNTARY</span>
+<span class="p">}</span> <span class="n">hash_map_mode_t</span><span class="p">;</span>
+
+<span class="k">typedef</span> <span class="k">enum</span> <span class="p">{</span>
+    <span class="n">HASH_POLL_MODE</span><span class="p">,</span>
+    <span class="n">HASH_IT_DIGEST_COMPLETE</span><span class="p">,</span>
+<span class="p">}</span> <span class="n">hash_dev_mode_t</span><span class="p">;</span>
+
+<span class="k">typedef</span> <span class="k">enum</span> <span class="p">{</span>
+    <span class="n">HASH_MD5</span><span class="p">,</span>
+    <span class="n">HASH_SHA1</span><span class="p">,</span>
+    <span class="n">HASH_SHA224</span><span class="p">,</span>
+    <span class="n">HASH_SHA256</span><span class="p">,</span>
+    <span class="n">HASH_HMAC_SHA1</span><span class="p">,</span>
+    <span class="n">HASH_HMAC_SHA224</span><span class="p">,</span>
+    <span class="n">HASH_HMAC_SHA256</span><span class="p">,</span>
+<span class="p">}</span> <span class="n">hash_algo_t</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">hash_early_init</span><span class="p">(</span><span class="n">hash_transfert_mode_t</span> <span class="n">transfert_mode</span><span class="p">,</span>
+                    <span class="n">hash_map_mode_t</span>       <span class="n">map_mode</span><span class="p">,</span>
+                    <span class="n">hash_dev_mode_t</span>       <span class="n">dev_mode</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="nf">hash_init</span><span class="p">(</span><span class="n">cb_endofdigest</span> <span class="n">eodigest_callback</span><span class="p">,</span> <span class="n">cb_endofdma</span> <span class="n">eodma_callback</span><span class="p">,</span> <span class="n">hash_algo_t</span> <span class="n">algo</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="section" id="about-early-init">
+<h3>7.3.2.1.1. About early init<a class="headerlink" href="#about-early-init" title="Permalink to this headline">¶</a></h3>
+<p>The hash driver early initialization must be executed before the end of the
+task initialization phase (see EwoK kernel API). This initialization declares
+the hash device against the kernel at boot time.</p>
+<p>The early init function arguments are the following:</p>
+<blockquote>
+<div><ul class="simple">
+<li><em>transfert_mode</em>: specifies the data buffer access from the HASH device. It may be a direct copy from the processor (HASH_TRANS_NODMA) or through the HASH DMA channel (HASH_TRANS_DMA), making the HASH device autonomous for the successive data access loops.</li>
+<li><em>map_mode</em>: the HASH device mapping mode. When using HASH_MAP_AUTO, the device is automatically mapped at the end of the initialization phase of the task and for the complete task life-cycle. To support multiple devices in the same time without exhausting the MPU regions, it is possible to request on-demand only memory map, using HASH_MAP_VOLUNTARY option. In this latter case, the task is responsible for mapping and unmapping the device before and after each device usage.</li>
+<li><em>dev_mode</em>: the way the device handles the hash calculation termination. This can be through the status register check (when using HASH_POLL_MODE) or through a dedicated interrupt (when using HASH_IT_DIGEST_COMPLETE).</li>
+</ul>
+</div></blockquote>
+<p>All these information set the global device behavior and impact the device registration step. There is no impact on the hash algorithm choice at this time.</p>
+</div>
+<div class="section" id="about-init">
+<h3>7.3.2.1.2. About init<a class="headerlink" href="#about-init" title="Permalink to this headline">¶</a></h3>
+<p>The init step <strong>does map</strong> the HASH device if it is not. If HASH_MAP_VOLUNTARY is chosen, be sure to handle the unmap step after the HASH device usage.</p>
+<div class="admonition danger">
+<p class="first admonition-title">Danger</p>
+<p class="last">This constraint for voluntary mapped devices is specific to the init step. All other functions of the HASH drvier API require the device mapping and unmapping to be handled by the task</p>
+</div>
+<p>At initialization time, the task has to declare the following:</p>
+<blockquote>
+<div><ul class="simple">
+<li><em>eodigest_callback</em>: the callback that is executed at the end of the current digest calculation</li>
+<li><em>eodma_callback</em>: in DMA mode only, specify the DMA callback that is executed at the end of the DMA transfer. This callback can be NULL, even in DMA mode (in this case no handler is executed when the DMA transfer is over)</li>
+<li><em>algo</em>: the HASH algorithm that has to be configured for all the following steps</li>
+</ul>
+</div></blockquote>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">It is possible to change the HASH device current algorithm by re-executing the <em>hash_init()</em> function</p>
+</div>
+</div>
+</div>
+<div class="section" id="mapping-and-unmapping-the-hash-device">
+<h2>7.3.2.2. Mapping and unmapping the HASH device<a class="headerlink" href="#mapping-and-unmapping-the-hash-device" title="Permalink to this headline">¶</a></h2>
+<p>When declaring the HASH device in HASH_MAP_VOLUNTARY mode, the HASH device has to be mapped and unmapped depending on the task memory constraints.
+The HASH driver provides easy-to-use API for this:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libhash.h&quot;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="nf">hash_map</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">hash_unmap</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition danger">
+<p class="first admonition-title">Danger</p>
+<p class="last">Use these API only when declaring the device in HASH_MAP_VOLUNTARY mode. The kernel refuses to (un)map a device that has been declared in HASH_MAP_AUTO mode, making these functions fail</p>
+</div>
+</div>
+<div class="section" id="calculating-a-digest">
+<h2>7.3.2.3. Calculating a digest<a class="headerlink" href="#calculating-a-digest" title="Permalink to this headline">¶</a></h2>
+<p>When the HASH device is configured, it is possible to directly request a digest computation from it. This is done with the following API:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libhash.h&quot;</span><span class="cp"></span>
+
+<span class="k">typedef</span> <span class="k">enum</span> <span class="p">{</span>
+    <span class="n">HASH_REQ_IN_PROGRESS</span><span class="p">,</span>
+    <span class="n">HASH_REQ_LAST</span>
+<span class="p">}</span> <span class="n">hash_req_type_t</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">hash_request</span><span class="p">(</span><span class="n">hash_req_type_t</span> <span class="n">type</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">addr</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">size</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>A digest computation can be done using successive requests. Although, the HASH device must be informed that these successive computations are a part of a single digest computation. To support such a behavior, the <em>hash_request()</em> function handles a <em>type</em> argument, which specifies if the current digest computation is a part of a larger one or the last of a computation sequence. In this latter case, the HASH device finishing the computation with a dedicated pass (including padding management, depending on the HASH algorithm properties) and set its internal registers with the calculated value.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">When the last request is sent to the HASH device, sending a new HASH_REQ_IN_PROGRESS request reset the hash calculation as if the previous one has been finished. Be sure to get back the digest first</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Because of the HASH coprocessor hardware limitations, only the last block of a digest computation is allowed to be word (32 bits) unaligned, and a dedicated padding procedure is
+performed for this specific last block. This means that all the hash updates performed before the last block must be word (32 bits) aligned.</p>
+</div>
+<p>Requesting a complete digest computation is a sequence between <em>hash_request()</em> calls and end of digest callback execution, finishing with a HASH_REQ_LAST request.</p>
+</div>
+<div class="section" id="getting-back-the-digest">
+<h2>7.3.2.4. Getting back the digest<a class="headerlink" href="#getting-back-the-digest" title="Permalink to this headline">¶</a></h2>
+<p>When the last data chunk has been sent to the HASH device and the digest computed (i.e. the end of digest callback has been triggered), the digest can be read from the device.
+This is done using the following API:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libhash.h&quot;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="nf">hash_get_digest</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="o">*</span><span class="n">digest</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">digest_size</span><span class="p">,</span> <span class="n">hash_algo_t</span> <span class="n">algo</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This function is using the following arguments:</p>
+<blockquote>
+<div><ul class="simple">
+<li>digest: the output digest buffer, that needs to be previously allocated</li>
+<li>digest_size: the requested digest size. This size is known as the hash algorithm has been previously chosen</li>
+<li>algo: the hash algorithm that was used during the digest computation. The HASH driver has no effective memory and needs this information to be provided again</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="faq.html" class="btn btn-neutral float-right" title="7.3.3. Hash driver FAQ" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="about.html" class="btn btn-neutral" title="7.3.1. About the Hash driver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

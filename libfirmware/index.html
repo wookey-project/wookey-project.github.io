@@ -1,0 +1,603 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>6.5. The Firmware library &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="6.6. The Graphic library" href="../libgui/index.html" />
+    <link rel="prev" title="6.4. The DFU stack" href="../libdfu/index.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ewok/index.html">5. EwoK kernel</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../libs.html">6. Libraries</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../libaes/index.html">6.1. libs/aes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libconsole/index.html">6.2. libs/console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libdes/index.html">6.3. libs/des</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libdfu/index.html">6.4. libs/dfu</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">6.5. libs/firmware</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#overview">6.5.1. Overview</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#run-mode-usage">6.5.1.1. Run mode usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#firmware-image-manipulation">6.5.1.2. Firmware image manipulation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#api">6.5.2. API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#the-run-mode-api">6.5.2.1. The Run mode API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id1">6.5.2.2. Firmware image manipulation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#faq">6.5.3. FAQ</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#why-voluntary-updating-bootinfo-instead-of-adding-them-to-the-firmware-file-directly">6.5.3.1. Why voluntary updating bootinfo instead of adding them to the firmware file directly ?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../libgui/index.html">6.6. libs/gui</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libhmac/index.html">6.7. libs/hmac</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libiso7816/index.html">6.8. libs/iso7816</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libmassstorage/index.html">6.9. libs/massstorage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libsd/index.html">6.10. libs/sd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libsmartcard/index.html">6.11. libs/smartcard</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libstd/index.html">6.12. libs/std</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libtoken/index.html">6.13. libs/token</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../drivers.html">7. Drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../libs.html">6. Libraries</a> &raquo;</li>
+        
+      <li>6.5. The Firmware library</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="the-firmware-library">
+<h1><a class="toc-backref" href="#id2">6.5. The Firmware library</a><a class="headerlink" href="#the-firmware-library" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#the-firmware-library" id="id2">The Firmware library</a><ul>
+<li><a class="reference internal" href="#overview" id="id3">Overview</a><ul>
+<li><a class="reference internal" href="#run-mode-usage" id="id4">Run mode usage</a></li>
+<li><a class="reference internal" href="#firmware-image-manipulation" id="id5">Firmware image manipulation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#api" id="id6">API</a><ul>
+<li><a class="reference internal" href="#the-run-mode-api" id="id7">The Run mode API</a></li>
+<li><a class="reference internal" href="#id1" id="id8">Firmware image manipulation</a><ul>
+<li><a class="reference internal" href="#manipulating-firmware-header" id="id9">Manipulating firmware header</a></li>
+<li><a class="reference internal" href="#accessing-firmware-storage-backend" id="id10">Accessing firmware storage backend</a></li>
+<li><a class="reference internal" href="#updating-bootinfo" id="id11">Updating bootinfo</a></li>
+<li><a class="reference internal" href="#rollback-protection" id="id12">Rollback protection</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#faq" id="id13">FAQ</a><ul>
+<li><a class="reference internal" href="#why-voluntary-updating-bootinfo-instead-of-adding-them-to-the-firmware-file-directly" id="id14">Why voluntary updating bootinfo instead of adding them to the firmware file directly ?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<p>The firmware library is a toolkit for manipulating firmware-related informations and
+data.
+Its goal is to handle two separated usage:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Handling run state (detecting firmware mode and bank being executed)</li>
+<li>Manipulating firmware files and associated metainformations (header, CRC…)</li>
+</ol>
+</div></blockquote>
+<div class="section" id="overview">
+<h2><a class="toc-backref" href="#id3">6.5.1. Overview</a><a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="run-mode-usage">
+<h3><a class="toc-backref" href="#id4">6.5.1.1. Run mode usage</a><a class="headerlink" href="#run-mode-usage" title="Permalink to this headline">¶</a></h3>
+<p>When using the libfirmware as a run state detection backend, it can be used by any application to detect in which run mode and bank it is being executed. This allows executable that are compiled for multiple banks and execution mode to react differently depending on the current bank and mode.</p>
+<p>The libfirmware supports the following, device-generic banks:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Flip bank</li>
+<li>Flop bank</li>
+</ul>
+</div></blockquote>
+<p>These banks are generic, dual-bank based resilient firmware images.</p>
+<p>The libfirmware supports the following, device-generic run mode:</p>
+<blockquote>
+<div><ul class="simple">
+<li>FW mode (aka. nominal mode)</li>
+<li>DFU mode (aka. upgrade mode)</li>
+</ul>
+</div></blockquote>
+<p>We consider these two run mode also as generic modes.</p>
+<p>The libfirmware is based on ldscript variables to detect bank and mode. As a consequence, it is up to the linker to define the following variables:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">__is_flip</span>
+<span class="n">__is_flop</span>
+<span class="n">__is_fw</span>
+<span class="n">__is_dfu</span>
+</pre></div>
+</div>
+<p>Each binary application should then have a <em>4-uplet</em> with specific addresses in its ldscript.</p>
+<p>These variables are boolean variables, but as they are ldscript variables, only their addresses can be used. As a consequence, an address of 0xf0 (i.e. 240) is considered as <em>True</em>, any other address is considered as <em>False</em>.</p>
+<p>These variables must be set at the begining of the ldscript file, out of any SECTIONS block. A typical definition would be:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">__is_flip</span> <span class="o">=</span> <span class="mi">240</span><span class="p">;</span>
+<span class="n">__is_flop</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="n">__is_fw</span>   <span class="o">=</span> <span class="mi">240</span><span class="p">;</span>
+<span class="n">__is_dfu</span>  <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>This definition define the application as being executed in flip mode, in nominal (i.e. FW) mode.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">It is possible to use the libfirmware without differenciate run mode or with a single bank. As variables are boolean, they can be always defined as false</p>
+</div>
+</div>
+<div class="section" id="firmware-image-manipulation">
+<h3><a class="toc-backref" href="#id5">6.5.1.2. Firmware image manipulation</a><a class="headerlink" href="#firmware-image-manipulation" title="Permalink to this headline">¶</a></h3>
+<p>Manipulating firmware images should be the job of a dedicated task. This task
+<strong>must</strong> hold the TSK_UPGRADE permission to use this part of the libfirmware.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">Tasks that only manipulate run mode will have this part of the libfirmware removed from the generated binary at link time, as these functions are not called</p>
+</div>
+<p>Manipulating firmware is more complex than only handling raw binary file. In Wookey (and as a consequence libfirmware) firmware images host header informations which contains various data, including cryptographic signatures, version, and various meta-data.</p>
+<p>The libfirmware provides helper functions to manipulate such header, including parsing, version checking and so on.</p>
+<p>The libfirmware also handle the firmware storage backend, including the firmware image update and the firmware bootloader metainformation header update.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">All the header related API is specific to the way firmware headers and bootloader header update are handled. This part of the libfirmware can be ported from one hardware to another, but is sticked to the way Wookey is handling its upgrade</p>
+</div>
+<p>Manipulating the firmware storage backend requires to know precisely how the
+storage is structured. The libfirmware needs various informations:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Each bank base address</li>
+<li>Each bootinfo base address</li>
+<li>The size of a bank</li>
+</ul>
+</div></blockquote>
+<p>There is no specific constraints on how the banks, the bootloader(s) and the bootinfo headers are located in the storage area, although:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Each bank must have its own bootinfo</li>
+<li>Each bootinfo must be stored in a dedicated flash sector, as the sector is fully erased at haeder update time and the checksum is calculated on the overall sector size</li>
+<li>Each bank must be contigous</li>
+</ol>
+</div></blockquote>
+<p>There is no constraints on the contiguity between the bootinfo sector and the bank sector(s), as there is no constrain on the bootloader position, as the bootloader is never acceded.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Take a great care to properly separate each bank and each bank bootinfo information, to keep a correct resiliency between both banks</p>
+</div>
+<p>All the requested informations (bank base address, bootinfo base address and bank size) is configured through the Kconfig mechanism of the libfirmware.</p>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">The libfirmware configuration must be done through the overall project configuration system (e.g. using the tataouine SDK) in order to correctly generate autoconf.h header file</p>
+</div>
+</div>
+</div>
+<div class="section" id="api">
+<h2><a class="toc-backref" href="#id6">6.5.2. API</a><a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="the-run-mode-api">
+<h3><a class="toc-backref" href="#id7">6.5.2.1. The Run mode API</a><a class="headerlink" href="#the-run-mode-api" title="Permalink to this headline">¶</a></h3>
+<p>Detecting current run mode can be done easily using the following API:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libfw.h&quot;</span><span class="cp"></span>
+
+<span class="kt">bool</span> <span class="nf">is_in_flip_mode</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="kt">bool</span> <span class="nf">is_in_flop_mode</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+
+<span class="kt">bool</span> <span class="nf">is_in_fw_mode</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="kt">bool</span> <span class="nf">is_in_dfu_mode</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>These functions handle the ldscripts variable and return the correct state to the task.</p>
+<p>These four functions should be enough for any task source that can be executed in various mode and state.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">The executable can be compiled in PIE mode, as the differenciation is made at link time</p>
+</div>
+</div>
+<div class="section" id="id1">
+<h3><a class="toc-backref" href="#id8">6.5.2.2. Firmware image manipulation</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">These functions require the caller to hold the TSK_UPGRADE permission to work properly</p>
+</div>
+<div class="admonition danger">
+<p class="first admonition-title">Danger</p>
+<p class="last">The permission check is hold by the firmware storage driver (here the flash driver). When using another firmware
+storage driver, take a great care to check that the upgrade permission is set before mapping the device</p>
+</div>
+<p>The firmware image manipulation is composed of the following sets:</p>
+<blockquote>
+<div><ul class="simple">
+<li>firmware header manipulation</li>
+<li>firmware storage backend access</li>
+<li>bootloader bootinfo header upgrade</li>
+</ul>
+</div></blockquote>
+<div class="section" id="manipulating-firmware-header">
+<h4><a class="toc-backref" href="#id9">6.5.2.2.1. Manipulating firmware header</a><a class="headerlink" href="#manipulating-firmware-header" title="Permalink to this headline">¶</a></h4>
+<p>The firmware header is created at the begining of the firmware file, and is
+checked by the security monitor. In Wookey, this task is made in association
+with the Secure Element in order to handle cryptographic content of the header.</p>
+<p>Although, as the header comes from an external host through a USB layer, the
+header has to be translated in the device endianess, and converted from a raw
+buffer to a real effective header.</p>
+<p>This is done using the following API:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libfw.h&quot;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="nf">firmware_parse_header</span><span class="p">(</span><span class="n">__in</span>  <span class="k">const</span> <span class="kt">uint8_t</span>     <span class="o">*</span><span class="n">buffer</span><span class="p">,</span>
+                          <span class="n">__in</span>  <span class="k">const</span> <span class="kt">uint32_t</span>     <span class="n">len</span><span class="p">,</span>
+                          <span class="n">__in</span>  <span class="k">const</span> <span class="kt">uint32_t</span>     <span class="n">siglen</span><span class="p">,</span>
+                          <span class="n">__out</span> <span class="n">firmware_header_t</span> <span class="o">*</span><span class="n">header</span><span class="p">,</span>
+                          <span class="n">__out</span> <span class="kt">uint8_t</span>           <span class="o">*</span><span class="n">sig</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">__out</span></code> parameters are updated by the firmware_parse_header() function, based on
+the input buffer given. The signature is extracted from the input buffer in
+order to be used in future signature check of the header.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">parameters must be allocated content, as this function doesn’t allocate anything</p>
+</div>
+<p>Translating an existing formated header into raw data can also be done using
+the following API:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libfw.h&quot;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="nf">firmware_header_to_raw</span><span class="p">(</span><span class="n">__in</span> <span class="k">const</span> <span class="n">firmware_header_t</span> <span class="o">*</span><span class="n">header</span><span class="p">,</span>
+                           <span class="n">__out</span>  <span class="kt">uint8_t</span>     <span class="o">*</span><span class="n">buffer</span><span class="p">,</span>
+                           <span class="n">__out</span>  <span class="k">const</span> <span class="kt">uint32_t</span>     <span class="n">len</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>When the header parsing fails, it is possible to dump on the serial line the
+haeder content, using the following API:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libfw.h&quot;</span><span class="cp"></span>
+
+<span class="kt">void</span> <span class="nf">firmware_print_header</span><span class="p">(</span><span class="k">const</span> <span class="n">firmware_header_t</span> <span class="o">*</span> <span class="n">header</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This function is useless in production mode, as the serial line is deactivated. This function is for debug purpose only</p>
+</div>
+<p>By now, firmware files are bank-specific (i.e. a firmware file is specific to
+flip or to flop). This restriction is due to various slotting constraints.</p>
+<p>As a consequence, the libfirmware provice high level API to check the currently
+received firmware destination bank:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libfw.h&quot;</span><span class="cp"></span>
+
+<span class="kt">bool</span> <span class="nf">firmware_is_partition_flip</span><span class="p">(</span><span class="n">__in</span> <span class="k">const</span> <span class="n">firmware_header_t</span> <span class="o">*</span><span class="n">header</span><span class="p">);</span>
+<span class="kt">bool</span> <span class="nf">firmware_is_partition_flop</span><span class="p">(</span><span class="n">__in</span> <span class="k">const</span> <span class="n">firmware_header_t</span> <span class="o">*</span><span class="n">header</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">An invalid bank (i.e. FLIP while in flip mode or FLOP while in flop mode)
+should results in refusing the firmware. In Wookey, the DFU handling allows to
+refuse an authenticated but invalid bank firmware and to rollback for another
+firmware reception without rebooting the device</p>
+</div>
+</div>
+<div class="section" id="accessing-firmware-storage-backend">
+<h4><a class="toc-backref" href="#id10">6.5.2.2.2. Accessing firmware storage backend</a><a class="headerlink" href="#accessing-firmware-storage-backend" title="Permalink to this headline">¶</a></h4>
+<p>After having received the firmware header and validated that the header is authenticated, the firmware content is received chunk after chunk.</p>
+<p>From now on, we have to store each chunk in the storage backend, starting with the target bank starting point.</p>
+<p>Before that, we have to map the storage backend correctly. This is done by the initialization functions:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libfw.h&quot;</span><span class="cp"></span>
+
+<span class="kt">uint8_t</span> <span class="nf">firmware_early_init</span><span class="p">(</span><span class="n">t_device_mapping</span> <span class="o">*</span><span class="n">devmap</span><span class="p">);</span>
+
+<span class="kt">uint8_t</span> <span class="nf">firmware_init</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The firmware_early_init() function must be called during the initialization process, as it request a hardware ressource (the storage backend device).</p>
+<p>This function requires as first parameter a devmap. This devmap is declared by the flash driver API and describes which part of the flash should be mapped.</p>
+<p>The flash driver permits to map only a subset of the flash, based on the flip/flop structure.</p>
+<p>A usual use of the devmap in this case would be to request the following map of the devmap structure:</p>
+<blockquote>
+<div><ul class="simple">
+<li>map_flip and map_flip_shr (<strong>or</strong> map_flop and map_flop_shr)</li>
+<li>map_ctrl</li>
+</ul>
+</div></blockquote>
+<p>The map_flip (respectively map_flop) subdevice is the memory area containing the corresponding firmware.</p>
+<p>The map_flip_shr (respectiverly map_flop_shr) subdevice is the memory area containing the bootloader corresponding bank boot header informations</p>
+<div class="admonition danger">
+<p class="first admonition-title">Danger</p>
+<p class="last">It is useless (and dangerous) to request more. The initialization phase strict separation of the EwoK kernel avoid any further attempt to map other parts of the flash memory</p>
+</div>
+<p>As usual, the <em>firmware_init()</em> function initialize the flash device control structure.</p>
+<p>Now that the flash device is ready, we can loop on the firmware chunk write action.
+This is done with the following API:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libfw.h&quot;</span><span class="cp"></span>
+
+<span class="kt">uint8_t</span> <span class="nf">fw_storage_prepare_access</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="kt">uint8_t</span> <span class="nf">fw_storage_write_buffer</span><span class="p">(</span><span class="n">physaddr_t</span> <span class="n">dest</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="o">*</span><span class="n">buffer</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">size</span><span class="p">);</span>
+<span class="kt">uint8_t</span> <span class="nf">fw_storage_finalize_access</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition danger">
+<p class="first admonition-title">Danger</p>
+<p class="last">As flash subdevices are mapped in voluntary mode, use fw_storage_prepare_access() and fw_storage_finalize_access() to map/unmap the drvice from the memory layout of the task</p>
+</div>
+<p>Writing a buffer to the storage backend requires a destination address. The initial address, coresponding to the target bank base address, can be found using the following API:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libfw.h&quot;</span><span class="cp"></span>
+
+<span class="kt">uint32_t</span> <span class="nf">firmware_get_flip_base_addr</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="kt">uint32_t</span> <span class="nf">firmware_get_flop_base_addr</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>To avoid any overwrite attempt associated to a corrupted firmware file, the bank size can also be returned using the following API:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libfw.h&quot;</span><span class="cp"></span>
+
+<span class="kt">uint32_t</span> <span class="nf">firmware_get_flip_size</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="kt">uint32_t</span> <span class="nf">firmware_get_flop_size</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="updating-bootinfo">
+<h4><a class="toc-backref" href="#id11">6.5.2.2.3. Updating bootinfo</a><a class="headerlink" href="#updating-bootinfo" title="Permalink to this headline">¶</a></h4>
+<p>When the firmware is fully written and its integrity has been checked in comparison with the signature received from the cryptographic header, the bootinfo of the corresponding bank can be updated.</p>
+<p>The libfirmware handle the bootinfo header:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libfw.h&quot;</span><span class="cp"></span>
+
+<span class="kt">uint8_t</span> <span class="nf">set_fw_header</span><span class="p">(</span><span class="k">const</span> <span class="n">firmware_header_t</span> <span class="o">*</span><span class="n">dfu_header</span><span class="p">,</span> <span class="k">const</span> <span class="kt">uint8_t</span> <span class="o">*</span><span class="n">sig</span><span class="p">,</span> <span class="k">const</span> <span class="kt">uint8_t</span> <span class="o">*</span><span class="n">hash</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This function generate a complete header structure at the begining of the header sector, which correspond to the address set in the USR_LIB_FIRMWARE_FL[IO]P_BOOTINFO_ADDR.
+To avoid any injection of content in the header sector, the <em>set_fw_header()</em> execute the following steps:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>It erase the bootinfo sector*</li>
+<li>It generate the haeder info in memory, and calculate a complete cheksum of the bootinfo sector, which will be fullfill with 0xff pattern after the header structure data. The CRC32 is calculated on the overall sector but the CRC32 field itself</li>
+<li>It update the overall sector with the new content forged in memory</li>
+</ol>
+</div></blockquote>
+<p>Any attempt to reboot before the header is fully written make the CRC32 calculation by the bootloader invalid.</p>
+<p>The header also hold a SHA256 signature of the firmware bank, which will be checked by the bootloader at boot time to check the bank integrity at boot time</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">The cryptographic and checksum information written by the libfirmware permit to validate both the integrity of the bootinfo header and the associated firmware bank at each boot</p>
+</div>
+</div>
+<div class="section" id="rollback-protection">
+<h4><a class="toc-backref" href="#id12">6.5.2.2.4. Rollback protection</a><a class="headerlink" href="#rollback-protection" title="Permalink to this headline">¶</a></h4>
+<p>One of the basic attack on an upgradable device would be to load a previous, vulnerable, version of the firmware image in order to exploit a well-known vulnerability. The libfirmware provide an API to detect rollback attacks:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libfw.h&quot;</span><span class="cp"></span>
+
+<span class="kt">bool</span> <span class="nf">fw_is_rollback</span><span class="p">(</span><span class="n">firmware_header_t</span> <span class="o">*</span><span class="n">header</span><span class="p">);</span>
+<span class="kt">int</span>  <span class="nf">fw_version_compare</span><span class="p">(</span><span class="kt">uint32_t</span> <span class="n">version1</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">version2</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>These functions permit to compare the current firmware version (which is stored in the firmware header) with the current firmware version.
+<em>fw_is_rollback()</em> return true if the update is an effective rollback (i.e. current version is greater that the proposed one).
+<em>fw_version_compare()</em> return an integer with is less than, equal or greater than 0 if version1 is respectively older, equal or newer than version2.</p>
+</div>
+</div>
+</div>
+<div class="section" id="faq">
+<h2><a class="toc-backref" href="#id13">6.5.3. FAQ</a><a class="headerlink" href="#faq" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="why-voluntary-updating-bootinfo-instead-of-adding-them-to-the-firmware-file-directly">
+<h3><a class="toc-backref" href="#id14">6.5.3.1. Why voluntary updating bootinfo instead of adding them to the firmware file directly ?</a><a class="headerlink" href="#why-voluntary-updating-bootinfo-instead-of-adding-them-to-the-firmware-file-directly" title="Permalink to this headline">¶</a></h3>
+<p>As we are in small devices where the firmware file has to be written in place
+during its download, it is not possible to validate the firmware integrity and
+authenticity while the firmware is not fully written. As a consequence, a
+firmware image holding the bootinfo would be bootable even if the
+authentication or integrity check fails.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../libgui/index.html" class="btn btn-neutral float-right" title="6.6. The Graphic library" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../libdfu/index.html" class="btn btn-neutral" title="6.4. The DFU stack" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,732 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>6.6. The Graphic library &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="6.7. The HMAC stack" href="../libhmac/index.html" />
+    <link rel="prev" title="6.5. The Firmware library" href="../libfirmware/index.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ewok/index.html">5. EwoK kernel</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../libs.html">6. Libraries</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../libaes/index.html">6.1. libs/aes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libconsole/index.html">6.2. libs/console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libdes/index.html">6.3. libs/des</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libdfu/index.html">6.4. libs/dfu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libfirmware/index.html">6.5. libs/firmware</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">6.6. libs/gui</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#overview">6.6.1. Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api">6.6.2. API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#initializing-the-libgui">6.6.2.1. Initializing the libGUI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#declaring-menus">6.6.2.2. Declaring menus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#declaring-tiles">6.6.2.3. Declaring tiles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#handling-dynamicity">6.6.2.4. Handling dynamicity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#executing-the-main-gui-loop">6.6.2.5. Executing the main GUI loop</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#miscellaneous">6.6.2.6. Miscellaneous</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#faq">6.6.3. FAQ</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../libhmac/index.html">6.7. libs/hmac</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libiso7816/index.html">6.8. libs/iso7816</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libmassstorage/index.html">6.9. libs/massstorage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libsd/index.html">6.10. libs/sd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libsmartcard/index.html">6.11. libs/smartcard</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libstd/index.html">6.12. libs/std</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libtoken/index.html">6.13. libs/token</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../drivers.html">7. Drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../libs.html">6. Libraries</a> &raquo;</li>
+        
+      <li>6.6. The Graphic library</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="the-graphic-library">
+<h1><a class="toc-backref" href="#id1">6.6. The Graphic library</a><a class="headerlink" href="#the-graphic-library" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#the-graphic-library" id="id1">The Graphic library</a><ul>
+<li><a class="reference internal" href="#overview" id="id2">Overview</a></li>
+<li><a class="reference internal" href="#api" id="id3">API</a><ul>
+<li><a class="reference internal" href="#initializing-the-libgui" id="id4">Initializing the libGUI</a></li>
+<li><a class="reference internal" href="#declaring-menus" id="id5">Declaring menus</a></li>
+<li><a class="reference internal" href="#declaring-tiles" id="id6">Declaring tiles</a><ul>
+<li><a class="reference internal" href="#about-tile-actions" id="id7">About tile actions</a></li>
+<li><a class="reference internal" href="#about-tile-text" id="id8">About tile text</a></li>
+<li><a class="reference internal" href="#about-tile-icon" id="id9">About tile icon</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#handling-dynamicity" id="id10">Handling dynamicity</a></li>
+<li><a class="reference internal" href="#executing-the-main-gui-loop" id="id11">Executing the main GUI loop</a></li>
+<li><a class="reference internal" href="#miscellaneous" id="id12">Miscellaneous</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#faq" id="id13">FAQ</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>This library is an easy to use, tile-based graphical interface manager. It aim
+to support small screens with potential low refresh speed.</p>
+<p>It permit to define tiles and menus, with easy to configure API for embedded
+systems.</p>
+<p>The current implementation of libGUI is compatible with the ili9341 TFT screen
+driver and ad7843 touchscreen driver of the Wookey project, but can be easily
+ported to other tft/touchscreen drivers, while the required primitives are
+defined in the corresponding drivers.</p>
+<div class="section" id="overview">
+<h2><a class="toc-backref" href="#id2">6.6.1. Overview</a><a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The graphical user interface is based on a succession of menus and tiles
+declaration.</p>
+<blockquote>
+<div><ul>
+<li><p class="first">Each menu is independent and can be accessed from a tile touch.</p>
+</li>
+<li><p class="first">Each tile is associated to a given menu and has various properties</p>
+<blockquote>
+<div><ul class="simple">
+<li>A width</li>
+<li>A height</li>
+<li>A background and a foreground color</li>
+<li>A text content</li>
+<li>An icon</li>
+<li>An associated action</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+<p>Each GUI element (menu or tile) is associated to a <em>descriptor</em>, which is
+returned at the element declaration. This descriptor is used during the
+lifetime of the element to update it (e.g. adding a tile to a given menu
+descriptor, or updating a tile content).</p>
+<p>The tile positioning in a menu is automatically done, from top to bottom of
+the screen, from left to right, depending the each successive declared tile
+size of a given menu.</p>
+<p>For example, if you declare, for a given menu:</p>
+<blockquote>
+<div><ul class="simple">
+<li>A tile of size (TILE_WIDTH_FULL, TILE_HEIGHT_STD)</li>
+<li>A tile of size (TILE_WIDTH_HALF, TILE_HEIGHT_STD)</li>
+<li>A tile of size (TILE_WIDTH_HALF, TILE_HEIGHT_STD)</li>
+<li>A Tile of size (TILE_WIDTH_FULL, TILE_HEIGHT_DOUBLE)</li>
+</ul>
+</div></blockquote>
+<p>The resulting menu would look like:</p>
+<center><pre>
++-----------+
+|           |
+|  tile 1   |
++-----+-----+
+|     |     |
+| t 2 | t 3 |
++-----+-----+
+|           |
+|  tile 4   |
+|           |
+|           |
++-----------+
+</center></pre><p>The libGUI tiles and menus API rendering looks like (effective interface of Wookey GUI):</p>
+<div class="align-center figure">
+<a class="reference internal image-reference" href="../_images/examples.png"><img alt="Examples of GUI usage" src="../_images/examples.png" style="width: 50%;" /></a>
+</div>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">By now, reduced sized tiles (for e.g. WIDTH_HALF or WIDTH_THIRD) are supported only for TILE_HEIGHT_STD height)</p>
+</div>
+</div>
+<div class="section" id="api">
+<h2><a class="toc-backref" href="#id3">6.6.2. API</a><a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="initializing-the-libgui">
+<h3><a class="toc-backref" href="#id4">6.6.2.1. Initializing the libGUI</a><a class="headerlink" href="#initializing-the-libgui" title="Permalink to this headline">¶</a></h3>
+<p>Initializing the libGUI is done with the following API:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libgui.h&quot;</span><span class="cp"></span>
+
+<span class="kt">void</span> <span class="nf">gui_init</span><span class="p">(</span><span class="kt">uint16_t</span> <span class="n">width</span><span class="p">,</span>
+              <span class="kt">uint16_t</span> <span class="n">height</span><span class="p">,</span>
+              <span class="n">cb_external_events</span> <span class="n">external_events_cb</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The width and height specify the screen width and height in pixels. This
+defines the values of TILE_WIDTH_FULL and the number of tiles that can be
+packed on each others. The tile height TILE_HEIGHT_STD is calculated to be big
+enough to support a text content and a small icon of 45x45 pixels sized.</p>
+<p>As holding graphical events (touch events) requires a blocking execution loop,
+external events (IPC, others) can’t be handled in the same time. To resolve
+that, the libGUI proposes in the <em>gui_init()</em> last argument to declare a
+dedicated callbacks that is executed every graphical loop round.</p>
+<p>This callback has the following API:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libgui.h&quot;</span><span class="cp"></span>
+
+<span class="k">typedef</span> <span class="nf">void</span> <span class="p">(</span><span class="o">*</span><span class="n">cb_external_events</span><span class="p">)(</span><span class="kt">bool</span> <span class="o">*</span><span class="n">refresh_gui_after</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This callback is executed each time the GUI loop is executed without graphical
+events (no touch detected). If this callback impacts the graphical state (tile
+modification or menu modification due to an external event like for e.g. an
+IPC), it should update the <em>refresh_gui_after</em> argument to <strong>true</strong>.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">Avoid to write callbacks that may lock the CPU for too much time, this would
+freeze the GUI while the callback is being executed</p>
+</div>
+</div>
+<div class="section" id="declaring-menus">
+<h3><a class="toc-backref" href="#id5">6.6.2.2. Declaring menus</a><a class="headerlink" href="#declaring-menus" title="Permalink to this headline">¶</a></h3>
+<p>A graphical user interface is basisally composed of at least one menu.</p>
+<p>A menu is declare using the following:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libgui.h&quot;</span><span class="cp"></span>
+
+<span class="n">menu_desc_t</span> <span class="n">main_menu</span><span class="p">;</span>
+<span class="n">ret</span> <span class="o">=</span> <span class="n">gui_declare_menu</span><span class="p">(</span><span class="s">&quot;MAIN&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">main_menu</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">!=</span> <span class="n">GUI_ERR_NONE</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;error while declaring menu: %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">ret</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">All declaring functions and setters in libGUI return a gui_error_t return
+type, which can be one of GUI_ERROR_NONE, GUI_EROR_FULL (no more space),
+GUI_ERROR_INVAL (invalid parameters)</p>
+</div>
+<p>The menu name is for informatiion only, has the menu descriptor is the one used
+for any future menu update.</p>
+<p>When all menus have been declared (or at least the main menu), the default menu
+must be defined to knwow which menu should be used to start the GUI main loop.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The default menu <strong>must</strong> be declared before executing the libgui main loop</p>
+</div>
+<p>Declaring the default menu is done using the corresponding menu descriptor:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp"># include &quot;libgui.h&quot;</span>
+
+<span class="n">menu_desc_t</span> <span class="n">main_menu</span><span class="p">;</span>
+
+<span class="cm">/* menu declaration */</span>
+<span class="n">ret</span> <span class="o">=</span> <span class="n">gui_declare_menu</span><span class="p">(</span><span class="s">&quot;MAIN&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">main_menu</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">!=</span> <span class="n">GUI_ERR_NONE</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;error while declaring menu: %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">ret</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/* set main menu as default */</span>
+<span class="n">gui_declare_default_menu</span><span class="p">(</span><span class="n">main_menu</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="declaring-tiles">
+<h3><a class="toc-backref" href="#id6">6.6.2.3. Declaring tiles</a><a class="headerlink" href="#declaring-tiles" title="Permalink to this headline">¶</a></h3>
+<p>Declaring tiles works like declaring menus. Each tile is associated to a tile
+descriptor, which can be use at any time after the declaration in order to
+modify the tile’s properties.</p>
+<p>Here is a typical tile declaration:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libgui.h&quot;</span><span class="cp"></span>
+
+<span class="cp">#define TILE_STATUS_BG   .r = 53,  .g = 88,  .b = 157</span>
+<span class="cp">#define TILE_FG          .r = 255, .g = 255, .b = 255</span>
+
+<span class="cm">/* two menus here */</span>
+<span class="n">menu_desc_t</span> <span class="n">main_menu</span><span class="p">;</span>
+<span class="n">menu_desc_t</span> <span class="n">status_menu</span><span class="p">;</span>
+
+<span class="n">tile_desc_t</span> <span class="n">main_status_tile</span><span class="p">;</span>
+
+<span class="cm">/* declaring main menu and status menu */</span>
+<span class="p">...</span> <span class="cm">/* see above... */</span>
+
+<span class="cm">/* decilaring status tile */</span>
+<span class="p">{</span>
+    <span class="n">tile_colormap_t</span> <span class="n">colormap</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="p">{</span> <span class="n">TILE_STATUS_BG</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="n">TILE_FG</span> <span class="p">}</span>
+    <span class="p">};</span>
+
+    <span class="n">tile_text_t</span> <span class="n">text</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">&quot;status submenu&quot;</span><span class="p">,</span>
+        <span class="p">.</span><span class="n">align</span> <span class="o">=</span> <span class="n">TXT_ALIGN_CENTER</span>
+    <span class="p">};</span>
+
+    <span class="n">tile_icon_t</span> <span class="n">icon</span> <span class="o">=</span> <span class="p">{</span>
+         <span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">status</span><span class="p">,</span>
+         <span class="p">.</span><span class="n">size</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">status</span><span class="p">)</span>
+    <span class="p">};</span>
+
+    <span class="n">action</span><span class="p">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">TILE_ACTION_MENU</span><span class="p">;</span>
+    <span class="n">action</span><span class="p">.</span><span class="n">target</span><span class="p">.</span><span class="n">menu</span> <span class="o">=</span> <span class="n">status_menu</span><span class="p">;</span>
+
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">gui_declare_tile</span><span class="p">(</span><span class="n">main_menu</span><span class="p">,</span> <span class="n">colormap</span><span class="p">,</span> <span class="n">TILE_WIDTH_FULL</span><span class="p">,</span> <span class="n">TILE_HEIGHT_STD</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">action</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">text</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">icon</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">main_status_tile</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">!=</span> <span class="n">GUI_ERR_NONE</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;error while declaring tile: %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">ret</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Here we have defined a tile with an icon and a text content. When this tile
+is touched, the libGUI refresh the screen and load the status menu.</p>
+<div class="section" id="about-tile-actions">
+<h4><a class="toc-backref" href="#id7">6.6.2.3.1. About tile actions</a><a class="headerlink" href="#about-tile-actions" title="Permalink to this headline">¶</a></h4>
+<p>A title can be associated to three types of actions:</p>
+<blockquote>
+<div><ul class="simple">
+<li>TILE_ACTION_NONE</li>
+<li>TILE_ACTION_MENU</li>
+<li>TILE_ACTION_CB</li>
+</ul>
+</div></blockquote>
+<p>TILE_ACTION_NONE means that no action is executed when the tile is touched.
+This is a typical use case for empty tiles, used as graphical separators.</p>
+<p>TILE_ACTION_MENU change the current menu. The screen is refreshed, showing
+the menu targetted by the tile. When using the action, the <em>action.target.menu</em>
+must be set with the target menu descriptor value.</p>
+<p>TILE_ACTION_CB executes the given callback when the tile is touched. This
+callback is declared in the <em>action.target.callback</em> field, which must be set.</p>
+<p>Callbacks must respect the following API:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="nf">void</span> <span class="p">(</span><span class="o">*</span><span class="n">gui_callback_t</span><span class="p">)(</span><span class="n">tile_desc_t</span> <span class="n">tile</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This callback is different from the <em>external events callback</em> and is
+executed as a trigger on touchscreen events</p>
+</div>
+<p>The callback knows which tile has been touched as it get back the tile
+descriptor as first argument. The callback may:</p>
+<blockquote>
+<div><ul class="simple">
+<li>execute non-graphical content (sending or receiving IPCs, updating another
+driver or service component)</li>
+<li>execute graphic content. In that later case, the callback should inform
+the GUI that a refresh is requested at the end of the callback execution,
+using the <em>gui_force_refresh()</em> API call.</li>
+</ul>
+</div></blockquote>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">gui_force_refresh() immediatly reload  the current menu content on the
+screen. Any callback manipulating the screen content must finish the
+interaction with the user before executing gui_force_refresh()</p>
+</div>
+<div class="admonition danger">
+<p class="first admonition-title">Danger</p>
+<p class="last">When using IPC, be careful to avoid slowpaths that may be user-visible, as
+the GUI is frozzen during the overall callback execution</p>
+</div>
+</div>
+<div class="section" id="about-tile-text">
+<h4><a class="toc-backref" href="#id8">6.6.2.3.2. About tile text</a><a class="headerlink" href="#about-tile-text" title="Permalink to this headline">¶</a></h4>
+<p>A tile can have:</p>
+<blockquote>
+<div><ul>
+<li><p class="first">No text at all. In that case, the text argument of the tile declaration
+should be null</p>
+</li>
+<li><p class="first">A text content. In that case, the text argument must hold a text conent
+including:</p>
+<blockquote>
+<div><ul class="simple">
+<li>a string</li>
+<li>a text alignment (TXT_ALIGN_LEFT, TXT_ALIGN_CENTER or TXT_ALIGN_LEFT)</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+<p>Text informations are set in the tile_text_t structure that is passed to the
+tile declaration function. If the tile hold no text, the argument is null.</p>
+</div>
+<div class="section" id="about-tile-icon">
+<h4><a class="toc-backref" href="#id9">6.6.2.3.3. About tile icon</a><a class="headerlink" href="#about-tile-icon" title="Permalink to this headline">¶</a></h4>
+<p>A tile can hold an icon. This icon is fixed to 45x45 pixels size. Icons must be
+in RLE (Run-Length Encoding) format. This format permit to highly compress
+basic images such as icons without loss.</p>
+<p>The RLE converter is distributed in the libGUI sources, under the
+<strong>tools/convert_logo.pl</strong> file.</p>
+<p><strong>Best way to generate clean RLE images</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>First, select your logo. Avoid to use complex figures, which may generate
+big header files.</li>
+<li>In your editor (for e.g. gimp) use an indexed colormap. Reducing the
+number of color to a reduced number also reduce the size of the icon. The
+usage of indexed colormap reduce the impact of the successive color
+approximation of the RLE converter</li>
+<li>Choose a reasonable number of colors in your colormap (from 2 to 5, 8…)</li>
+<li>Check that the icon correspond to what you want</li>
+<li>Update the icon size to 45x45 pixels. You can use the method you whish,
+while the result is based on this image size</li>
+<li>Export your logo in a PNG figure</li>
+<li>Execute <em>./tools/convert_logo.pl &lt;your_image&gt;</em></li>
+</ul>
+</div></blockquote>
+<p><strong>Including your icon</strong></p>
+<p>The execution of the RLE converter generate the resulting C header in stdout.
+You can save the output in a C header file and rename the fields prefixes if
+you which (beware to keep the same suffixes).</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">Instead of renaming the prefix, you can properly name your PNG figure to
+directly generate the correct variables prefix for your header file</p>
+</div>
+<div class="admonition danger">
+<p class="first admonition-title">Danger</p>
+<p class="last">Take a great care to avoid too complex image or too big colormap. The
+resulting RLE image may be huge! Check the size of the generated header file</p>
+</div>
+<p>Now that your icon has been included in the sources of your application, you
+can declare it while declaring the corresponding tile. Given an icon named
+<em>lock.png</em></p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;icons/lock.h&quot;</span><span class="cp"></span>
+
+<span class="p">[...]</span>
+
+<span class="n">tile_icon_t</span> <span class="n">icon</span> <span class="o">=</span> <span class="p">{</span>
+     <span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">lock</span><span class="p">,</span>
+     <span class="p">.</span><span class="n">size</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">lock</span><span class="p">)</span>
+<span class="p">};</span>
+
+<span class="n">action</span><span class="p">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">TILE_ACTION_CB</span><span class="p">;</span>
+<span class="n">action</span><span class="p">.</span><span class="n">target</span><span class="p">.</span><span class="n">callback</span> <span class="o">=</span> <span class="n">my_lock_callback</span><span class="p">;</span>
+
+<span class="n">ret</span> <span class="o">=</span> <span class="n">gui_declare_tile</span><span class="p">(</span><span class="n">main_menu</span><span class="p">,</span> <span class="n">colormap</span><span class="p">,</span> <span class="n">TILE_WIDTH_FULL</span><span class="p">,</span> <span class="n">TILE_HEIGHT_STD</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">action</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">icon</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">main_status_tile</span><span class="p">);</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">!=</span> <span class="n">GUI_ERR_NONE</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;error while declaring tile: %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">ret</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="handling-dynamicity">
+<h3><a class="toc-backref" href="#id10">6.6.2.4. Handling dynamicity</a><a class="headerlink" href="#handling-dynamicity" title="Permalink to this headline">¶</a></h3>
+<p>Graphical components dynamicity permit to modify the properties of tiles (menus
+properties can’t be updated). As long as the GUI main loop is executed, it is
+possible to change any tile properties through:</p>
+<blockquote>
+<div><ul class="simple">
+<li>the external events callback</li>
+<li>any of the tiles callbacks</li>
+</ul>
+</div></blockquote>
+<p>The following fields of a tile can be changed:</p>
+<blockquote>
+<div><ul class="simple">
+<li>the text field (modifying, removing or adding a text content)</li>
+<li>the icon field (modyfing, removing or adding an icon content)</li>
+</ul>
+</div></blockquote>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">If the modification is done in a tile of the current menu, the callback
+should request a menu refresh. In the case of external_events_callback, just
+update the <em>refresh_gui_after</em> argument. For tiles callback, call
+gui_force_refresh()</p>
+</div>
+<p>It is also possible to change the current menu as a result of a non-graphical
+event (e.g. a received IPC). This can be done, in the external events callback,
+through a call to <em>gui_set_menu()</em></p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="n">menu_desc_t</span> <span class="n">lock_menu</span><span class="p">;</span>
+
+<span class="cm">/* initializing menus and tiles */</span>
+<span class="kt">uint8_t</span> <span class="nf">init_gui</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">[...]</span>
+<span class="p">}</span>
+
+<span class="cm">/* handling various external events, asynchronously */</span>
+<span class="kt">void</span> <span class="nf">my_external_event_callback</span><span class="p">(</span><span class="kt">bool</span> <span class="o">*</span><span class="n">refresh_gui</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">uint8_t</span> <span class="nl">ret</span><span class="p">:</span>
+    <span class="kt">char</span>    <span class="n">mybuf</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span>
+    <span class="p">[...]</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">sys_ipc</span><span class="p">(</span><span class="n">IPC_RECV_ASYNC</span><span class="p">,</span> <span class="n">id_othertask</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">mybuf</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">==</span> <span class="n">SYS_E_DONE</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">mybuf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">REQ_GOTO_MENULOCK</span><span class="p">)</span> <span class="p">{</span>
+           <span class="n">gui_set_menu</span><span class="p">(</span><span class="n">lock_menu</span><span class="p">);</span>
+           <span class="o">*</span><span class="n">refresh_gui</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="executing-the-main-gui-loop">
+<h3><a class="toc-backref" href="#id11">6.6.2.5. Executing the main GUI loop</a><a class="headerlink" href="#executing-the-main-gui-loop" title="Permalink to this headline">¶</a></h3>
+<p>Executing the main loop is basically a while loop on GUI event, executing the
+<em>gui_get_events()</em> function. A basic usage is the following:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+   <span class="n">gui_get_events</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="miscellaneous">
+<h3><a class="toc-backref" href="#id12">6.6.2.6. Miscellaneous</a><a class="headerlink" href="#miscellaneous" title="Permalink to this headline">¶</a></h3>
+<p>The libGUI permits to temporary lock the touchscreen, avoiding any user
+interaction. This is done by calling the following function:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">gui_lock_touch</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>The touchscreen can then be unlocked by a call to:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">gui_unlock_touch</span><span class="p">();</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Unlocking the touchscreen must be done through an external event handled by
+the external events callback, as no more touch event is receive</p>
+</div>
+<p>These two function permit to lock the screen during critical phases of the
+device execution. They can be executed in association with a dedicated lock
+menu which is only reachable through a call to gui_set_menu().</p>
+</div>
+</div>
+<div class="section" id="faq">
+<h2><a class="toc-backref" href="#id13">6.6.3. FAQ</a><a class="headerlink" href="#faq" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><strong>Is the libGUI responsible for tft and touch driver init ?</strong></li>
+</ul>
+<p>No. This library is not responsible for the driver initialization as the libGUI
+has no early_init phase.
+The task is responsible for early initialize and initialize the TFT and Touch
+drivers, and associated devices (e.g. SPI bus).</p>
+<ul class="simple">
+<li><strong>Is the libGUI can print-out icons bigger or smaller than 45x45 ?</strong></li>
+</ul>
+<p>Not this version. Although, if you which to print splash screens, you can
+directly call the driver primitive to print out an RLE image. The ili9341
+driver support tft_rle_image() API which permit to print an RLE image on the
+screen.</p>
+<ul class="simple">
+<li><strong>What is the maximum number of menus ?</strong></li>
+</ul>
+<p>The maximum number of menus is configureable in the libGUI dediated config
+entry. A reasonable value should be arround 10</p>
+<ul class="simple">
+<li><strong>What is the maximum number of tiles ?</strong></li>
+</ul>
+<p>The maximum number of tiles is configureable in the libGUI dediated config
+entry. A reasonable value should be arround 30. Remeber that a tile structure
+is big and increasing the number of allowed tiles may impact the memory size of
+the generated application.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../libhmac/index.html" class="btn btn-neutral float-right" title="6.7. The HMAC stack" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../libfirmware/index.html" class="btn btn-neutral" title="6.5. The Firmware library" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

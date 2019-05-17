@@ -1,0 +1,367 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>9.6. Flashing a new firmware &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="9.7. Transition to production mode" href="production.html" />
+    <link rel="prev" title="9.5. Configuring and building a new firmware" href="build.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ewok/index.html">5. EwoK kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libs.html">6. Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../drivers.html">7. Drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="dependencies.html">9.1. Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="repo.html">9.2. Downloading the project with repo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="externals.html">9.3. External dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">9.4. Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build.html">9.5. Building a new firmware</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">9.6. Flashing a new firmware</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#connect-the-board-to-the-host">9.6.1. Connect the board to the host</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#connect-openocd-to-the-board">9.6.2. Connect OpenOCD to the board</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flashing-the-device">9.6.3. Flashing the device</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#using-the-telnet-client">9.6.3.1. Using the telnet client</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-openocd">9.6.3.2. Using OpenOCD</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-gdb">9.6.3.3. Using GDB</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#other-ways">9.6.4. Other ways</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="production.html">9.7. Production mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug.html">9.8. Debugging the project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="newdriver.html">9.9. Creating a new driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="newlib.html">9.10. Creating a new library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="newapp.html">9.11. Creating a new application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="internals.html">9.12. Internals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="layout.html">9.13. Layout and portability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tataouine.html#tataouine-directories">9.14. Tataouine directories</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../tataouine.html">9. Tataouine SDK</a> &raquo;</li>
+        
+      <li>9.6. Flashing a new firmware</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="flashing-a-new-firmware">
+<span id="flash"></span><h1>9.6. Flashing a new firmware<a class="headerlink" href="#flashing-a-new-firmware" title="Permalink to this headline">¶</a></h1>
+<p>Multiple solutions exist to flash the firmware, some use open source tools and
+others can use proprietary tools. We will focus here on using the
+<em>openocd</em> open source tool.</p>
+<p>After building the <code class="docutils literal notranslate"><span class="pre">wookey.hex</span></code> file, use the
+following steps to flash it on the target board.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For now, this help targets the STM32F407 Discovery board</p>
+</div>
+<div class="section" id="connect-the-board-to-the-host">
+<h2>9.6.1. Connect the board to the host<a class="headerlink" href="#connect-the-board-to-the-host" title="Permalink to this headline">¶</a></h2>
+<p>The board should be connected to the host via USB.
+You should see something like this when running <code class="docutils literal notranslate"><span class="pre">lsusb</span></code> command</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Bus</span> <span class="mi">001</span> <span class="n">Device</span> <span class="mi">005</span><span class="p">:</span> <span class="n">ID</span> <span class="mi">0483</span><span class="p">:</span><span class="mi">374</span><span class="n">b</span> <span class="n">STMicroelectronics</span> <span class="n">ST</span><span class="o">-</span><span class="n">LINK</span><span class="o">/</span><span class="n">V2</span><span class="o">.</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p>You can see the <em>vendor</em> and <em>product id</em> (here 0483 and 374b).</p>
+<p>On Debian Stretch, the board is seen as the <code class="docutils literal notranslate"><span class="pre">/dev/ttyACM0</span></code> device.
+You need some extra privileges to be able to access (read and write) that
+device.
+You may decide to be root (for example by using the <code class="docutils literal notranslate"><span class="pre">sudo</span></code> command)
+but it is usually safer to add your current user in the <cite>plugdev</cite>.</p>
+</div>
+<div class="section" id="connect-openocd-to-the-board">
+<h2>9.6.2. Connect OpenOCD to the board<a class="headerlink" href="#connect-openocd-to-the-board" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">tools/</span></code> directory contains some configuration files for STM32 Discovery boards.
+To connect OpenOCD to the board, launch <code class="docutils literal notranslate"><span class="pre">openocd</span></code> command with the appropriate
+configuration file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">openocd</span> <span class="o">-</span><span class="n">f</span> <span class="n">tools</span><span class="o">/</span><span class="n">stm32f4disco1</span><span class="o">.</span><span class="n">cfg</span>
+</pre></div>
+</div>
+<p>Note also that the <code class="docutils literal notranslate"><span class="pre">stm32f4disco1.cfg</span></code> configuration file may fail.
+If so, try with the <code class="docutils literal notranslate"><span class="pre">stm32f4disco0.cfg</span></code> file. A tip is to compare the <em>vendor</em>
+and the <em>product id</em> returned by the <code class="docutils literal notranslate"><span class="pre">lsusb</span></code> command with the one found
+in the configuration file.</p>
+</div>
+<div class="section" id="flashing-the-device">
+<h2>9.6.3. Flashing the device<a class="headerlink" href="#flashing-the-device" title="Permalink to this headline">¶</a></h2>
+<p>When OpenOCD is successfully connected to the board, you can interact with it
+through its inner local server. This can be done with <code class="docutils literal notranslate"><span class="pre">gdb</span></code> or <code class="docutils literal notranslate"><span class="pre">telnet</span></code>.
+However, the simplest way to flash a new firmware is to use <code class="docutils literal notranslate"><span class="pre">openocd</span></code>
+command as describe below.</p>
+<div class="section" id="using-the-telnet-client">
+<h3>9.6.3.1. Using the telnet client<a class="headerlink" href="#using-the-telnet-client" title="Permalink to this headline">¶</a></h3>
+<p>Connect the server listening on <em>localhost:4444</em>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">telnet</span> <span class="n">localhost</span> <span class="mi">4444</span>
+</pre></div>
+</div>
+<p>Then, it is possible to send some commands to the OpenOCD local server in order
+to interact with the board. To flash the board, use the following
+commands.</p>
+<p>First, asks to the board to reset and to halt at startup, freezing
+the core on its first instruction so that flashing it is safe:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">reset</span> <span class="n">halt</span>
+</pre></div>
+</div>
+<p>Now you can flash the board with the new firmware:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">flash</span> <span class="n">write_image</span> <span class="n">erase</span> <span class="n">build</span><span class="o">/</span><span class="n">armv7</span><span class="o">-</span><span class="n">m</span><span class="o">/</span><span class="mi">32</span><span class="n">f407discovery</span><span class="o">/</span><span class="mi">32</span><span class="n">f407discovery</span><span class="o">.</span><span class="n">hex</span>
+</pre></div>
+</div>
+<p>Then, you can reset and start the board:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">reset</span> <span class="n">run</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-openocd">
+<h3>9.6.3.2. Using OpenOCD<a class="headerlink" href="#using-openocd" title="Permalink to this headline">¶</a></h3>
+<p>It is possible to flash the firmware by using a subsequent configuration file in
+parameter:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">openocd</span> <span class="o">-</span><span class="n">f</span> <span class="n">tools</span><span class="o">/</span><span class="n">stm32f4disco1</span><span class="o">.</span><span class="n">cfg</span> <span class="o">-</span><span class="n">f</span> <span class="n">tools</span><span class="o">/</span><span class="n">ocd_demo</span><span class="o">.</span><span class="n">cfg</span>
+</pre></div>
+</div>
+<p>The file <code class="docutils literal notranslate"><span class="pre">tools/ocd_demo.cfg</span></code> should contain:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">init</span>
+<span class="n">reset</span> <span class="n">halt</span>
+<span class="n">flash</span> <span class="n">write_image</span> <span class="n">erase</span> <span class="n">build</span><span class="o">/</span><span class="n">armv7</span><span class="o">-</span><span class="n">m</span><span class="o">/</span><span class="mi">32</span><span class="n">f407discovery</span><span class="o">/</span><span class="mi">32</span><span class="n">f407discovery</span><span class="o">.</span><span class="n">hex</span>
+<span class="n">reset</span>
+<span class="n">shutdown</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-gdb">
+<h3>9.6.3.3. Using GDB<a class="headerlink" href="#using-gdb" title="Permalink to this headline">¶</a></h3>
+<p>GDB connects to OpenOCD through <em>localhost:3333</em> instead of <em>localhost:4444</em>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ arm-eabi-gdb
+(gdb) target extended-remote 127.0.0.1:3333
+</pre></div>
+</div>
+<p>For example, to debug the EwoK kernel:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">target</span> <span class="n">extended</span><span class="o">-</span><span class="n">remote</span> <span class="mf">127.0</span><span class="o">.</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">3333</span>
+<span class="n">mon</span> <span class="n">reset</span> <span class="n">halt</span>
+<span class="n">symbol</span><span class="o">-</span><span class="n">file</span> <span class="n">build</span><span class="o">/</span><span class="n">armv7</span><span class="o">-</span><span class="n">m</span><span class="o">/</span><span class="mi">32</span><span class="n">f407discovery</span><span class="o">/</span><span class="n">kernel</span><span class="o">/</span><span class="n">kernel</span><span class="o">.</span><span class="n">fw1</span><span class="o">.</span><span class="n">elf</span>
+<span class="n">b</span> <span class="n">main</span>
+<span class="n">c</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="other-ways">
+<h2>9.6.4. Other ways<a class="headerlink" href="#other-ways" title="Permalink to this headline">¶</a></h2>
+<p>You can also use the ST-link tool to flash the firmware, simply by using the
+<code class="docutils literal notranslate"><span class="pre">st-flash</span></code> tool of the st-link project.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="production.html" class="btn btn-neutral float-right" title="9.7. Transition to production mode" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="build.html" class="btn btn-neutral" title="9.5. Configuring and building a new firmware" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

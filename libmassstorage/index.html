@@ -1,0 +1,498 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>6.9. The SCSI stack &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="6.10. The SD stack" href="../libsd/index.html" />
+    <link rel="prev" title="6.8. The ISO7816 library" href="../libiso7816/index.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ewok/index.html">5. EwoK kernel</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../libs.html">6. Libraries</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../libaes/index.html">6.1. libs/aes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libconsole/index.html">6.2. libs/console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libdes/index.html">6.3. libs/des</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libdfu/index.html">6.4. libs/dfu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libfirmware/index.html">6.5. libs/firmware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libgui/index.html">6.6. libs/gui</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libhmac/index.html">6.7. libs/hmac</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libiso7816/index.html">6.8. libs/iso7816</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">6.9. libs/massstorage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#overview">6.9.1. Overview</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#limitations">6.9.1.1. Limitations</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#api">6.9.2. API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#the-scsi-functional-api">6.9.2.1. The SCSI functional API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#executing-the-scsi-automaton">6.9.2.2. Executing the SCSI automaton</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#supported-scsi-commands">6.9.2.3. Supported SCSI commands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#debugging-the-stack">6.9.2.4. Debugging the stack</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#faq">6.9.3. FAQ</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#when-connected-to-my-jtag-port-there-is-some-regular-freeze-of-the-scsi-stack">6.9.3.1. When connected to my JTAG port, there is some regular freeze of the SCSI stack</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#there-is-some-strange-behavior-of-my-usb-tools-on-my-host-when-i-try-to-communicate-with-the-wookey">6.9.3.2. There is some strange behavior of my USB tools on my host when I try to communicate with the Wookey</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../libsd/index.html">6.10. libs/sd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libsmartcard/index.html">6.11. libs/smartcard</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libstd/index.html">6.12. libs/std</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libtoken/index.html">6.13. libs/token</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../drivers.html">7. Drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../libs.html">6. Libraries</a> &raquo;</li>
+        
+      <li>6.9. The SCSI stack</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="the-scsi-stack">
+<h1><a class="toc-backref" href="#id1">6.9. The SCSI stack</a><a class="headerlink" href="#the-scsi-stack" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#the-scsi-stack" id="id1">The SCSI stack</a><ul>
+<li><a class="reference internal" href="#overview" id="id2">Overview</a><ul>
+<li><a class="reference internal" href="#limitations" id="id3">Limitations</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#api" id="id4">API</a><ul>
+<li><a class="reference internal" href="#the-scsi-functional-api" id="id5">The SCSI functional API</a><ul>
+<li><a class="reference internal" href="#initializing-the-stack" id="id6">Initializing the stack</a></li>
+<li><a class="reference internal" href="#interacting-with-the-storage-backend" id="id7">Interacting with the storage backend</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#executing-the-scsi-automaton" id="id8">Executing the SCSI automaton</a></li>
+<li><a class="reference internal" href="#supported-scsi-commands" id="id9">Supported SCSI commands</a></li>
+<li><a class="reference internal" href="#debugging-the-stack" id="id10">Debugging the stack</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#faq" id="id11">FAQ</a><ul>
+<li><a class="reference internal" href="#when-connected-to-my-jtag-port-there-is-some-regular-freeze-of-the-scsi-stack" id="id12">When connected to my JTAG port, there is some regular freeze of the SCSI stack</a></li>
+<li><a class="reference internal" href="#there-is-some-strange-behavior-of-my-usb-tools-on-my-host-when-i-try-to-communicate-with-the-wookey" id="id13">There is some strange behavior of my USB tools on my host when I try to communicate with the Wookey</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="overview">
+<h2><a class="toc-backref" href="#id2">6.9.1. Overview</a><a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The LibMassStorage project aim to implement a complete SCSI stack for mass storage
+devices.
+This SCSI stack is implemented as a state automaton, executing SCSI commands in the
+main thread, handling and enqueuing command events in ISR threads.</p>
+<p>This stack does not aim to implement the USB control stack or the USB driver, and request
+these two components to exists. By now, this stack implement the BULK layer implementation
+of the USB stack.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The BULK support is to be moved as an independent libbulk library in a near future</p>
+</div>
+<p>The current implementation of libMassStorage is compatible with the
+Wookey STM32F439 driver API, and should be easily portable with other drivers.</p>
+<p>The SCSI stack has originally been defined for hard disk drives and is now used
+for various devices including USB thumb drives. For USB mass-storage device
+using SCI stack, commands are send by the initiator (the client) to the device
+(the server), through command blocks named <em>SCB</em>.</p>
+<p>The server acknowledge each command and may, if the command requires it, send
+back or receive data on the read and write dedicated USB endpoints (usually,
+but not always, endpoint 1 and endpoint 2).</p>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">The SCSI protocol is synchronous and request predefined command-response sequences defined in the SCSI standard</p>
+</div>
+<div class="section" id="limitations">
+<h3><a class="toc-backref" href="#id3">6.9.1.1. Limitations</a><a class="headerlink" href="#limitations" title="Permalink to this headline">¶</a></h3>
+<p>Developping a fully-efficient SCSI automaton is complex, as SCSI
+implementations of various OSes vary and sometimes require proprietary request
+(typically Microsoft requests a dedicated BULK level string identifier).
+Moreover, the standard is not made to be fully implemented, as it permits to
+handle various use cases, from USB mass-storage to fiber-channel and iSCSI
+protocols. This polymorphism make the SCSI standard complex to understand and
+to implement.</p>
+</div>
+</div>
+<div class="section" id="api">
+<h2><a class="toc-backref" href="#id4">6.9.2. API</a><a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="the-scsi-functional-api">
+<h3><a class="toc-backref" href="#id5">6.9.2.1. The SCSI functional API</a><a class="headerlink" href="#the-scsi-functional-api" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="initializing-the-stack">
+<h4><a class="toc-backref" href="#id6">6.9.2.1.1. Initializing the stack</a><a class="headerlink" href="#initializing-the-stack" title="Permalink to this headline">¶</a></h4>
+<p>Initialize the massstorage library is made through two main functions</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;scsi.h&quot;</span><span class="cp"></span>
+
+<span class="kt">uint8_t</span> <span class="nf">scsi_early_init</span><span class="p">(</span><span class="kt">uint8_t</span><span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="kt">uint16_t</span> <span class="n">buflen</span><span class="p">);</span>
+
+<span class="n">mbed_error_t</span> <span class="nf">scsi_init</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>the early init step is called before the task ends its initialization phase
+using sys_init(INIT_DONE) syscall.
+This syscall declare all the requested ressources that can only be declared
+at initialization time. This include the USB device memory mapping.</p>
+<p>The init step initialize the DFU stack context. At the end of this function
+call, the SCSI stack is in SCSI_IDLE mode, ready to receive SCSI command blocks
+from the host.</p>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">Even if the SCSI stack internal is ready for handling DFU requests, these
+requests are executed by the scsi_exec_automaton() function that need to
+be executed</p>
+</div>
+<p>The task has to declare a buffer and a buffer size that will be used by the
+DFU stack to hold data chunks during the READ and WRITE states.</p>
+<p>The buffer size depend on the task constraints but <strong>must be a multiple of
+the endpoint USB URB size</strong> (usually 512 bytes length).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Bigger the buffer is, faster the DFU stack is</p>
+</div>
+</div>
+<div class="section" id="interacting-with-the-storage-backend">
+<h4><a class="toc-backref" href="#id7">6.9.2.1.2. Interacting with the storage backend</a><a class="headerlink" href="#interacting-with-the-storage-backend" title="Permalink to this headline">¶</a></h4>
+<p>Accessing the backend is not under the direct responsability of the DFU stack.
+Although, the stack need to request backend write and/or read access in
+DOWNLOAD and UPLOAD states.</p>
+<p>To allow flexibility in how the storage backend is handled, the task has to
+decrlare the following functions:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">uint8_t</span> <span class="nf">scsi_storage_backend_write</span><span class="p">(</span><span class="kt">uint32_t</span> <span class="n">sector_addr</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">num_sectors</span><span class="p">);</span>
+<span class="kt">uint8_t</span> <span class="nf">scsi_storage_backend_read</span><span class="p">(</span><span class="kt">uint32_t</span> <span class="n">sector_addr</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">num_sectors</span><span class="p">);</span>
+<span class="kt">uint8_t</span> <span class="nf">scsi_storage_backend_capacity</span><span class="p">(</span><span class="kt">uint32_t</span> <span class="o">*</span><span class="n">numblocks</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="o">*</span><span class="n">blocksize</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The <em>scsi_storage_backend_write()</em> function is called by the SCSI stack when a
+data chunk has been received. This function is then responsible of the
+communication with the storage manager (SDIO, EMMC or any storage backend), and
+should return 0 if the storage has acknowledge correctly the chunk write. The
+data chunk is at most of buflen size, but the associated SCSI WRITE command may
+request bigger write. The SCSI stack is responsible of the write split.</p>
+<p>The <em>scsi_storage_backend_read()</em> function is called by the SCSI stack when the
+host is requesting data from the device. Again, the SCSI READ command may
+request more than the buffer capacity. The SCSI stack is also responsible of
+the data requests split.</p>
+<p>The <em>scsi_storage_backend_capacity()</em> is called when the SCSI stack is
+requesting the storage backend capacity. This is usually the consequence of a
+MODE SENSE SCSI request from the host, to which the SCSI stack return various
+informations about the device and the SCSI stack itself.</p>
+<div class="admonition danger">
+<p class="first admonition-title">Danger</p>
+<p class="last">These functions <strong>must</strong> be defined by the application or the link step will
+fail to find these three symbols</p>
+</div>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">All address and size are in SCSI sectors unit. This information is generally
+shared with the storage manager, which also manipulate sectors. Althrough,
+sector size may be translated by the storage manager if needed (e.g. from 512
+to 4096 bytes length). OSes usually support from 512 to 4096 bytes sector size.</p>
+</div>
+<p>Backend access, in the SCSI stack, is synchronous and not made for asynchronous
+read or write.</p>
+</div>
+</div>
+<div class="section" id="executing-the-scsi-automaton">
+<h3><a class="toc-backref" href="#id8">6.9.2.2. Executing the SCSI automaton</a><a class="headerlink" href="#executing-the-scsi-automaton" title="Permalink to this headline">¶</a></h3>
+<p>The DFU SCSI automaton is executed in main thread using the following function</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;scsi.h&quot;</span><span class="cp"></span>
+<span class="kt">void</span> <span class="nf">scsi_exec_automaton</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>A basic usage of the automaton would be</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">scsi_exec_automaton</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="supported-scsi-commands">
+<h3><a class="toc-backref" href="#id9">6.9.2.3. Supported SCSI commands</a><a class="headerlink" href="#supported-scsi-commands" title="Permalink to this headline">¶</a></h3>
+<p>The SCSI standard is huge and the requested supported commands depend on the
+SCSI device type, the host Operating System SCSI stack version and some
+inter-commands dependencies.</p>
+<p>Today, this SCSI stack support the following commands:</p>
+<blockquote>
+<div><ul class="simple">
+<li>FORMAT UNIT</li>
+<li>INQUIRY</li>
+<li>MODE SELECT(6)</li>
+<li>MODE SELECT(10)</li>
+<li>MODE SENSE(6)</li>
+<li>MODE SENSE(10)</li>
+<li>PREVENT ALLOW MEDIUM REMOVAL</li>
+<li>READ FORMAT CAPACITIES</li>
+<li>READ(6)</li>
+<li>READ(10)</li>
+<li>READ CAPACITY(10)</li>
+<li>READ CAPACITY(16)</li>
+<li>READ FORMAT CAPACITIES</li>
+<li>REPORT LUNS</li>
+<li>START STOP UNIT</li>
+<li>SYNCHONIZE CACHE(10)</li>
+<li>TEST UNIT READY</li>
+<li>VERIFY(10)</li>
+<li>WRITE(6)</li>
+<li>WRITE(10)</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="debugging-the-stack">
+<h3><a class="toc-backref" href="#id10">6.9.2.4. Debugging the stack</a><a class="headerlink" href="#debugging-the-stack" title="Permalink to this headline">¶</a></h3>
+<p>The SCSI stack can be debugged easily using the SCSI menu of the library
+in the configuration menu. There is three levels of debug:</p>
+<blockquote>
+<div><ul class="simple">
+<li>0: no debug at all. Production mode</li>
+<li>1: SCSI commands sequence. All SCSI command are printed on the serial interface</li>
+<li><dl class="first docutils">
+<dt>2: SCSI commands dump and behavior: complex commands (inquiry, etc.) are dumped</dt>
+<dd>on the serial interface. Triggers (data sent, data available) events are
+printed. amount of data sent or received are also printed.</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<p>The debugging is functional only if the kernel serial console is activated.</p>
+</div>
+</div>
+<div class="section" id="faq">
+<h2><a class="toc-backref" href="#id11">6.9.3. FAQ</a><a class="headerlink" href="#faq" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="when-connected-to-my-jtag-port-there-is-some-regular-freeze-of-the-scsi-stack">
+<h3><a class="toc-backref" href="#id12">6.9.3.1. When connected to my JTAG port, there is some regular freeze of the SCSI stack</a><a class="headerlink" href="#when-connected-to-my-jtag-port-there-is-some-regular-freeze-of-the-scsi-stack" title="Permalink to this headline">¶</a></h3>
+<p>Beware when keeping the JTAG port connected during the tests of the Wookey
+board. Incorrectly connected JTAG port of unstable connection may generate
+noise which can perturbate the high speed I/O ports such as USB High-Speed.
+Check if the problem still happen without the JTAG and the UART connected</p>
+</div>
+<div class="section" id="there-is-some-strange-behavior-of-my-usb-tools-on-my-host-when-i-try-to-communicate-with-the-wookey">
+<h3><a class="toc-backref" href="#id13">6.9.3.2. There is some strange behavior of my USB tools on my host when I try to communicate with the Wookey</a><a class="headerlink" href="#there-is-some-strange-behavior-of-my-usb-tools-on-my-host-when-i-try-to-communicate-with-the-wookey" title="Permalink to this headline">¶</a></h3>
+<p>If you are currently in a debug state of your Wookey device and if you have
+regulary reset/disconnect your device from your host, try to:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>change the USB port on which the device is connected</li>
+<li>reboot your host, as the USB host stack may have not correctly handle too much unstability on the USB ports</li>
+</ol>
+</div></blockquote>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../libsd/index.html" class="btn btn-neutral float-right" title="6.10. The SD stack" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../libiso7816/index.html" class="btn btn-neutral" title="6.8. The ISO7816 library" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

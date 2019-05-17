@@ -1,0 +1,482 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>6.4. The DFU stack &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="6.5. The Firmware library" href="../libfirmware/index.html" />
+    <link rel="prev" title="6.3. the (T)DES library" href="../libdes/index.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ewok/index.html">5. EwoK kernel</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../libs.html">6. Libraries</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../libaes/index.html">6.1. libs/aes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libconsole/index.html">6.2. libs/console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libdes/index.html">6.3. libs/des</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">6.4. libs/dfu</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#overview">6.4.1. Overview</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#principles">6.4.1.1. Principles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#limitations">6.4.1.2. Limitations</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#api">6.4.2. API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#the-dfu-functional-api">6.4.2.1. The DFU functional API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#about-the-poll-timeout">6.4.2.2. About the poll timeout</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#executing-the-dfu-automaton">6.4.2.3. Executing the DFU automaton</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#faq">6.4.3. FAQ</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../libfirmware/index.html">6.5. libs/firmware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libgui/index.html">6.6. libs/gui</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libhmac/index.html">6.7. libs/hmac</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libiso7816/index.html">6.8. libs/iso7816</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libmassstorage/index.html">6.9. libs/massstorage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libsd/index.html">6.10. libs/sd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libsmartcard/index.html">6.11. libs/smartcard</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libstd/index.html">6.12. libs/std</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../libtoken/index.html">6.13. libs/token</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../drivers.html">7. Drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../libs.html">6. Libraries</a> &raquo;</li>
+        
+      <li>6.4. The DFU stack</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="the-dfu-stack">
+<h1><a class="toc-backref" href="#id1">6.4. The DFU stack</a><a class="headerlink" href="#the-dfu-stack" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#the-dfu-stack" id="id1">The DFU stack</a><ul>
+<li><a class="reference internal" href="#overview" id="id2">Overview</a><ul>
+<li><a class="reference internal" href="#principles" id="id3">Principles</a></li>
+<li><a class="reference internal" href="#limitations" id="id4">Limitations</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#api" id="id5">API</a><ul>
+<li><a class="reference internal" href="#the-dfu-functional-api" id="id6">The DFU functional API</a><ul>
+<li><a class="reference internal" href="#initializing-the-stack" id="id7">Initializing the stack</a></li>
+<li><a class="reference internal" href="#interacting-with-the-storage-backend" id="id8">Interacting with the storage backend</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#about-the-poll-timeout" id="id9">About the poll timeout</a></li>
+<li><a class="reference internal" href="#executing-the-dfu-automaton" id="id10">Executing the DFU automaton</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#faq" id="id11">FAQ</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>The LibDFU project aim to implement a complete USB DFU (Direct Firmware Update)
+device-side automaton.</p>
+<p>This automaton should permit to any device to support both DFU upload and download
+modes.
+This stack does not aim to implement the USB control stack or the USB driver,
+and request these two components to exists. The current implementation of
+libDFU is compatible with the Wookey STM32F439 driver API, and should be easily
+portable with other drivers.</p>
+<div class="section" id="overview">
+<h2><a class="toc-backref" href="#id2">6.4.1. Overview</a><a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="principles">
+<h3><a class="toc-backref" href="#id3">6.4.1.1. Principles</a><a class="headerlink" href="#principles" title="Permalink to this headline">¶</a></h3>
+<p>The DFU (Device Firmware Update) is a USB class defined by the USB consortium
+in order to define a vendor-independent, device-independent mechanism to update
+USB devices.</p>
+<p>The DFU protocol can be seen as a communication media to download or upload
+firmwares from/to a device.</p>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">The DFU protocol is not responsible for the firmware image security
+(integrity, authenticity and so on)</p>
+</div>
+<p>The DFU protocol is based on a relatively big state automaton defined in the
+<a class="reference external" href="http://www.usb.org/developers/docs/devclass_docs/DFU_1.1.pdf">USB DFU class description</a></p>
+</div>
+<div class="section" id="limitations">
+<h3><a class="toc-backref" href="#id4">6.4.1.2. Limitations</a><a class="headerlink" href="#limitations" title="Permalink to this headline">¶</a></h3>
+<p>The DFU protocol only maintain a connected channel between the host and the
+device through which they can exchange data.</p>
+<p>The channel is <strong>not</strong> secured, not authenticated at DFU stack level.</p>
+<p>The DFU protocol is using the control endpoint to communicate, without
+requiring a dedicated endpoint to transmit or receive data. As a consequence,
+the USB URB (USB data blocks) size are limited by the control endpoint specific
+constraints.</p>
+<p>This endpoint also manage the control part of the protocol.</p>
+</div>
+</div>
+<div class="section" id="api">
+<h2><a class="toc-backref" href="#id5">6.4.2. API</a><a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="the-dfu-functional-api">
+<h3><a class="toc-backref" href="#id6">6.4.2.1. The DFU functional API</a><a class="headerlink" href="#the-dfu-functional-api" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="initializing-the-stack">
+<h4><a class="toc-backref" href="#id7">6.4.2.1.1. Initializing the stack</a><a class="headerlink" href="#initializing-the-stack" title="Permalink to this headline">¶</a></h4>
+<p>Initialize the DFU library is made through two main functions:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;dfu.h&quot;</span><span class="cp"></span>
+
+<span class="kt">void</span> <span class="nf">dfu_early_init</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+
+<span class="n">mbed_error_t</span> <span class="nf">dfu_init</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="o">**</span><span class="n">buffer</span><span class="p">,</span>
+                      <span class="kt">uint16_t</span> <span class="n">max_size</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>the early init step is called before the task ends its initialization phase
+using sys_init(INIT_DONE) syscall.
+This syscall declare all the requested ressources that can only be declared
+at initialization time. This include the USB device memory mapping.</p>
+<p>The init step initialize the DFU stack context. At the end of this function
+call, the DFU stack is in DFU_IDLE mode, ready to receive DFU request from the host.</p>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">Even if the DFU stack internal is ready for handling DFU requests, these
+requests are executed by the dfu_exec_automaton() function that need to
+be executed</p>
+</div>
+<p>The task has to declare a buffer and a buffer size that will be used by the
+DFU stack to hold firmware chunks during the UPLOAD and DOWNLOAD states.</p>
+<p>The buffer size depend on the task constraints but <strong>must be a multiple of
+the control plane USB URB size</strong> (usually 64 bytes length).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Bigger the buffer is, faster the DFU stack is</p>
+</div>
+</div>
+<div class="section" id="interacting-with-the-storage-backend">
+<h4><a class="toc-backref" href="#id8">6.4.2.1.2. Interacting with the storage backend</a><a class="headerlink" href="#interacting-with-the-storage-backend" title="Permalink to this headline">¶</a></h4>
+<p>Accessing the backend is not under the direct responsability of the DFU stack.
+Although, the stack need to request backend write and/or read access in
+DOWNLOAD and UPLOAD states.</p>
+<p>To allow flexibility in how the storage backend is handled, the task has to
+decrlare the following functions:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">uint8_t</span> <span class="nf">dfu_backend_write</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="o">**</span> <span class="k">volatile</span> <span class="n">data</span><span class="p">,</span>
+                          <span class="k">const</span> <span class="kt">uint16_t</span>      <span class="n">data_size</span><span class="p">,</span>
+                          <span class="kt">uint16_t</span>            <span class="n">blocknum</span><span class="p">);</span>
+
+<span class="kt">uint8_t</span> <span class="nf">dfu_backend_read</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="o">*</span><span class="n">data</span><span class="p">,</span> <span class="kt">uint16_t</span> <span class="n">data_size</span><span class="p">);</span>
+
+<span class="kt">void</span> <span class="nf">dfu_backend_eof</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The <em>dfu_backend_write()</em> function is called by the DFU stack when a firmware
+chunk has been received. This function is then responsible of the communication
+with the storage manager (SDIO, EMMC or any storage backend), and should return
+0 if the storage has acknowledge correctly the chunk write.</p>
+<p>The <em>dfu_backend_read()</em> function is called by the DFU stack when the host is
+requesting a firmware chunk from the device. In UPLOAD mode, the host is
+reading sequencially the firmware. The task (and/or the storage manager) is
+responsible for returning the correct chunk of data for each successive
+<em>dfu_backend_read()</em> call. This an be done, for example, using a base address
+and a counter.</p>
+<p>The <em>dfu_backend_eof()</em> is called when the host has finished to send the
+firmware data chunks. The application and the storage manager can decide to
+execute any action during this event, if needed.</p>
+<div class="admonition danger">
+<p class="first admonition-title">Danger</p>
+<p class="last">These functions <strong>must</strong> be defined by the application or the link step will
+fail to find these three symbols</p>
+</div>
+<p>As storage backend access may be slow, the DFU stack can handle asynchronous
+write and read actions. This is done in the implementation of
+dfu_backend_write() and dfu_backend_read() where the task has to request
+asyncrhonous write and/or read (using DMA or IPC for example).</p>
+<p>To inform the DFU stack that the storage access is terminated, two functions
+are defined in the DFU stack:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;dfu.h&quot;</span><span class="cp"></span>
+
+<span class="kt">void</span> <span class="nf">dfu_load_finished</span><span class="p">(</span><span class="kt">uint32_t</span> <span class="n">bytes_read</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">dfu_store_finished</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">When using asynchronous read and write, the task has to update its main loop
+to detect the end of read and end of write and execute these functions.</p>
+</div>
+</div>
+</div>
+<div class="section" id="about-the-poll-timeout">
+<h3><a class="toc-backref" href="#id9">6.4.2.2. About the poll timeout</a><a class="headerlink" href="#about-the-poll-timeout" title="Permalink to this headline">¶</a></h3>
+<p>The Poll timeout defines the minimum period (in milliseconds) of the
+DFU_GET_STATUS requests of the host. Depending on the write acces cost and the
+load of the device, this value may vary to avoid usless DFU_GET_STATUS requests
+to which the DFU stack has to respond a BUSY state.</p>
+<p>If another task is costly in the overall device operating system, this flag can
+also be increased to avoid timeout.</p>
+</div>
+<div class="section" id="executing-the-dfu-automaton">
+<h3><a class="toc-backref" href="#id10">6.4.2.3. Executing the DFU automaton</a><a class="headerlink" href="#executing-the-dfu-automaton" title="Permalink to this headline">¶</a></h3>
+<p>The DFU stack automaton is executed in main thread using the following
+function</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;dfu.h&quot;</span><span class="cp"></span>
+<span class="n">mbed_error_t</span> <span class="nf">dfu_exec_automaton</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>A basic usage of the automaton would be:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">mbed_error_t</span> <span class="n">ret</span><span class="p">;</span>
+<span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">dfu_exec_automaton</span><span class="p">();</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">!=</span> <span class="n">MBED_ERROR_NONE</span><span class="p">)</span> <span class="p">{</span>
+       <span class="cm">/* action to decide */</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>the automaton execution may returns:</p>
+<blockquote>
+<div><ul class="simple">
+<li>MBED_ERROR_INVSTATE: the command received should not happen in this state
+of the DFU automaton</li>
+<li>MBED_ERROR_TOOBIG:   the input file size is too big</li>
+<li>MBED_ERROR_UNSUPPORTED_COMMAND: command received is not supported by the
+DFU stack configuration</li>
+</ul>
+</div></blockquote>
+<p>When handling asynchronous read and write, the main loop would look like:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/* set by asynchronous handler*/</span>
+<span class="kt">uint32_t</span> <span class="n">data_read</span><span class="p">;</span>
+<span class="kt">bool</span> <span class="n">flag_read_finished</span><span class="p">;</span>
+<span class="kt">bool</span> <span class="n">flag_write_finished</span><span class="p">;</span>
+
+<span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+   <span class="cm">/* inform the DFU stack of backend end of read/write */</span>
+   <span class="k">if</span> <span class="p">(</span><span class="n">flag_read_finished</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">dfu_load_finished</span><span class="p">(</span><span class="n">data_read</span><span class="p">);</span>
+      <span class="n">data_read</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+      <span class="n">flag_read_finished</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+   <span class="p">}</span>
+   <span class="k">if</span> <span class="p">(</span><span class="n">flag_write_finished</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">dfu_store_finished</span><span class="p">();</span>
+      <span class="n">flag_write_finished</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+   <span class="p">}</span>
+   <span class="n">ret</span> <span class="o">=</span> <span class="n">dfu_exec_automaton</span><span class="p">();</span>
+   <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">!=</span> <span class="n">MBED_ERROR_NONE</span><span class="p">)</span> <span class="p">{</span>
+      <span class="cm">/* action to decide */</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="faq">
+<h2><a class="toc-backref" href="#id11">6.4.3. FAQ</a><a class="headerlink" href="#faq" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../libfirmware/index.html" class="btn btn-neutral float-right" title="6.5. The Firmware library" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../libdes/index.html" class="btn btn-neutral" title="6.3. the (T)DES library" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

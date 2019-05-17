@@ -1,0 +1,446 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>5.5.1. General FAQ &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="5.5.2. Syscalls FAQ" href="faq_syscalls.html" />
+    <link rel="prev" title="5.4.4. Debugging EwoK Scheduler" href="debug_sched.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">5. EwoK kernel</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#what-is-ewok">5.1. What is EwoK ?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#ewok-architecture">5.2. EwoK architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#ewok-api">5.3. EwoK API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#internals">5.4. Internals</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#faq">5.5. FAQ</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">5.5.1.  General FAQ</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#why-applications-main-function-is-named-main">5.5.1.1. Why applications main function is named _main?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#what-is-a-typical-generic-task-s-main-function">5.5.1.2. What is a typical generic task’s main() function?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#syscall-api-is-complex-why">5.5.1.3. Syscall API is complex: why?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#why-should-i-define-a-stack-size">5.5.1.4. Why should I define a stack size?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#what-is-numslots-and-how-to-know-the-number-of-slots-an-application-needs">5.5.1.5. What is NUMSLOTS and how to know the number of slots an application needs?</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="faq_syscalls.html">5.5.2.  Syscalls FAQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq_perms.html">5.5.3.  Permissions FAQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq_security.html">5.5.4.  Security FAQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq_build.html">5.5.5.  Build process FAQ</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../libs.html">6. Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../drivers.html">7. Drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">5. EwoK microkernel</a> &raquo;</li>
+        
+      <li>5.5.1. General FAQ</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="general-faq">
+<span id="faq-general"></span><h1><a class="toc-backref" href="#id1">5.5.1. General FAQ</a><a class="headerlink" href="#general-faq" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#general-faq" id="id1">General FAQ</a><ul>
+<li><a class="reference internal" href="#why-applications-main-function-is-named-main" id="id2">Why applications main function is named _main?</a></li>
+<li><a class="reference internal" href="#what-is-a-typical-generic-task-s-main-function" id="id3">What is a typical generic task’s main() function?</a></li>
+<li><a class="reference internal" href="#syscall-api-is-complex-why" id="id4">Syscall API is complex: why?</a></li>
+<li><a class="reference internal" href="#why-should-i-define-a-stack-size" id="id5">Why should I define a stack size?</a></li>
+<li><a class="reference internal" href="#what-is-numslots-and-how-to-know-the-number-of-slots-an-application-needs" id="id6">What is NUMSLOTS and how to know the number of slots an application needs?</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="why-applications-main-function-is-named-main">
+<h2><a class="toc-backref" href="#id2">5.5.1.1. Why applications main function is named _main?</a><a class="headerlink" href="#why-applications-main-function-is-named-main" title="Permalink to this headline">¶</a></h2>
+<p>EwoK applications entry points have the following prototype:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">function</span><span class="p">(</span><span class="kt">uint32_t</span> <span class="n">task_id</span><span class="p">)</span><span class="o">:</span>
+</pre></div>
+</div>
+<p>There is an unsigned int argument passed to the main function, giving it the
+current task identifier.</p>
+<p>When using the <code class="docutils literal notranslate"><span class="pre">main</span></code> symbol, the compiler requires one of the
+following prototypes</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>As EwoK doesn’t generate such a prototype, the <code class="docutils literal notranslate"><span class="pre">main</span></code> symbol cannot be used,
+explaining why <code class="docutils literal notranslate"><span class="pre">_main</span></code> is used instead. The generated ldscript automatically
+uses it as the application entry point and the application developer has
+nothing to do other than to name its main function properly.</p>
+</div>
+<div class="section" id="what-is-a-typical-generic-task-s-main-function">
+<h2><a class="toc-backref" href="#id3">5.5.1.2. What is a typical generic task’s main() function?</a><a class="headerlink" href="#what-is-a-typical-generic-task-s-main-function" title="Permalink to this headline">¶</a></h2>
+<p>A basic main function should have the following content:</p>
+<blockquote>
+<div><ul class="simple">
+<li>An initialization phase</li>
+<li>A call to sys_init(INIT_DONE) to finish the initialization phase</li>
+<li>A nominal phase</li>
+</ul>
+</div></blockquote>
+<p>A basic, generic main function looks like the following:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">_main</span><span class="p">(</span><span class="kt">uint32_t</span> <span class="n">task_id</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="cm">/* Local variables declaration */</span>
+  <span class="kt">uint8_t</span> <span class="n">syscall_ret</span><span class="p">;</span>
+
+  <span class="cm">/* Initialization phase */</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;starting initialization phase</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+
+  <span class="cm">/* any sys_init call is made here */</span>
+
+  <span class="cm">/* End of initialization sequence */</span>
+  <span class="n">sys_init</span><span class="p">(</span><span class="n">INIT_DONE</span><span class="p">);</span>
+
+  <span class="cm">/* Nominal sequence */</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;starting nominal phase</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+
+  <span class="cm">/*</span>
+<span class="cm">   * If any post-init configuration is needed, do it here</span>
+<span class="cm">   * This is the case if memory-mapped devices need to be configured</span>
+<span class="cm">   */</span>
+
+  <span class="cm">/*</span>
+<span class="cm">   * Start the main loop or main automaton</span>
+<span class="cm">   */</span>
+  <span class="n">do_main_loop</span><span class="p">();</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="syscall-api-is-complex-why">
+<h2><a class="toc-backref" href="#id4">5.5.1.3. Syscall API is complex: why?</a><a class="headerlink" href="#syscall-api-is-complex-why" title="Permalink to this headline">¶</a></h2>
+<p>EwoK syscalls is a fully driver-oriented API. Efforts have been made in
+providing various userspace abstractions to help application developers in
+using generic devices through a higher level API.</p>
+<p>These abstractions are separated in:</p>
+<blockquote>
+<div><ul>
+<li><p class="first">userspace drivers</p>
+<blockquote>
+<div><p>These drivers supply a higher level, easier API to applications
+and manage a given device by using the syscall API and configuring
+the corresponding registers for memory-mapped devices. Drivers API
+abstract most of the complexity of the hardware devices (such as USARTs,
+CRYP, USB, SDIO, etc.)</p>
+</div></blockquote>
+</li>
+<li><p class="first">userspace libraries</p>
+<blockquote>
+<div><p>These libraries implement various hardware-independent features, but
+may depend on a given userspace driver. They supply a functional API
+for a given service (serial console, AES implementation, etc.), and
+in case of a dependency with a userspace driver, manage the driver
+initialization and configuration.</p>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="why-should-i-define-a-stack-size">
+<h2><a class="toc-backref" href="#id5">5.5.1.4. Why should I define a stack size?</a><a class="headerlink" href="#why-should-i-define-a-stack-size" title="Permalink to this headline">¶</a></h2>
+<p>This is due to the way EwoK handles the userspace layout. In EwoK userspace
+mapping, the userspace stack is on the bottom of the user memory map. If
+the userspace task overflows its own stack, it immediately generates a memory
+exception error.</p>
+<p>This behavior is due to the fact that on MPU-based systems, the page-guard mechanism
+cannot be used to detect heap/stack smashing, making it harder to detect stack overflow or
+heap overflow events. Such a layout, pushing the heap on the top addresses
+and the stack on the bottom helps in detecting such overflows (the heap grows
+upwards and the stacks grows downwards).</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">You can use your compiler to detect the amount of stack needed, as most
+compilers are able to calculate the effective used stack size based on the
+compiled code</p>
+</div>
+<div class="admonition danger">
+<p class="first admonition-title">Danger</p>
+<p class="last">Do <strong>not</strong> use recursive code in userspace applications. Embedded systems
+are not friendly with recursion, as the amount of stack memory is highly reduced</p>
+</div>
+</div>
+<div class="section" id="what-is-numslots-and-how-to-know-the-number-of-slots-an-application-needs">
+<h2><a class="toc-backref" href="#id6">5.5.1.5. What is NUMSLOTS and how to know the number of slots an application needs?</a><a class="headerlink" href="#what-is-numslots-and-how-to-know-the-number-of-slots-an-application-needs" title="Permalink to this headline">¶</a></h2>
+<p>The NUMSLOTS option of an application specifies the number of memory slots of the
+flash section dedicated to userspace applications that are required by the
+application.</p>
+<p>In both DFU and FW mode, there are 8 memory slots, as the MPU is able to handle
+8 subregions for a given memory region.  As a consequence, the total number of
+slots of the total number of applications of a given mode (DFU or FW) must not
+exceed 8.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">This is specific to STM32 MPU and may vary on other SoCs MPU</p>
+</div>
+<p>The slot size depends on the selected SoC (as the amount of accessible flash
+memory may vary) and the mode in which your application is executed (nominal
+-aka FW- or DFU).</p>
+<p>This information can be found in the following file:</p>
+<p>kernel/src/arch/soc/&lt;target_soc&gt;/soc-layout.h</p>
+<p>The slot size values are the following:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#define  FW_MAX_USER_SIZE   64*KBYTE</span>
+<span class="cp">#define  DFU_MAX_USER_SIZE  32*KBYTE</span>
+</pre></div>
+</div>
+<p>FW_MAX_USER_SIZE defines the slot size for FW mode and DFU_MAX_USER_SIZE defines
+the slot size for DFU mode.</p>
+<p>Memory slots hold .text, .got, .rodata and .data content of the application.
+.data section will be copied into RAM in the application memory layout later at
+boot time.</p>
+<p>As a consequence, depending on the size of these sections, the number of
+required slots may vary. You can use objdump or readelf tools to get back the
+effective size of your application and calculate the effective number of slots
+needed:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span>$ arm-none-eabi-objdump -h build/armv7-m/wookey/apps/myapp/myapp.elf
+build/armv7-m/wookey/apps/sdio/sdio.fw1.elf:     file format elf32-littlearm
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+ 0 .text         00002b68  080a0000  080a0000  00010000  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+ 1 .got          00000024  080a2b68  080a2b68  00012b68  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+ 2 .stacking     00001a90  20008000  20008000  00028000  2**0
+                  ALLOC
+ 3 .data         00000010  20009a90  080a2b8c  00019a90  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+ 4 .bss          0000428c  20009aa0  00000000  00009aa0  2**2
+                  ALLOC
+</pre></div>
+</div>
+<p>Here, the application requires 0x2b68 + 0x24 + 0x10 = 0x2b9c, which means 11.164
+bytes. For this task, one slot is enough in both modes.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">The Tataouine SDK helps when a task is too big for its configured number of
+slots, and specifies which section is problematic. You can let it detect slots
+overlap if needed</p>
+</div>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">The Tataouine SDK calculates both flash memory and RAM consumption of each
+task, which also allows to detect RAM overlap</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="faq_syscalls.html" class="btn btn-neutral float-right" title="5.5.2. Syscalls FAQ" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="debug_sched.html" class="btn btn-neutral" title="5.4.4. Debugging EwoK Scheduler" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,376 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>5.3.1. EwoK syscalls &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="5.3.1.2.1. sys_init, initializing devices" href="syscalls/sys_init.html" />
+    <link rel="prev" title="5. EwoK microkernel" href="index.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">5. EwoK kernel</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#what-is-ewok">5.1. What is EwoK ?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#ewok-architecture">5.2. EwoK architecture</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#ewok-api">5.3. EwoK API</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">5.3.1. Syscalls</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#general-principles">5.3.1.1. General principles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#syscall-overview">5.3.1.2. Syscall overview</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="devices.html">5.3.2. Using devices from userland</a></li>
+<li class="toctree-l3"><a class="reference internal" href="perms.html">5.3.3. Permissions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#internals">5.4. Internals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#faq">5.5. FAQ</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../libs.html">6. Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../drivers.html">7. Drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">5. EwoK microkernel</a> &raquo;</li>
+        
+      <li>5.3.1. EwoK syscalls</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="ewok-syscalls">
+<span id="syscalls"></span><h1><a class="toc-backref" href="#id1">5.3.1. EwoK syscalls</a><a class="headerlink" href="#ewok-syscalls" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#ewok-syscalls" id="id1">EwoK syscalls</a><ul>
+<li><a class="reference internal" href="#general-principles" id="id2">General principles</a><ul>
+<li><a class="reference internal" href="#triggering-a-syscall-from-userland" id="id3">Triggering a syscall from userland</a></li>
+<li><a class="reference internal" href="#returned-values" id="id4">Returned values</a></li>
+<li><a class="reference internal" href="#synchronous-and-asynchronous-syscalls" id="id5">Synchronous and asynchronous syscalls</a></li>
+<li><a class="reference internal" href="#syscalls-and-permissions" id="id6">Syscalls and permissions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#syscall-overview" id="id7">Syscall overview</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="general-principles">
+<h2><a class="toc-backref" href="#id2">5.3.1.1. General principles</a><a class="headerlink" href="#general-principles" title="Permalink to this headline">¶</a></h2>
+<p>EwoK is designed to host userspace drivers and protocol stacks. Syscalls
+are driver-oriented and mostly expose device management primitives. Some
+more <em>usual</em> syscalls, like IPC, are also proposed.</p>
+<div class="section" id="triggering-a-syscall-from-userland">
+<h3><a class="toc-backref" href="#id3">5.3.1.1.1. Triggering a syscall from userland</a><a class="headerlink" href="#triggering-a-syscall-from-userland" title="Permalink to this headline">¶</a></h3>
+<p>In EwoK, syscall parameters are passed by a structure that resides on the
+stack. The task writes the address of this structure in the <code class="docutils literal notranslate"><span class="pre">r0</span></code> register
+and executes the <code class="docutils literal notranslate"><span class="pre">svc</span></code> instruction, which triggers the <em>SVC interrupt</em>.
+The <em>SVC interrupt</em> automatically saves registers on the stack,
+before switching to the MSP stack.
+The <code class="docutils literal notranslate"><span class="pre">r0</span></code> register has a double function here. It is used to transmit the
+address of the structure containing the syscalls parameters, but it also stores
+the value returned by the syscall.</p>
+<p>An example of a syscall implementation:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">e_syscall_ret</span> <span class="n">sys_cfg_CFG_GPIO_GET</span><span class="p">(</span><span class="n">uint32_t</span> <span class="n">cfgtype</span><span class="p">,</span> <span class="n">uint8_t</span> <span class="n">gpioref</span><span class="p">,</span>
+                                   <span class="n">uint8_t</span> <span class="o">*</span> <span class="n">value</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">struct</span> <span class="n">gen_syscall_args</span> <span class="n">args</span> <span class="o">=</span>
+        <span class="p">{</span> <span class="n">SYS_CFG</span><span class="p">,</span> <span class="n">cfgtype</span><span class="p">,</span> <span class="n">gpioref</span><span class="p">,</span> <span class="p">(</span><span class="n">uint32_t</span><span class="p">)</span> <span class="n">value</span><span class="p">,</span> <span class="mi">0</span> <span class="p">};</span>
+    <span class="k">return</span> <span class="n">do_syscall</span><span class="p">(</span><span class="o">&amp;</span><span class="n">args</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">e_syscall_ret</span> <span class="n">do_syscall</span><span class="p">(</span><span class="n">__attribute__</span><span class="p">((</span><span class="n">unused</span><span class="p">))</span> <span class="n">struct</span> <span class="n">gen_syscall_args</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">e_syscall_ret</span> <span class="n">ret</span><span class="p">;</span>
+    <span class="n">asm</span> <span class="n">volatile</span> <span class="p">(</span>
+        <span class="s2">&quot;svc #0</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;str  r0, %[ret]</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="p">:</span> <span class="p">[</span><span class="n">ret</span><span class="p">]</span> <span class="s2">&quot;=m&quot;</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="p">::</span> <span class="s2">&quot;r0&quot;</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="returned-values">
+<h3><a class="toc-backref" href="#id4">5.3.1.1.2. Returned values</a><a class="headerlink" href="#returned-values" title="Permalink to this headline">¶</a></h3>
+<p>Syscalls return values may be the following:</p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">SYS_E_DONE</span></code></td>
+<td>Syscall has succesfully being executed</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">SYS_E_INVAL</span></code></td>
+<td>Invalid input data</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">SYS_E_DENIED</span></code></td>
+<td>Permission is denied</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">SYS_E_BUSY</span></code></td>
+<td>Target is busy, not enough resources, resource is already used</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition danger">
+<p class="first admonition-title">Danger</p>
+<p class="last">Never use a syscall without checking its return value, this may lead to
+unchecked errors in your code</p>
+</div>
+</div>
+<div class="section" id="synchronous-and-asynchronous-syscalls">
+<h3><a class="toc-backref" href="#id5">5.3.1.1.3. Synchronous and asynchronous syscalls</a><a class="headerlink" href="#synchronous-and-asynchronous-syscalls" title="Permalink to this headline">¶</a></h3>
+<p>EwoK kernel is not reentrant. As a consequence, syscalls
+can be synchronously or asynchronously executed depending
+on their expected duration.</p>
+<p>Most of syscalls are synchronously executed by the kernel.
+To avoid hindering the whole system, slow syscalls are asynchronously executed:
+their execution is postponed and is ought to be accomplished by the <em>softirq</em>
+kernel thread.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Actually, <a class="reference internal" href="syscalls/sys_log.html#sys-log"><span class="std std-ref">sys_log</span></a> is the sole asynchronous syscall</p>
+</div>
+<p>It is worth mentioning that as <em>Interrupt Service Routines (ISR)</em>
+should be quickly executed, EwoK forbids asynchronous syscalls while
+in this context.</p>
+<p>Note also that some syscalls should require some specific permissions, which
+are set at build time.</p>
+</div>
+<div class="section" id="syscalls-and-permissions">
+<h3><a class="toc-backref" href="#id6">5.3.1.1.4. Syscalls and permissions</a><a class="headerlink" href="#syscalls-and-permissions" title="Permalink to this headline">¶</a></h3>
+<p>A part of the syscalls require dedicated permissions. See <a class="reference internal" href="perms.html#perms"><span class="std std-ref">EwoK permissions</span></a> section
+for more information about EwoK permissions and their impact on the syscall API.</p>
+</div>
+</div>
+<div class="section" id="syscall-overview">
+<h2><a class="toc-backref" href="#id7">5.3.1.2. Syscall overview</a><a class="headerlink" href="#syscall-overview" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="syscalls/sys_init.html">5.3.1.2.1. Declaring and initializing devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="syscalls/sys_cfg.html">5.3.1.2.2. Configuring a device</a></li>
+<li class="toctree-l1"><a class="reference internal" href="syscalls/sys_log.html">5.3.1.2.3. Logging information on kernel console</a></li>
+<li class="toctree-l1"><a class="reference internal" href="syscalls/sys_ipc.html">5.3.1.2.4. Inter-Process Communication (IPC)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="syscalls/sys_get_systick.html">5.3.1.2.5. Measuring time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="syscalls/sys_yield.html">5.3.1.2.6. Releasing the CPU</a></li>
+<li class="toctree-l1"><a class="reference internal" href="syscalls/sys_sleep.html">5.3.1.2.7. Sleeping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="syscalls/sys_reset.html">5.3.1.2.8. Reseting the board</a></li>
+<li class="toctree-l1"><a class="reference internal" href="syscalls/sys_lock.html">5.3.1.2.9. Main thread locking mechanism</a></li>
+<li class="toctree-l1"><a class="reference internal" href="syscalls/sys_get_random.html">5.3.1.2.10. Accessing the RNG</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="syscalls/sys_init.html" class="btn btn-neutral float-right" title="5.3.1.2.1. sys_init, initializing devices" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="5. EwoK microkernel" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

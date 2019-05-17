@@ -1,0 +1,371 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>3.2. Blinky with IPC demo &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="4. WooKey architecture" href="../architecture.html" />
+    <link rel="prev" title="3.1. Blinky demo" href="blinky.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../demo.html">3. Demo applications</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="blinky.html">3.1. Blinky demo</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">3.2. Blinky with IPC demo</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#the-button-app">3.2.1. The ‘button’ app</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#getting-the-leds-application-id">3.2.1.1. Getting the leds application id</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sending-a-message-by-using-ipcs">3.2.1.2. Sending a message by using IPCs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#yielding">3.2.1.3. Yielding</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#the-leds-app">3.2.2. The ‘leds’ app</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#receiving-a-message-by-using-ipcs">3.2.2.1. Receiving a message by using IPCs</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ewok/index.html">5. EwoK kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libs.html">6. Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../drivers.html">7. Drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../demo.html">3. Demo examples</a> &raquo;</li>
+        
+      <li>3.2. Blinky with IPC demo</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="blinky-with-ipc-demo">
+<span id="blinkyipc"></span><h1>3.2. Blinky with IPC demo<a class="headerlink" href="#blinky-with-ipc-demo" title="Permalink to this headline">¶</a></h1>
+<p>This example provides the same functionality as the one provided
+by the ‘blinky’ standalone application described in <a class="reference internal" href="blinky.html#blinky"><span class="std std-ref">Blinky demo</span></a>.</p>
+<p>The main difference is that <strong>two applications</strong> are used: one ‘button’ app
+handling the button push events, and one ‘leds’ app handling the LEDs toggling.
+When the button is pushed, the ‘button’ app send a message to the ‘leds’ app
+by using the <strong>IPC</strong> mechanism.</p>
+<p>To load the default Ada/SPARK version of the menuconfig, launch <code class="docutils literal notranslate"><span class="pre">make</span></code>
+with</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">boards</span><span class="o">/</span><span class="mi">32</span><span class="n">f407disco</span><span class="o">/</span><span class="n">configs</span><span class="o">/</span><span class="n">disco_blinky_ipc_ada_defconfig</span>
+</pre></div>
+</div>
+<div class="section" id="the-button-app">
+<h2>3.2.1. The ‘button’ app<a class="headerlink" href="#the-button-app" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="getting-the-leds-application-id">
+<h3>3.2.1.1. Getting the leds application id<a class="headerlink" href="#getting-the-leds-application-id" title="Permalink to this headline">¶</a></h3>
+<p>The button application must get the <em>task id</em> of the leds
+application to be able to communicate with it.
+During the initialization phase, it performs a <code class="docutils literal notranslate"><span class="pre">sys_init(INIT_GETTASKID)</span></code>
+syscall to get this id:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/* Get the LEDs task id to be able to communicate with it using IPCs */</span>
+<span class="n">ret</span> <span class="o">=</span> <span class="n">sys_init</span><span class="p">(</span><span class="n">INIT_GETTASKID</span><span class="p">,</span> <span class="s">&quot;leds&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">id_leds</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sending-a-message-by-using-ipcs">
+<h3>3.2.1.2. Sending a message by using IPCs<a class="headerlink" href="#sending-a-message-by-using-ipcs" title="Permalink to this headline">¶</a></h3>
+<p>When the blue button is in the pushed state, the button application sends a
+message to the ‘leds’ application by using IPCs.
+EwoK IPC can be synchronous (blocking) of asynchronous (not blocking) as
+described in <a class="reference internal" href="../ewok/syscalls/sys_ipc.html#sys-ipc"><span class="std std-ref">sys_ipc, Inter-Proccess Communication</span></a>.</p>
+<p>Here, the <code class="docutils literal notranslate"><span class="pre">IPC_SEND_SYNC</span></code> flag means that the syscall is blocking and that
+the task is blocked until the message is read by the receiver.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">ret</span> <span class="o">=</span> <span class="n">sys_ipc</span><span class="p">(</span><span class="n">IPC_SEND_SYNC</span><span class="p">,</span> <span class="n">id_leds</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">button_pressed</span><span class="p">),</span> <span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">button_pressed</span><span class="p">);</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">!=</span> <span class="n">SYS_E_DONE</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;sys_ipc(): error. Exiting.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="yielding">
+<h3>3.2.1.3. Yielding<a class="headerlink" href="#yielding" title="Permalink to this headline">¶</a></h3>
+<p>After sending the IPC to the leds task, the button task <strong>yields</strong> using the
+<code class="docutils literal notranslate"><span class="pre">sys_yield()</span></code> syscall. The task is put in a sleeping state and it will be
+awaken by a new interrupt.
+Yielding permits to release the CPU when no work have to be performed by
+the task.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">sys_yield</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="the-leds-app">
+<h2>3.2.2. The ‘leds’ app<a class="headerlink" href="#the-leds-app" title="Permalink to this headline">¶</a></h2>
+<p>That app is similar to the ‘button’ application. The main difference is
+that it wait for some messages from the button app.</p>
+<div class="section" id="receiving-a-message-by-using-ipcs">
+<h3>3.2.2.1. Receiving a message by using IPCs<a class="headerlink" href="#receiving-a-message-by-using-ipcs" title="Permalink to this headline">¶</a></h3>
+<p>The task checks for and read an incoming message using the
+<code class="docutils literal notranslate"><span class="pre">sys_ipc(IPC_RECV_ASYNC)</span></code> syscall:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">id</span> <span class="o">=</span> <span class="n">id_button</span><span class="p">;</span>
+    <span class="n">msg_size</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">button_pressed</span><span class="p">);</span>
+
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">sys_ipc</span><span class="p">(</span><span class="n">IPC_RECV_ASYNC</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">id</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">msg_size</span><span class="p">,</span> <span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">button_pressed</span><span class="p">);</span>
+    <span class="p">...</span>
+</pre></div>
+</div>
+<p>IPC receiving can be synchronous or asynchronous. Here, the syscall
+is asynchronous, and thus not blocking.</p>
+<p>Using a non blocking IPC permit to perform some other work when
+no message is available. Here, the app must blink the leds even when
+the button is not pushed.</p>
+<p>Since the IPC reception is asynchronous, three cases can occur:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">SYS_E_DONE</span></code>: there is an awaiting message sent by the button application</li>
+<li><code class="docutils literal notranslate"><span class="pre">SYS_E_BUSY</span></code>: there is no awaiting message</li>
+<li><code class="docutils literal notranslate"><span class="pre">SYS_E_DENIED</span></code> or <code class="docutils literal notranslate"><span class="pre">SYS_E_INVAL</span></code>: these are syscall errors and should not
+occur in a nominal behavior. Possible causes are missing permissions or
+improper parameters (ie. invalid task id)</li>
+</ul>
+</div></blockquote>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">id</span> <span class="o">=</span> <span class="n">id_button</span><span class="p">;</span>
+    <span class="n">msg_size</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">button_pressed</span><span class="p">);</span>
+
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">sys_ipc</span><span class="p">(</span><span class="n">IPC_RECV_ASYNC</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">id</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">msg_size</span><span class="p">,</span> <span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">button_pressed</span><span class="p">);</span>
+
+    <span class="k">switch</span> <span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="nl">SYS_E_DONE</span><span class="p">:</span>
+            <span class="n">printf</span><span class="p">(</span><span class="s">&quot;BUTTON sent message: %x</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">button_pressed</span><span class="p">);</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">button_pressed</span> <span class="o">==</span> <span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+                <span class="cm">/* Change leds state */</span>
+                <span class="n">green_state</span>   <span class="o">=</span> <span class="p">(</span><span class="n">green_state</span> <span class="o">==</span> <span class="n">ON</span><span class="p">)</span> <span class="o">?</span> <span class="nl">OFF</span> <span class="p">:</span> <span class="n">ON</span><span class="p">;</span>
+                <span class="n">orange_state</span>  <span class="o">=</span> <span class="p">(</span><span class="n">orange_state</span> <span class="o">==</span> <span class="n">ON</span><span class="p">)</span> <span class="o">?</span> <span class="nl">OFF</span> <span class="p">:</span> <span class="n">ON</span><span class="p">;</span>
+                <span class="n">red_state</span>     <span class="o">=</span> <span class="p">(</span><span class="n">red_state</span> <span class="o">==</span> <span class="n">ON</span><span class="p">)</span> <span class="o">?</span> <span class="nl">OFF</span> <span class="p">:</span> <span class="n">ON</span><span class="p">;</span>
+                <span class="n">blue_state</span>    <span class="o">=</span> <span class="p">(</span><span class="n">blue_state</span> <span class="o">==</span> <span class="n">ON</span><span class="p">)</span> <span class="o">?</span> <span class="nl">OFF</span> <span class="p">:</span> <span class="n">ON</span><span class="p">;</span>
+
+                <span class="cm">/* Show leds */</span>
+                <span class="n">display_leds</span>  <span class="o">=</span> <span class="n">ON</span><span class="p">;</span>
+            <span class="p">}</span>
+
+            <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="nl">SYS_E_BUSY</span><span class="p">:</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="nl">SYS_E_DENIED</span><span class="p">:</span>
+        <span class="k">case</span> <span class="nl">SYS_E_INVAL</span><span class="p">:</span>
+        <span class="k">default</span><span class="o">:</span>
+            <span class="n">printf</span><span class="p">(</span><span class="s">&quot;sys_ipc(): error. Exiting.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+            <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../architecture.html" class="btn btn-neutral float-right" title="4. WooKey architecture" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="blinky.html" class="btn btn-neutral" title="3.1. Blinky demo" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

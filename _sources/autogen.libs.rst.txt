@@ -1,0 +1,16 @@
+.. toctree::
+   :maxdepth: 2
+
+   libs/aes <libaes/index>
+   libs/console <libconsole/index>
+   libs/des <libdes/index>
+   libs/dfu <libdfu/index>
+   libs/firmware <libfirmware/index>
+   libs/gui <libgui/index>
+   libs/hmac <libhmac/index>
+   libs/iso7816 <libiso7816/index>
+   libs/massstorage <libmassstorage/index>
+   libs/sd <libsd/index>
+   libs/smartcard <libsmartcard/index>
+   libs/std <libstd/index>
+   libs/token <libtoken/index>

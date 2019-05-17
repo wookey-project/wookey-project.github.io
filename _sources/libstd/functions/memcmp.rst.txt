@@ -1,0 +1,5 @@
+memcmp
+------
+
+Synopsys
+^^^^^^^^
