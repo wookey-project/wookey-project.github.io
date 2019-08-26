@@ -31,7 +31,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="5.3.1.2.1. sys_init, initializing devices" href="syscalls/sys_init.html" />
-    <link rel="prev" title="5. EwoK microkernel" href="index.html" /> 
+    <link rel="prev" title="5. EwoK: a secure microkernel for building secure embedded systems" href="index.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -114,8 +114,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../drivers.html">7. Drivers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../publi.html">10. Publications</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">11. Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hard.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
 </ul>
 
             
@@ -161,7 +162,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-          <li><a href="index.html">5. EwoK microkernel</a> &raquo;</li>
+          <li><a href="index.html">5. EwoK: a secure microkernel for building secure embedded systems</a> &raquo;</li>
         
       <li>5.3.1. EwoK syscalls</li>
     
@@ -214,23 +215,26 @@ The <code class="docutils literal notranslate"><span class="pre">r0</span></code
 address of the structure containing the syscalls parameters, but it also stores
 the value returned by the syscall.</p>
 <p>An example of a syscall implementation:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">e_syscall_ret</span> <span class="n">sys_cfg_CFG_GPIO_GET</span><span class="p">(</span><span class="n">uint32_t</span> <span class="n">cfgtype</span><span class="p">,</span> <span class="n">uint8_t</span> <span class="n">gpioref</span><span class="p">,</span>
-                                   <span class="n">uint8_t</span> <span class="o">*</span> <span class="n">value</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">e_syscall_ret</span> <span class="n">sys_cfg_CFG_GPIO_GET</span><span class="p">(</span><span class="n">uint32_t</span> <span class="n">cfgtype</span><span class="p">,</span>
+                                   <span class="n">uint8_t</span> <span class="n">gpioref</span><span class="p">,</span> <span class="n">uint8_t</span> <span class="o">*</span> <span class="n">value</span><span class="p">)</span>
 <span class="p">{</span>
-    <span class="n">struct</span> <span class="n">gen_syscall_args</span> <span class="n">args</span> <span class="o">=</span>
-        <span class="p">{</span> <span class="n">SYS_CFG</span><span class="p">,</span> <span class="n">cfgtype</span><span class="p">,</span> <span class="n">gpioref</span><span class="p">,</span> <span class="p">(</span><span class="n">uint32_t</span><span class="p">)</span> <span class="n">value</span><span class="p">,</span> <span class="mi">0</span> <span class="p">};</span>
-    <span class="k">return</span> <span class="n">do_syscall</span><span class="p">(</span><span class="o">&amp;</span><span class="n">args</span><span class="p">);</span>
+    <span class="n">struct</span> <span class="n">gen_syscall_args</span> <span class="n">args</span> <span class="o">=</span> <span class="p">{</span> <span class="n">gpioref</span><span class="p">,</span> <span class="p">(</span><span class="n">uint32_t</span><span class="p">)</span> <span class="n">value</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span> <span class="p">};</span>
+    <span class="k">return</span> <span class="n">do_syscall</span><span class="p">(</span><span class="n">SVC_GPIO_GET</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">args</span><span class="p">);</span>
 <span class="p">}</span>
 
-<span class="n">e_syscall_ret</span> <span class="n">do_syscall</span><span class="p">(</span><span class="n">__attribute__</span><span class="p">((</span><span class="n">unused</span><span class="p">))</span> <span class="n">struct</span> <span class="n">gen_syscall_args</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+<span class="n">e_syscall_ret</span> <span class="n">do_syscall</span><span class="p">(</span><span class="n">e_svc_type</span> <span class="n">svc</span><span class="p">,</span> <span class="n">__attribute__</span> <span class="p">((</span><span class="n">unused</span><span class="p">))</span>
+                         <span class="n">struct</span> <span class="n">gen_syscall_args</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="n">e_syscall_ret</span> <span class="n">ret</span><span class="p">;</span>
-    <span class="n">asm</span> <span class="n">volatile</span> <span class="p">(</span>
-        <span class="s2">&quot;svc #0</span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="s2">&quot;str  r0, %[ret]</span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="p">:</span> <span class="p">[</span><span class="n">ret</span><span class="p">]</span> <span class="s2">&quot;=m&quot;</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="p">::</span> <span class="s2">&quot;r0&quot;</span><span class="p">);</span>
-    <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
-<span class="p">}</span>
+
+    <span class="n">switch</span> <span class="p">(</span><span class="n">svc</span><span class="p">)</span> <span class="p">{</span>
+<span class="o">...</span>
+     <span class="n">case</span> <span class="n">SVC_GPIO_GET</span><span class="p">:</span>
+         <span class="n">asm</span> <span class="n">volatile</span> <span class="p">(</span><span class="s2">&quot;mov r0, %[args]; svc %[svc]; str  r0, %[ret]</span><span class="se">\n</span><span class="s2">&quot;</span>
+                       <span class="p">:[</span><span class="n">ret</span><span class="p">]</span> <span class="s2">&quot;=m&quot;</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+                       <span class="p">:[</span><span class="n">svc</span><span class="p">]</span> <span class="s2">&quot;i&quot;</span><span class="p">(</span><span class="n">SVC_GPIO_GET</span><span class="p">),[</span><span class="n">args</span><span class="p">]</span> <span class="s2">&quot;g&quot;</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+                       <span class="p">:</span><span class="s2">&quot;r0&quot;</span><span class="p">);</span>
+<span class="o">...</span>
 </pre></div>
 </div>
 </div>
@@ -298,10 +302,11 @@ for more information about EwoK permissions and their impact on the syscall API.
 <li class="toctree-l1"><a class="reference internal" href="syscalls/sys_ipc.html">5.3.1.2.4. Inter-Process Communication (IPC)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="syscalls/sys_get_systick.html">5.3.1.2.5. Measuring time</a></li>
 <li class="toctree-l1"><a class="reference internal" href="syscalls/sys_yield.html">5.3.1.2.6. Releasing the CPU</a></li>
-<li class="toctree-l1"><a class="reference internal" href="syscalls/sys_sleep.html">5.3.1.2.7. Sleeping</a></li>
-<li class="toctree-l1"><a class="reference internal" href="syscalls/sys_reset.html">5.3.1.2.8. Reseting the board</a></li>
-<li class="toctree-l1"><a class="reference internal" href="syscalls/sys_lock.html">5.3.1.2.9. Main thread locking mechanism</a></li>
-<li class="toctree-l1"><a class="reference internal" href="syscalls/sys_get_random.html">5.3.1.2.10. Accessing the RNG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="syscalls/sys_exit.html">5.3.1.2.7. Terminating a thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="syscalls/sys_sleep.html">5.3.1.2.8. Sleeping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="syscalls/sys_reset.html">5.3.1.2.9. Reseting the board</a></li>
+<li class="toctree-l1"><a class="reference internal" href="syscalls/sys_lock.html">5.3.1.2.10. Main thread locking mechanism</a></li>
+<li class="toctree-l1"><a class="reference internal" href="syscalls/sys_get_random.html">5.3.1.2.11. Accessing the RNG</a></li>
 </ul>
 </div>
 </div>
@@ -318,7 +323,7 @@ for more information about EwoK permissions and their impact on the syscall API.
         <a href="syscalls/sys_init.html" class="btn btn-neutral float-right" title="5.3.1.2.1. sys_init, initializing devices" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral" title="5. EwoK microkernel" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral" title="5. EwoK: a secure microkernel for building secure embedded systems" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

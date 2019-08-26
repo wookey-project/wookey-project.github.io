@@ -1,8 +1,7 @@
 WooKey Mainboard PCB
 ====================
 
-.. figure:: img/wookey-motherboard-3D.png
-   :align: center
+.. figure:: ./imgs/wookey-motherboard-3D.png
    :alt: Pinout
 
    Pinout
@@ -10,21 +9,22 @@ WooKey Mainboard PCB
 Introduction
 ------------
 
-WooKey \| https://wookey-project.github.io/ Copyright 2018 The WooKey
-project team wookey@ssi.gouv.fr
+  Wookey \| https://wookey-project.github.io/ Copyright 2018 ANSSI
 
-The WooKey device from `ANSSI <https://www.ssi.gouv.fr>`__ is an open source
-hardware design, implementing a self-encrypting flash drive.
+Authors: The Wookey project Team wookey@ssi.gouv.fr
 
-This repository is aimed towards (hardware) developers.
+The Wookey from `ANSSI <https://www.ssi.gouv.fr>`__ is an open source
+hardware design, implementing an Encrypted Flash Drives.
+
+This repository is aimed towards developers.
 
 Revision information
-""""""""""""""""""""
+~~~~~~~~~~~~~~~~~~~~
 
-This directory contains the hardware design for the WooKey board, first
-public version (WooKey V2).
+This directory contains the hardware design for the Wookey board, first
+public version (Wookey V2).
 
-### PCB editing tools
+### PCB editing tools
 
 All PCB files (schematic and PCB layout) have been designed using the
 KiCad EDA. This Cross Platform and Open Source Electronics Design
@@ -34,12 +34,12 @@ Production files generation 101
 -------------------------------
 
 Configure the project
-"""""""""""""""""""""
+~~~~~~~~~~~~~~~~~~~~~
 
 KiCad binaries location may change regarding your operating system. This
 is why you have to set your environment. This is done by sourcing the
 ``setenv.sh`` script. This script exports all paths that are required in
-order to automatically generate the production files.
+order to automaticaly generate the production files.
 
 Most of the time, the paths proposed in this script are not the one you
 use in your specific installation. The ``setenv.sh`` script support easy
@@ -47,7 +47,9 @@ variables overloading by including a ``setenv.local.sh`` script file if
 this file exists in the same directory. If you need to overload some of
 the variables of the ``setenv.sh`` script, just add them to your own
 ``setenv.local.sh`` file. Here is an example to define KiCad
-environment path on Apple Mac OS: ::
+environement path on Apple Mac OS.
+
+::
 
      $ echo "export PYTHON_BIN_PATH = /Applications/KiCad/kicad.app/Contents/Frameworks/Python.framework/Versions/2.7/bin/python" > setenv.local.sh
      $ source setenv.sh
@@ -61,7 +63,9 @@ environment path on Apple Mac OS: ::
      TOOLS_PATH = ../../../tools
      =========================================================
 
-The production files can be generated using the following command: ::
+The production files can be generated using the following command.
+
+::
 
    $ make
 
@@ -71,40 +75,38 @@ directory name may differ according the project your are working with.
 PCB Pinout
 ----------
 
-.. figure:: img/wookey-motherboard-top-pinout.png
-   :align: center
+.. figure:: ./imgs/wookey-motherboard-top-pinout.png
    :alt: Pinout
 
+   Pinout
 
 PCB Layers
 ----------
 
 PCB TOP layer
-"""""""""""""
+~~~~~~~~~~~~~
 
-.. figure:: img/wookey-motherboard-top.png
-   :width: 75%
-   :align: center
+.. figure:: ./imgs/wookey-motherboard-top.png
    :alt: TOP
 
+   TOP
 
 PCB BOTTOM layer
-""""""""""""""""
+~~~~~~~~~~~~~~~~
 
-.. figure:: img/wookey-motherboard-bot.png
-   :width: 75%
-   :align: center
+.. figure:: ./imgs/wookey-motherboard-bot.png
    :alt: BOT
 
+   BOT
 
 Layers
-""""""
+~~~~~~
 
 Order and type of copper layers: TOP: signal, front components GND:
 ground plane PWR: ground and power plane BOT: signal, back components
 
 Stackup
-"""""""
+~~~~~~~
 
 4 layers, 1.6mm thickness Outer layers 1 oz base copper foil Inner
 layers 0.5 oz base copper foil
@@ -122,7 +124,7 @@ constant of 3.66 at 1GHz. The prepreg is comprised of 2 layers of Isola
 Regulatory compliance & handling
 --------------------------------
 
-The WooKey board is intended for use as a development platform for
+The Wookey board is intended for use as a development platform for
 hardware or software. The board is an open system design, which does not
 include a shielded enclosure. This may cause interference to other
 electrical or electronic devices in close proximity. In a domestic
@@ -140,8 +142,8 @@ high CPU loads, mind its temperature while handling it.
 License
 -------
 
-WooKey \| https://wookey-project.github.io/ Copyright 2018 The WooKey
-project team wookey@ssi.gouv.fr
+Wookey \| https://wookey-project.github.io/ Copyright 2018 ANSSI
+Authors: The Wookey project Team wookey@ssi.gouv.fr
 
 This is an open hardware design licensed under the terms of the CERN
 Open Hardware Licence (OHL) v1.2.

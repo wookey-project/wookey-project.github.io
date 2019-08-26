@@ -31,7 +31,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="11. Publications" href="../publi.html" />
-    <link rel="prev" title="10.2. WooKey Screen PCB" href="screen.html" /> 
+    <link rel="prev" title="10.2. WooKey Screen PCB" href="screenboard.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -98,16 +98,16 @@
 <li class="toctree-l1"><a class="reference internal" href="../drivers.html">7. Drivers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">10. Hardware</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../hard.html">10. Hardware</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="motherboard.html">10.1. Motherboard design</a></li>
-<li class="toctree-l2"><a class="reference internal" href="screen.html">10.2. Screen board design</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">10.3. JTAG board</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="screenboard.html">10.2. Screen board design</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">10.3. JTAG board design</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#introduction">10.3.1. Introduction</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#revision-information">10.3.1.1. Revision information</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#production-files-generation-101">10.3.2. Production files generation 101</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#configuring-the-project">10.3.2.1. Configuring the project</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configure-the-project">10.3.2.1. Configure the project</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#pcb-pinout">10.3.3. PCB Pinout</a></li>
@@ -115,11 +115,11 @@
 <li class="toctree-l4"><a class="reference internal" href="#pcb-top-layer">10.3.4.1. PCB TOP layer</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pcb-bottom-layer">10.3.4.2. PCB BOTTOM layer</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#layers">10.3.4.3. Layers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stackup">10.3.4.4. Stackup</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#stackup">10.3.5. Stackup</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#regulatory-compliance-handling">10.3.6. Regulatory compliance &amp; handling</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#license">10.3.7. License</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#regulatory-compliance-handling">10.3.5. Regulatory compliance &amp; handling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#license">10.3.6. License</a></li>
 </ul>
 </li>
 </ul>
@@ -171,7 +171,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-          <li><a href="index.html">10. Wookey hardware</a> &raquo;</li>
+          <li><a href="../hard.html">10. Wookey hardware</a> &raquo;</li>
         
       <li>10.3. WooKey JTAG Flasher PCB</li>
     
@@ -192,42 +192,42 @@
             
   <div class="section" id="wookey-jtag-flasher-pcb">
 <h1>10.3. WooKey JTAG Flasher PCB<a class="headerlink" href="#wookey-jtag-flasher-pcb" title="Permalink to this headline">¶</a></h1>
-<div class="figure align-center" id="id1">
+<div class="figure" id="id1">
 <img alt="Pinout" src="../_images/wookey-jtag-3D.png" />
 <p class="caption"><span class="caption-text">Pinout</span></p>
 </div>
 <div class="section" id="introduction">
 <h2>10.3.1. Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
-<p>WooKey | <a class="reference external" href="https://wookey-project.github.io/">https://wookey-project.github.io/</a> Copyright 2018 The WooKey
-project team <a class="reference external" href="mailto:wookey&#37;&#52;&#48;ssi&#46;gouv&#46;fr">wookey<span>&#64;</span>ssi<span>&#46;</span>gouv<span>&#46;</span>fr</a></p>
-<p>The WooKey device from <a class="reference external" href="https://www.ssi.gouv.fr">ANSSI</a> is an open source
-hardware design, implementing a self-encrypting flash drive.</p>
-<p>This repository is aimed towards (hardware) developers.</p>
+<p>&nbsp; Wookey | <a class="reference external" href="https://wookey-project.github.io/">https://wookey-project.github.io/</a> Copyright 2018 ANSSI</p>
+<p>Authors: The Wookey project Team <a class="reference external" href="mailto:wookey&#37;&#52;&#48;ssi&#46;gouv&#46;fr">wookey<span>&#64;</span>ssi<span>&#46;</span>gouv<span>&#46;</span>fr</a></p>
+<p>The Wookey from <a class="reference external" href="https://www.ssi.gouv.fr">ANSSI</a> is an open source
+hardware design, implementing an Encrypted Flash Drives.</p>
+<p>This repository is aimed towards developers.</p>
 <div class="section" id="revision-information">
 <h3>10.3.1.1. Revision information<a class="headerlink" href="#revision-information" title="Permalink to this headline">¶</a></h3>
-<p>This directory contains the hardware design for the WooKey board, first
-public version (WooKey V2).</p>
-<p>### PCB editing tools</p>
-<p>All PCB files (schematics and PCB layouts) have been designed using the
-KiCad EDA. This Cross Platform and open source Electronics Design
+<p>This directory contains the hardware design for the Wookey board, first
+public version (Wookey V2).</p>
+<p>###&nbsp;PCB editing tools</p>
+<p>All PCB files (schematic and PCB layout) have been designed using the
+KiCad EDA. This Cross Platform and Open Source Electronics Design
 Automation Suite can be downloaded on <a class="reference external" href="http://kicad-pcb.org/">http://kicad-pcb.org/</a>.</p>
 </div>
 </div>
 <div class="section" id="production-files-generation-101">
 <h2>10.3.2. Production files generation 101<a class="headerlink" href="#production-files-generation-101" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="configuring-the-project">
-<h3>10.3.2.1. Configuring the project<a class="headerlink" href="#configuring-the-project" title="Permalink to this headline">¶</a></h3>
-<p>KiCad binaries location may vary regarding your operating system. This
+<div class="section" id="configure-the-project">
+<h3>10.3.2.1. Configure the project<a class="headerlink" href="#configure-the-project" title="Permalink to this headline">¶</a></h3>
+<p>KiCad binaries location may change regarding your operating system. This
 is why you have to set your environment. This is done by sourcing the
 <code class="docutils literal notranslate"><span class="pre">setenv.sh</span></code> script. This script exports all paths that are required in
-order to automatically generate the production files.</p>
+order to automaticaly generate the production files.</p>
 <p>Most of the time, the paths proposed in this script are not the one you
-use in your specific installation. The <code class="docutils literal notranslate"><span class="pre">setenv.sh</span></code> script supports easy
+use in your specific installation. The <code class="docutils literal notranslate"><span class="pre">setenv.sh</span></code> script support easy
 variables overloading by including a <code class="docutils literal notranslate"><span class="pre">setenv.local.sh</span></code> script file if
 this file exists in the same directory. If you need to overload some of
 the variables of the <code class="docutils literal notranslate"><span class="pre">setenv.sh</span></code> script, just add them to your own
 <code class="docutils literal notranslate"><span class="pre">setenv.local.sh</span></code> file. Here is an example to define KiCad
-environment path on Apple Mac OS:</p>
+environement path on Apple Mac OS.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ echo &quot;export PYTHON_BIN_PATH = /Applications/KiCad/kicad.app/Contents/Frameworks/Python.framework/Versions/2.7/bin/python&quot; &gt; setenv.local.sh
 $ source setenv.sh
 Loading local SDK settings...
@@ -241,32 +241,35 @@ TOOLS_PATH = ../../../tools
 =========================================================
 </pre></div>
 </div>
-<p>The production files can be generated using the following command:</p>
+<p>The production files can be generated using the following command.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ make
 </pre></div>
 </div>
 <p>This will generate the production files in a new sub directory. The
-directory name may differ according to the project your are working with.</p>
+directory name may differ according the project your are working with.</p>
 </div>
 </div>
 <div class="section" id="pcb-pinout">
 <h2>10.3.3. PCB Pinout<a class="headerlink" href="#pcb-pinout" title="Permalink to this headline">¶</a></h2>
-<div class="figure align-center">
+<div class="figure" id="id2">
 <img alt="Pinout" src="../_images/wookey-jtag-top-pinout.png" />
+<p class="caption"><span class="caption-text">Pinout</span></p>
 </div>
 </div>
 <div class="section" id="pcb-layers">
 <h2>10.3.4. PCB Layers<a class="headerlink" href="#pcb-layers" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="pcb-top-layer">
 <h3>10.3.4.1. PCB TOP layer<a class="headerlink" href="#pcb-top-layer" title="Permalink to this headline">¶</a></h3>
-<div class="figure align-center">
-<a class="reference internal image-reference" href="../_images/wookey-jtag-top.png"><img alt="TOP" src="../_images/wookey-jtag-top.png" style="width: 60%;" /></a>
+<div class="figure" id="id3">
+<img alt="TOP" src="../_images/wookey-jtag-top.png" />
+<p class="caption"><span class="caption-text">TOP</span></p>
 </div>
 </div>
 <div class="section" id="pcb-bottom-layer">
 <h3>10.3.4.2. PCB BOTTOM layer<a class="headerlink" href="#pcb-bottom-layer" title="Permalink to this headline">¶</a></h3>
-<div class="figure align-center">
-<a class="reference internal image-reference" href="../_images/wookey-jtag-bot.png"><img alt="BOT" src="../_images/wookey-jtag-bot.png" style="width: 60%;" /></a>
+<div class="figure" id="id4">
+<img alt="BOT" src="../_images/wookey-jtag-bot.png" />
+<p class="caption"><span class="caption-text">BOT</span></p>
 </div>
 </div>
 <div class="section" id="layers">
@@ -274,27 +277,27 @@ directory name may differ according to the project your are working with.</p>
 <p>Order and type of copper layers: TOP: signal, front components GND:
 ground plane PWR: ground and power plane BOT: signal, back components</p>
 </div>
-</div>
 <div class="section" id="stackup">
-<h2>10.3.5. Stackup<a class="headerlink" href="#stackup" title="Permalink to this headline">¶</a></h2>
+<h3>10.3.4.4. Stackup<a class="headerlink" href="#stackup" title="Permalink to this headline">¶</a></h3>
 <p>4 layers, 1.6mm thickness Outer layers 1 oz base copper foil Inner
 layers 0.5 oz base copper foil</p>
 <p>Electroless Nickel Immersion Gold (ENIG) surface finish</p>
-<p>Solder resist 0.0254mm copper 0.0356mm L1 (TOP) FR408 prepreg 0.1702mm
+<p>solder resist 0.0254mm copper 0.0356mm L1 (TOP) FR408 prepreg 0.1702mm
 copper 0.0178mm L2 (GND) FR408 1.1938mm copper 0.0178mm L3 (PWR) FR408
 prepreg 0.1702mm copper 0.0356mm L4 (BOT) solder resist 0.0254mm</p>
 <p>The substrate for both the core and prepreg is FR408, with a dielectric
 constant of 3.66 at 1GHz. The prepreg is comprised of 2 layers of Isola
 2113.</p>
 </div>
+</div>
 <div class="section" id="regulatory-compliance-handling">
-<h2>10.3.6. Regulatory compliance &amp; handling<a class="headerlink" href="#regulatory-compliance-handling" title="Permalink to this headline">¶</a></h2>
-<p>The WooKey board is intended to be used as a development platform for
+<h2>10.3.5. Regulatory compliance &amp; handling<a class="headerlink" href="#regulatory-compliance-handling" title="Permalink to this headline">¶</a></h2>
+<p>The Wookey board is intended for use as a development platform for
 hardware or software. The board is an open system design, which does not
 include a shielded enclosure. This may cause interference to other
 electrical or electronic devices in close proximity. In a domestic
 environment, this product may cause radio interference in which case the
-user may be required to take adequate actions. In addition, this board
+user may be required to take adequate measures. In addition, this board
 should not be used near any medical equipment or RF devices.</p>
 <p>The board is sensitive to ESD. Hold the board only by its edges. After
 removing the board from its box, place it on a grounded, static-free
@@ -303,9 +306,9 @@ surface.</p>
 high CPU loads, mind its temperature while handling it.</p>
 </div>
 <div class="section" id="license">
-<h2>10.3.7. License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
-<p>WooKey | <a class="reference external" href="https://wookey-project.github.io/">https://wookey-project.github.io/</a> Copyright 2018 The WooKey
-project team <a class="reference external" href="mailto:wookey&#37;&#52;&#48;ssi&#46;gouv&#46;fr">wookey<span>&#64;</span>ssi<span>&#46;</span>gouv<span>&#46;</span>fr</a></p>
+<h2>10.3.6. License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
+<p>Wookey | <a class="reference external" href="https://wookey-project.github.io/">https://wookey-project.github.io/</a> Copyright 2018 ANSSI
+Authors: The Wookey project Team <a class="reference external" href="mailto:wookey&#37;&#52;&#48;ssi&#46;gouv&#46;fr">wookey<span>&#64;</span>ssi<span>&#46;</span>gouv<span>&#46;</span>fr</a></p>
 <p>This is an open hardware design licensed under the terms of the CERN
 Open Hardware Licence (OHL) v1.2.</p>
 <p>You may redistribute and modify this documentation under the terms of
@@ -327,7 +330,7 @@ PURPOSE. Please see the CERN OHL v.1.2 for applicable conditions.</p>
         <a href="../publi.html" class="btn btn-neutral float-right" title="11. Publications" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="screen.html" class="btn btn-neutral" title="10.2. WooKey Screen PCB" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="screenboard.html" class="btn btn-neutral" title="10.2. WooKey Screen PCB" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

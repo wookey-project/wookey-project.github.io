@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>5.3.1.2.7. sys_sleep &mdash; Wookey 0.9.0 documentation</title>
+  <title>5.3.1.2.8. sys_sleep &mdash; Wookey 0.9.0 documentation</title>
   
 
   
@@ -30,8 +30,8 @@
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="5.3.1.2.8. sys_reset" href="sys_reset.html" />
-    <link rel="prev" title="5.3.1.2.6. sys_yield" href="sys_yield.html" /> 
+    <link rel="next" title="5.3.1.2.9. sys_reset" href="sys_reset.html" />
+    <link rel="prev" title="5.3.1.2.7. sys_exit" href="sys_exit.html" /> 
 
   
   <script src="../../_static/js/modernizr.min.js"></script>
@@ -114,8 +114,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../../drivers.html">7. Drivers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../javacard/index.html">8. Javacard Applets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tataouine.html">9. Tataouine SDK</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../publi.html">10. Publications</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../roadmap.html">11. Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hard.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../roadmap.html">12. Roadmap</a></li>
 </ul>
 
             
@@ -161,11 +162,11 @@
     
       <li><a href="../../index.html">Docs</a> &raquo;</li>
         
-          <li><a href="../index.html">5. EwoK microkernel</a> &raquo;</li>
+          <li><a href="../index.html">5. EwoK: a secure microkernel for building secure embedded systems</a> &raquo;</li>
         
           <li><a href="../syscalls.html">5.3.1. EwoK syscalls</a> &raquo;</li>
         
-      <li>5.3.1.2.7. sys_sleep</li>
+      <li>5.3.1.2.8. sys_sleep</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -183,7 +184,7 @@
            <div itemprop="articleBody">
             
   <div class="section" id="sys-sleep">
-<span id="id1"></span><h1><a class="toc-backref" href="#id3">5.3.1.2.7. sys_sleep</a><a class="headerlink" href="#sys-sleep" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1><a class="toc-backref" href="#id3">5.3.1.2.8. sys_sleep</a><a class="headerlink" href="#sys-sleep" title="Permalink to this headline">¶</a></h1>
 <div class="contents topic" id="contents">
 <p class="topic-title first">Contents</p>
 <ul class="simple">
@@ -197,7 +198,7 @@
 schedulable anymore. This period is fixed and the task is awoken at the end of
 it. This is a typical sleep behavior.</p>
 <div class="section" id="id2">
-<h2><a class="toc-backref" href="#id4">5.3.1.2.7.1. sys_sleep()</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id4">5.3.1.2.8.1. sys_sleep()</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Synchronous syscall, but <strong>not</strong> executable in ISR mode, as there is no
@@ -239,10 +240,10 @@ next scheduler execution</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="sys_reset.html" class="btn btn-neutral float-right" title="5.3.1.2.8. sys_reset" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="sys_reset.html" class="btn btn-neutral float-right" title="5.3.1.2.9. sys_reset" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="sys_yield.html" class="btn btn-neutral" title="5.3.1.2.6. sys_yield" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="sys_exit.html" class="btn btn-neutral" title="5.3.1.2.7. sys_exit" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

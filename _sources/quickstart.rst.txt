@@ -32,26 +32,6 @@ the project with ``repo`` ::
    repo init -u https://github.com/wookey-project/manifest.git -m disco407.xml
    repo sync
 
-
-.. note::
-  The example provided above concerns the STM32 Discovery board. You can find
-  other manifests, for example for the custom WooKey board, in the manifests
-  git https://github.com/wookey-project/manifest.git and fetch them depending
-  on the target and project you want to work with
-
-In order to fetch the manifest file for the WooKey custom board (you will have
-to get such a board to test the compiled firmware of course!), you can
-do the following: ::
-
-   mkdir wookey
-   cd wookey
-   repo init -u https://github.com/wookey-project/manifest.git -m wookey.xml
-   repo sync
-
-You will see that the source tree differs from the STM32 Discovery one, since
-dedicated drivers and libraries (associated with the WooKey board) will be fetched.
-
-
 Build the firmware
 ------------------
 

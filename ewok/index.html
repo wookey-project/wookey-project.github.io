@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>5. EwoK microkernel &mdash; Wookey 0.9.0 documentation</title>
+  <title>5. EwoK: a secure microkernel for building secure embedded systems &mdash; Wookey 0.9.0 documentation</title>
   
 
   
@@ -95,7 +95,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">4. Wookey architecture</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">5. EwoK kernel</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#what-is-ewok">5.1. What is EwoK ?</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#security-properties">5.1.1. Security properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#what-makes-ewok-secure">5.1.1. What makes EwoK secure?</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#performances">5.1.2. Performances</a></li>
 </ul>
 </li>
@@ -131,8 +131,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../drivers.html">7. Drivers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../publi.html">10. Publications</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">11. Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hard.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
 </ul>
 
             
@@ -178,7 +179,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>5. EwoK microkernel</li>
+      <li>5. EwoK: a secure microkernel for building secure embedded systems</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -195,13 +196,13 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="ewok-microkernel">
-<span id="ewok-kernel"></span><h1><a class="toc-backref" href="#id1">5. EwoK microkernel</a><a class="headerlink" href="#ewok-microkernel" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="ewok-a-secure-microkernel-for-building-secure-embedded-systems">
+<span id="ewok-kernel"></span><h1><a class="toc-backref" href="#id1">5. EwoK: a secure microkernel for building secure embedded systems</a><a class="headerlink" href="#ewok-a-secure-microkernel-for-building-secure-embedded-systems" title="Permalink to this headline">¶</a></h1>
 <a class="reference internal image-reference" href="../_images/ewok.png"><img alt="ewok icon" class="align-center" src="../_images/ewok.png" style="width: 250.0px; height: 250.0px;" /></a>
 <div class="contents topic" id="contents">
 <p class="topic-title first">Contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#ewok-microkernel" id="id1">EwoK microkernel</a><ul>
+<li><a class="reference internal" href="#ewok-a-secure-microkernel-for-building-secure-embedded-systems" id="id1">EwoK: a secure microkernel for building secure embedded systems</a><ul>
 <li><a class="reference internal" href="#what-is-ewok" id="id2">What is EwoK ?</a></li>
 <li><a class="reference internal" href="#ewok-architecture" id="id3">EwoK architecture</a></li>
 <li><a class="reference internal" href="#ewok-api" id="id4">EwoK API</a></li>
@@ -218,17 +219,22 @@ aiming at building secure and trusted devices.</p>
 <p>Drivers are hold in userspace. Unlike most of
 other microkernels, the goal is to support complex drivers (ISO7816,
 USB, CRYP, SDIO) while achieving high performances.</p>
-<div class="section" id="security-properties">
-<h3>5.1.1. Security properties<a class="headerlink" href="#security-properties" title="Permalink to this headline">¶</a></h3>
-<p>EwoK supports the following properties:</p>
+<div class="section" id="what-makes-ewok-secure">
+<h3>5.1.1. What makes EwoK secure?<a class="headerlink" href="#what-makes-ewok-secure" title="Permalink to this headline">¶</a></h3>
+<p>EwoK is a microkernel enforcing strict isolation between tasks and device
+drivers and providing strict access control to physical resources (devices,
+etc.) and strong enforcement of the least privilege principle.</p>
+<p>EwoK is also implemented in Ada/SPARK, a strongly typed language often used
+in highly critical domains (avionic, railway systems, space, etc.) to build
+safe and secure software.</p>
+<p>Some other security features provided by EwoK:</p>
 <blockquote>
 <div><ul class="simple">
 <li>Strict memory partitioning</li>
 <li>Strict partitioning of physical resources (devices, etc.)</li>
 <li>Fixed permissions management, set at compile time and easily verifiable</li>
-<li>Kernel Random Number Generation support (based on True RNG HW on STM32)</li>
-<li>Stack smashing protection in both kernel and userspace tasks</li>
-<li>Userspace Heap smashing defenses</li>
+<li>Stack smashing protection</li>
+<li>Heap/Stack smashing protection</li>
 <li>Proved W^X memory mappings</li>
 <li>Strict temporal separation between declarative phase and execution phase</li>
 </ul>

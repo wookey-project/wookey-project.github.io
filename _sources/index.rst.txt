@@ -30,7 +30,7 @@ directly go to the :ref:`quickstart` section.
    Drivers <drivers>
    Javacard Applets <javacard/index>
    Tataouine SDK <tataouine>
-   Hardware <hardware/index>
+   Hardware <hard>
    Publications <publi>
    Roadmap <roadmap>
 
