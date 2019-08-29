@@ -98,12 +98,13 @@ the ``ADA_RUNTIME`` variable from the ``setenv.sh`` file (see :ref:`build`).
 
 Also, remember to set your PATH environment variable: ::
 
-    export PATH="/opt/adacore-arm-eabi/bin:$PATH"
+    export PATH="<your_ada_toolchain_path>/bin:$PATH"
 
-To run 32-bit binaries, you will need to install *glibc* 32-bit version. On
-Debian: ::
+.. hint::
+   Usually, AdaCore toolchains are installed in /opt/
 
-   apt install libc6-i386
+.. warning::
+   Wookey requires at least the AdaCore Ada toolchain release 2018 or above
 
 Python-IntelHex
 ^^^^^^^^^^^^^^^

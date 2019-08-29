@@ -10,6 +10,5 @@ Presentations
 
 Articles and publications
 -------------------------
-   * [EN] ACSAC 2019; `SafeUSB: Designing a Trusted and Efficient USB Device <https://www.acsac.org/2019/program/>`_
    * [EN] SSTIC 2018: `WooKey: USB Devices Strike Back <https://www.sstic.org/media/SSTIC2018/SSTIC-actes/wookey_usb_devices_strike_back/SSTIC2018-Article-wookey_usb_devices_strike_back-michelizza_lefaure_renard_thierry_trebuchet_benadjila_saV2IIT.pdf>`_
 

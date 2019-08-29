@@ -120,9 +120,8 @@
 <li class="toctree-l1"><a class="reference internal" href="drivers.html">7. Drivers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="javacard/index.html">8. Javacard Applets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tataouine.html">9. Tataouine SDK</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hard.html">10. Hardware</a></li>
-<li class="toctree-l1"><a class="reference internal" href="publi.html">11. Publications</a></li>
-<li class="toctree-l1"><a class="reference internal" href="roadmap.html">12. Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="publi.html">10. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="roadmap.html">11. Roadmap</a></li>
 </ul>
 
             
@@ -234,11 +233,23 @@ Please check the <a class="reference internal" href="tataouine/dependencies.html
 <h3><a class="toc-backref" href="#id4">2.1.2. Fetch the project files</a><a class="headerlink" href="#fetch-the-project-files" title="Permalink to this headline">¶</a></h3>
 <p>Once the dependencies are installed, create a working directory and then fetch
 the project with <code class="docutils literal notranslate"><span class="pre">repo</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="n">wookey</span>
+<span class="n">cd</span> <span class="n">wookey</span>
+<span class="n">repo</span> <span class="n">init</span> <span class="o">-</span><span class="n">u</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">wookey</span><span class="o">-</span><span class="n">project</span><span class="o">/</span><span class="n">manifest</span><span class="o">.</span><span class="n">git</span> <span class="o">-</span><span class="n">m</span> <span class="n">wookey</span><span class="o">.</span><span class="n">xml</span>
+<span class="n">repo</span> <span class="n">sync</span>
+</pre></div>
+</div>
+<p>For the discovery board, it is possible to test some basic apps with another
+manifest file</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="n">disco407</span>
 <span class="n">cd</span> <span class="n">disco407</span>
 <span class="n">repo</span> <span class="n">init</span> <span class="o">-</span><span class="n">u</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">wookey</span><span class="o">-</span><span class="n">project</span><span class="o">/</span><span class="n">manifest</span><span class="o">.</span><span class="n">git</span> <span class="o">-</span><span class="n">m</span> <span class="n">disco407</span><span class="o">.</span><span class="n">xml</span>
 <span class="n">repo</span> <span class="n">sync</span>
 </pre></div>
+</div>
+<div class="admonition danger">
+<p class="first admonition-title">Danger</p>
+<p class="last">Nightly built versions are still unstable and are for developping purposes</p>
 </div>
 </div>
 </div>
@@ -257,7 +268,19 @@ the project with <code class="docutils literal notranslate"><span class="pre">re
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">defconfig_list</span>
 </pre></div>
 </div>
-<p>Two demo examples are described in section <a class="reference internal" href="demo.html#demo"><span class="std std-ref">Demo examples</span></a>.
+<p>To configure the Wookey board firmware, please use one of the following</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">boards</span><span class="o">/</span><span class="n">wookey</span><span class="o">/</span><span class="n">configs</span><span class="o">/</span><span class="n">wookey2_graphic_ada_hs_defconfig</span>
+<span class="n">make</span> <span class="n">boards</span><span class="o">/</span><span class="n">wookey</span><span class="o">/</span><span class="n">configs</span><span class="o">/</span><span class="n">wookey2_production_defconfig</span>
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">During the Wookey project development, various revisions of the hardware
+design have emerged. The current stable public version is refered to as wookey2.
+Nonetheless, we still provide config files and sources compatible with the previous revisions.
+Hence, if you use any hardware referenced upto wookey 1.4 on the board, use wookey prefixed defconfig instead (This will not be the case if you use the publicly available OpenHardwae design)</p>
+</div>
+<p>When using the Disco target, two demo examples are described in section <a class="reference internal" href="demo.html#demo"><span class="std std-ref">Demo examples</span></a>.
 To build the <em>blinky</em> project, choose the <code class="docutils literal notranslate"><span class="pre">disco_blinky_ada_defconfig</span></code> profile</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">boards</span><span class="o">/</span><span class="mi">32</span><span class="n">f407disco</span><span class="o">/</span><span class="n">configs</span><span class="o">/</span><span class="n">disco_blinky_ada_defconfig</span>
 </pre></div>
@@ -274,8 +297,11 @@ To build the <em>blinky</em> project, choose the <code class="docutils literal n
 <div class="section" id="flash-the-firmware">
 <h2><a class="toc-backref" href="#id9">2.3. Flash the firmware</a><a class="headerlink" href="#flash-the-firmware" title="Permalink to this headline">¶</a></h2>
 <p>Once the firmware is built, you can flash a target board using the procedure
-described in <a class="reference internal" href="tataouine/flash.html#flash"><span class="std std-ref">Flashing a new firmware</span></a>. Currently, only the <strong>STM32 Discovert F407</strong> is
-supported</p>
+described in <a class="reference internal" href="tataouine/flash.html#flash"><span class="std std-ref">Flashing a new firmware</span></a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">openocd</span> <span class="o">-</span><span class="n">f</span> <span class="n">tools</span><span class="o">/</span><span class="n">stm32f4disco1</span><span class="o">.</span><span class="n">cfg</span> <span class="o">-</span><span class="n">f</span> <span class="n">tools</span><span class="o">/</span><span class="n">ocd</span><span class="o">.</span><span class="n">cfg</span>
+</pre></div>
+</div>
+<p>If you build the discovery board demo profile, use</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">openocd</span> <span class="o">-</span><span class="n">f</span> <span class="n">tools</span><span class="o">/</span><span class="n">stm32f4disco1</span><span class="o">.</span><span class="n">cfg</span> <span class="o">-</span><span class="n">f</span> <span class="n">tools</span><span class="o">/</span><span class="n">ocd_demo</span><span class="o">.</span><span class="n">cfg</span>
 </pre></div>
 </div>

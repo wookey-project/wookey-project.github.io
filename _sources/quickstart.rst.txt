@@ -27,10 +27,27 @@ Fetch the project files
 Once the dependencies are installed, create a working directory and then fetch
 the project with ``repo`` ::
 
+   mkdir wookey
+   cd wookey
+   repo init -u https://github.com/wookey-project/manifest.git -m wookey.xml
+   repo sync
+
+For the discovery board, it is possible to test some basic apps with another
+manifest file ::
+
    mkdir disco407
    cd disco407
    repo init -u https://github.com/wookey-project/manifest.git -m disco407.xml
    repo sync
+
+
+.. info::
+   These two manifest files concern the stable versions of the Wookey and Discovery
+   boards projects. For the nightly built versions, you can use soft/wookey_nightly.xml and soft/disco407_nightly.xml respectively
+   The next steps remain the same
+
+.. danger::
+   Nightly built versions are still unstable and are for developping purposes
 
 Build the firmware
 ------------------
@@ -47,7 +64,21 @@ List the predefined configuration profiles ::
 
    make defconfig_list
 
-Two demo examples are described in section :ref:`demo`.
+To configure the Wookey board firmware, please use one of the following ::
+
+   make boards/wookey/configs/wookey2_graphic_ada_hs_defconfig
+   make boards/wookey/configs/wookey2_production_defconfig
+
+.. info::
+   the graphic_ada_hs_defconfig is the debug firmware configuration file, as the production_defconfig is for production mode
+
+.. hint::
+   During the Wookey project development, various revisions of the hardware
+   design have emerged. The current stable public version is refered to as wookey2.
+   Nonetheless, we still provide config files and sources compatible with the previous revisions.
+   Hence, if you use any hardware referenced upto wookey 1.4 on the board, use wookey prefixed defconfig instead (This will not be the case if you use the publicly available OpenHardwae design)
+
+When using the Disco target, two demo examples are described in section :ref:`demo`.
 To build the *blinky* project, choose the ``disco_blinky_ada_defconfig`` profile ::
 
    make boards/32f407disco/configs/disco_blinky_ada_defconfig
@@ -62,13 +93,17 @@ Flash the firmware
 ------------------
 
 Once the firmware is built, you can flash a target board using the procedure
-described in :ref:`flash`. Currently, only the **STM32 Discovert F407** is
-supported ::
+described in :ref:`flash` ::
+
+   openocd -f tools/stm32f4disco1.cfg -f tools/ocd.cfg
+
+If you build the discovery board demo profile, use ::
 
    openocd -f tools/stm32f4disco1.cfg -f tools/ocd_demo.cfg
 
 Execute the new firmware
 ------------------------
+
 Press the black *reset button* to reset the board. You should see the
 leds blinking. When the blue button is pressed, the blinking pattern changes.
 

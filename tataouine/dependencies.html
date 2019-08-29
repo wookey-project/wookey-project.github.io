@@ -134,9 +134,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../tataouine.html#tataouine-directories">9.14. Tataouine directories</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../hard.html">10. Hardware</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">10. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">11. Roadmap</a></li>
 </ul>
 
             
@@ -315,13 +314,16 @@ select the <code class="docutils literal notranslate"><span class="pre">ARM</spa
 If you install the binaries in another directory, you will have to set
 the <code class="docutils literal notranslate"><span class="pre">ADA_RUNTIME</span></code> variable from the <code class="docutils literal notranslate"><span class="pre">setenv.sh</span></code> file (see <a class="reference internal" href="build.html#build"><span class="std std-ref">Configuring and building a new firmware</span></a>).</p>
 <p>Also, remember to set your PATH environment variable:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">PATH</span><span class="o">=</span><span class="s2">&quot;/opt/adacore-arm-eabi/bin:$PATH&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">PATH</span><span class="o">=</span><span class="s2">&quot;&lt;your_ada_toolchain_path&gt;/bin:$PATH&quot;</span>
 </pre></div>
 </div>
-<p>To run 32-bit binaries, you will need to install <em>glibc</em> 32-bit version. On
-Debian:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">apt</span> <span class="n">install</span> <span class="n">libc6</span><span class="o">-</span><span class="n">i386</span>
-</pre></div>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">Usually, AdaCore toolchains are installed in /opt/</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Wookey requires at least the AdaCore Ada toolchain release 2018 or above</p>
 </div>
 </div>
 <div class="section" id="python-intelhex">
