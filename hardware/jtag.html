@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>WooKey JTAG Flasher PCB &mdash; Wookey 0.9.0 documentation</title>
+  <title>10.3. WooKey JTAG Flasher PCB &mdash; Wookey 0.9.0 documentation</title>
   
 
   
@@ -29,7 +29,9 @@
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="11. Publications" href="../publi.html" />
+    <link rel="prev" title="10.2. WooKey Screen PCB" href="screenboard.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -86,7 +88,7 @@
             
             
               <p class="caption"><span class="caption-text">Table of Contents</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../target.html">1. About the WooKey project</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../quickstart.html">2. Quickstart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../demo.html">3. Demo applications</a></li>
@@ -96,8 +98,34 @@
 <li class="toctree-l1"><a class="reference internal" href="../drivers.html">7. Drivers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../publi.html">10. Publications</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">11. Roadmap</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../hard.html">10. Hardware</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="motherboard.html">10.1. Motherboard design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="screenboard.html">10.2. Screen board design</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">10.3. JTAG board design</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#introduction">10.3.1. Introduction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#revision-information">10.3.1.1. Revision information</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#production-files-generation-101">10.3.2. Production files generation 101</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configure-the-project">10.3.2.1. Configure the project</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#pcb-pinout">10.3.3. PCB Pinout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pcb-layers">10.3.4. PCB Layers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pcb-top-layer">10.3.4.1. PCB TOP layer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pcb-bottom-layer">10.3.4.2. PCB BOTTOM layer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#layers">10.3.4.3. Layers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stackup">10.3.4.4. Stackup</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#regulatory-compliance-handling">10.3.5. Regulatory compliance &amp; handling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#license">10.3.6. License</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
 </ul>
 
             
@@ -143,7 +171,9 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>WooKey JTAG Flasher PCB</li>
+          <li><a href="../hard.html">10. Wookey hardware</a> &raquo;</li>
+        
+      <li>10.3. WooKey JTAG Flasher PCB</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -161,20 +191,20 @@
            <div itemprop="articleBody">
             
   <div class="section" id="wookey-jtag-flasher-pcb">
-<h1>WooKey JTAG Flasher PCB<a class="headerlink" href="#wookey-jtag-flasher-pcb" title="Permalink to this headline">¶</a></h1>
+<h1>10.3. WooKey JTAG Flasher PCB<a class="headerlink" href="#wookey-jtag-flasher-pcb" title="Permalink to this headline">¶</a></h1>
 <div class="figure" id="id1">
 <img alt="Pinout" src="../_images/wookey-jtag-3D.png" />
 <p class="caption"><span class="caption-text">Pinout</span></p>
 </div>
 <div class="section" id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<h2>10.3.1. Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
 <p>&nbsp; Wookey | <a class="reference external" href="https://wookey-project.github.io/">https://wookey-project.github.io/</a> Copyright 2018 ANSSI</p>
 <p>Authors: The Wookey project Team <a class="reference external" href="mailto:wookey&#37;&#52;&#48;ssi&#46;gouv&#46;fr">wookey<span>&#64;</span>ssi<span>&#46;</span>gouv<span>&#46;</span>fr</a></p>
 <p>The Wookey from <a class="reference external" href="https://www.ssi.gouv.fr">ANSSI</a> is an open source
 hardware design, implementing an Encrypted Flash Drives.</p>
 <p>This repository is aimed towards developers.</p>
 <div class="section" id="revision-information">
-<h3>Revision information<a class="headerlink" href="#revision-information" title="Permalink to this headline">¶</a></h3>
+<h3>10.3.1.1. Revision information<a class="headerlink" href="#revision-information" title="Permalink to this headline">¶</a></h3>
 <p>This directory contains the hardware design for the Wookey board, first
 public version (Wookey V2).</p>
 <p>###&nbsp;PCB editing tools</p>
@@ -184,9 +214,9 @@ Automation Suite can be downloaded on <a class="reference external" href="http:/
 </div>
 </div>
 <div class="section" id="production-files-generation-101">
-<h2>Production files generation 101<a class="headerlink" href="#production-files-generation-101" title="Permalink to this headline">¶</a></h2>
+<h2>10.3.2. Production files generation 101<a class="headerlink" href="#production-files-generation-101" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="configure-the-project">
-<h3>Configure the project<a class="headerlink" href="#configure-the-project" title="Permalink to this headline">¶</a></h3>
+<h3>10.3.2.1. Configure the project<a class="headerlink" href="#configure-the-project" title="Permalink to this headline">¶</a></h3>
 <p>KiCad binaries location may change regarding your operating system. This
 is why you have to set your environment. This is done by sourcing the
 <code class="docutils literal notranslate"><span class="pre">setenv.sh</span></code> script. This script exports all paths that are required in
@@ -220,35 +250,35 @@ directory name may differ according the project your are working with.</p>
 </div>
 </div>
 <div class="section" id="pcb-pinout">
-<h2>PCB Pinout<a class="headerlink" href="#pcb-pinout" title="Permalink to this headline">¶</a></h2>
+<h2>10.3.3. PCB Pinout<a class="headerlink" href="#pcb-pinout" title="Permalink to this headline">¶</a></h2>
 <div class="figure" id="id2">
 <img alt="Pinout" src="../_images/wookey-jtag-top-pinout.png" />
 <p class="caption"><span class="caption-text">Pinout</span></p>
 </div>
 </div>
 <div class="section" id="pcb-layers">
-<h2>PCB Layers<a class="headerlink" href="#pcb-layers" title="Permalink to this headline">¶</a></h2>
+<h2>10.3.4. PCB Layers<a class="headerlink" href="#pcb-layers" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="pcb-top-layer">
-<h3>PCB TOP layer<a class="headerlink" href="#pcb-top-layer" title="Permalink to this headline">¶</a></h3>
+<h3>10.3.4.1. PCB TOP layer<a class="headerlink" href="#pcb-top-layer" title="Permalink to this headline">¶</a></h3>
 <div class="figure" id="id3">
 <img alt="TOP" src="../_images/wookey-jtag-top.png" />
 <p class="caption"><span class="caption-text">TOP</span></p>
 </div>
 </div>
 <div class="section" id="pcb-bottom-layer">
-<h3>PCB BOTTOM layer<a class="headerlink" href="#pcb-bottom-layer" title="Permalink to this headline">¶</a></h3>
+<h3>10.3.4.2. PCB BOTTOM layer<a class="headerlink" href="#pcb-bottom-layer" title="Permalink to this headline">¶</a></h3>
 <div class="figure" id="id4">
 <img alt="BOT" src="../_images/wookey-jtag-bot.png" />
 <p class="caption"><span class="caption-text">BOT</span></p>
 </div>
 </div>
 <div class="section" id="layers">
-<h3>Layers<a class="headerlink" href="#layers" title="Permalink to this headline">¶</a></h3>
+<h3>10.3.4.3. Layers<a class="headerlink" href="#layers" title="Permalink to this headline">¶</a></h3>
 <p>Order and type of copper layers: TOP: signal, front components GND:
 ground plane PWR: ground and power plane BOT: signal, back components</p>
 </div>
 <div class="section" id="stackup">
-<h3>Stackup<a class="headerlink" href="#stackup" title="Permalink to this headline">¶</a></h3>
+<h3>10.3.4.4. Stackup<a class="headerlink" href="#stackup" title="Permalink to this headline">¶</a></h3>
 <p>4 layers, 1.6mm thickness Outer layers 1 oz base copper foil Inner
 layers 0.5 oz base copper foil</p>
 <p>Electroless Nickel Immersion Gold (ENIG) surface finish</p>
@@ -261,7 +291,7 @@ constant of 3.66 at 1GHz. The prepreg is comprised of 2 layers of Isola
 </div>
 </div>
 <div class="section" id="regulatory-compliance-handling">
-<h2>Regulatory compliance &amp; handling<a class="headerlink" href="#regulatory-compliance-handling" title="Permalink to this headline">¶</a></h2>
+<h2>10.3.5. Regulatory compliance &amp; handling<a class="headerlink" href="#regulatory-compliance-handling" title="Permalink to this headline">¶</a></h2>
 <p>The Wookey board is intended for use as a development platform for
 hardware or software. The board is an open system design, which does not
 include a shielded enclosure. This may cause interference to other
@@ -276,7 +306,7 @@ surface.</p>
 high CPU loads, mind its temperature while handling it.</p>
 </div>
 <div class="section" id="license">
-<h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
+<h2>10.3.6. License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
 <p>Wookey | <a class="reference external" href="https://wookey-project.github.io/">https://wookey-project.github.io/</a> Copyright 2018 ANSSI
 Authors: The Wookey project Team <a class="reference external" href="mailto:wookey&#37;&#52;&#48;ssi&#46;gouv&#46;fr">wookey<span>&#64;</span>ssi<span>&#46;</span>gouv<span>&#46;</span>fr</a></p>
 <p>This is an open hardware design licensed under the terms of the CERN
@@ -294,6 +324,15 @@ PURPOSE. Please see the CERN OHL v.1.2 for applicable conditions.</p>
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../publi.html" class="btn btn-neutral float-right" title="11. Publications" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="screenboard.html" class="btn btn-neutral" title="10.2. WooKey Screen PCB" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
