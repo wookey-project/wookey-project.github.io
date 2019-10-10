@@ -15,6 +15,9 @@ More detailed about the project can be found in the :ref:`publi` section.
 To experiment with a demo WooKey project on a STM32F407 Discovery board,
 directly go to the :ref:`quickstart` section.
 
+**Any questions or propositions on the project ?** Don't hesitate to use the Wookey project
+mailing list, `kindly hosted by the CNRS <https://listes.services.cnrs.fr/wws/info/wookey>`_.
+
 .. toctree::
    :caption: Table of Contents
    :name: mastertoc
