@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>7.4.2. About the ISO7816 driver API &mdash; Wookey 0.9.0 documentation</title>
+  <title>7.5.2. About the ISO7816 driver API &mdash; Wookey 0.9.0 documentation</title>
   
 
   
@@ -30,8 +30,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="7.4.3. ISO7816 driver FAQ" href="faq.html" />
-    <link rel="prev" title="7.4.1. About the ISO7816 driver" href="about.html" /> 
+    <link rel="next" title="7.5.3. ISO7816 driver FAQ" href="faq.html" />
+    <link rel="prev" title="7.5.1. About the ISO7816 driver" href="about.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -96,26 +96,27 @@
 <li class="toctree-l1"><a class="reference internal" href="../ewok/index.html">5. EwoK kernel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../libs.html">6. Libraries</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../drivers.html">7. Drivers</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../drvcryp/index.html">7.1. drivers/cryp</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drvflash/index.html">7.2. drivers/flash</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drvhash/index.html">7.3. drivers/hash</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="index.html">7.4. drivers/iso7816</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="about.html">7.4.1. About the ISO7816 driver</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">7.4.2. The ISO7816 driver API</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#initialization-functions">7.4.2.1. Initialization functions</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#vcc-and-rst-handling">7.4.2.2. Vcc and RST handling</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#i-o-line-read-and-write-primitives">7.4.2.3. I/O line read and write primitives</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#handling-etu-and-frequency-primitives">7.4.2.4. Handling ETU and frequency primitives</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#time-measurement">7.4.2.5. Time measurement</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#card-insertion-detection">7.4.2.6. Card insertion detection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvcan/index.html">7.1. drivers/can</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvcryp/index.html">7.2. drivers/cryp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvflash/index.html">7.3. drivers/flash</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvhash/index.html">7.4. drivers/hash</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">7.5. drivers/iso7816</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="about.html">7.5.1. About the ISO7816 driver</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">7.5.2. The ISO7816 driver API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#initialization-functions">7.5.2.1. Initialization functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vcc-and-rst-handling">7.5.2.2. Vcc and RST handling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#i-o-line-read-and-write-primitives">7.5.2.3. I/O line read and write primitives</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#handling-etu-and-frequency-primitives">7.5.2.4. Handling ETU and frequency primitives</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#time-measurement">7.5.2.5. Time measurement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#card-insertion-detection">7.5.2.6. Card insertion detection</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="faq.html">7.4.3. FAQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html">7.5.3. FAQ</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../drvspi/index.html">7.5. drivers/spi</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drvusart/index.html">7.6. drivers/usart</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drvili9341/index.html">7.7. drivers/ili9341</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvspi/index.html">7.6. drivers/spi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvusart/index.html">7.7. drivers/usart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvili9341/index.html">7.8. drivers/ili9341</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
@@ -170,9 +171,9 @@
         
           <li><a href="../drivers.html">7. Drivers</a> &raquo;</li>
         
-          <li><a href="index.html">7.4. The ISO7816 driver</a> &raquo;</li>
+          <li><a href="index.html">7.5. The ISO7816 driver</a> &raquo;</li>
         
-      <li>7.4.2. About the ISO7816 driver API</li>
+      <li>7.5.2. About the ISO7816 driver API</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -190,7 +191,7 @@
            <div itemprop="articleBody">
             
   <div class="section" id="about-the-iso7816-driver-api">
-<h1>7.4.2. About the ISO7816 driver API<a class="headerlink" href="#about-the-iso7816-driver-api" title="Permalink to this headline">¶</a></h1>
+<h1>7.5.2. About the ISO7816 driver API<a class="headerlink" href="#about-the-iso7816-driver-api" title="Permalink to this headline">¶</a></h1>
 <p>The API exposed by the driver is quite simple and mainly exposes:</p>
 <blockquote>
 <div><ul class="simple">
@@ -208,7 +209,7 @@
 ISO standard. Please refer to it for definitions of these concepts</p>
 </div>
 <div class="section" id="initialization-functions">
-<h2>7.4.2.1. Initialization functions<a class="headerlink" href="#initialization-functions" title="Permalink to this headline">¶</a></h2>
+<h2>7.5.2.1. Initialization functions<a class="headerlink" href="#initialization-functions" title="Permalink to this headline">¶</a></h2>
 <p>The initialization functions are the following:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">platform_smartcard_early_init</span><span class="p">(</span><span class="n">drv7816_map_mode_t</span> <span class="n">map_mode</span><span class="p">);</span>
 <span class="kt">int</span> <span class="nf">platform_smartcard_init</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
@@ -219,7 +220,7 @@ ISO standard. Please refer to it for definitions of these concepts</p>
 (re)initialize all the necessary variables.</p>
 </div>
 <div class="section" id="vcc-and-rst-handling">
-<h2>7.4.2.2. Vcc and RST handling<a class="headerlink" href="#vcc-and-rst-handling" title="Permalink to this headline">¶</a></h2>
+<h2>7.5.2.2. Vcc and RST handling<a class="headerlink" href="#vcc-and-rst-handling" title="Permalink to this headline">¶</a></h2>
 <p>Quite straightforward APIs handle the Vcc and RST (Reset) GPIOs:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">platform_set_smartcard_vcc</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">val</span><span class="p">);</span>
 <span class="kt">void</span> <span class="nf">platform_set_smartcard_rst</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">val</span><span class="p">);</span>
@@ -227,7 +228,7 @@ ISO standard. Please refer to it for definitions of these concepts</p>
 </div>
 </div>
 <div class="section" id="i-o-line-read-and-write-primitives">
-<h2>7.4.2.3. I/O line read and write primitives<a class="headerlink" href="#i-o-line-read-and-write-primitives" title="Permalink to this headline">¶</a></h2>
+<h2>7.5.2.3. I/O line read and write primitives<a class="headerlink" href="#i-o-line-read-and-write-primitives" title="Permalink to this headline">¶</a></h2>
 <p>The two main exposed functions to read and write bytes on the I/O line are:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">platform_SC_getc</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="o">*</span><span class="n">c</span><span class="p">,</span>
                    <span class="kt">uint32_t</span> <span class="n">timeout</span> <span class="n">__attribute__</span><span class="p">((</span><span class="n">unused</span><span class="p">)),</span>
@@ -262,7 +263,7 @@ inverse conventions).</p>
 automaton reinitialization is performed.</p>
 </div>
 <div class="section" id="handling-etu-and-frequency-primitives">
-<h2>7.4.2.4. Handling ETU and frequency primitives<a class="headerlink" href="#handling-etu-and-frequency-primitives" title="Permalink to this headline">¶</a></h2>
+<h2>7.5.2.4. Handling ETU and frequency primitives<a class="headerlink" href="#handling-etu-and-frequency-primitives" title="Permalink to this headline">¶</a></h2>
 <p>The following APU:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">platform_SC_adapt_clocks</span><span class="p">(</span><span class="kt">uint32_t</span> <span class="o">*</span><span class="n">etu</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="o">*</span><span class="n">frequency</span><span class="p">);</span>
 </pre></div>
@@ -272,7 +273,7 @@ the asked frequency in <code class="docutils literal notranslate"><span class="p
 these arguments are updated with the chosen values according to a <code class="docutils literal notranslate"><span class="pre">best</span> <span class="pre">fit</span></code> algorithm.</p>
 </div>
 <div class="section" id="time-measurement">
-<h2>7.4.2.5. Time measurement<a class="headerlink" href="#time-measurement" title="Permalink to this headline">¶</a></h2>
+<h2>7.5.2.5. Time measurement<a class="headerlink" href="#time-measurement" title="Permalink to this headline">¶</a></h2>
 <p>In order to handle ISO7816 timeouts, the driver exposes a time measurement with
 microseconds precision:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">uint64_t</span> <span class="nf">platform_get_microseconds_ticks</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
@@ -281,7 +282,7 @@ microseconds precision:</p>
 <p>This is merely a wrapper to the <code class="docutils literal notranslate"><span class="pre">sys_get_systick(&amp;tick,</span> <span class="pre">PREC_MICRO)</span></code> syscall.</p>
 </div>
 <div class="section" id="card-insertion-detection">
-<h2>7.4.2.6. Card insertion detection<a class="headerlink" href="#card-insertion-detection" title="Permalink to this headline">¶</a></h2>
+<h2>7.5.2.6. Card insertion detection<a class="headerlink" href="#card-insertion-detection" title="Permalink to this headline">¶</a></h2>
 <p>A simple API is used to detect if a smart card is present or not:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">uint8_t</span> <span class="nf">platform_is_smartcard_inserted</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
 </pre></div>
@@ -317,10 +318,10 @@ a smart card loss.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="faq.html" class="btn btn-neutral float-right" title="7.4.3. ISO7816 driver FAQ" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="faq.html" class="btn btn-neutral float-right" title="7.5.3. ISO7816 driver FAQ" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="about.html" class="btn btn-neutral" title="7.4.1. About the ISO7816 driver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="about.html" class="btn btn-neutral" title="7.5.1. About the ISO7816 driver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

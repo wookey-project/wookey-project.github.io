@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>7.1.2. Cryp driver API &mdash; Wookey 0.9.0 documentation</title>
+  <title>7.2.2. Cryp driver API &mdash; Wookey 0.9.0 documentation</title>
   
 
   
@@ -30,8 +30,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="7.1.3. Cryp driver FAQ" href="faq.html" />
-    <link rel="prev" title="7.1.1. About the Cryp driver" href="about.html" /> 
+    <link rel="next" title="7.2.3. Cryp driver FAQ" href="faq.html" />
+    <link rel="prev" title="7.2.1. About the Cryp driver" href="about.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -96,23 +96,24 @@
 <li class="toctree-l1"><a class="reference internal" href="../ewok/index.html">5. EwoK kernel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../libs.html">6. Libraries</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../drivers.html">7. Drivers</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="index.html">7.1. drivers/cryp</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="about.html">7.1.1. About the Cryp principle</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">7.1.2. The drvCryp API</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#initializing-the-cryp-driver">7.1.2.1. Initializing the cryp driver</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#mapping-and-unmapping-the-cryp-device">7.1.2.2. Mapping and unmapping the Cryp device</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#using-the-cryp-engine">7.1.2.3. Using the Cryp engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvcan/index.html">7.1. drivers/can</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">7.2. drivers/cryp</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="about.html">7.2.1. About the Cryp principle</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">7.2.2. The drvCryp API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#initializing-the-cryp-driver">7.2.2.1. Initializing the cryp driver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mapping-and-unmapping-the-cryp-device">7.2.2.2. Mapping and unmapping the Cryp device</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-the-cryp-engine">7.2.2.3. Using the Cryp engine</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="faq.html">7.1.3. FAQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html">7.2.3. FAQ</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../drvflash/index.html">7.2. drivers/flash</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drvhash/index.html">7.3. drivers/hash</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drviso7816/index.html">7.4. drivers/iso7816</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drvspi/index.html">7.5. drivers/spi</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drvusart/index.html">7.6. drivers/usart</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drvili9341/index.html">7.7. drivers/ili9341</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvflash/index.html">7.3. drivers/flash</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvhash/index.html">7.4. drivers/hash</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drviso7816/index.html">7.5. drivers/iso7816</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvspi/index.html">7.6. drivers/spi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvusart/index.html">7.7. drivers/usart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvili9341/index.html">7.8. drivers/ili9341</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
@@ -167,9 +168,9 @@
         
           <li><a href="../drivers.html">7. Drivers</a> &raquo;</li>
         
-          <li><a href="index.html">7.1. The Cryp driver</a> &raquo;</li>
+          <li><a href="index.html">7.2. The Cryp driver</a> &raquo;</li>
         
-      <li>7.1.2. Cryp driver API</li>
+      <li>7.2.2. Cryp driver API</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -187,9 +188,9 @@
            <div itemprop="articleBody">
             
   <div class="section" id="cryp-driver-api">
-<h1>7.1.2. Cryp driver API<a class="headerlink" href="#cryp-driver-api" title="Permalink to this headline">¶</a></h1>
+<h1>7.2.2. Cryp driver API<a class="headerlink" href="#cryp-driver-api" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="initializing-the-cryp-driver">
-<h2>7.1.2.1. Initializing the cryp driver<a class="headerlink" href="#initializing-the-cryp-driver" title="Permalink to this headline">¶</a></h2>
+<h2>7.2.2.1. Initializing the cryp driver<a class="headerlink" href="#initializing-the-cryp-driver" title="Permalink to this headline">¶</a></h2>
 <p>Initializing the hash driver is done with the following API:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libcryp.h&quot;</span><span class="cp"></span>
 
@@ -259,7 +260,7 @@
 </pre></div>
 </div>
 <div class="section" id="about-early-init">
-<h3>7.1.2.1.1. About early init<a class="headerlink" href="#about-early-init" title="Permalink to this headline">¶</a></h3>
+<h3>7.2.2.1.1. About early init<a class="headerlink" href="#about-early-init" title="Permalink to this headline">¶</a></h3>
 <p>The cryp driver early initialization must be executed before the end of the
 task initialization phase (see EwoK kernel API). This initialization declare
 the cryp device against the kernel at boot time. It also get back some
@@ -290,7 +291,7 @@ Input and output buffer and buffer lengths are not set</p>
 </div>
 </div>
 <div class="section" id="about-init">
-<h3>7.1.2.1.2. About init<a class="headerlink" href="#about-init" title="Permalink to this headline">¶</a></h3>
+<h3>7.2.2.1.2. About init<a class="headerlink" href="#about-init" title="Permalink to this headline">¶</a></h3>
 <p>The init step <strong>map</strong> the cryp device only if the chosen map mode is CRYP_MAP_AUTO. If CRYP_MAP_VOLUNTARY is chosen, be sure to handle the map step before using the other functions of the CRYP API.</p>
 <div class="admonition danger">
 <p class="first admonition-title">Danger</p>
@@ -337,7 +338,7 @@ From now on, if the private key has been set by the injector, the Cryp engine ca
 </div>
 </div>
 <div class="section" id="configuring-dma-streams">
-<h3>7.1.2.1.3. Configuring DMA streams<a class="headerlink" href="#configuring-dma-streams" title="Permalink to this headline">¶</a></h3>
+<h3>7.2.2.1.3. Configuring DMA streams<a class="headerlink" href="#configuring-dma-streams" title="Permalink to this headline">¶</a></h3>
 <p>Now that the Cryp engine has been configured, the DMA controler has to be set up. Here, we only set DMA handlers for
 each stream. Setting handlers is required in order to schedule correctly the Cryp engine execution in association with
 the overall data stream:</p>
@@ -369,7 +370,7 @@ the overall data stream:</p>
 </div>
 </div>
 <div class="section" id="mapping-and-unmapping-the-cryp-device">
-<h2>7.1.2.2. Mapping and unmapping the Cryp device<a class="headerlink" href="#mapping-and-unmapping-the-cryp-device" title="Permalink to this headline">¶</a></h2>
+<h2>7.2.2.2. Mapping and unmapping the Cryp device<a class="headerlink" href="#mapping-and-unmapping-the-cryp-device" title="Permalink to this headline">¶</a></h2>
 <p>Mapping and unmapping the Cryp engine, when using the CRYP_MAP_VOLUNTARY mode, is done using the following API</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libcryp.h&quot;</span><span class="cp"></span>
 
@@ -383,9 +384,9 @@ the overall data stream:</p>
 </div>
 </div>
 <div class="section" id="using-the-cryp-engine">
-<h2>7.1.2.3. Using the Cryp engine<a class="headerlink" href="#using-the-cryp-engine" title="Permalink to this headline">¶</a></h2>
+<h2>7.2.2.3. Using the Cryp engine<a class="headerlink" href="#using-the-cryp-engine" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="updating-the-cryp-data">
-<h3>7.1.2.3.1. Updating the Cryp data<a class="headerlink" href="#updating-the-cryp-data" title="Permalink to this headline">¶</a></h3>
+<h3>7.2.2.3.1. Updating the Cryp data<a class="headerlink" href="#updating-the-cryp-data" title="Permalink to this headline">¶</a></h3>
 <p>Until the Cryp engine initialization is done, it is still possible to update:</p>
 <blockquote>
 <div><ul class="simple">
@@ -404,7 +405,7 @@ the overall data stream:</p>
 </div>
 </div>
 <div class="section" id="de-cyphering-content">
-<h3>7.1.2.3.2. (de)cyphering content<a class="headerlink" href="#de-cyphering-content" title="Permalink to this headline">¶</a></h3>
+<h3>7.2.2.3.2. (de)cyphering content<a class="headerlink" href="#de-cyphering-content" title="Permalink to this headline">¶</a></h3>
 <p>(De)cyphering data using the Cryp engine is done using two independent API. One using the DMA, the other using direct access. The second one is smaller as the data transfer is made by the task instead of the DMA controller. (De)cyphering data is done using the following API</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libcryp.h&quot;</span><span class="cp"></span>
 
@@ -448,10 +449,10 @@ the overall data stream:</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="faq.html" class="btn btn-neutral float-right" title="7.1.3. Cryp driver FAQ" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="faq.html" class="btn btn-neutral float-right" title="7.2.3. Cryp driver FAQ" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="about.html" class="btn btn-neutral" title="7.1.1. About the Cryp driver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="about.html" class="btn btn-neutral" title="7.2.1. About the Cryp driver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

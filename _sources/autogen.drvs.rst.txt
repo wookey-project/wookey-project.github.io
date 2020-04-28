@@ -1,6 +1,7 @@
 .. toctree::
    :maxdepth: 2
 
+   drivers/can <drvcan/index>
    drivers/cryp <drvcryp/index>
    drivers/flash <drvflash/index>
    drivers/hash <drvhash/index>

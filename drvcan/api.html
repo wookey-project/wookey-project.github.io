@@ -1,0 +1,322 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>7.1.2. About The CAN driver API &mdash; Wookey 0.9.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/wookey.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="&lt;no title&gt;" href="faq.html" />
+    <link rel="prev" title="7.1.1. About the CAN driver" href="about.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Wookey
+          
+
+          
+            
+            <img src="../_static/wookey_w.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../target.html">1. About the WooKey project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo.html">3. Demo applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">4. Wookey architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ewok/index.html">5. EwoK kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libs.html">6. Libraries</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../drivers.html">7. Drivers</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">7.1. drivers/can</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="about.html">7.1.1. About the CAN protocole</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">7.1.2. The drvCan API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#initializing-the-flash-driver">7.1.2.1. Initializing the flash driver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#starting-and-stopping-the-can-device">7.1.2.2. Starting and stopping the CAN device</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sending-and-receiving-messages">7.1.2.3. Sending and receiving messages</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../drvcryp/index.html">7.2. drivers/cryp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvflash/index.html">7.3. drivers/flash</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvhash/index.html">7.4. drivers/hash</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drviso7816/index.html">7.5. drivers/iso7816</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvspi/index.html">7.6. drivers/spi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvusart/index.html">7.7. drivers/usart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvili9341/index.html">7.8. drivers/ili9341</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tataouine.html">9. Tataouine SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hard.html">10. Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publi.html">11. Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">12. Roadmap</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Wookey</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../drivers.html">7. Drivers</a> &raquo;</li>
+        
+          <li><a href="index.html">7.1. The CAN driver</a> &raquo;</li>
+        
+      <li>7.1.2. About The CAN driver API</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="about-the-can-driver-api">
+<h1>7.1.2. About The CAN driver API<a class="headerlink" href="#about-the-can-driver-api" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="initializing-the-flash-driver">
+<h2>7.1.2.1. Initializing the flash driver<a class="headerlink" href="#initializing-the-flash-driver" title="Permalink to this headline">¶</a></h2>
+<p>Initializing the CAN driver is done with the following API:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libcan.h&quot;</span><span class="cp"></span>
+
+<span class="n">mbed_error_t</span> <span class="nf">can_declare</span><span class="p">(</span><span class="n">__inout</span> <span class="n">can_context_t</span> <span class="o">*</span><span class="n">ctx</span><span class="p">);</span>
+<span class="n">mbed_error_t</span> <span class="nf">can_initialize</span><span class="p">(</span><span class="n">__inout</span> <span class="n">can_context_t</span> <span class="o">*</span><span class="n">ctx</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This two functions use th can_context_t structure to hold the CAN context. This context must be keeped by the upper layer and passed to all CAN driver functions. This permits to keep the libcan reentrant and allows the usage of multiple contexts by the same application.</p>
+<p>The CAN driver declaration must be executed before the end of the
+task initialization phase (see EwoK kernel API). This function declare the device to the kernel, requesting an access to it. The only required field needed in the context is the CAN identifier (<em>id</em> field) which specify which CAN device is to be used.</p>
+<p>At device initialization time, other fields are required:</p>
+<blockquote>
+<div><ul class="simple">
+<li><dl class="first docutils">
+<dt>CAN mode, which may be:</dt>
+<dd><ul class="first last">
+<li>normal (standard CAN interaction)</li>
+<li>silent (transmission without reception)</li>
+<li>loopback (all messages sent are received, no message is sent on the CAN bus</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li>CAN access mode, which can be poll mode (no interrupt) or interrupt based</li>
+<li>Time trigger activation, which mark CAN messages header with local timestamping</li>
+<li>auto bus offload management (dis)enable, handling CAN bus offloading</li>
+<li>auto wakeup (dis)enable, which allow sleep mode and wakeup mode switching on CAN message reception</li>
+<li>auto message retransmission (dis)enable, which automatically resent messages that were not correctly transmitted the first time</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="starting-and-stopping-the-can-device">
+<h2>7.1.2.2. Starting and stopping the CAN device<a class="headerlink" href="#starting-and-stopping-the-can-device" title="Permalink to this headline">¶</a></h2>
+<p>The CAN device is configured in a specific mode, named INIT mode. Before starting to receive or send CAN messages, the CAN device must be started explicitely.
+This is the goal of the following API:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">mbed_error_t</span> <span class="nf">can_start</span><span class="p">(</span><span class="n">__inout</span> <span class="n">can_context_t</span> <span class="o">*</span><span class="n">ctx</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>It is also possible to stop the CAN device. No more message is received after this event and while <em>can_start()</em> is not called again. This is done using:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">mbed_error_t</span> <span class="nf">can_stop</span><span class="p">(</span><span class="n">__inout</span> <span class="n">can_context_t</span> <span class="o">*</span><span class="n">ctx</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sending-and-receiving-messages">
+<h2>7.1.2.3. Sending and receiving messages<a class="headerlink" href="#sending-and-receiving-messages" title="Permalink to this headline">¶</a></h2>
+<p>Sending and receiving CAN messages is done using the following API:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">mbed_error_t</span> <span class="nf">can_xmit</span><span class="p">(</span><span class="k">const</span> <span class="n">__in</span>  <span class="n">can_context_t</span> <span class="o">*</span><span class="n">ctx</span><span class="p">,</span>
+                            <span class="n">__in</span>  <span class="n">can_header_t</span>  <span class="o">*</span><span class="n">header</span><span class="p">,</span>
+                            <span class="n">__in</span>  <span class="n">can_data_t</span>    <span class="o">*</span><span class="n">data</span><span class="p">,</span>
+                           <span class="n">__out</span> <span class="n">can_mbox_t</span>    <span class="o">*</span><span class="n">mbox</span><span class="p">);</span>
+
+<span class="n">mbed_error_t</span> <span class="nf">can_is_txmsg_pending</span><span class="p">(</span><span class="k">const</span> <span class="n">__in</span>  <span class="n">can_context_t</span> <span class="o">*</span><span class="n">ctx</span><span class="p">,</span>
+                                        <span class="n">__in</span>  <span class="n">can_mbox_t</span> <span class="n">mbox</span><span class="p">,</span>
+                                        <span class="n">__out</span> <span class="kt">bool</span> <span class="o">*</span><span class="n">status</span><span class="p">);</span>
+
+<span class="n">mbed_error_t</span> <span class="nf">can_receive</span><span class="p">(</span><span class="k">const</span> <span class="n">__in</span>  <span class="n">can_context_t</span> <span class="o">*</span><span class="n">ctx</span><span class="p">,</span>
+                         <span class="k">const</span> <span class="n">__in</span>  <span class="n">can_fifo_t</span>     <span class="n">fifo</span><span class="p">,</span>
+                               <span class="n">__out</span> <span class="n">can_header_t</span>  <span class="o">*</span><span class="n">header</span><span class="p">,</span>
+                               <span class="n">__out</span> <span class="n">can_data_t</span>    <span class="o">*</span><span class="n">data</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="faq.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="about.html" class="btn btn-neutral" title="7.1.1. About the CAN driver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ANSSI
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.9.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

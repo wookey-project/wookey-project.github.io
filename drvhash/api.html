@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>7.3.2. About The Hash driver API &mdash; Wookey 0.9.0 documentation</title>
+  <title>7.4.2. About The Hash driver API &mdash; Wookey 0.9.0 documentation</title>
   
 
   
@@ -30,8 +30,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="7.3.3. Hash driver FAQ" href="faq.html" />
-    <link rel="prev" title="7.3.1. About the Hash driver" href="about.html" /> 
+    <link rel="next" title="7.4.3. Hash driver FAQ" href="faq.html" />
+    <link rel="prev" title="7.4.1. About the Hash driver" href="about.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -96,24 +96,25 @@
 <li class="toctree-l1"><a class="reference internal" href="../ewok/index.html">5. EwoK kernel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../libs.html">6. Libraries</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../drivers.html">7. Drivers</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../drvcryp/index.html">7.1. drivers/cryp</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drvflash/index.html">7.2. drivers/flash</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="index.html">7.3. drivers/hash</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="about.html">7.3.1. About the Hash principle</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">7.3.2. The drvHash API</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#initializing-the-hash-driver">7.3.2.1. Initializing the hash driver</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#mapping-and-unmapping-the-hash-device">7.3.2.2. Mapping and unmapping the HASH device</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#calculating-a-digest">7.3.2.3. Calculating a digest</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#getting-back-the-digest">7.3.2.4. Getting back the digest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvcan/index.html">7.1. drivers/can</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvcryp/index.html">7.2. drivers/cryp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvflash/index.html">7.3. drivers/flash</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">7.4. drivers/hash</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="about.html">7.4.1. About the Hash principle</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">7.4.2. The drvHash API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#initializing-the-hash-driver">7.4.2.1. Initializing the hash driver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mapping-and-unmapping-the-hash-device">7.4.2.2. Mapping and unmapping the HASH device</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#calculating-a-digest">7.4.2.3. Calculating a digest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#getting-back-the-digest">7.4.2.4. Getting back the digest</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="faq.html">7.3.3. FAQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html">7.4.3. FAQ</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../drviso7816/index.html">7.4. drivers/iso7816</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drvspi/index.html">7.5. drivers/spi</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drvusart/index.html">7.6. drivers/usart</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drvili9341/index.html">7.7. drivers/ili9341</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drviso7816/index.html">7.5. drivers/iso7816</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvspi/index.html">7.6. drivers/spi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvusart/index.html">7.7. drivers/usart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvili9341/index.html">7.8. drivers/ili9341</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
@@ -168,9 +169,9 @@
         
           <li><a href="../drivers.html">7. Drivers</a> &raquo;</li>
         
-          <li><a href="index.html">7.3. The Hash driver</a> &raquo;</li>
+          <li><a href="index.html">7.4. The Hash driver</a> &raquo;</li>
         
-      <li>7.3.2. About The Hash driver API</li>
+      <li>7.4.2. About The Hash driver API</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -188,9 +189,9 @@
            <div itemprop="articleBody">
             
   <div class="section" id="about-the-hash-driver-api">
-<h1>7.3.2. About The Hash driver API<a class="headerlink" href="#about-the-hash-driver-api" title="Permalink to this headline">¶</a></h1>
+<h1>7.4.2. About The Hash driver API<a class="headerlink" href="#about-the-hash-driver-api" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="initializing-the-hash-driver">
-<h2>7.3.2.1. Initializing the hash driver<a class="headerlink" href="#initializing-the-hash-driver" title="Permalink to this headline">¶</a></h2>
+<h2>7.4.2.1. Initializing the hash driver<a class="headerlink" href="#initializing-the-hash-driver" title="Permalink to this headline">¶</a></h2>
 <p>Initializing the hash driver is done with the following API:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libhash.h&quot;</span><span class="cp"></span>
 
@@ -227,7 +228,7 @@
 </pre></div>
 </div>
 <div class="section" id="about-early-init">
-<h3>7.3.2.1.1. About early init<a class="headerlink" href="#about-early-init" title="Permalink to this headline">¶</a></h3>
+<h3>7.4.2.1.1. About early init<a class="headerlink" href="#about-early-init" title="Permalink to this headline">¶</a></h3>
 <p>The hash driver early initialization must be executed before the end of the
 task initialization phase (see EwoK kernel API). This initialization declares
 the hash device against the kernel at boot time.</p>
@@ -242,7 +243,7 @@ the hash device against the kernel at boot time.</p>
 <p>All these information set the global device behavior and impact the device registration step. There is no impact on the hash algorithm choice at this time.</p>
 </div>
 <div class="section" id="about-init">
-<h3>7.3.2.1.2. About init<a class="headerlink" href="#about-init" title="Permalink to this headline">¶</a></h3>
+<h3>7.4.2.1.2. About init<a class="headerlink" href="#about-init" title="Permalink to this headline">¶</a></h3>
 <p>The init step <strong>does map</strong> the HASH device if it is not. If HASH_MAP_VOLUNTARY is chosen, be sure to handle the unmap step after the HASH device usage.</p>
 <div class="admonition danger">
 <p class="first admonition-title">Danger</p>
@@ -263,7 +264,7 @@ the hash device against the kernel at boot time.</p>
 </div>
 </div>
 <div class="section" id="mapping-and-unmapping-the-hash-device">
-<h2>7.3.2.2. Mapping and unmapping the HASH device<a class="headerlink" href="#mapping-and-unmapping-the-hash-device" title="Permalink to this headline">¶</a></h2>
+<h2>7.4.2.2. Mapping and unmapping the HASH device<a class="headerlink" href="#mapping-and-unmapping-the-hash-device" title="Permalink to this headline">¶</a></h2>
 <p>When declaring the HASH device in HASH_MAP_VOLUNTARY mode, the HASH device has to be mapped and unmapped depending on the task memory constraints.
 The HASH driver provides easy-to-use API for this:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libhash.h&quot;</span><span class="cp"></span>
@@ -278,7 +279,7 @@ The HASH driver provides easy-to-use API for this:</p>
 </div>
 </div>
 <div class="section" id="calculating-a-digest">
-<h2>7.3.2.3. Calculating a digest<a class="headerlink" href="#calculating-a-digest" title="Permalink to this headline">¶</a></h2>
+<h2>7.4.2.3. Calculating a digest<a class="headerlink" href="#calculating-a-digest" title="Permalink to this headline">¶</a></h2>
 <p>When the HASH device is configured, it is possible to directly request a digest computation from it. This is done with the following API:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libhash.h&quot;</span><span class="cp"></span>
 
@@ -303,7 +304,7 @@ performed for this specific last block. This means that all the hash updates per
 <p>Requesting a complete digest computation is a sequence between <em>hash_request()</em> calls and end of digest callback execution, finishing with a HASH_REQ_LAST request.</p>
 </div>
 <div class="section" id="getting-back-the-digest">
-<h2>7.3.2.4. Getting back the digest<a class="headerlink" href="#getting-back-the-digest" title="Permalink to this headline">¶</a></h2>
+<h2>7.4.2.4. Getting back the digest<a class="headerlink" href="#getting-back-the-digest" title="Permalink to this headline">¶</a></h2>
 <p>When the last data chunk has been sent to the HASH device and the digest computed (i.e. the end of digest callback has been triggered), the digest can be read from the device.
 This is done using the following API:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libhash.h&quot;</span><span class="cp"></span>
@@ -330,10 +331,10 @@ This is done using the following API:</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="faq.html" class="btn btn-neutral float-right" title="7.3.3. Hash driver FAQ" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="faq.html" class="btn btn-neutral float-right" title="7.4.3. Hash driver FAQ" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="about.html" class="btn btn-neutral" title="7.3.1. About the Hash driver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="about.html" class="btn btn-neutral" title="7.4.1. About the Hash driver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

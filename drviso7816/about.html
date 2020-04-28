@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>7.4.1. About the ISO7816 driver &mdash; Wookey 0.9.0 documentation</title>
+  <title>7.5.1. About the ISO7816 driver &mdash; Wookey 0.9.0 documentation</title>
   
 
   
@@ -30,8 +30,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="7.4.2. About the ISO7816 driver API" href="api.html" />
-    <link rel="prev" title="7.4. The ISO7816 driver" href="index.html" /> 
+    <link rel="next" title="7.5.2. About the ISO7816 driver API" href="api.html" />
+    <link rel="prev" title="7.5. The ISO7816 driver" href="index.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -96,21 +96,22 @@
 <li class="toctree-l1"><a class="reference internal" href="../ewok/index.html">5. EwoK kernel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../libs.html">6. Libraries</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../drivers.html">7. Drivers</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../drvcryp/index.html">7.1. drivers/cryp</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drvflash/index.html">7.2. drivers/flash</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drvhash/index.html">7.3. drivers/hash</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="index.html">7.4. drivers/iso7816</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">7.4.1. About the ISO7816 driver</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#principles">7.4.1.1. Principles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvcan/index.html">7.1. drivers/can</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvcryp/index.html">7.2. drivers/cryp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvflash/index.html">7.3. drivers/flash</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvhash/index.html">7.4. drivers/hash</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">7.5. drivers/iso7816</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">7.5.1. About the ISO7816 driver</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#principles">7.5.1.1. Principles</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="api.html">7.4.2. The ISO7816 driver API</a></li>
-<li class="toctree-l3"><a class="reference internal" href="faq.html">7.4.3. FAQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html">7.5.2. The ISO7816 driver API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html">7.5.3. FAQ</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../drvspi/index.html">7.5. drivers/spi</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drvusart/index.html">7.6. drivers/usart</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drvili9341/index.html">7.7. drivers/ili9341</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvspi/index.html">7.6. drivers/spi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvusart/index.html">7.7. drivers/usart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvili9341/index.html">7.8. drivers/ili9341</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
@@ -165,9 +166,9 @@
         
           <li><a href="../drivers.html">7. Drivers</a> &raquo;</li>
         
-          <li><a href="index.html">7.4. The ISO7816 driver</a> &raquo;</li>
+          <li><a href="index.html">7.5. The ISO7816 driver</a> &raquo;</li>
         
-      <li>7.4.1. About the ISO7816 driver</li>
+      <li>7.5.1. About the ISO7816 driver</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -185,9 +186,9 @@
            <div itemprop="articleBody">
             
   <div class="section" id="about-the-iso7816-driver">
-<h1>7.4.1. About the ISO7816 driver<a class="headerlink" href="#about-the-iso7816-driver" title="Permalink to this headline">¶</a></h1>
+<h1>7.5.1. About the ISO7816 driver<a class="headerlink" href="#about-the-iso7816-driver" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="principles">
-<h2>7.4.1.1. Principles<a class="headerlink" href="#principles" title="Permalink to this headline">¶</a></h2>
+<h2>7.5.1.1. Principles<a class="headerlink" href="#principles" title="Permalink to this headline">¶</a></h2>
 <p>The ISO7816 driver implements the low level layer of the ISO7816-3
 protocol. It configures the SMARTCARD mode of the STM32F4 MCUs
 USARTs (see the datasheet of the MCU for more information about
@@ -205,10 +206,10 @@ card is inserted or removed.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="api.html" class="btn btn-neutral float-right" title="7.4.2. About the ISO7816 driver API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="api.html" class="btn btn-neutral float-right" title="7.5.2. About the ISO7816 driver API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral" title="7.4. The ISO7816 driver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral" title="7.5. The ISO7816 driver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

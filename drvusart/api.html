@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>7.6.2. About The U(S)ART driver API &mdash; Wookey 0.9.0 documentation</title>
+  <title>7.7.2. About The U(S)ART driver API &mdash; Wookey 0.9.0 documentation</title>
   
 
   
@@ -30,8 +30,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="7.6.3. USART driver FAQ" href="faq.html" />
-    <link rel="prev" title="7.6.1. About the Hash driver" href="about.html" /> 
+    <link rel="next" title="7.7.3. USART driver FAQ" href="faq.html" />
+    <link rel="prev" title="7.7.1. About the Hash driver" href="about.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -96,24 +96,25 @@
 <li class="toctree-l1"><a class="reference internal" href="../ewok/index.html">5. EwoK kernel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../libs.html">6. Libraries</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../drivers.html">7. Drivers</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../drvcryp/index.html">7.1. drivers/cryp</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drvflash/index.html">7.2. drivers/flash</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drvhash/index.html">7.3. drivers/hash</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drviso7816/index.html">7.4. drivers/iso7816</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drvspi/index.html">7.5. drivers/spi</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="index.html">7.6. drivers/usart</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="about.html">7.6.1. About the USART principle</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">7.6.2. The drvUsart API</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#initializing-the-usart-driver">7.6.2.1. Initializing the USART driver</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#mapping-and-unmapping-the-usart-device">7.6.2.2. Mapping and unmapping the USART device</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#enabling-and-disabling-a-device">7.6.2.3. Enabling and disabling a device</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#writing-and-reading-from-usart">7.6.2.4. Writing and reading from usart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvcan/index.html">7.1. drivers/can</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvcryp/index.html">7.2. drivers/cryp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvflash/index.html">7.3. drivers/flash</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvhash/index.html">7.4. drivers/hash</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drviso7816/index.html">7.5. drivers/iso7816</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvspi/index.html">7.6. drivers/spi</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">7.7. drivers/usart</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="about.html">7.7.1. About the USART principle</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">7.7.2. The drvUsart API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#initializing-the-usart-driver">7.7.2.1. Initializing the USART driver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mapping-and-unmapping-the-usart-device">7.7.2.2. Mapping and unmapping the USART device</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#enabling-and-disabling-a-device">7.7.2.3. Enabling and disabling a device</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#writing-and-reading-from-usart">7.7.2.4. Writing and reading from usart</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="faq.html">7.6.3. FAQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html">7.7.3. FAQ</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../drvili9341/index.html">7.7. drivers/ili9341</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvili9341/index.html">7.8. drivers/ili9341</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
@@ -168,9 +169,9 @@
         
           <li><a href="../drivers.html">7. Drivers</a> &raquo;</li>
         
-          <li><a href="index.html">7.6. The USART driver</a> &raquo;</li>
+          <li><a href="index.html">7.7. The USART driver</a> &raquo;</li>
         
-      <li>7.6.2. About The U(S)ART driver API</li>
+      <li>7.7.2. About The U(S)ART driver API</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -188,9 +189,9 @@
            <div itemprop="articleBody">
             
   <div class="section" id="about-the-u-s-art-driver-api">
-<h1>7.6.2. About The U(S)ART driver API<a class="headerlink" href="#about-the-u-s-art-driver-api" title="Permalink to this headline">¶</a></h1>
+<h1>7.7.2. About The U(S)ART driver API<a class="headerlink" href="#about-the-u-s-art-driver-api" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="initializing-the-usart-driver">
-<h2>7.6.2.1. Initializing the USART driver<a class="headerlink" href="#initializing-the-usart-driver" title="Permalink to this headline">¶</a></h2>
+<h2>7.7.2.1. Initializing the USART driver<a class="headerlink" href="#initializing-the-usart-driver" title="Permalink to this headline">¶</a></h2>
 <p>Initializing the usart driver is done with the following API:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="nf">void</span> <span class="p">(</span><span class="o">*</span><span class="n">cb_usart_irq_handler_t</span><span class="p">)</span> <span class="p">(</span><span class="kt">uint32_t</span> <span class="n">status</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">data</span><span class="p">);</span>
 <span class="k">typedef</span> <span class="nf">char</span> <span class="p">(</span><span class="o">*</span><span class="n">cb_usart_getc_t</span><span class="p">)</span> <span class="p">(</span><span class="kt">void</span><span class="p">);</span>
@@ -265,7 +266,7 @@
 <p>These three callbacks are set by <em>usart_init()</em>.</p>
 </div>
 <div class="section" id="mapping-and-unmapping-the-usart-device">
-<h2>7.6.2.2. Mapping and unmapping the USART device<a class="headerlink" href="#mapping-and-unmapping-the-usart-device" title="Permalink to this headline">¶</a></h2>
+<h2>7.7.2.2. Mapping and unmapping the USART device<a class="headerlink" href="#mapping-and-unmapping-the-usart-device" title="Permalink to this headline">¶</a></h2>
 <p>When declaring the USART device in USART_MAP_VOLUNTARY mode, the USART device has to be map and unmap depending on the task memory constraints.
 The USART driver provides easy-to-use API for this:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libusart.h&quot;</span><span class="cp"></span>
@@ -280,7 +281,7 @@ The USART driver provides easy-to-use API for this:</p>
 </div>
 </div>
 <div class="section" id="enabling-and-disabling-a-device">
-<h2>7.6.2.3. Enabling and disabling a device<a class="headerlink" href="#enabling-and-disabling-a-device" title="Permalink to this headline">¶</a></h2>
+<h2>7.7.2.3. Enabling and disabling a device<a class="headerlink" href="#enabling-and-disabling-a-device" title="Permalink to this headline">¶</a></h2>
 <p>It is possible to enable or disable a U(S)ART device. Disabling a device will block any incoming or outgoing communication. Enabling a device will re-enabling such communication.</p>
 <div class="admonition hint">
 <p class="first admonition-title">Hint</p>
@@ -292,9 +293,9 @@ The USART driver provides easy-to-use API for this:</p>
 </div>
 </div>
 <div class="section" id="writing-and-reading-from-usart">
-<h2>7.6.2.4. Writing and reading from usart<a class="headerlink" href="#writing-and-reading-from-usart" title="Permalink to this headline">¶</a></h2>
+<h2>7.7.2.4. Writing and reading from usart<a class="headerlink" href="#writing-and-reading-from-usart" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="getc-and-putc">
-<h3>7.6.2.4.1. getc and putc<a class="headerlink" href="#getc-and-putc" title="Permalink to this headline">¶</a></h3>
+<h3>7.7.2.4.1. getc and putc<a class="headerlink" href="#getc-and-putc" title="Permalink to this headline">¶</a></h3>
 <p>Using getc and putc can be done easily using the getc and putc pointer set at init time by the USART driver. These functions are blocking functions waiting for
 the character to be received or to be sent:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libusart.h&quot;</span><span class="cp"></span>
@@ -320,7 +321,7 @@ the character to be received or to be sent:</p>
 </div>
 </div>
 <div class="section" id="higher-read-and-write-access">
-<h3>7.6.2.4.2. Higher read and write access<a class="headerlink" href="#higher-read-and-write-access" title="Permalink to this headline">¶</a></h3>
+<h3>7.7.2.4.2. Higher read and write access<a class="headerlink" href="#higher-read-and-write-access" title="Permalink to this headline">¶</a></h3>
 <p>The USART driver provides higher level abstraction to communicate on serial devices. This permit to read and write buffers directly on the serial line, holding correctly the USART constraints.</p>
 <p>This permits, for example, to implement a serial console.</p>
 <p>This API is the following:</p>
@@ -354,10 +355,10 @@ the character to be received or to be sent:</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="faq.html" class="btn btn-neutral float-right" title="7.6.3. USART driver FAQ" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="faq.html" class="btn btn-neutral float-right" title="7.7.3. USART driver FAQ" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="about.html" class="btn btn-neutral" title="7.6.1. About the Hash driver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="about.html" class="btn btn-neutral" title="7.7.1. About the Hash driver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

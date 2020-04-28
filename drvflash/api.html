@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>7.2.2. About The Flash driver API &mdash; Wookey 0.9.0 documentation</title>
+  <title>7.3.2. About The Flash driver API &mdash; Wookey 0.9.0 documentation</title>
   
 
   
@@ -30,8 +30,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="7.2.3. flash driver FAQ" href="faq.html" />
-    <link rel="prev" title="7.2.1. About the flash driver" href="about.html" /> 
+    <link rel="next" title="7.3.3. flash driver FAQ" href="faq.html" />
+    <link rel="prev" title="7.3.1. About the flash driver" href="about.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -96,27 +96,28 @@
 <li class="toctree-l1"><a class="reference internal" href="../ewok/index.html">5. EwoK kernel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../libs.html">6. Libraries</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../drivers.html">7. Drivers</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../drvcryp/index.html">7.1. drivers/cryp</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="index.html">7.2. drivers/flash</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="about.html">7.2.1. About the flash principle</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">7.2.2. The drvFlash API</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#initializing-the-flash-driver">7.2.2.1. Initializing the flash driver</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#handling-flash-components-mapping">7.2.2.2. Handling flash components mapping</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#un-locking-flash-memory">7.2.2.3. (Un)locking flash memory</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#accessing-flash-option-registers">7.2.2.4. Accessing flash option registers</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#erasing-flash-data">7.2.2.5. Erasing flash data</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#writting-data-to-flash">7.2.2.6. Writting data to flash</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#reading-into-flash">7.2.2.7. Reading into flash</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvcan/index.html">7.1. drivers/can</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvcryp/index.html">7.2. drivers/cryp</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">7.3. drivers/flash</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="about.html">7.3.1. About the flash principle</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">7.3.2. The drvFlash API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#initializing-the-flash-driver">7.3.2.1. Initializing the flash driver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#handling-flash-components-mapping">7.3.2.2. Handling flash components mapping</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#un-locking-flash-memory">7.3.2.3. (Un)locking flash memory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#accessing-flash-option-registers">7.3.2.4. Accessing flash option registers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#erasing-flash-data">7.3.2.5. Erasing flash data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#writting-data-to-flash">7.3.2.6. Writting data to flash</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reading-into-flash">7.3.2.7. Reading into flash</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="faq.html">7.2.3. FAQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html">7.3.3. FAQ</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../drvhash/index.html">7.3. drivers/hash</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drviso7816/index.html">7.4. drivers/iso7816</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drvspi/index.html">7.5. drivers/spi</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drvusart/index.html">7.6. drivers/usart</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drvili9341/index.html">7.7. drivers/ili9341</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvhash/index.html">7.4. drivers/hash</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drviso7816/index.html">7.5. drivers/iso7816</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvspi/index.html">7.6. drivers/spi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvusart/index.html">7.7. drivers/usart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvili9341/index.html">7.8. drivers/ili9341</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
@@ -171,9 +172,9 @@
         
           <li><a href="../drivers.html">7. Drivers</a> &raquo;</li>
         
-          <li><a href="index.html">7.2. The Flash driver</a> &raquo;</li>
+          <li><a href="index.html">7.3. The Flash driver</a> &raquo;</li>
         
-      <li>7.2.2. About The Flash driver API</li>
+      <li>7.3.2. About The Flash driver API</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -191,9 +192,9 @@
            <div itemprop="articleBody">
             
   <div class="section" id="about-the-flash-driver-api">
-<h1>7.2.2. About The Flash driver API<a class="headerlink" href="#about-the-flash-driver-api" title="Permalink to this headline">¶</a></h1>
+<h1>7.3.2. About The Flash driver API<a class="headerlink" href="#about-the-flash-driver-api" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="initializing-the-flash-driver">
-<h2>7.2.2.1. Initializing the flash driver<a class="headerlink" href="#initializing-the-flash-driver" title="Permalink to this headline">¶</a></h2>
+<h2>7.3.2.1. Initializing the flash driver<a class="headerlink" href="#initializing-the-flash-driver" title="Permalink to this headline">¶</a></h2>
 <p>Initializing the flash driver is done with the following API:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libflash.h&quot;</span><span class="cp"></span>
 
@@ -225,7 +226,7 @@ required flash components.</p>
 <p>As all these memory areas are mapped in various, non-contigous area of the memory map, the flash driver handle the various flash components through a voluntary, on request, mapping.</p>
 </div>
 <div class="section" id="handling-flash-components-mapping">
-<h2>7.2.2.2. Handling flash components mapping<a class="headerlink" href="#handling-flash-components-mapping" title="Permalink to this headline">¶</a></h2>
+<h2>7.3.2.2. Handling flash components mapping<a class="headerlink" href="#handling-flash-components-mapping" title="Permalink to this headline">¶</a></h2>
 <p>Before manipulating any of the flash components that have been deeclared in the initialization phase, the task has to request its mapping voluntary.</p>
 <p>Using EwoK, this is done using the following API:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;api/syscall.h&quot;</span><span class="cp"></span>
@@ -283,7 +284,7 @@ This step is under the responsability of the task and must be handled correctly.
 </div>
 </div>
 <div class="section" id="un-locking-flash-memory">
-<h2>7.2.2.3. (Un)locking flash memory<a class="headerlink" href="#un-locking-flash-memory" title="Permalink to this headline">¶</a></h2>
+<h2>7.3.2.3. (Un)locking flash memory<a class="headerlink" href="#un-locking-flash-memory" title="Permalink to this headline">¶</a></h2>
 <p>Flash memory is not writeable by default. In order to write in flash memory, a
 specific magic numbers must be set into the flash configuration register before any write attempt.</p>
 <p>This unlocking action is handled by the <em>flash_lock()</em> function. Locking again the flash is done through <em>flash_unlock()</em>.</p>
@@ -293,7 +294,7 @@ specific magic numbers must be set into the flash configuration register before 
 </div>
 </div>
 <div class="section" id="accessing-flash-option-registers">
-<h2>7.2.2.4. Accessing flash option registers<a class="headerlink" href="#accessing-flash-option-registers" title="Permalink to this headline">¶</a></h2>
+<h2>7.3.2.4. Accessing flash option registers<a class="headerlink" href="#accessing-flash-option-registers" title="Permalink to this headline">¶</a></h2>
 <p>Option registers handle some security specific flash global properties such as
 RDP (Read access protection), WDP (Write access protection) and so on.</p>
 <p>These registers are locked while a dedicated magic is not written in the flash option bytes. These options bytes are also mapped in the OPT_BANK1 and OPT_BANK2 memory areas.</p>
@@ -304,7 +305,7 @@ RDP (Read access protection), WDP (Write access protection) and so on.</p>
 </div>
 </div>
 <div class="section" id="erasing-flash-data">
-<h2>7.2.2.5. Erasing flash data<a class="headerlink" href="#erasing-flash-data" title="Permalink to this headline">¶</a></h2>
+<h2>7.3.2.5. Erasing flash data<a class="headerlink" href="#erasing-flash-data" title="Permalink to this headline">¶</a></h2>
 <p>The flash memory is composed of sector of various size.</p>
 <p>The device support various erase mode:</p>
 <blockquote>
@@ -350,7 +351,7 @@ RDP (Read access protection), WDP (Write access protection) and so on.</p>
 </div>
 </div>
 <div class="section" id="writting-data-to-flash">
-<h2>7.2.2.6. Writting data to flash<a class="headerlink" href="#writting-data-to-flash" title="Permalink to this headline">¶</a></h2>
+<h2>7.3.2.6. Writting data to flash<a class="headerlink" href="#writting-data-to-flash" title="Permalink to this headline">¶</a></h2>
 <p>The flash device require various flash write mode. It is possible to write:</p>
 <blockquote>
 <div><ul class="simple">
@@ -373,7 +374,7 @@ RDP (Read access protection), WDP (Write access protection) and so on.</p>
 </div>
 </div>
 <div class="section" id="reading-into-flash">
-<h2>7.2.2.7. Reading into flash<a class="headerlink" href="#reading-into-flash" title="Permalink to this headline">¶</a></h2>
+<h2>7.3.2.7. Reading into flash<a class="headerlink" href="#reading-into-flash" title="Permalink to this headline">¶</a></h2>
 <p>Reading into flash is a direct memory access into the flash bank area.</p>
 <p>Although, for better readability, the flash driver provides the folllowing API:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libflash.h&quot;</span><span class="cp"></span>
@@ -396,10 +397,10 @@ RDP (Read access protection), WDP (Write access protection) and so on.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="faq.html" class="btn btn-neutral float-right" title="7.2.3. flash driver FAQ" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="faq.html" class="btn btn-neutral float-right" title="7.3.3. flash driver FAQ" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="about.html" class="btn btn-neutral" title="7.2.1. About the flash driver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="about.html" class="btn btn-neutral" title="7.3.1. About the flash driver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

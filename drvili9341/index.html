@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>7.7. The ILI9341 driver &mdash; Wookey 0.9.0 documentation</title>
+  <title>7.8. The ILI9341 driver &mdash; Wookey 0.9.0 documentation</title>
   
 
   
@@ -31,7 +31,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="8. The JavaCard applets" href="../javacard/index.html" />
-    <link rel="prev" title="7.6.3. USART driver FAQ" href="../drvusart/faq.html" /> 
+    <link rel="prev" title="7.7.3. USART driver FAQ" href="../drvusart/faq.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -96,19 +96,20 @@
 <li class="toctree-l1"><a class="reference internal" href="../ewok/index.html">5. EwoK kernel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../libs.html">6. Libraries</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../drivers.html">7. Drivers</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../drvcryp/index.html">7.1. drivers/cryp</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drvflash/index.html">7.2. drivers/flash</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drvhash/index.html">7.3. drivers/hash</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drviso7816/index.html">7.4. drivers/iso7816</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drvspi/index.html">7.5. drivers/spi</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drvusart/index.html">7.6. drivers/usart</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">7.7. drivers/ili9341</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#about-the-ili8341-driver">7.7.1. About the ILI8341 driver</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#the-ili9341-tft-driver-api">7.7.2. The ILI9341 TFT driver API</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#initializing-the-ili9341-driver">7.7.2.1. Initializing the ILI9341 driver</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#manipulating-colors">7.7.2.2. Manipulating colors</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#filling-colored-rectangles">7.7.2.3. Filling colored rectangles</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#writing-text-data">7.7.2.4. Writing text data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvcan/index.html">7.1. drivers/can</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvcryp/index.html">7.2. drivers/cryp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvflash/index.html">7.3. drivers/flash</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvhash/index.html">7.4. drivers/hash</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drviso7816/index.html">7.5. drivers/iso7816</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvspi/index.html">7.6. drivers/spi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvusart/index.html">7.7. drivers/usart</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">7.8. drivers/ili9341</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#about-the-ili8341-driver">7.8.1. About the ILI8341 driver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-ili9341-tft-driver-api">7.8.2. The ILI9341 TFT driver API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#initializing-the-ili9341-driver">7.8.2.1. Initializing the ILI9341 driver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#manipulating-colors">7.8.2.2. Manipulating colors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#filling-colored-rectangles">7.8.2.3. Filling colored rectangles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#writing-text-data">7.8.2.4. Writing text data</a></li>
 </ul>
 </li>
 </ul>
@@ -167,7 +168,7 @@
         
           <li><a href="../drivers.html">7. Drivers</a> &raquo;</li>
         
-      <li>7.7. The ILI9341 driver</li>
+      <li>7.8. The ILI9341 driver</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -185,17 +186,17 @@
            <div itemprop="articleBody">
             
   <div class="section" id="the-ili9341-driver">
-<h1>7.7. The ILI9341 driver<a class="headerlink" href="#the-ili9341-driver" title="Permalink to this headline">¶</a></h1>
+<h1>7.8. The ILI9341 driver<a class="headerlink" href="#the-ili9341-driver" title="Permalink to this headline">¶</a></h1>
 <p>This is the ILI9341 Touchscreen TFT part implementation driver.</p>
 <div class="section" id="about-the-ili8341-driver">
-<h2>7.7.1. About the ILI8341 driver<a class="headerlink" href="#about-the-ili8341-driver" title="Permalink to this headline">¶</a></h2>
+<h2>7.8.1. About the ILI8341 driver<a class="headerlink" href="#about-the-ili8341-driver" title="Permalink to this headline">¶</a></h2>
 <p>This device is a TFT screen peripheral connected through a SPI bus interface.
 This driver aims to be at most SoC-independent and board independent.</p>
 </div>
 <div class="section" id="the-ili9341-tft-driver-api">
-<h2>7.7.2. The ILI9341 TFT driver API<a class="headerlink" href="#the-ili9341-tft-driver-api" title="Permalink to this headline">¶</a></h2>
+<h2>7.8.2. The ILI9341 TFT driver API<a class="headerlink" href="#the-ili9341-tft-driver-api" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="initializing-the-ili9341-driver">
-<h3>7.7.2.1. Initializing the ILI9341 driver<a class="headerlink" href="#initializing-the-ili9341-driver" title="Permalink to this headline">¶</a></h3>
+<h3>7.8.2.1. Initializing the ILI9341 driver<a class="headerlink" href="#initializing-the-ili9341-driver" title="Permalink to this headline">¶</a></h3>
 <p>Initializing the ili9341 driver is done with the following API:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libtft.h&quot;</span><span class="cp"></span>
 
@@ -204,7 +205,7 @@ This driver aims to be at most SoC-independent and board independent.</p>
 </pre></div>
 </div>
 <div class="section" id="about-early-init">
-<h4>7.7.2.1.1. About early init<a class="headerlink" href="#about-early-init" title="Permalink to this headline">¶</a></h4>
+<h4>7.8.2.1.1. About early init<a class="headerlink" href="#about-early-init" title="Permalink to this headline">¶</a></h4>
 <p>The ILI9341 driver early initialization declare the requested GPIOs directly
 connected to the ILI9341 peripheral. These GPIOs are independent of the SPI
 bus GPIOs, which are initialized by the SPI driver.</p>
@@ -214,13 +215,13 @@ bus GPIOs, which are initialized by the SPI driver.</p>
 </div>
 </div>
 <div class="section" id="about-init">
-<h4>7.7.2.1.2. About init<a class="headerlink" href="#about-init" title="Permalink to this headline">¶</a></h4>
+<h4>7.8.2.1.2. About init<a class="headerlink" href="#about-init" title="Permalink to this headline">¶</a></h4>
 <p>The init step configure the GPIOs declared at early init phase and configure
 the SPI bus previously configured by the caller. The SPI bus <strong>must</strong> be mapped.</p>
 </div>
 </div>
 <div class="section" id="manipulating-colors">
-<h3>7.7.2.2. Manipulating colors<a class="headerlink" href="#manipulating-colors" title="Permalink to this headline">¶</a></h3>
+<h3>7.8.2.2. Manipulating colors<a class="headerlink" href="#manipulating-colors" title="Permalink to this headline">¶</a></h3>
 <p>The screen is manipulated using background and foreground colors.
 These color are set using the following API:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libtft.h&quot;</span><span class="cp"></span>
@@ -233,7 +234,7 @@ These color are set using the following API:</p>
 <p>Colors can be updated regulary, mostly before filling rectlangles or writing text content onscreen.</p>
 </div>
 <div class="section" id="filling-colored-rectangles">
-<h3>7.7.2.3. Filling colored rectangles<a class="headerlink" href="#filling-colored-rectangles" title="Permalink to this headline">¶</a></h3>
+<h3>7.8.2.3. Filling colored rectangles<a class="headerlink" href="#filling-colored-rectangles" title="Permalink to this headline">¶</a></h3>
 <div class="admonition hint">
 <p class="first admonition-title">Hint</p>
 <p class="last">Here, like in other API using corrdinates, x and y are in pixels</p>
@@ -250,10 +251,10 @@ These color are set using the following API:</p>
 x2-y2 with the RGB color based on the r,g,b tuple.</p>
 </div>
 <div class="section" id="writing-text-data">
-<h3>7.7.2.4. Writing text data<a class="headerlink" href="#writing-text-data" title="Permalink to this headline">¶</a></h3>
+<h3>7.8.2.4. Writing text data<a class="headerlink" href="#writing-text-data" title="Permalink to this headline">¶</a></h3>
 <p>The ILI9341 device driver permits to write text content onscreen.</p>
 <div class="section" id="set-current-cursor-coordinate">
-<h4>7.7.2.4.1. Set current cursor coordinate<a class="headerlink" href="#set-current-cursor-coordinate" title="Permalink to this headline">¶</a></h4>
+<h4>7.8.2.4.1. Set current cursor coordinate<a class="headerlink" href="#set-current-cursor-coordinate" title="Permalink to this headline">¶</a></h4>
 <p>When writing text data, the cursor position must be set. If not, it will take the
 last known cursor position, or 0,0.</p>
 <p>Setting the cursor position is done using the following API:</p>
@@ -264,7 +265,7 @@ last known cursor position, or 0,0.</p>
 </div>
 </div>
 <div class="section" id="writing-text">
-<h4>7.7.2.4.2. Writing text<a class="headerlink" href="#writing-text" title="Permalink to this headline">¶</a></h4>
+<h4>7.8.2.4.2. Writing text<a class="headerlink" href="#writing-text" title="Permalink to this headline">¶</a></h4>
 <p>Writing text onscreen is done with the following API:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libtft.h&quot;</span><span class="cp"></span>
 
@@ -284,7 +285,7 @@ argument length.</p>
 </div>
 </div>
 <div class="section" id="showing-an-image">
-<h4>7.7.2.4.3. Showing an image<a class="headerlink" href="#showing-an-image" title="Permalink to this headline">¶</a></h4>
+<h4>7.8.2.4.3. Showing an image<a class="headerlink" href="#showing-an-image" title="Permalink to this headline">¶</a></h4>
 <p>The ILI9341 driver support an abstraction for transfering image content to the
 peripheral. This abstraction is based on RLE image compression format (see <span class="xref std std-ref">lib_gui</span> documentation). Sending RLE image onscreen is done using the following API:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libtft.h&quot;</span><span class="cp"></span>
@@ -320,7 +321,7 @@ image content.</p>
         <a href="../javacard/index.html" class="btn btn-neutral float-right" title="8. The JavaCard applets" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../drvusart/faq.html" class="btn btn-neutral" title="7.6.3. USART driver FAQ" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../drvusart/faq.html" class="btn btn-neutral" title="7.7.3. USART driver FAQ" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

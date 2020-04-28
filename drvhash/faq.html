@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>7.3.3. Hash driver FAQ &mdash; Wookey 0.9.0 documentation</title>
+  <title>7.4.3. Hash driver FAQ &mdash; Wookey 0.9.0 documentation</title>
   
 
   
@@ -30,8 +30,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="7.4. The ISO7816 driver" href="../drviso7816/index.html" />
-    <link rel="prev" title="7.3.2. About The Hash driver API" href="api.html" /> 
+    <link rel="next" title="7.5. The ISO7816 driver" href="../drviso7816/index.html" />
+    <link rel="prev" title="7.4.2. About The Hash driver API" href="api.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -96,22 +96,23 @@
 <li class="toctree-l1"><a class="reference internal" href="../ewok/index.html">5. EwoK kernel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../libs.html">6. Libraries</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../drivers.html">7. Drivers</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../drvcryp/index.html">7.1. drivers/cryp</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drvflash/index.html">7.2. drivers/flash</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="index.html">7.3. drivers/hash</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="about.html">7.3.1. About the Hash principle</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api.html">7.3.2. The drvHash API</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">7.3.3. FAQ</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#is-the-hash-driver-thread-safe">7.3.3.1. Is the Hash driver thread safe?</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#can-i-request-digests-from-unmapped-data-when-using-dma">7.3.3.2. Can I request digests from unmapped data when using DMA?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvcan/index.html">7.1. drivers/can</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvcryp/index.html">7.2. drivers/cryp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvflash/index.html">7.3. drivers/flash</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">7.4. drivers/hash</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="about.html">7.4.1. About the Hash principle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html">7.4.2. The drvHash API</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">7.4.3. FAQ</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#is-the-hash-driver-thread-safe">7.4.3.1. Is the Hash driver thread safe?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#can-i-request-digests-from-unmapped-data-when-using-dma">7.4.3.2. Can I request digests from unmapped data when using DMA?</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../drviso7816/index.html">7.4. drivers/iso7816</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drvspi/index.html">7.5. drivers/spi</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drvusart/index.html">7.6. drivers/usart</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drvili9341/index.html">7.7. drivers/ili9341</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drviso7816/index.html">7.5. drivers/iso7816</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvspi/index.html">7.6. drivers/spi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvusart/index.html">7.7. drivers/usart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvili9341/index.html">7.8. drivers/ili9341</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
@@ -166,9 +167,9 @@
         
           <li><a href="../drivers.html">7. Drivers</a> &raquo;</li>
         
-          <li><a href="index.html">7.3. The Hash driver</a> &raquo;</li>
+          <li><a href="index.html">7.4. The Hash driver</a> &raquo;</li>
         
-      <li>7.3.3. Hash driver FAQ</li>
+      <li>7.4.3. Hash driver FAQ</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -186,13 +187,13 @@
            <div itemprop="articleBody">
             
   <div class="section" id="hash-driver-faq">
-<h1>7.3.3. Hash driver FAQ<a class="headerlink" href="#hash-driver-faq" title="Permalink to this headline">¶</a></h1>
+<h1>7.4.3. Hash driver FAQ<a class="headerlink" href="#hash-driver-faq" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="is-the-hash-driver-thread-safe">
-<h2>7.3.3.1. Is the Hash driver thread safe?<a class="headerlink" href="#is-the-hash-driver-thread-safe" title="Permalink to this headline">¶</a></h2>
+<h2>7.4.3.1. Is the Hash driver thread safe?<a class="headerlink" href="#is-the-hash-driver-thread-safe" title="Permalink to this headline">¶</a></h2>
 <p>No, because the device is not. Beware to serialize correctly device requests to avoid any problems.</p>
 </div>
 <div class="section" id="can-i-request-digests-from-unmapped-data-when-using-dma">
-<h2>7.3.3.2. Can I request digests from unmapped data when using DMA?<a class="headerlink" href="#can-i-request-digests-from-unmapped-data-when-using-dma" title="Permalink to this headline">¶</a></h2>
+<h2>7.4.3.2. Can I request digests from unmapped data when using DMA?<a class="headerlink" href="#can-i-request-digests-from-unmapped-data-when-using-dma" title="Permalink to this headline">¶</a></h2>
 <p>Yes and no. It is possible to use DMA to let the HASH device access the data
 directly instead of copying them into the input register, but the DMA
 configuration is controlled by the kernel. You need at least to use DMA SHM
@@ -209,10 +210,10 @@ memory content.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../drviso7816/index.html" class="btn btn-neutral float-right" title="7.4. The ISO7816 driver" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../drviso7816/index.html" class="btn btn-neutral float-right" title="7.5. The ISO7816 driver" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="api.html" class="btn btn-neutral" title="7.3.2. About The Hash driver API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="api.html" class="btn btn-neutral" title="7.4.2. About The Hash driver API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

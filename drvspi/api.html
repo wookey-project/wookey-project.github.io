@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>7.5.2. The SPI driver API &mdash; Wookey 0.9.0 documentation</title>
+  <title>7.6.2. The SPI driver API &mdash; Wookey 0.9.0 documentation</title>
   
 
   
@@ -30,8 +30,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="7.5.3. SPI driver FAQ" href="faq.html" />
-    <link rel="prev" title="7.5.1. SPI bus and driver principle" href="about.html" /> 
+    <link rel="next" title="7.6.3. SPI driver FAQ" href="faq.html" />
+    <link rel="prev" title="7.6.1. SPI bus and driver principle" href="about.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -96,24 +96,25 @@
 <li class="toctree-l1"><a class="reference internal" href="../ewok/index.html">5. EwoK kernel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../libs.html">6. Libraries</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../drivers.html">7. Drivers</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../drvcryp/index.html">7.1. drivers/cryp</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drvflash/index.html">7.2. drivers/flash</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drvhash/index.html">7.3. drivers/hash</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drviso7816/index.html">7.4. drivers/iso7816</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="index.html">7.5. drivers/spi</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="about.html">7.5.1. SPI bus principle</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">7.5.2. The drvSpi API</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#initializing-the-spi-driver">7.5.2.1. Initializing the SPI driver</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#enabling-and-disabling-the-spi">7.5.2.2. Enabling and disabling the SPI</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#getting-spi-bus-state">7.5.2.3. Getting SPI bus state</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#communicating-with-spi-peripherals">7.5.2.4. Communicating with SPI peripherals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvcan/index.html">7.1. drivers/can</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvcryp/index.html">7.2. drivers/cryp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvflash/index.html">7.3. drivers/flash</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvhash/index.html">7.4. drivers/hash</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drviso7816/index.html">7.5. drivers/iso7816</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">7.6. drivers/spi</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="about.html">7.6.1. SPI bus principle</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">7.6.2. The drvSpi API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#initializing-the-spi-driver">7.6.2.1. Initializing the SPI driver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#enabling-and-disabling-the-spi">7.6.2.2. Enabling and disabling the SPI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#getting-spi-bus-state">7.6.2.3. Getting SPI bus state</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#communicating-with-spi-peripherals">7.6.2.4. Communicating with SPI peripherals</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="faq.html">7.5.3. FAQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html">7.6.3. FAQ</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../drvusart/index.html">7.6. drivers/usart</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drvili9341/index.html">7.7. drivers/ili9341</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvusart/index.html">7.7. drivers/usart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvili9341/index.html">7.8. drivers/ili9341</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
@@ -168,9 +169,9 @@
         
           <li><a href="../drivers.html">7. Drivers</a> &raquo;</li>
         
-          <li><a href="index.html">7.5. The SPI driver</a> &raquo;</li>
+          <li><a href="index.html">7.6. The SPI driver</a> &raquo;</li>
         
-      <li>7.5.2. The SPI driver API</li>
+      <li>7.6.2. The SPI driver API</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -188,9 +189,9 @@
            <div itemprop="articleBody">
             
   <div class="section" id="the-spi-driver-api">
-<h1>7.5.2. The SPI driver API<a class="headerlink" href="#the-spi-driver-api" title="Permalink to this headline">¶</a></h1>
+<h1>7.6.2. The SPI driver API<a class="headerlink" href="#the-spi-driver-api" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="initializing-the-spi-driver">
-<h2>7.5.2.1. Initializing the SPI driver<a class="headerlink" href="#initializing-the-spi-driver" title="Permalink to this headline">¶</a></h2>
+<h2>7.6.2.1. Initializing the SPI driver<a class="headerlink" href="#initializing-the-spi-driver" title="Permalink to this headline">¶</a></h2>
 <p>Initializing the spi driver is done with the following API</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libspi.h&quot;</span><span class="cp"></span>
 
@@ -215,7 +216,7 @@ This mechanism is based on macros and permit to unify the SPI functions
 implementations</p>
 </div>
 <div class="section" id="about-early-init">
-<h3>7.5.2.1.1. About early init<a class="headerlink" href="#about-early-init" title="Permalink to this headline">¶</a></h3>
+<h3>7.6.2.1.1. About early init<a class="headerlink" href="#about-early-init" title="Permalink to this headline">¶</a></h3>
 <p>The spi driver early initialization must be executed before the end of the
 task initialization phase (see EwoK kernel API). This initialization declare
 the spi device against the kernel at boot time.</p>
@@ -225,7 +226,7 @@ the spi device against the kernel at boot time.</p>
 </div>
 </div>
 <div class="section" id="about-init">
-<h3>7.5.2.1.2. About init<a class="headerlink" href="#about-init" title="Permalink to this headline">¶</a></h3>
+<h3>7.6.2.1.2. About init<a class="headerlink" href="#about-init" title="Permalink to this headline">¶</a></h3>
 <p>The init step initialize the SPI X bus with basic necessary configuration to be up and running. The init function handle the following argument:</p>
 <blockquote>
 <div><ul class="simple">
@@ -243,7 +244,7 @@ the spi device against the kernel at boot time.</p>
 </div>
 </div>
 <div class="section" id="enabling-and-disabling-the-spi">
-<h2>7.5.2.2. Enabling and disabling the SPI<a class="headerlink" href="#enabling-and-disabling-the-spi" title="Permalink to this headline">¶</a></h2>
+<h2>7.6.2.2. Enabling and disabling the SPI<a class="headerlink" href="#enabling-and-disabling-the-spi" title="Permalink to this headline">¶</a></h2>
 <p>The SPI bus is not enable until the task explicitly enable it. When modifying the SPI configuration, the task needs to disable the SPI. To do these two kind of actions, the SPI driver provides the following API</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libspi.h&quot;</span><span class="cp"></span>
 
@@ -254,7 +255,7 @@ the spi device against the kernel at boot time.</p>
 <p><em>spiX_disable()</em> disable the SPI bus. <em>spiX_enable()</em> enable the SPI bus.</p>
 </div>
 <div class="section" id="getting-spi-bus-state">
-<h2>7.5.2.3. Getting SPI bus state<a class="headerlink" href="#getting-spi-bus-state" title="Permalink to this headline">¶</a></h2>
+<h2>7.6.2.3. Getting SPI bus state<a class="headerlink" href="#getting-spi-bus-state" title="Permalink to this headline">¶</a></h2>
 <p>The SPI bus may be shared between multiple board devices. Though, devices may require different SPI configuration, like for example, the SPI baudrate.</p>
 <div class="admonition caution">
 <p class="first admonition-title">Caution</p>
@@ -311,7 +312,7 @@ canonical baudrate definitions set above.</p>
 </div>
 </div>
 <div class="section" id="communicating-with-spi-peripherals">
-<h2>7.5.2.4. Communicating with SPI peripherals<a class="headerlink" href="#communicating-with-spi-peripherals" title="Permalink to this headline">¶</a></h2>
+<h2>7.6.2.4. Communicating with SPI peripherals<a class="headerlink" href="#communicating-with-spi-peripherals" title="Permalink to this headline">¶</a></h2>
 <p>The basic way to communicate with SPI peripheral is through direct transfers.</p>
 <p>This is done using the following API</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;libspi.h&quot;</span><span class="cp"></span>
@@ -349,10 +350,10 @@ Circular DMA based data transfer is done using the following API</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="faq.html" class="btn btn-neutral float-right" title="7.5.3. SPI driver FAQ" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="faq.html" class="btn btn-neutral float-right" title="7.6.3. SPI driver FAQ" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="about.html" class="btn btn-neutral" title="7.5.1. SPI bus and driver principle" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="about.html" class="btn btn-neutral" title="7.6.1. SPI bus and driver principle" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

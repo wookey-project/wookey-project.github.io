@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>7.2.3. Cryp driver FAQ &mdash; Wookey 0.9.0 documentation</title>
+  <title>7.1.1. About the CAN driver &mdash; Wookey 0.9.0 documentation</title>
   
 
   
@@ -30,8 +30,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="7.3. The Flash driver" href="../drvflash/index.html" />
-    <link rel="prev" title="7.2.2. Cryp driver API" href="api.html" /> 
+    <link rel="next" title="7.1.2. About The CAN driver API" href="api.html" />
+    <link rel="prev" title="7.1. The CAN driver" href="index.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -96,13 +96,15 @@
 <li class="toctree-l1"><a class="reference internal" href="../ewok/index.html">5. EwoK kernel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../libs.html">6. Libraries</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../drivers.html">7. Drivers</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../drvcan/index.html">7.1. drivers/can</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="index.html">7.2. drivers/cryp</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="about.html">7.2.1. About the Cryp principle</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api.html">7.2.2. The drvCryp API</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">7.2.3. FAQ</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">7.1. drivers/can</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">7.1.1. About the CAN protocole</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#principles">7.1.1.1. Principles</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="api.html">7.1.2. The drvCan API</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../drvcryp/index.html">7.2. drivers/cryp</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../drvflash/index.html">7.3. drivers/flash</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../drvhash/index.html">7.4. drivers/hash</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../drviso7816/index.html">7.5. drivers/iso7816</a></li>
@@ -163,9 +165,9 @@
         
           <li><a href="../drivers.html">7. Drivers</a> &raquo;</li>
         
-          <li><a href="index.html">7.2. The Cryp driver</a> &raquo;</li>
+          <li><a href="index.html">7.1. The CAN driver</a> &raquo;</li>
         
-      <li>7.2.3. Cryp driver FAQ</li>
+      <li>7.1.1. About the CAN driver</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -182,8 +184,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="cryp-driver-faq">
-<h1>7.2.3. Cryp driver FAQ<a class="headerlink" href="#cryp-driver-faq" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="about-the-can-driver">
+<h1>7.1.1. About the CAN driver<a class="headerlink" href="#about-the-can-driver" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="principles">
+<h2>7.1.1.1. Principles<a class="headerlink" href="#principles" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="about-can-protocol">
+<h3>7.1.1.1.1. About CAN protocol<a class="headerlink" href="#about-can-protocol" title="Permalink to this headline">¶</a></h3>
+<p>CAN (Controller Area Network) is a widely used, robust, serial communication bus which allows a set of MCU to communicate with each others. CAN buses are mostly used in vehicular systems. CAN is a message based protocol broadcasted on a shared communication link. CAN protocol handle priority based on device identifier.</p>
+<p>Most of the time, devices use function-oriented protocols on the top of the CAN protocol, such as OBD-II.</p>
+</div>
+</div>
 </div>
 
 
@@ -194,10 +204,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../drvflash/index.html" class="btn btn-neutral float-right" title="7.3. The Flash driver" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="api.html" class="btn btn-neutral float-right" title="7.1.2. About The CAN driver API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="api.html" class="btn btn-neutral" title="7.2.2. Cryp driver API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral" title="7.1. The CAN driver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

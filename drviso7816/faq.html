@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>7.4.3. ISO7816 driver FAQ &mdash; Wookey 0.9.0 documentation</title>
+  <title>7.5.3. ISO7816 driver FAQ &mdash; Wookey 0.9.0 documentation</title>
   
 
   
@@ -30,8 +30,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="7.5. The SPI driver" href="../drvspi/index.html" />
-    <link rel="prev" title="7.4.2. About the ISO7816 driver API" href="api.html" /> 
+    <link rel="next" title="7.6. The SPI driver" href="../drvspi/index.html" />
+    <link rel="prev" title="7.5.2. About the ISO7816 driver API" href="api.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -96,23 +96,24 @@
 <li class="toctree-l1"><a class="reference internal" href="../ewok/index.html">5. EwoK kernel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../libs.html">6. Libraries</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../drivers.html">7. Drivers</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../drvcryp/index.html">7.1. drivers/cryp</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drvflash/index.html">7.2. drivers/flash</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drvhash/index.html">7.3. drivers/hash</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="index.html">7.4. drivers/iso7816</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="about.html">7.4.1. About the ISO7816 driver</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api.html">7.4.2. The ISO7816 driver API</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">7.4.3. FAQ</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#is-the-iso7816-driver-self-contained">7.4.3.1. Is the ISO7816 driver self-contained?</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#is-using-usart-the-only-way-to-handle-iso7816">7.4.3.2. Is using USART the only way to handle ISO7816?</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#why-this-driver-does-not-make-use-of-usart-dma">7.4.3.3. Why this driver does not make use of USART DMA?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvcan/index.html">7.1. drivers/can</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvcryp/index.html">7.2. drivers/cryp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvflash/index.html">7.3. drivers/flash</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvhash/index.html">7.4. drivers/hash</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">7.5. drivers/iso7816</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="about.html">7.5.1. About the ISO7816 driver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html">7.5.2. The ISO7816 driver API</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">7.5.3. FAQ</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#is-the-iso7816-driver-self-contained">7.5.3.1. Is the ISO7816 driver self-contained?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#is-using-usart-the-only-way-to-handle-iso7816">7.5.3.2. Is using USART the only way to handle ISO7816?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#why-this-driver-does-not-make-use-of-usart-dma">7.5.3.3. Why this driver does not make use of USART DMA?</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../drvspi/index.html">7.5. drivers/spi</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drvusart/index.html">7.6. drivers/usart</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../drvili9341/index.html">7.7. drivers/ili9341</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvspi/index.html">7.6. drivers/spi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvusart/index.html">7.7. drivers/usart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../drvili9341/index.html">7.8. drivers/ili9341</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../javacard/index.html">8. Javacard Applets</a></li>
@@ -167,9 +168,9 @@
         
           <li><a href="../drivers.html">7. Drivers</a> &raquo;</li>
         
-          <li><a href="index.html">7.4. The ISO7816 driver</a> &raquo;</li>
+          <li><a href="index.html">7.5. The ISO7816 driver</a> &raquo;</li>
         
-      <li>7.4.3. ISO7816 driver FAQ</li>
+      <li>7.5.3. ISO7816 driver FAQ</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -187,15 +188,15 @@
            <div itemprop="articleBody">
             
   <div class="section" id="iso7816-driver-faq">
-<h1>7.4.3. ISO7816 driver FAQ<a class="headerlink" href="#iso7816-driver-faq" title="Permalink to this headline">¶</a></h1>
+<h1>7.5.3. ISO7816 driver FAQ<a class="headerlink" href="#iso7816-driver-faq" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="is-the-iso7816-driver-self-contained">
-<h2>7.4.3.1. Is the ISO7816 driver self-contained?<a class="headerlink" href="#is-the-iso7816-driver-self-contained" title="Permalink to this headline">¶</a></h2>
+<h2>7.5.3.1. Is the ISO7816 driver self-contained?<a class="headerlink" href="#is-the-iso7816-driver-self-contained" title="Permalink to this headline">¶</a></h2>
 <p>No, the ISO7816 driver only exposes primitives to send and
 receive characters on an I/O line as defined by the ISO7816
 standard. This driver also generates the associated clock.</p>
 </div>
 <div class="section" id="is-using-usart-the-only-way-to-handle-iso7816">
-<h2>7.4.3.2. Is using USART the only way to handle ISO7816?<a class="headerlink" href="#is-using-usart-the-only-way-to-handle-iso7816" title="Permalink to this headline">¶</a></h2>
+<h2>7.5.3.2. Is using USART the only way to handle ISO7816?<a class="headerlink" href="#is-using-usart-the-only-way-to-handle-iso7816" title="Permalink to this headline">¶</a></h2>
 <p>No, the same primitives to send and receive bytes on an
 ISO7816 half-duplex I/O line can be implemented in a
 bitbanging flavor with GPIOs. However, for efficiency and
@@ -203,7 +204,7 @@ performance reasons we have chosen to use the native USART
 acceleration to do this.</p>
 </div>
 <div class="section" id="why-this-driver-does-not-make-use-of-usart-dma">
-<h2>7.4.3.3. Why this driver does not make use of USART DMA?<a class="headerlink" href="#why-this-driver-does-not-make-use-of-usart-dma" title="Permalink to this headline">¶</a></h2>
+<h2>7.5.3.3. Why this driver does not make use of USART DMA?<a class="headerlink" href="#why-this-driver-does-not-make-use-of-usart-dma" title="Permalink to this headline">¶</a></h2>
 <p>The ISO7816 is a synchronous protocol. The half-duplex nature
 of the I/O line and the fact that the sender and the receiver
 are either exclusively sending or receiving makes polling a simple yet
@@ -223,10 +224,10 @@ performance (compared to faster buses).</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../drvspi/index.html" class="btn btn-neutral float-right" title="7.5. The SPI driver" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../drvspi/index.html" class="btn btn-neutral float-right" title="7.6. The SPI driver" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="api.html" class="btn btn-neutral" title="7.4.2. About the ISO7816 driver API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="api.html" class="btn btn-neutral" title="7.5.2. About the ISO7816 driver API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
