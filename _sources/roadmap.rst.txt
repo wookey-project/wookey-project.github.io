@@ -48,6 +48,35 @@ Life-cycle of the component and evolution of the maturity level:
    * New feature releases impact the minor value (aka ``y``)
    * Bugfixes, RTE check, architecture and style updates impact the patchset value (aka ``z``)
 
+
+Releases
+--------
+
+.. _releases:
+
+2020-june
+"""""""""
+
+This releases mostly targets advanced security and genericity features, including a complete patchset to the `SSTIC 2020 <https://www.sstic.org/2020/presentation/inter-cesti_methodological_and_technical_feedbacks_on_hardware_devices_evaluations/>`_ article including security reports of the 10 French ITSEFs.
+
+The updates include Side-Channel attacks and Fault-injection Attacks classes protections, making the Wookey device harder to corrupt, even with advanced hardware attacks.
+
+**New Features**
+   * Advanced FIA protection and control flow integrity in bootloader
+   * Advanced, resilient, RDP glitch attack detection in bootloader
+   * OTP-based flash erase mechanism resilient to reset
+   * Fully conform PRNG implementation and ANSI C rand() implementation in libstd
+   * New syscall in EwoK: `sys_panic()`
+   * Protection against RoP through custom trampoline implementation for all function pointers
+   * Complete new memory abstraction system in EwoK kernel, more generic and portable
+   * Handle (optional) differenciate nominal vs DFU profiles for apps and libs features, to reduce footprint
+   * Begining of the EwoK noRTE full SPARK support
+
+**BugFixes**
+   * Vulnerability in syscall parameters handling in EwoK patched
+   * FIA weakness in libiso7816 hardened with advanced check
+   * Various SCA and FIA protections in Applet and various tasks and libraries
+
 Planned Updates and wishlist
 ----------------------------
 
@@ -67,17 +96,16 @@ Components planned updates
    * - Component
      - Update
    * - ``EwoK``
-     - Finalize the Ada/SPARK implementation. The ADA kernel should no more rely on any C code
+     - Continuing the Ada/SPARK noRTE implementation (currently being tested: 90% noRTE code coverage)
+     - Preparing support for SMP architectures (reentrancy, etc.)
    * - ``Tataouine``
-     - Support for RDP2 lock tooling through make target(s). Set device OTP area when locked
+     - Enhancement of RDP2 lock tooling through make target(s). Include other ARMv7M and other arches targets
    * - ``Bootloader``
-     - Usage of flash OTP area for more efficient RDP2 lock check, in association with Tataouine
-   * - ``libmassstorage``
-     - Move USB BULK stack into a dedicated library. libmassstorage becomes libscsi
+     - Now that OTP-based erase mechanism and advance FIA protection is made, starting Frama-C anotations of the bootloader
    * - ``STM32F4 USB driver``
-     - Clean reimplementation of the USB FS/HS driver, control plane inside a libusbcontrol independent library
+     - USB xDCI is now ready, associted to USB OTG HS and USB OTG FS drivers. Upper stack to be updated
    * - ``libstd``
-     - Full cleaning of the allocator implementation. Add PRNG support with various random sources (beyond the TRNG), e.g. HMAC-DRBG
+     - Full cleaning of the allocator implementation to continue
 
 
 Ecosystem wished updates

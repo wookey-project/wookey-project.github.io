@@ -18,6 +18,13 @@ directly go to the :ref:`quickstart` section.
 **Any questions or propositions on the project ?** Don't hesitate to use the Wookey project
 mailing list, `kindly hosted by the CNRS <https://listes.services.cnrs.fr/wws/info/wookey>`_.
 
+.. warning::
+   A new release of the Wookey software has been delivered, denoted 2020-june.
+   This release includes a huge amount of new security features and bufixes described in
+   the :ref:`releases` section of the Releases page.
+   This release is still nightly but will be tagged stable shortly.
+
+
 .. toctree::
    :caption: Table of Contents
    :name: mastertoc

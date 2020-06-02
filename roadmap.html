@@ -105,9 +105,13 @@
 <li class="toctree-l3"><a class="reference internal" href="#about-component-maturity">12.1.2. About component maturity</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#planned-updates-and-wishlist">12.2. Planned Updates and wishlist</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#components-planned-updates">12.2.1. Components planned updates</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#ecosystem-wished-updates">12.2.2. Ecosystem wished updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#releases">12.2. Releases</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#june">12.2.1. 2020-june</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#planned-updates-and-wishlist">12.3. Planned Updates and wishlist</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#components-planned-updates">12.3.1. Components planned updates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ecosystem-wished-updates">12.3.2. Ecosystem wished updates</a></li>
 </ul>
 </li>
 </ul>
@@ -223,8 +227,38 @@ These components are versioned depending on their maturity level, using the stan
 </div></blockquote>
 </div>
 </div>
+<div class="section" id="releases">
+<h2>12.2. Releases<a class="headerlink" href="#releases" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="june">
+<span id="id2"></span><h3>12.2.1. 2020-june<a class="headerlink" href="#june" title="Permalink to this headline">¶</a></h3>
+<p>This releases mostly targets advanced security and genericity features, including a complete patchset to the <a class="reference external" href="https://www.sstic.org/2020/presentation/inter-cesti_methodological_and_technical_feedbacks_on_hardware_devices_evaluations/">SSTIC 2020</a> article including security reports of the 10 French ITSEFs.</p>
+<p>The updates include Side-Channel attacks and Fault-injection Attacks classes protections, making the Wookey device harder to corrupt, even with advanced hardware attacks.</p>
+<dl class="docutils">
+<dt><strong>New Features</strong></dt>
+<dd><ul class="first last simple">
+<li>Advanced FIA protection and control flow integrity in bootloader</li>
+<li>Advanced, resilient, RDP glitch attack detection in bootloader</li>
+<li>OTP-based flash erase mechanism resilient to reset</li>
+<li>Fully conform PRNG implementation and ANSI C rand() implementation in libstd</li>
+<li>New syscall in EwoK: <cite>sys_panic()</cite></li>
+<li>Protection against RoP through custom trampoline implementation for all function pointers</li>
+<li>Complete new memory abstraction system in EwoK kernel, more generic and portable</li>
+<li>Handle (optional) differenciate nominal vs DFU profiles for apps and libs features, to reduce footprint</li>
+<li>Begining of the EwoK noRTE full SPARK support</li>
+</ul>
+</dd>
+<dt><strong>BugFixes</strong></dt>
+<dd><ul class="first last simple">
+<li>Vulnerability in syscall parameters handling in EwoK patched</li>
+<li>FIA weakness in libiso7816 hardened with advanced check</li>
+<li>Various SCA and FIA protections in Applet and various tasks and libraries</li>
+</ul>
+</dd>
+</dl>
+</div>
+</div>
 <div class="section" id="planned-updates-and-wishlist">
-<h2>12.2. Planned Updates and wishlist<a class="headerlink" href="#planned-updates-and-wishlist" title="Permalink to this headline">¶</a></h2>
+<h2>12.3. Planned Updates and wishlist<a class="headerlink" href="#planned-updates-and-wishlist" title="Permalink to this headline">¶</a></h2>
 <p>The following roadmap describes:</p>
 <blockquote>
 <div><ul class="simple">
@@ -233,41 +267,10 @@ These components are versioned depending on their maturity level, using the stan
 </ul>
 </div></blockquote>
 <div class="section" id="components-planned-updates">
-<h3>12.2.1. Components planned updates<a class="headerlink" href="#components-planned-updates" title="Permalink to this headline">¶</a></h3>
-<table border="1" class="colwidths-given docutils">
-<colgroup>
-<col width="20%" />
-<col width="80%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Component</th>
-<th class="head">Update</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">EwoK</span></code></td>
-<td>Finalize the Ada/SPARK implementation. The ADA kernel should no more rely on any C code</td>
-</tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">Tataouine</span></code></td>
-<td>Support for RDP2 lock tooling through make target(s). Set device OTP area when locked</td>
-</tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">Bootloader</span></code></td>
-<td>Usage of flash OTP area for more efficient RDP2 lock check, in association with Tataouine</td>
-</tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">libmassstorage</span></code></td>
-<td>Move USB BULK stack into a dedicated library. libmassstorage becomes libscsi</td>
-</tr>
-<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">STM32F4</span> <span class="pre">USB</span> <span class="pre">driver</span></code></td>
-<td>Clean reimplementation of the USB FS/HS driver, control plane inside a libusbcontrol independent library</td>
-</tr>
-<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">libstd</span></code></td>
-<td>Full cleaning of the allocator implementation. Add PRNG support with various random sources (beyond the TRNG), e.g. HMAC-DRBG</td>
-</tr>
-</tbody>
-</table>
+<h3>12.3.1. Components planned updates<a class="headerlink" href="#components-planned-updates" title="Permalink to this headline">¶</a></h3>
 </div>
 <div class="section" id="ecosystem-wished-updates">
-<h3>12.2.2. Ecosystem wished updates<a class="headerlink" href="#ecosystem-wished-updates" title="Permalink to this headline">¶</a></h3>
+<h3>12.3.2. Ecosystem wished updates<a class="headerlink" href="#ecosystem-wished-updates" title="Permalink to this headline">¶</a></h3>
 <table border="1" class="colwidths-given docutils">
 <colgroup>
 <col width="20%" />

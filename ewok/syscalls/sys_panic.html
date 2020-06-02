@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>5.3.1.2.8. sys_reset &mdash; Wookey 0.9.0 documentation</title>
+  <title>sys_panic &mdash; Wookey 0.9.0 documentation</title>
   
 
   
@@ -29,9 +29,7 @@
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="5.3.1.2.9. sys_lock" href="sys_lock.html" />
-    <link rel="prev" title="5.3.1.2.7. sys_sleep" href="sys_sleep.html" /> 
+    <link rel="search" title="Search" href="../../search.html" /> 
 
   
   <script src="../../_static/js/modernizr.min.js"></script>
@@ -88,28 +86,12 @@
             
             
               <p class="caption"><span class="caption-text">Table of Contents</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../target.html">1. About the WooKey project</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">2. Quickstart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../demo.html">3. Demo applications</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../architecture.html">4. Wookey architecture</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../index.html">5. EwoK kernel</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../index.html#what-is-ewok">5.1. What is EwoK ?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#ewok-architecture">5.2. EwoK architecture</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../index.html#ewok-api">5.3. EwoK API</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="../syscalls.html">5.3.1. Syscalls</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="../syscalls.html#general-principles">5.3.1.1. General principles</a></li>
-<li class="toctree-l4 current"><a class="reference internal" href="../syscalls.html#syscall-overview">5.3.1.2. Syscall overview</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="../devices.html">5.3.2. Using devices from userland</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../perms.html">5.3.3. Permissions</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#internals">5.4. Internals</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#faq">5.5. FAQ</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">5. EwoK kernel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../libs.html">6. Libraries</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../drivers.html">7. Drivers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../javacard/index.html">8. Javacard Applets</a></li>
@@ -162,11 +144,7 @@
     
       <li><a href="../../index.html">Docs</a> &raquo;</li>
         
-          <li><a href="../index.html">5. EwoK: a secure microkernel for building secure embedded systems</a> &raquo;</li>
-        
-          <li><a href="../syscalls.html">5.3.1. EwoK syscalls</a> &raquo;</li>
-        
-      <li>5.3.1.2.8. sys_reset</li>
+      <li>sys_panic</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -183,51 +161,36 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="sys-reset">
-<span id="id1"></span><h1><a class="toc-backref" href="#id3">5.3.1.2.8. sys_reset</a><a class="headerlink" href="#sys-reset" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="sys-panic">
+<span id="id1"></span><h1><a class="toc-backref" href="#id3">sys_panic</a><a class="headerlink" href="#sys-panic" title="Permalink to this headline">¶</a></h1>
 <div class="contents topic" id="contents">
 <p class="topic-title first">Contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#sys-reset" id="id3">sys_reset</a><ul>
-<li><a class="reference internal" href="#id2" id="id4">sys_reset()</a></li>
+<li><a class="reference internal" href="#sys-panic" id="id3">sys_panic</a><ul>
+<li><a class="reference internal" href="#id2" id="id4">sys_panic()</a></li>
 </ul>
 </li>
 </ul>
 </div>
-<p>There are some situations where an event may require a board reset. These events may be:</p>
-<blockquote>
-<div><ul class="simple">
-<li>external: receiving an IRQ or an EXTI at a certain time of the execution
-phase</li>
-<li>internal: reading a strange value or receiving an IPC/hang request from
-another task (case of a security monitor for e.g.)</li>
-</ul>
-</div></blockquote>
-<p>In these cases, the application may require the board to reboot. This reboot
-implies a full memory RAM reset of various application RAM slots and a complete
-cleaning of the ephemeral values (e.g. locally duplicated cryptographic
-information in SoC HW IP).</p>
-<p>Doing such request is ensured by calling sys_reset() syscall.</p>
+<p>The sys_panic() syscall is used to handle vollunatry task termination on abnormal event.
+This syscall has been made to permit self-protection mechanisms from userspace tasks
+against fault-injection or various corruption attacks.</p>
 <div class="section" id="id2">
-<h2><a class="toc-backref" href="#id4">5.3.1.2.8.1. sys_reset()</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id4">sys_panic()</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>If a task detect a corruption of its data (function pointers, stack, etc.) it can request
+a “panic behavior” from the kernel, through which the task is stopped, all its devices
+and interrupts deactivated.</p>
+<p>Depending on the configuration, the kernel car reset the board or schedule another task.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Synchronous syscall, executable in ISR mode</p>
+<p class="last">if the device is not reset, the task keeps its memory locked, and none of its thread is
+ever rescheduled.</p>
 </div>
-<p>In EwoK, only tasks with TSK_RST permission can ask the kernel for board reset.
-Reset is synchronous. Any current DMA transfer may be incomplete (and e.g. generate
-mass-storage consistency errors when dealing with SCSI, and so on).</p>
-<p>The reset syscall has the following API:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">e_syscall_ret</span> <span class="n">sys_reset</span><span class="p">()</span>
+<p>The panic syscall has the following API:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">e_syscall_ret</span> <span class="n">sys_panic</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">sys_reset() is highly impacting the system behavior and should be used only
-by specific (at most one in a secure system) task(s). This permission should
-not be given to a task with a big attack surface. Ususally, only a trusted
-security monitor task is allowed to perform a board reset</p>
-</div>
+<p>This syscall doesn’t require any specific permissions.</p>
 </div>
 </div>
 
@@ -236,15 +199,6 @@ security monitor task is allowed to perform a board reset</p>
            
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="sys_lock.html" class="btn btn-neutral float-right" title="5.3.1.2.9. sys_lock" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="sys_sleep.html" class="btn btn-neutral" title="5.3.1.2.7. sys_sleep" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>
