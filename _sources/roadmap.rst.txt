@@ -65,9 +65,9 @@ The updates include Side-Channel attacks and Fault-injection Attacks classes pro
    * Advanced FIA protection and control flow integrity in bootloader
    * Advanced, resilient, RDP glitch attack detection in bootloader
    * OTP-based flash erase mechanism resilient to reset
-   * Fully conform PRNG implementation and ANSI C rand() implementation in libstd
+   * Fully conforming PRNG implementation and ANSI C rand() implementation in libstd using NIST HMAC-DRBG
    * New syscall in EwoK: `sys_panic()`
-   * Protection against RoP through custom trampoline implementation for all function pointers
+   * Protection against RoP through custom trampoline implementation (which we call *handler sanitization*) for all function pointers
    * Complete new memory abstraction system in EwoK kernel, more generic and portable
    * Handle (optional) differenciate nominal vs DFU profiles for apps and libs features, to reduce footprint
    * Begining of the EwoK noRTE full SPARK support
@@ -76,6 +76,7 @@ The updates include Side-Channel attacks and Fault-injection Attacks classes pro
    * Vulnerability in syscall parameters handling in EwoK patched
    * FIA weakness in libiso7816 hardened with advanced check
    * Various SCA and FIA protections in Applet and various tasks and libraries
+   * Improve the secure channel SCA resistance using a random challenge from the token
 
 Planned Updates and wishlist
 ----------------------------
@@ -103,7 +104,7 @@ Components planned updates
    * - ``Bootloader``
      - Now that OTP-based erase mechanism and advance FIA protection is made, starting Frama-C anotations of the bootloader
    * - ``STM32F4 USB driver``
-     - USB xDCI is now ready, associted to USB OTG HS and USB OTG FS drivers. Upper stack to be updated
+     - USB xDCI is now ready, associated to USB OTG HS and USB OTG FS drivers. Upper stack to be updated
    * - ``libstd``
      - Full cleaning of the allocator implementation to continue
 

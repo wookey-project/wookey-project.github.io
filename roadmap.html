@@ -239,9 +239,9 @@ These components are versioned depending on their maturity level, using the stan
 <li>Advanced FIA protection and control flow integrity in bootloader</li>
 <li>Advanced, resilient, RDP glitch attack detection in bootloader</li>
 <li>OTP-based flash erase mechanism resilient to reset</li>
-<li>Fully conform PRNG implementation and ANSI C rand() implementation in libstd</li>
+<li>Fully conforming PRNG implementation and ANSI C rand() implementation in libstd using NIST HMAC-DRBG</li>
 <li>New syscall in EwoK: <cite>sys_panic()</cite></li>
-<li>Protection against RoP through custom trampoline implementation for all function pointers</li>
+<li>Protection against RoP through custom trampoline implementation (which we call <em>handler sanitization</em>) for all function pointers</li>
 <li>Complete new memory abstraction system in EwoK kernel, more generic and portable</li>
 <li>Handle (optional) differenciate nominal vs DFU profiles for apps and libs features, to reduce footprint</li>
 <li>Begining of the EwoK noRTE full SPARK support</li>
@@ -252,6 +252,7 @@ These components are versioned depending on their maturity level, using the stan
 <li>Vulnerability in syscall parameters handling in EwoK patched</li>
 <li>FIA weakness in libiso7816 hardened with advanced check</li>
 <li>Various SCA and FIA protections in Applet and various tasks and libraries</li>
+<li>Improve the secure channel SCA resistance using a random challenge from the token</li>
 </ul>
 </dd>
 </dl>
